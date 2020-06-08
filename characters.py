@@ -23,7 +23,11 @@ class playerCharacter(object):
 
     def assignTitle(self):
         oldTitle = self.title
-        primeStat = max(self.stats.items(), key=itemgetter(1))[0]
+        listOfStats = {}
+        for stat in self.stats:
+            if stat != "Fame":
+                listOfStats[stat] = self.stats[stat]
+        primeStat = max(listOfStats.items(), key=itemgetter(1))[0]
         listOfStats = {}
         for stat in self.stats:
             if stat != primeStat:
@@ -31,24 +35,57 @@ class playerCharacter(object):
         secondStat = max(listOfStats.items(), key=itemgetter(1))[0]
         if primeStat == "Voice":
             self.title = "Chorister"
-        elif primeStat == "Strength":
-            if secondStat == "Stamina":
+        elif primeStat == "Luck":
+            if secondStat == "Dexterity":
+                self.title = "Bard"
+            else:
+                self.title = "Fool"
+        elif primeStat == "Dexterity":
+            if secondStat == "Luck":
+                self.title = "Bard"
+            elif secondStat in ("Strength", "Stamina"):
+                self.title = "Archer"
+            else:
+                self.title = "Thief"
+        elif primeStat in ("Strength", "Stamina"):
+            if secondStat in ("Strength", "Stamina"):
+                if self.stats["Luck"] < (11 + self.level / 4):
+                    self.title = "Berserker"
                 self.title = "Warrior"
+            else:
+                self.title = "Fighter"
+        elif primeStat == "Intelligence":
+            if secondStat == "Strength":
+                self.title = "Battlemage"
+            else:
+                self.title = "Mage"
         elif primeStat == "Faith":
             if secondStat == "Charisma":
                 self.title = "Prophet"
             if secondStat == "Voice":
                 self.title = "Chorister"
-        elif self.stats["Intelligence"] < self.stats["Strength"]:
-            self.title = "Squire"
-        else:
-            self.title = "Student"
-        if self.stats["Fame"] >= 25:
+        elif primeStat == "Charisma":
+            if secondStat == "Faith":
+                self.title = "Prophet"
+            elif secondStat == "Intelligence":
+                self.title = "Dark Mage"
+            else:
+                self.title = "Orator"
+        if self.title == "newbie":
+            if self.stats["Intelligence"] < self.stats["Strength"]:
+                self.title = "Squire"
+            else:
+                self.title = "Student"
+        if self.stats["Fame"] >= 25 and "Pop-" not in self.title:
             self.title = "Pop-" + self.title
+        if self.stats["Speed"] > 25 <= 40 and "Mounted" not in self.title:
+            self.title = "Mounted " + self.title
+        elif self.stats["Speed"] > 40 and "Mounted" not in self.title:
+            self.title = "Sky " + self.title
         if self.title != oldTitle:
             print(f"{self.name} became a {self.title}!")
 
-    def initializeRandomStats(self):
+    def initializeRandomStats(self, bestStat=None, secondBestStat=None):
         statsToAssign = [
                 "Strength", "Dexterity", "Intelligence", "Faith", "Charisma",
                 "Luck", "Speed", "Stamina", "Voice", "Fame"]
@@ -75,7 +112,8 @@ class playerCharacter(object):
                 bonus = 1
             if bonus <= 0.5:
                 bonus = 0.55
-
+            elif bonus > 2:
+                bonus = 2
             for statName, statValue in self.growth.items():
                 roll = random.randint(1, 10)
                 result = math.floor(bonus * roll)
@@ -103,9 +141,21 @@ class playerCharacter(object):
         print("")
         if self.level % 5 == 0:
             print(f"It's time for {self.name}'s class review.")
+            self.assignTitle()
+            self.updateGrowth()
             for statName, statValue in self.stats.items():
                 print("    {} of {}".format(statName, statValue))
             print("")
+
+    def updateGrowth(self):
+        sortedGrowth = sorted(self.growth.items(), key=itemgetter(1))
+        growthLevel = 5
+        advance = True
+        for statGrowthKey, statGrowthValue in sortedGrowth:
+            self.growth[statGrowthKey] = growthLevel
+            advance = not advance
+            if advance:
+                growthLevel += 1
 
 
 party = []
