@@ -14,17 +14,17 @@ class playerCharacter(object):
             elif playerClass == "Fire Mage":
                 self.growth = self.initializeRandomStats(
                         "Intelligence", "Charisma")
+            elif playerClass == "Knight":
+                self.growth = self.initializeRandomStats("Strength", "Speed")
+            elif playerClass == "Monk":
+                self.growth = self.initializeRandomStats("Faith", "Strength")
             elif playerClass == "Priest":
-                self.growth = self.initializeRandomStats(
-                        "Faith", "Charisma")
+                self.growth = self.initializeRandomStats("Faith", "Charisma")
             elif playerClass == "Swordsman":
                 self.growth = self.initializeRandomStats(
                         "Strength", "Intelligence")
             elif playerClass == "Warrior":
-                self.growth = self.initializeRandomStats(
-                        "Strength", "Stamina")
-            elif playerClass == "Knight":
-                self.growth = self.initializeRandomStats("Strength", "Speed")
+                self.growth = self.initializeRandomStats("Strength", "Stamina")
             else:
                 self.growth = self.initializeRandomStats()
         else:
@@ -40,7 +40,9 @@ class playerCharacter(object):
             self.name = 'Test Subject {}'.format(random.randint(1, 9999))
         print('{} created.'.format(self.name))
         self.title = "newbie"
+        self.career = ""
         self.assignTitle()
+        self.career = f"    Career Path: {self.title}"
         for statName, statValue in self.stats.items():
             print("    {} of {}".format(statName, statValue))
         print("")
@@ -80,7 +82,8 @@ class playerCharacter(object):
                 self.title = "Monk"
             elif secondStat in ("Charisma", "Speed"):
                 if self.stats["Intelligence"] > max(
-                        self.stats["Faith"], self.stats["Dexterity"]):
+                        self.stats["Faith"], self.stats["Dexterity"]) \
+                        and self.level > 4:
                     self.title = "Mage Knight"
                 else:
                     self.title = "Knight"
@@ -88,7 +91,8 @@ class playerCharacter(object):
                 listOfStatValues = [
                         statValue for statName, statValue
                         in self.stats.items()]
-                if self.stats["Fame"] < max(list(set(listOfStatValues))[:3]):
+                if self.stats["Fame"] < max(list(set(listOfStatValues))[:3]) \
+                        and self.level > 9:
                     self.title = "Steam Knight"
                 else:
                     self.title = "Swordsman"
@@ -143,10 +147,11 @@ class playerCharacter(object):
         if self.stats["Speed"] > 25 <= 40 and (
                 "Mounted" not in self.title and "Knight" not in self.title):
             self.title = "Mounted " + self.title
-        elif self.stats["Speed"] > 40 and "Mounted" not in self.title:
+        elif self.stats["Speed"] > 40 and "Sky " not in self.title:
             self.title = "Sky " + self.title
         if self.title != oldTitle:
             print(f"{self.name} became a {self.title}!")
+            self.career += f" --> {self.title}"
 
     def initializeRandomStats(self, bestStat=None, secondBestStat=None):
         statsToAssign = [
@@ -245,6 +250,12 @@ if module == 'SF':
     party.append(recruit)
     recruit = playerCharacter("Hans", "Archer")
     party.append(recruit)
+    recruit = playerCharacter("Gong", "Monk")
+    party.append(recruit)
+    recruit = playerCharacter("Mae", "Knight")
+    party.append(recruit)
+    recruit = playerCharacter("Gort", "Warrior")
+    party.append(recruit)
 else:
     partySize = int(input("How many characters should I create? "))
     for i in range(partySize):
@@ -256,3 +267,4 @@ for i in range(levelUpNum):
         pc.levelUp()
 for pc in party:
     print(f"{pc.name} is a level {pc.level} {pc.title}.")
+    print(pc.career)
