@@ -14,10 +14,13 @@ class playerCharacter(object):
             elif playerClass == "Fire Mage":
                 self.growth = self.initializeRandomStats(
                         "Intelligence", "Charisma")
+            elif playerClass == "Frost Mage":
+                self.growth = self.initializeRandomStats(
+                        "Intelligence", "Stamina")
             elif playerClass == "Knight":
                 self.growth = self.initializeRandomStats("Strength", "Speed")
             elif playerClass == "Monk":
-                self.growth = self.initializeRandomStats("Faith", "Stre")
+                self.growth = self.initializeRandomStats("Faith", "Strength")
             elif playerClass == "Priest":
                 self.growth = self.initializeRandomStats("Faith", "Charisma")
             elif playerClass == "Swordsman":
@@ -105,8 +108,10 @@ class playerCharacter(object):
                 if self.stats["Luck"] < (11 + self.level / 4):
                     self.title = "Berserker"
                 self.title = "Warrior"
+            elif secondStat == "Intelligence":
+                self.title = "Blood Mage"
             else:
-                self.title = "Fighter"
+                self.title = "Dueler"
         elif primeStat == "Strength":
             if secondStat in ("Charisma", "Speed"):
                 if self.stats["Intelligence"] > max(
@@ -131,7 +136,7 @@ class playerCharacter(object):
                     self.title = "Berserker"
                 self.title = "Warrior"
             else:
-                self.title = "Fighter"
+                self.title = "Dueler"
         elif primeStat == "Voice":
             self.title = "Chorister"
         if self.title == "newbie":
@@ -252,6 +257,12 @@ if module == 'SF':
     recruit = playerCharacter("Mae", "Knight")
     party.append(recruit)
     recruit = playerCharacter("Gort", "Warrior")
+    party.append(recruit)
+    recruit = playerCharacter("Khris", "Priest")
+    party.append(recruit)
+    recruit = playerCharacter("Anri", "Frost Mage")
+    party.append(recruit)
+    recruit = playerCharacter("Arthur", "Knight")
     party.append(recruit)
 else:
     partySize = int(input("How many characters should I create? "))
