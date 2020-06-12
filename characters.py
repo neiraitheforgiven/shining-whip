@@ -272,6 +272,8 @@ class playerCharacter(object):
                         "Seal I", "Magic: All Spells +1 Rank",
                         "Magic: Cost Reduction II",
                         "Magic: Effects Always Hit"]
+            elif "Squire" in self.title:
+                listOfPowers = ["Equip: Swords"]
             elif "Steam Knight" in self.title:
                 listOfPowers = [
                         "Equip: Lances",
@@ -280,6 +282,8 @@ class playerCharacter(object):
                         "Defense: Fire Adds Haste",
                         "Lances: Armor Penetration I", "Unhindered Movement",
                         "Lances: Armor Penetration II", "Defense: Weapons II"]
+            elif "Student" in self.title:
+                listOfPowers = ["Blaze I"]
             elif "Swordsman" in self.title:
                 listOfPowers = [
                         "Egress I", "Equip: Long Swords",
