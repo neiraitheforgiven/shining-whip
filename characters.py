@@ -160,9 +160,6 @@ class playerCharacter(object):
             self.career += f" --> {self.title} ({self.level})"
 
     def assignPower(self):
-        print(
-                f"debug: Teaching {self.name} the level {self.level} "
-                f"{self.title}...")
         if "Mounted" in self.title and "Mounted Movement" not in self.powers:
             self.powers.append("Mounted Movement")
             return
@@ -302,9 +299,9 @@ class playerCharacter(object):
                         "Defense: Melee Attacks II", "Leap",
                         "Axes: Increased Damage I"]
             for power in listOfPowers:
-                print(f"debug: {power} considered for selection")
-                if power not in self.powers:
-                    print(f"debug: {power} not in {self.powers}")
+                if not any([
+                        knownPower for knownPower in self.powers
+                        if power in knownPower]):
                     nameOfPower = power
                     if 'Captain' in self.title and not any([
                             knownPower for knownPower in self.powers
@@ -313,8 +310,6 @@ class playerCharacter(object):
                     self.powers.append(nameOfPower)
                     print(f"{self.name} learned {nameOfPower}!")
                     return
-                else:
-                    print(f"debug: {power} in {self.powers}")
 
     def initializeRandomStats(self, bestStat=None, secondBestStat=None):
         statsToAssign = [
