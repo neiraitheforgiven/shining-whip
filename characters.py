@@ -6,7 +6,8 @@ import random
 class playerCharacter(object):
     """docstring for PlayerCharacter"""
 
-    def __init__(self, name=None, playerClass=None):
+    def __init__(self, name=None, playerClass=None, chatter=False):
+        self.powers = []
         if playerClass:
             if playerClass == "Archer":
                 self.growth = self.initializeRandomStats(
@@ -44,13 +45,14 @@ class playerCharacter(object):
         print('{} created.'.format(self.name))
         self.title = "newbie"
         self.career = ""
-        self.assignTitle()
+        self.assignTitle(chatter)
         self.career = f"    Career Path: {self.title}"
-        for statName, statValue in self.stats.items():
-            print("    {} of {}".format(statName, statValue))
-        print("")
+        if chatter:
+            for statName, statValue in self.stats.items():
+                print("    {} of {}".format(statName, statValue))
+            print("")
 
-    def assignTitle(self):
+    def assignTitle(self, chatter):
         oldTitle = self.title
         listOfStats = {}
         for stat in self.stats:
@@ -152,8 +154,43 @@ class playerCharacter(object):
         elif self.stats["Speed"] > 40 and "Sky " not in self.title:
             self.title = "Sky " + self.title
         if self.title != oldTitle:
-            print(f"{self.name} became a {self.title}!")
-            self.career += f" --> {self.title}"
+            if chatter:
+                print(f"{self.name} became a {self.title}!")
+            self.career += f" --> {self.title} ({self.level})"
+
+    def assignPower(self):
+        if 'Mounted' in self.title and "Mounted Movement" not in self.powers:
+            self.powers.append("Mounted Movement")
+            return
+        elif 'Sky' in self.title and "Flying Movement" not in self.powers:
+            self.powers.append("Flying Movement")
+            return
+        else:
+            listOfPowers = []
+            if 'Archer' in self.title:
+                listOfPowers = [
+                        "Equip: Bow", "Quick Shot", "Aimed Shot",
+                        "Ranged Attack: Range +1", "Poison Arrow",
+                        "Triple Shot", "Holy Arrow", "Point-Blank Shot"]
+            elif "Fire Mage" in self.title:
+                listOfPowers = [
+                        "Blaze I", "Magic: Cost Reduction I", "Sleep I",
+                        "Blaze II", "Counterspell I", "Blaze III",
+                        "Magic: Increased Damage I", "Blaze IV"]
+            elif "Frost Mage" in self.title:
+                listOfPowers = [
+                        "Blaze I", "Freeze I", "Blaze II", "Freeze II",
+                        "Freeze III", "Bolt I", "Freeze IV", "Bolt II"]
+            for power in listOfPowers:
+                if power not in self.powers:
+                    nameOfPower = power
+                    if 'Captain' in self.title and not any([
+                            knownPower for knownPower in self.powers
+                            if 'Command' in knownPower]):
+                        nameOfPower += ' Command'
+                    self.powers.append(nameOfPower)
+                    print(f"{self.name} learned {nameOfPower}!")
+                    return
 
     def initializeRandomStats(self, bestStat=None, secondBestStat=None):
         statsToAssign = [
@@ -181,50 +218,55 @@ class playerCharacter(object):
                 growthLevel += 1
         return growth
 
-    def levelUp(self, num=1):
-        print('{} hit level {}!'.format(self.name, self.level + 1))
+    def levelUp(self, chatter):
+        if chatter:
+            print('{} hit level {}!'.format(self.name, self.level + 1))
         preLevelStatIncreaseCount = self.statIncreaseCount
-        for i in range(num):
-            if self.statIncreaseCount != 0:
-                bonus = self.level * 4 / self.statIncreaseCount
-            else:
-                bonus = 1
-            if bonus <= 0.5:
-                bonus = 0.55
-            elif bonus > 2:
-                bonus = 2
-            for statName, statValue in self.growth.items():
-                roll = random.randint(1, 10)
-                result = math.floor(bonus * roll)
+        if self.statIncreaseCount != 0:
+            bonus = self.level * 4 / self.statIncreaseCount
+        else:
+            bonus = 1
+        if bonus <= 0.5:
+            bonus = 0.55
+        elif bonus > 2:
+            bonus = 2
 
-                if result >= statValue:
-
-                    statIncrease = math.ceil(result / 10)
-                    self.stats[statName] += statIncrease
+        for statName, statValue in self.growth.items():
+            roll = random.randint(1, 10)
+            result = math.floor(bonus * roll)
+            if result >= statValue:
+                statIncrease = math.ceil(result / 10)
+                self.stats[statName] += statIncrease
+                if chatter:
                     print("    {} became {}{}".format(
                             statName, self.stats[statName],
                             '!' * statIncrease))
-                    self.statIncreaseCount += statIncrease
+                self.statIncreaseCount += statIncrease
         while preLevelStatIncreaseCount == self.statIncreaseCount:
             for statName, statValue in self.growth.items():
                 result = math.floor(bonus * random.randint(1, 10))
                 if result >= statValue:
                     statIncrease = math.ceil(result / 10)
                     self.stats[statName] += statIncrease
-                    print("    {} became {}{}".format(
-                            statName, self.stats[statName],
-                            '!' * statIncrease))
+                    if chatter:
+                        print("    {} became {}{}".format(
+                                statName, self.stats[statName],
+                                '!' * statIncrease))
                     self.statIncreaseCount += statIncrease
                     break
         self.level += 1
-        print("")
-        if self.level % 5 == 0:
-            print(f"It's time for {self.name}'s class review.")
-            self.assignTitle()
-            self.updateGrowth()
-            for statName, statValue in self.stats.items():
-                print("    {} of {}".format(statName, statValue))
+        if chatter:
             print("")
+        if self.level % 5 == 0:
+            if chatter:
+                print(f"It's time for {self.name}'s class review.")
+            self.assignTitle(chatter)
+            self.assignPower()
+            self.updateGrowth()
+            if chatter:
+                for statName, statValue in self.stats.items():
+                    print("    {} of {}".format(statName, statValue))
+                print("")
 
     def updateGrowth(self):
         sortedGrowth = sorted(self.growth.items(), key=itemgetter(1))
@@ -239,40 +281,51 @@ class playerCharacter(object):
 
 party = []
 module = input("Type SF if you want me to run the SF module.")
+chatty = input("Type chatty if you want to be barraged with leveling info.")
+if chatty == 'chatty':
+    chatter = True
+    stopEveryLevel = input("Type slow if you want to stop for every level.")
+else:
+    chatter = False
+    stopEveryLevel = "fast"
 if module == 'SF':
-    recruit = playerCharacter("Max", "Swordsman")
+    recruit = playerCharacter("Max", "Swordsman", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Lowe", "Priest")
+    recruit = playerCharacter("Lowe", "Priest", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Tao", "Fire Mage")
+    recruit = playerCharacter("Tao", "Fire Mage", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Luke", "Warrior")
+    recruit = playerCharacter("Luke", "Warrior", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Ken", "Knight")
+    recruit = playerCharacter("Ken", "Knight", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Hans", "Archer")
+    recruit = playerCharacter("Hans", "Archer", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Gong", "Monk")
+    recruit = playerCharacter("Gong", "Monk", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Mae", "Knight")
+    recruit = playerCharacter("Mae", "Knight", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Gort", "Warrior")
+    recruit = playerCharacter("Gort", "Warrior", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Khris", "Priest")
+    recruit = playerCharacter("Khris", "Priest", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Anri", "Frost Mage")
+    recruit = playerCharacter("Anri", "Frost Mage", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Arthur", "Knight")
+    recruit = playerCharacter("Arthur", "Knight", chatter)
     party.append(recruit)
 else:
     partySize = int(input("How many characters should I create? "))
     for i in range(partySize):
-        recruit = playerCharacter()
+        recruit = playerCharacter(None, None, chatter)
         party.append(recruit)
 levelUpNum = int(input("How many levels should they get? "))
 for i in range(levelUpNum):
     for pc in party:
-        pc.levelUp()
+        pc.levelUp(chatter)
+        if stopEveryLevel == "slow":
+            stop = input()
 for pc in party:
     print(f"{pc.name} is a level {pc.level} {pc.title}.")
     print(pc.career)
+    if pc.powers:
+        print("    Powers: " + " -> ".join(pc.powers))
