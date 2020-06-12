@@ -12,6 +12,9 @@ class playerCharacter(object):
             if playerClass == "Archer":
                 self.growth = self.initializeRandomStats(
                         "Dexterity", "Stamina")
+            if playerClass == "Duelist":
+                self.growth = self.initializeRandomStats(
+                        "Stamina", "Dexterity")
             elif playerClass == "Fire Mage":
                 self.growth = self.initializeRandomStats(
                         "Intelligence", "Charisma")
@@ -24,6 +27,8 @@ class playerCharacter(object):
                 self.growth = self.initializeRandomStats("Faith", "Strength")
             elif playerClass == "Priest":
                 self.growth = self.initializeRandomStats("Faith", "Charisma")
+            elif playerClass == "Sky Battler":
+                self.growth = self.initializeRandomStats("Speed", "Dexterity")
             elif playerClass == "Swordsman":
                 self.growth = self.initializeRandomStats(
                         "Strength", "Intelligence")
@@ -106,6 +111,8 @@ class playerCharacter(object):
                 self.title = "Bard"
             else:
                 self.title = "Gambler"
+        elif primeStat == "Speed":
+            self.title = "Sky Battler"
         elif primeStat == "Stamina":
             if secondStat == "Strength":
                 if self.stats["Luck"] < (11 + self.level / 4):
@@ -143,6 +150,7 @@ class playerCharacter(object):
         elif primeStat == "Voice":
             self.title = "Chorister"
         if self.title == "newbie":
+            print(f"debug: newbie found. Stats are {self.stats}")
             if self.stats["Intelligence"] < self.stats["Strength"]:
                 self.title = "Squire"
             else:
@@ -150,9 +158,12 @@ class playerCharacter(object):
         if self.stats["Fame"] >= 25 and "Captain" not in self.title:
             self.title = self.title + " Captain"
         if self.stats["Speed"] > 25 <= 40 and (
-                "Mounted" not in self.title and "Knight" not in self.title):
+                "Mounted" not in self.title and "Knight" not in
+                self.title and "Sky " not in
+                self.title and "Flying Movement" not in self.powers):
             self.title = "Mounted " + self.title
-        elif self.stats["Speed"] > 40 and "Sky " not in self.title:
+        elif (self.stats["Speed"] > 40 or "Flying Movement" in
+                self.powers) and "Sky " not in self.title:
             self.title = "Sky " + self.title
         if self.title != oldTitle:
             if chatter:
@@ -272,6 +283,13 @@ class playerCharacter(object):
                         "Seal I", "Magic: All Spells +1 Rank",
                         "Magic: Cost Reduction II",
                         "Magic: Effects Always Hit"]
+            elif "Sky Battler" in self.title:
+                listOfPowers = [
+                        "Flying Movement", "Equip: Long Swords",
+                        "Counterattack", "Luck: Increased Dodge I",
+                        "Swords: Increased Luck II",
+                        "Luck: Increased Dodge II", "Movement: Ignore Enemies",
+                        "Swords: Increased Luck III"]
             elif "Squire" in self.title:
                 listOfPowers = ["Equip: Swords"]
             elif "Steam Knight" in self.title:
@@ -312,7 +330,8 @@ class playerCharacter(object):
                             if 'Command:' in knownPower]):
                         nameOfPower = 'Command: ' + nameOfPower
                     self.powers.append(nameOfPower)
-                    print(f"{self.name} learned {nameOfPower}!")
+                    if chatter:
+                        print(f"{self.name} learned {nameOfPower}!")
                     return
 
     def initializeRandomStats(self, bestStat=None, secondBestStat=None):
@@ -435,6 +454,10 @@ if module == 'SF':
     recruit = playerCharacter("Anri", "Frost Mage", chatter)
     party.append(recruit)
     recruit = playerCharacter("Arthur", "Knight", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Balbaroy", "Sky Battler", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Amon", "Sky Battler", chatter)
     party.append(recruit)
 else:
     partySize = int(input("How many characters should I create? "))
