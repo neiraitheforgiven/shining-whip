@@ -29,11 +29,17 @@ class playerCharacter(object):
                 self.growth = self.initializeRandomStats("Faith", "Charisma")
             elif playerClass == "Sky Battler":
                 self.growth = self.initializeRandomStats("Speed", "Strength")
+            elif playerClass == "Sky Lord":
+                self.growth = self.initializeRandomStats(
+                        "Speed", "Intelligence")
             elif playerClass == "Swordsman":
                 self.growth = self.initializeRandomStats(
                         "Strength", "Intelligence")
             elif playerClass == "Warrior":
                 self.growth = self.initializeRandomStats("Strength", "Stamina")
+            elif playerClass == "Werewolf":
+                self.growth = self.initializeRandomStats(
+                        "Dexterity", "Strength", "Luck")
             else:
                 self.growth = self.initializeRandomStats()
         else:
@@ -84,6 +90,10 @@ class playerCharacter(object):
                 self.title = "Bard"
             elif secondStat in ("Charisma", "Intelligence"):
                 self.title = "Thief"
+            elif secondStat in ("Speed", "Stamina"):
+                self.title = "Archer"
+            elif self.stats["Luck"] < (13 + self.level / 4):
+                self.title = "Werewolf"
             else:
                 self.title = "Archer"
         elif primeStat == "Faith":
@@ -112,14 +122,19 @@ class playerCharacter(object):
             else:
                 self.title = "Gambler"
         elif primeStat == "Speed":
-            self.title = "Sky Battler"
+            if secondStat == "Intelligence":
+                self.title = "Sky Lord"
+            else:
+                self.title = "Sky Battler"
         elif primeStat == "Stamina":
             if secondStat == "Strength":
-                if self.stats["Luck"] < (11 + self.level / 4):
+                if self.stats["Luck"] < (13 + self.level / 4):
                     self.title = "Berserker"
                 self.title = "Warrior"
             elif secondStat == "Intelligence":
                 self.title = "Blood Mage"
+            elif self.stats["Luck"] < (13 + self.level / 4):
+                self.title = "Werewolf"
             else:
                 self.title = "Duelist"
         elif primeStat == "Strength":
@@ -142,9 +157,11 @@ class playerCharacter(object):
                 else:
                     self.title = "Swordsman"
             elif secondStat == "Stamina":
-                if self.stats["Luck"] < (11 + self.level / 4):
+                if self.stats["Luck"] < (13 + self.level / 4):
                     self.title = "Berserker"
                 self.title = "Warrior"
+            elif self.stats["Luck"] < (13 + self.level / 4):
+                self.title = "Werewolf"
             else:
                 self.title = "Duelist"
         elif primeStat == "Voice":
@@ -289,6 +306,13 @@ class playerCharacter(object):
                         "Swords: Increased Luck II",
                         "Luck: Increased Dodge II", "Movement: Ignore Enemies",
                         "Swords: Increased Luck III"]
+            elif "Sky Lord" in self.title:
+                listOfPowers = [
+                        "Flying Movement", "Equip: Lances",
+                        "Charge", "Lances: Armor Penetration I",
+                        "Luck: Increased Dodge I", "Lances: Increased Luck I"
+                        "Luck: Increased Dodge II",
+                        "Dodge: Added Effect: Movement I"]
             elif "Squire" in self.title:
                 listOfPowers = ["Equip: Swords"]
             elif "Steam Knight" in self.title:
@@ -319,11 +343,24 @@ class playerCharacter(object):
                         "Swords: Armor Penetration I", "Whirlwind Attack",
                         "Defense: Melee Attacks II", "Leap",
                         "Axes: Increased Damage I"]
+            elif "Werewolf" in self.title:
+                listOfPowers = [
+                        "Unarmed Attack: Increased Damage I",
+                        "Unarmed Attack: Increased Damage II", "Leap",
+                        "Unarmed Attack: Increased Damage III",
+                        "Unarmed Attack: Ice",
+                        "Unarmed Attack: Added Effect: Curse",
+                        "Unarmed Attack: Increased Damage IV",
+                        "Stealthy Movement"]
             for power in listOfPowers:
                 if not any([
                         knownPower for knownPower in self.powers
                         if power in knownPower]):
                     nameOfPower = power
+                    if nameOfPower == "Mounted Movement" and any([
+                            knownPower for knownPower in self.powers
+                            if knownPower == "Flying Movement"]):
+                        continue
                     if 'Captain' in self.title and not any([
                             knownPower for knownPower in self.powers
                             if 'Command:' in knownPower]):
@@ -333,7 +370,8 @@ class playerCharacter(object):
                         print(f"{self.name} learned {nameOfPower}!")
                     return
 
-    def initializeRandomStats(self, bestStat=None, secondBestStat=None):
+    def initializeRandomStats(
+                self, bestStat=None, secondBestStat=None, dumpStat=None):
         statsToAssign = [
                 "Strength", "Dexterity", "Intelligence", "Faith", "Charisma",
                 "Luck", "Speed", "Stamina", "Voice", "Fame"]
@@ -349,6 +387,9 @@ class playerCharacter(object):
             statsToAssign.remove(secondBestStat)
             advance = True
             growthLevel = 6
+        if dumpStat:
+            growth[dumpStat] = 9
+            statsToAssign.remove(dumpStat)
         statsCount = len(statsToAssign)
         for i in range(statsCount):
             stat = random.choice(statsToAssign)
@@ -459,6 +500,12 @@ if module == 'SF':
     recruit = playerCharacter("Amon", "Sky Battler", chatter)
     party.append(recruit)
     recruit = playerCharacter("Diane", "Archer", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Zylo", "Werewolf", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Pelle", "Knight", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Kokichi", "Sky Lord", chatter)
     party.append(recruit)
 else:
     partySize = int(input("How many characters should I create? "))
