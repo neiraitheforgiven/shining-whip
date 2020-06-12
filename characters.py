@@ -12,7 +12,7 @@ class playerCharacter(object):
             if playerClass == "Archer":
                 self.growth = self.initializeRandomStats(
                         "Dexterity", "Stamina")
-            if playerClass == "Duelist":
+            elif playerClass == "Duelist":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Dexterity")
             elif playerClass == "Fire Mage":
@@ -28,7 +28,7 @@ class playerCharacter(object):
             elif playerClass == "Priest":
                 self.growth = self.initializeRandomStats("Faith", "Charisma")
             elif playerClass == "Sky Battler":
-                self.growth = self.initializeRandomStats("Speed", "Dexterity")
+                self.growth = self.initializeRandomStats("Speed", "Strength")
             elif playerClass == "Swordsman":
                 self.growth = self.initializeRandomStats(
                         "Strength", "Intelligence")
@@ -243,7 +243,6 @@ class playerCharacter(object):
                         "Luck: Dodge Chance Increased II",
                         "Dodge: Added Effect - Stealth"]
             elif ("Knight" in self.title and "Mage Knight" not in
-                    self.title and "Sky Knight" not in
                     self.title and "Steam Knight" not in self.title):
                 listOfPowers = [
                         "Mounted Movement", "Equip: Polearms", "Charge",
@@ -458,6 +457,8 @@ if module == 'SF':
     recruit = playerCharacter("Balbaroy", "Sky Battler", chatter)
     party.append(recruit)
     recruit = playerCharacter("Amon", "Sky Battler", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Diane", "Archer", chatter)
     party.append(recruit)
 else:
     partySize = int(input("How many characters should I create? "))
