@@ -6,7 +6,7 @@ import random
 class playerCharacter(object):
     """docstring for PlayerCharacter"""
 
-    def __init__(self, name=None, playerClass=None, chatter=False):
+    def __init__(self, name=None, race=None, playerClass=None, chatter=False):
         self.powers = []
         if playerClass:
             if playerClass == "Archer":
@@ -53,139 +53,17 @@ class playerCharacter(object):
             self.name = name
         else:
             self.name = 'Test Subject {}'.format(random.randint(1, 9999))
-        print('{} created.'.format(self.name))
         self.title = "newbie"
         self.career = ""
+        self.race = self.assignRace(race)
         self.assignTitle(chatter)
+        print(f"{self.name} the {self.race} {self.title} created.")
         self.assignPower()
         self.career = f"    Career Path: {self.title}"
         if chatter:
             for statName, statValue in self.stats.items():
                 print("    {} of {}".format(statName, statValue))
             print("")
-
-    def assignTitle(self, chatter):
-        oldTitle = self.title
-        listOfStats = {}
-        for stat in self.stats:
-            if stat != "Fame":
-                listOfStats[stat] = self.stats[stat]
-        primeStat = max(listOfStats.items(), key=itemgetter(1))[0]
-        listOfStats = {}
-        for stat in self.stats:
-            if stat != primeStat:
-                listOfStats[stat] = self.stats[stat]
-        secondStat = max(listOfStats.items(), key=itemgetter(1))[0]
-        if primeStat == "Charisma":
-            if secondStat == "Intelligence":
-                self.title = "Dark Mage"
-            elif secondStat == "Strength":
-                self.title = "Knight"
-            elif secondStat == "Faith":
-                self.title = "Prophet"
-            else:
-                self.title = "Orator"
-        elif primeStat == "Dexterity":
-            if secondStat == "Luck":
-                self.title = "Bard"
-            elif secondStat in ("Charisma", "Intelligence"):
-                self.title = "Thief"
-            elif secondStat in ("Speed", "Stamina"):
-                self.title = "Archer"
-            elif self.stats["Luck"] < (13 + self.level / 4):
-                self.title = "Werewolf"
-            else:
-                self.title = "Archer"
-        elif primeStat == "Faith":
-            if secondStat == "Voice":
-                self.title = "Chorister"
-            elif secondStat in ("Charisma", "Intelligence", "Luck"):
-                self.title = "Priest"
-            elif secondStat in ("Strength", "Dexterity", "Stamina"):
-                self.title = "Monk"
-            else:
-                self.title = "Scholar"
-        elif primeStat == "Intelligence":
-            if secondStat == "Luck":
-                self.title = "Bolt Mage"
-            elif secondStat == "Charisma":
-                self.title = "Fire Mage"
-            elif secondStat == "Stamina":
-                self.title = "Frost Mage"
-            elif secondStat == "Strength":
-                self.title = "Swordsman"
-            else:
-                self.title = "Scholar"
-        elif primeStat == "Luck":
-            if secondStat in ("Dexterity", "Charisma"):
-                self.title = "Bard"
-            else:
-                self.title = "Gambler"
-        elif primeStat == "Speed":
-            if secondStat == "Intelligence":
-                self.title = "Sky Lord"
-            else:
-                self.title = "Sky Battler"
-        elif primeStat == "Stamina":
-            if secondStat == "Strength":
-                if self.stats["Luck"] < (13 + self.level / 4):
-                    self.title = "Berserker"
-                self.title = "Warrior"
-            elif secondStat == "Intelligence":
-                self.title = "Blood Mage"
-            elif self.stats["Luck"] < (13 + self.level / 4):
-                self.title = "Werewolf"
-            else:
-                self.title = "Duelist"
-        elif primeStat == "Strength":
-            if secondStat in ("Charisma", "Speed"):
-                if self.stats["Intelligence"] > max(
-                        self.stats["Faith"], self.stats["Dexterity"]) \
-                        and self.level > 4:
-                    self.title = "Mage Knight"
-                else:
-                    self.title = "Knight"
-            elif secondStat == "Faith":
-                self.title = "Monk"
-            elif secondStat == "Intelligence":
-                listOfStatValues = [
-                        statValue for statName, statValue
-                        in self.stats.items()]
-                if self.stats["Fame"] < max(list(set(listOfStatValues))[:3]) \
-                        and self.level > 9:
-                    self.title = "Steam Knight"
-                else:
-                    self.title = "Swordsman"
-            elif secondStat == "Stamina":
-                if self.stats["Luck"] < (13 + self.level / 4):
-                    self.title = "Berserker"
-                self.title = "Warrior"
-            elif self.stats["Luck"] < (13 + self.level / 4):
-                self.title = "Werewolf"
-            else:
-                self.title = "Duelist"
-        elif primeStat == "Voice":
-            self.title = "Chorister"
-        if self.title == "newbie":
-            print(f"debug: newbie found. Stats are {self.stats}")
-            if self.stats["Intelligence"] < self.stats["Strength"]:
-                self.title = "Squire"
-            else:
-                self.title = "Student"
-        if self.stats["Fame"] >= 25 and "Captain" not in self.title:
-            self.title = self.title + " Captain"
-        if self.stats["Speed"] > 25 <= 40 and (
-                "Mounted" not in self.title and "Knight" not in
-                self.title and "Sky " not in
-                self.title and "Flying Movement" not in self.powers):
-            self.title = "Mounted " + self.title
-        elif (self.stats["Speed"] > 40 or "Flying Movement" in
-                self.powers) and "Sky " not in self.title:
-            self.title = "Sky " + self.title
-        if self.title != oldTitle:
-            if chatter:
-                print(f"{self.name} became a {self.title}!")
-            self.career += f" --> {self.title} ({self.level})"
 
     def assignPower(self):
         if "Mounted" in self.title and "Mounted Movement" not in self.powers:
@@ -202,6 +80,11 @@ class playerCharacter(object):
                         "Ranged Attack: Range +1", "Poison Arrow",
                         "Luck: Enable Triple Attack", "Holy Arrow",
                         "Point-Blank Shot"]
+            elif "Assassin" in self.title:
+                listOfPowers = [
+                        "Stealthy Movement", "Sleep I", "Seal I", "Death I",
+                        "Shield I", "Death II", "Equip: Sacred Swords",
+                        "Luck: Critical Hit Adds Seal"]
             elif "Bard" in self.title:
                 listOfPowers = [
                         "Equip: Dagger", "Heal I", "Equip: Bows",
@@ -268,7 +151,7 @@ class playerCharacter(object):
                         "Defense: Dark Magic I"]
             elif "Mage Knight" in self.title:
                 listOfPowers = [
-                        "Mounted Movement", "Equip: Polearms",
+                        "Equip: Polearms", "Mounted Movement",
                         "Defense: Dark Magic I", "Blaze I", "Freeze I",
                         "Bolt I", "Equip: Holy Polearms",
                         "Defense: Dark Magic II"]
@@ -369,6 +252,156 @@ class playerCharacter(object):
                     if chatter:
                         print(f"{self.name} learned {nameOfPower}!")
                     return
+
+    def assignRace(self, race=None):
+        if not race:
+            race = random.choice([
+                    "Birdman", "Centaur", "Dwarf", "Elf", "Hobbit",
+                    "Human", "Insect", "Kyantol", "Magical Creature",
+                    "Phoenix", "Robot", "Wererat", "Wolfling"])
+        if race in ("Birdman", "Magical Creature", "Phoenix"):
+            self.powers.append("Flying Movement")
+        elif race == "Centaur":
+            self.powers.append("Mounted Movement")
+        elif race == "Elf":
+            if self.stats["Intelligence"] >= self.stats["Dexterity"]:
+                self.powers.append("Equip: Staffs")
+            else:
+                self.powers.append("Equip: Bows")
+        elif race in ("Hobbit", "Kyantol"):
+            self.powers.append("Equip: Staffs")
+        elif race in ("Human", "Insect"):
+            self.powers.append("Equip: Swords")
+        elif race in ("Robot", "Wolfling"):
+            self.powers.append("Unarmed Attack: Increased Damage I")
+        elif race == "Wererat":
+            self.powers.append("Equip: Daggers")
+        return race
+
+    def assignTitle(self, chatter):
+        oldTitle = self.title
+        listOfStats = {}
+        for stat in self.stats:
+            if stat != "Fame":
+                listOfStats[stat] = self.stats[stat]
+        primeStat = max(listOfStats.items(), key=itemgetter(1))[0]
+        listOfStats = {}
+        for stat in self.stats:
+            if stat != primeStat:
+                listOfStats[stat] = self.stats[stat]
+        secondStat = max(listOfStats.items(), key=itemgetter(1))[0]
+        if primeStat == "Charisma":
+            if secondStat == "Intelligence":
+                self.title = "Dark Mage"
+            elif secondStat == "Strength":
+                self.title = "Knight"
+            elif secondStat == "Faith":
+                self.title = "Prophet"
+            else:
+                self.title = "Orator"
+        elif primeStat == "Dexterity":
+            if secondStat == "Luck":
+                self.title = "Bard"
+            elif secondStat in ("Charisma", "Intelligence"):
+                self.title = "Thief"
+            elif secondStat in ("Speed", "Stamina"):
+                self.title = "Archer"
+            elif self.stats["Luck"] < (13 + self.level / 4):
+                self.title = "Werewolf"
+            elif self.secondStat == "Strength":
+                self.title = "Assassin"
+            else:
+                self.title = "Archer"
+        elif primeStat == "Faith":
+            if secondStat == "Voice":
+                self.title = "Chorister"
+            elif secondStat in ("Charisma", "Intelligence", "Luck"):
+                self.title = "Priest"
+            elif secondStat in ("Strength", "Dexterity", "Stamina"):
+                self.title = "Monk"
+            else:
+                self.title = "Scholar"
+        elif primeStat == "Intelligence":
+            if secondStat == "Luck":
+                self.title = "Bolt Mage"
+            elif secondStat == "Charisma":
+                self.title = "Fire Mage"
+            elif secondStat == "Stamina":
+                self.title = "Frost Mage"
+            elif secondStat == "Strength":
+                self.title = "Swordsman"
+            else:
+                self.title = "Scholar"
+        elif primeStat == "Luck":
+            if secondStat in ("Dexterity", "Charisma"):
+                self.title = "Bard"
+            else:
+                self.title = "Gambler"
+        elif primeStat == "Speed":
+            if secondStat == "Intelligence":
+                self.title = "Sky Lord"
+            else:
+                self.title = "Sky Battler"
+        elif primeStat == "Stamina":
+            if secondStat == "Strength":
+                if self.stats["Luck"] < (13 + self.level / 4):
+                    self.title = "Berserker"
+                self.title = "Warrior"
+            elif secondStat == "Intelligence":
+                self.title = "Blood Mage"
+            elif self.stats["Luck"] < (13 + self.level / 4):
+                self.title = "Werewolf"
+            else:
+                self.title = "Duelist"
+        elif primeStat == "Strength":
+            if secondStat in ("Charisma", "Speed"):
+                if self.stats["Intelligence"] > max(
+                        self.stats["Faith"], self.stats["Dexterity"]) \
+                        and self.level > 4:
+                    self.title = "Mage Knight"
+                else:
+                    self.title = "Knight"
+            elif secondStat == "Faith":
+                self.title = "Monk"
+            elif secondStat == "Intelligence":
+                listOfStatValues = [
+                        statValue for statName, statValue
+                        in self.stats.items()]
+                if self.stats["Fame"] < max(list(set(listOfStatValues))[:3]) \
+                        and self.level > 9:
+                    self.title = "Steam Knight"
+                else:
+                    self.title = "Swordsman"
+            elif secondStat == "Stamina":
+                if self.stats["Luck"] < (13 + self.level / 4):
+                    self.title = "Berserker"
+                self.title = "Warrior"
+            elif self.stats["Luck"] < (13 + self.level / 4):
+                self.title = "Werewolf"
+            else:
+                self.title = "Duelist"
+        elif primeStat == "Voice":
+            self.title = "Chorister"
+        if self.title == "newbie":
+            print(f"debug: newbie found. Stats are {self.stats}")
+            if self.stats["Intelligence"] < self.stats["Strength"]:
+                self.title = "Squire"
+            else:
+                self.title = "Student"
+        if self.stats["Fame"] >= 25 and "Captain" not in self.title:
+            self.title = self.title + " Captain"
+        if self.stats["Speed"] > 25 <= 40 and (
+                "Mounted" not in self.title and "Knight" not in
+                self.title and "Sky " not in
+                self.title and "Flying Movement" not in self.powers):
+            self.title = "Mounted " + self.title
+        elif (self.stats["Speed"] > 40 or "Flying Movement" in
+                self.powers) and "Sky " not in self.title:
+            self.title = "Sky " + self.title
+        if self.title != oldTitle:
+            if chatter:
+                print(f"{self.name} became a {self.title}!")
+            self.career += f" --> {self.title} ({self.level})"
 
     def initializeRandomStats(
                 self, bestStat=None, secondBestStat=None, dumpStat=None):
@@ -471,47 +504,48 @@ else:
     chatter = False
     stopEveryLevel = "fast"
 if module == 'SF':
-    recruit = playerCharacter("Max", "Swordsman", chatter)
+    recruit = playerCharacter("Max", "Human", "Swordsman", chatter)
     party.append(recruit)
     recruit = playerCharacter("Lowe", "Priest", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Tao", "Fire Mage", chatter)
+    recruit = playerCharacter("Tao", "Elf", "Fire Mage", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Luke", "Warrior", chatter)
+    recruit = playerCharacter("Luke", "Dwarf", "Warrior", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Ken", "Knight", chatter)
+    recruit = playerCharacter("Ken", "Centaur", "Knight", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Hans", "Archer", chatter)
+    recruit = playerCharacter("Hans", "Elf", "Archer", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Gong", "Monk", chatter)
+    recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Mae", "Knight", chatter)
+    recruit = playerCharacter("Mae", "Centaur", "Knight", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Gort", "Warrior", chatter)
+    recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Khris", "Priest", chatter)
+    recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Anri", "Frost Mage", chatter)
+    recruit = playerCharacter("Anri", "Human", "Frost Mage", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Arthur", "Knight", chatter)
+    recruit = playerCharacter("Arthur", "Centaur", "Knight", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Balbaroy", "Sky Battler", chatter)
+    recruit = playerCharacter("Balbaroy", "Birdman", "Sky Battler", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Amon", "Sky Battler", chatter)
+    recruit = playerCharacter("Amon", "Birdman", "Sky Battler", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Diane", "Archer", chatter)
+    recruit = playerCharacter("Diane", "Elf", "Archer", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Zylo", "Werewolf", chatter)
+    recruit = playerCharacter("Zylo", "Wolfling", "Werewolf", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Pelle", "Knight", chatter)
+    recruit = playerCharacter("Pelle", "Centaur", "Knight", chatter)
     party.append(recruit)
-    recruit = playerCharacter("Kokichi", "Sky Lord", chatter)
+    recruit = playerCharacter("Kokichi", "Human", "Sky Lord", chatter)
     party.append(recruit)
 else:
     partySize = int(input("How many characters should I create? "))
     for i in range(partySize):
         recruit = playerCharacter(None, None, chatter)
         party.append(recruit)
+print("")
 levelUpNum = int(input("How many levels should they get? "))
 for i in range(levelUpNum):
     for pc in party:
@@ -519,7 +553,7 @@ for i in range(levelUpNum):
         if stopEveryLevel == "slow":
             stop = input()
 for pc in party:
-    print(f"{pc.name} is a level {pc.level} {pc.title}.")
+    print(f"{pc.name} is a level {pc.level} {pc.race} {pc.title}.")
     print(pc.career)
     if pc.powers:
         print("    Powers: " + " -> ".join(pc.powers))
