@@ -15,10 +15,12 @@ class playerCharacter(object):
             elif playerClass == "Archer":
                 self.growth = self.initializeRandomStats(
                         "Dexterity", "Stamina")
+            elif playerClass == "Baron":
+                self.growth = self.initializeRandomStats("Strength", "Fame")
             elif playerClass == "Bolt Mage":
                 self.growth = self.initializeRandomStats(
                     "Intelligence", "Luck")
-            elif playerClass == "Duelist":
+            elif playerClass == "Brass Gunner":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Dexterity")
             elif playerClass == "Fire Mage":
@@ -27,6 +29,8 @@ class playerCharacter(object):
             elif playerClass == "Frost Mage":
                 self.growth = self.initializeRandomStats(
                         "Intelligence", "Stamina")
+            elif playerClass == "Harbinger":
+                self.growth = self.initializeRandomStats("Speed", "Voice")
             elif playerClass == "Knight":
                 self.growth = self.initializeRandomStats("Strength", "Speed")
             elif playerClass == "Monk":
@@ -42,6 +46,9 @@ class playerCharacter(object):
                         "Speed", "Intelligence")
             elif playerClass == "Soldier":
                 self.growth = self.initializeRandomStats("Luck", "Strength")
+            elif playerClass == "Sorceror":
+                self.growth = self.initializeRandomStats(
+                        "Intelligence", "Faith")
             elif playerClass == "Steam Knight":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Intelligence", "Fame")
@@ -50,6 +57,12 @@ class playerCharacter(object):
                         "Strength", "Intelligence")
             elif playerClass == "Survivor":
                 self.growth = self.initializeRandomStats("Voice", "Stamina")
+            elif playerClass == "Thief":
+                self.growth = self.initializeRandomStats(
+                        "Dexterity", "Intelligence")
+            elif playerClass == "Titan":
+                self.growth = self.initializeRandomStats(
+                        "Stamina", "Fame", "Speed")
             elif playerClass == "Warrior":
                 self.growth = self.initializeRandomStats("Strength", "Stamina")
             elif playerClass == "Werewolf":
@@ -107,6 +120,12 @@ class playerCharacter(object):
                         "Luck: Enable Double Dodge",
                         "Symphony: Increased Effect I",
                         "Command: Added Effect: Random"]
+            elif "Baron" in self.title:
+                listOfPowers = [
+                        "Equip: Long Swords", "Counterattack",
+                        "Luck: Reverse Death", "Swords: Increased Damage I",
+                        "Luck: Critical Drain I", "Command: Inreased Area I",
+                        "Death II", "Luck: Critical Drain II"]
             elif "Berserker" in self.title:
                 listOfPowers = [
                         "Equip: Axes", "Unarmed Attack: Increased Damage I",
@@ -125,6 +144,15 @@ class playerCharacter(object):
                         "Bolt I", "Blaze I", "Freeze I",
                         "Magic: Increased Area I", "Bolt II", "Bolt III",
                         "Death I", "Bolt IV"]
+            elif "Brass Gunner" in self.title:
+                listOfPowers = [
+                        "Equip: Brass Guns", "Unhindered Movement",
+                        "Brass Guns: Critical Damage I",
+                        "Defense: Increased Armor I",
+                        "Movement: Range Increase I",
+                        "Brass Guns: Critical Damage II",
+                        "Defense: Increased Armor II",
+                        "Brass Guns: Attack Area Increased"]
             elif "Chorister" in self.title:
                 listOfPowers = [
                         "Symphony: Increased Effect I", "Heal I", "Blast I",
@@ -157,6 +185,14 @@ class playerCharacter(object):
                         "Luck: Reverse Death", "Axes: Ranged + 1",
                         "Luck: Dodge Chance Increased II",
                         "Dodge: Added Effect - Stealth"]
+            elif "Harbinger" in self.title:
+                listOfPowers = [
+                        "Unarmed Attack: Damage I",
+                        "Symphony: Increase Luck I",
+                        "Attack using Voice stat", "Luck: Reverse Death",
+                        "Defense: Fire I", "Unarmed Attack: Wind",
+                        "Defense: Fire II", "Symphony: Increase Luck II"
+                        ]
             elif ("Knight" in self.title and "Mage Knight" not in
                     self.title and "Steam Knight" not in self.title):
                 listOfPowers = [
@@ -223,8 +259,12 @@ class playerCharacter(object):
                         "Unarmed Attack: Increased Damage I", "Ninja Bolt I",
                         "Unarmed Attack: Increased Damage II",
                         "Increased Defense", "Whirlwind Attack",
-                        "Unarmed Attack: Lightning", "Counterattack",
+                        "Attack: Lightning", "Counterattack",
                         "Unarmed Attack: Increased Damage III"]
+            elif "Sorceror" in self.title:
+                listOfPowers = [
+                        "Dao I", "Apollo I", "Dao II", "Apollo II",
+                        "Poseidon I", "Atlas I", "Poseidon II", "Atlas II"]
             elif "Squire" in self.title:
                 listOfPowers = ["Equip: Swords"]
             elif "Steam Knight" in self.title:
@@ -239,10 +279,10 @@ class playerCharacter(object):
                 listOfPowers = ["Blaze I"]
             elif "Survivor" in self.title:
                 listOfPowers = [
-                        "Defense: Magic I", "Unarmed Attack: Fire",
-                        "Luck: Increased Dodge I", "Flying Movement",
-                        "Defense: Magic II",
+                        "Defense: Magic I",
                         "Unarmed Attack: Increased Damage I",
+                        "Luck: Increased Dodge I", "Flying Movement",
+                        "Defense: Magic II", "Unarmed Attack: Fire",
                         "Defense: Weapons I",
                         "Critical Attack: Bolt III"]
             elif "Swordsman" in self.title:
@@ -256,6 +296,14 @@ class playerCharacter(object):
                         "Equip: Daggers", "Counterattack", "Luck: Steal",
                         "Daggers: Range +1", "Stealthy Movement",
                         "Ninja Fire I", "Ninja Bolt I", "Ninja Fire II"]
+            elif "Titan" in self.title:
+                listOfPowers = [
+                        "Defense: Weapons I", "Defense: Fire I",
+                        "Unarmed Attack: Increased Damage I",
+                        "Unarmed Attack: Armor Penetration I",
+                        "Unarmed Attack: Added Effect: Shatter Armor",
+                        "Unarmed Attack: Armor Penetration II",
+                        "Defense: Fire II", "Critical: Added Effect: Muddle"]
             elif "Warrior" in self.title:
                 listOfPowers = [
                         "Equip: Axes", "Defense: Melee Attacks I",
@@ -294,15 +342,17 @@ class playerCharacter(object):
         if not race:
             race = random.choice([
                     "Armadillo", "Birdman", "Centaur", "Dragon", "Dwarf",
-                    "Elf", "Foxling", "Half-Giant", "Hobbit", "Human",
+                    "Elf", "Foxling", "Golem", "Half-Giant", "Hobbit", "Human",
                     "Insect", "Kyantol", "Magical Creature", "Phoenix",
-                    "Robot", "Wererat", "Wolfling"])
-        if race == "Armadillo":
+                    "Robot", "Tortoise", "Wererat", "Wolfling"])
+        if race in ("Armadillo", "Tortoise"):
             self.powers.append("Defense: Weapons I")
         elif race in ("Birdman", "Dragon", "Magical Creature", "Phoenix"):
             self.powers.append("Flying Movement")
         elif race == "Centaur":
             self.powers.append("Mounted Movement")
+        elif race == "Dwarf":
+            self.powers.append("Equip: Axes")
         elif race == "Elf":
             if self.stats["Intelligence"] >= self.stats["Dexterity"]:
                 self.powers.append("Equip: Staffs")
@@ -314,11 +364,13 @@ class playerCharacter(object):
             if self.stats["Intelligence"] > max(
                     self.stats["Dexterity"], self.stats["Strength"]):
                 self.powers.append("Equip: Staffs")
+            elif self.stats["Dexterity"] > self.stats["Strength"]:
+                self.powers.append("Equip: Brass Guns")
             else:
                 self.powers.append("Equip: Swords")
         elif race == "Insect":
             self.powers.append("Equip: Swords")
-        elif race in ("Half-Giant", "Robot", "Wolfling"):
+        elif race in ("Golem", "Half-Giant", "Robot", "Wolfling"):
             self.powers.append("Unarmed Attack: Increased Damage I")
         elif race == "Wererat":
             self.powers.append("Equip: Daggers")
@@ -343,6 +395,10 @@ class playerCharacter(object):
                 self.title = "Knight"
             elif secondStat == "Faith":
                 self.title = "Prophet"
+            elif secondStat == "Stamina":
+                self.title = "Sorceror"
+            elif secondStat == "Fame":
+                self.title = "Baron"
             else:
                 self.title = "Orator"
         elif primeStat == "Dexterity":
@@ -376,6 +432,8 @@ class playerCharacter(object):
                 self.title = "Frost Mage"
             elif secondStat == "Strength":
                 self.title = "Swordsman"
+            elif secondStat == "Faith":
+                self.title = "Sorceror"
             else:
                 self.title = "Scholar"
         elif primeStat == "Luck":
@@ -388,16 +446,18 @@ class playerCharacter(object):
         elif primeStat == "Speed":
             if secondStat == "Intelligence":
                 self.title = "Sky Lord"
-            if secondStat == "Strength" and (
+            elif secondStat == "Strength" and (
                     self.race == "Dragon" or self.level > 20):
                 self.title = "Survivor"
                 if self.race != "Dragon":
                     self.race = "Dragon"
                     print(f"{self.name} became a Dragon!")
+            elif secondStat == "Voice":
+                self.title = "Harbinger"
             elif "Flying Movement" in self.powers or self.stats["Speed"] > 25:
                 self.title = "Sky Battler"
             else:
-                self.tilte = "Duelist"
+                self.title = "Duelist"
         elif primeStat == "Stamina":
             if secondStat in ("Charisma", "Faith"):
                 self.title = "Samurai"
@@ -406,12 +466,16 @@ class playerCharacter(object):
                     self.title = "Steam Knight"
                 else:
                     self.title = "Blood Mage"
-            elif self.stats["Luck"] < (13 + self.level / 4):
-                self.title = "Werewolf"
             elif secondStat == "Strength":
                 if self.stats["Luck"] < (13 + self.level / 4):
                     self.title = "Berserker"
                 self.title = "Warrior"
+            elif secondStat == "Dexterity":
+                self.title = "Brass Gunner"
+            elif self.stats["Speed"] < (13 + self.level / 4):
+                self.title = "Titan"
+            elif self.stats["Luck"] < (13 + self.level / 4):
+                self.title = "Werewolf"
             else:
                 self.title = "Duelist"
         elif primeStat == "Strength":
@@ -426,6 +490,8 @@ class playerCharacter(object):
                 self.title = "Assassin"
             elif secondStat == "Faith":
                 self.title = "Monk"
+            elif secondStat == "Fame":
+                self.title = "Baron"
             elif secondStat == "Intelligence":
                 self.title = "Swordsman"
             elif secondStat == "Stamina":
@@ -438,9 +504,11 @@ class playerCharacter(object):
                 self.title = "Duelist"
         elif primeStat == "Voice":
             if secondStat in ("Stamina", "Strength", "Speed") and (
-                    self.race == "Dragon" or self.level > 20):
+                    self.race in ("Dragon", "Tortoise") or self.level > 20):
                 self.title = "Survivor"
-                if self.race != "Dragon":
+                if self.race not in ("Dragon", "Phoenix", "Tortoise") or (
+                        self.race == "Tortoise" and "Flying Movement"
+                        in self.powers):
                     self.race = "Dragon"
                     print(f"{self.name} became a Dragon!")
             else:
@@ -625,6 +693,67 @@ if module == 'SF':
     recruit = playerCharacter("Adam", "Robot", "Soldier", chatter)
     party.append(recruit)
     recruit = playerCharacter("Hanzou", "Human", "Assassin", chatter)
+    party.append(recruit)
+elif module == 'SF2':
+    recruit = playerCharacter("Bowie", "Human", "Swordsman", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Sarah", "Elf", "Priest", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Chester", "Centaur", "Knight", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Jaha", "Dwarf", "Warrior", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Kazin", "Elf", "Bolt Mage", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Slade", "Wererat", "Thief", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Kiwi", "Tortoise", "Survivor", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Peter", "Phoenix", "Harbinger", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("May", "Centaur", "Archer", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Gerhalt", "Wolfling", "Werewolf", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Luke", "Birdman", "Sky Battler", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Rohde", "Human", "Brass Gunner", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Rick", "Centaur", "Knight", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Elric", "Elf", "Archer", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Eric", "Centaur", "Knight", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Karna", "Elf", "Priest", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Randolf", "Dwarf", "Warrior", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Tyrin", "Elf", "Frost Mage", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Janet", "Elf", "Archer", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Higins", "Centaur", "Knight", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Taya", "Elf", "Sorceror", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Skreech", "Birdman", "Sky Battler", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Frayja", "Human", "Priest", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Jaro", "Centaur", "Knight", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Gyan", "Dwarf", "Warrior", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Sheela", "Human", "Monk", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Zynk", "Robot", "Soldier", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Chaz", "Human", "Bolt Mage", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Claude", "Golem", "Titan", chatter)
+    party.append(recruit)
+    recruit = playerCharacter("Lemon", "Human", "Baron", chatter)
     party.append(recruit)
 else:
     partySize = int(input("How many characters should I create? "))
