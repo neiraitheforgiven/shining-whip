@@ -6,7 +6,9 @@ import random
 class playerCharacter(object):
     """docstring for PlayerCharacter"""
 
-    def __init__(self, name=None, race=None, playerClass=None, chatter=False):
+    def __init__(
+            self, name=None, race=None, playerClass=None, chatter=False,
+            battleNum=None):
         self.powers = []
         if playerClass:
             if playerClass == "Assassin":
@@ -72,6 +74,7 @@ class playerCharacter(object):
                 self.growth = self.initializeRandomStats()
         else:
             self.growth = self.initializeRandomStats()
+        self.battleNum = battleNum
         self.stats = {}
         for statName, statValue in self.growth.items():
             self.stats[statName] = 20 - statValue
@@ -635,64 +638,65 @@ else:
     chatter = False
     stopEveryLevel = "fast"
 if module == 'SF':
-    recruit = playerCharacter("Max", "Human", "Swordsman", chatter)
+    recruit = playerCharacter("Max", "Human", "Swordsman", chatter, 0)
     party.append(recruit)
-    recruit = playerCharacter("Lowe", "Hobbit", "Priest", chatter)
+    recruit = playerCharacter("Lowe", "Hobbit", "Priest", chatter, 0)
     party.append(recruit)
-    recruit = playerCharacter("Tao", "Elf", "Fire Mage", chatter)
+    recruit = playerCharacter("Tao", "Elf", "Fire Mage", chatter, 0)
     party.append(recruit)
-    recruit = playerCharacter("Luke", "Dwarf", "Warrior", chatter)
+    recruit = playerCharacter("Luke", "Dwarf", "Warrior", chatter, 0)
     party.append(recruit)
-    recruit = playerCharacter("Ken", "Centaur", "Knight", chatter)
+    recruit = playerCharacter("Ken", "Centaur", "Knight", chatter, 0)
     party.append(recruit)
-    recruit = playerCharacter("Hans", "Elf", "Archer", chatter)
+    recruit = playerCharacter("Hans", "Elf", "Archer", chatter, 0)
     party.append(recruit)
-    recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter)
+    recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
     party.append(recruit)
-    recruit = playerCharacter("Mae", "Centaur", "Knight", chatter)
+    recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
     party.append(recruit)
-    recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter)
+    recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
     party.append(recruit)
-    recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter)
+    recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter, 3)
     party.append(recruit)
-    recruit = playerCharacter("Anri", "Human", "Frost Mage", chatter)
+    recruit = playerCharacter("Anri", "Human", "Frost Mage", chatter, 5)
     party.append(recruit)
-    recruit = playerCharacter("Arthur", "Centaur", "Knight", chatter)
+    recruit = playerCharacter("Arthur", "Centaur", "Knight", chatter, 6)
     party.append(recruit)
-    recruit = playerCharacter("Balbaroy", "Birdman", "Sky Battler", chatter)
+    recruit = playerCharacter("Balbaroy", "Birdman", "Sky Battler", chatter, 8)
     party.append(recruit)
-    recruit = playerCharacter("Amon", "Birdman", "Sky Battler", chatter)
+    recruit = playerCharacter("Amon", "Birdman", "Sky Battler", chatter, 8)
     party.append(recruit)
-    recruit = playerCharacter("Diane", "Elf", "Archer", chatter)
+    recruit = playerCharacter("Diane", "Elf", "Archer", chatter, 8)
     party.append(recruit)
-    recruit = playerCharacter("Zylo", "Wolfling", "Werewolf", chatter)
+    recruit = playerCharacter("Zylo", "Wolfling", "Werewolf", chatter, 9)
     party.append(recruit)
-    recruit = playerCharacter("Pelle", "Centaur", "Knight", chatter)
+    recruit = playerCharacter("Pelle", "Centaur", "Knight", chatter, 11)
     party.append(recruit)
-    recruit = playerCharacter("Kokichi", "Human", "Sky Lord", chatter)
+    recruit = playerCharacter("Kokichi", "Human", "Sky Lord", chatter, 11)
     party.append(recruit)
-    recruit = playerCharacter("Vankar", "Centaur", "Knight", chatter)
+    recruit = playerCharacter("Vankar", "Centaur", "Knight", chatter, 11)
     party.append(recruit)
     recruit = playerCharacter(
-            "Domingo", "Magical Creature", "Frost Mage", chatter)
+            "Domingo", "Magical Creature", "Frost Mage", chatter, 12)
     party.append(recruit)
-    recruit = playerCharacter("Guntz", "Armadillo", "Steam Knight", chatter)
+    recruit = playerCharacter(
+            "Guntz", "Armadillo", "Steam Knight", chatter, 12)
     party.append(recruit)
-    recruit = playerCharacter("Earnest", "Centaur", "Knight", chatter)
+    recruit = playerCharacter("Earnest", "Centaur", "Knight", chatter, 13)
     party.append(recruit)
-    recruit = playerCharacter("Lyle", "Centaur", "Archer", chatter)
+    recruit = playerCharacter("Lyle", "Centaur", "Archer", chatter, 17)
     party.append(recruit)
-    recruit = playerCharacter("Bleu", "Dragon", "Survivor", chatter)
+    recruit = playerCharacter("Bleu", "Dragon", "Survivor", chatter, 18)
     party.append(recruit)
-    recruit = playerCharacter("Musashi", "Human", "Samurai", chatter)
+    recruit = playerCharacter("Musashi", "Human", "Samurai", chatter, 21)
     party.append(recruit)
-    recruit = playerCharacter("Alef", "Foxling", "Bolt Mage", chatter)
+    recruit = playerCharacter("Alef", "Foxling", "Bolt Mage", chatter, 23)
     party.append(recruit)
-    recruit = playerCharacter("Torasu", "Hobbit", "Priest", chatter)
+    recruit = playerCharacter("Torasu", "Hobbit", "Priest", chatter, 23)
     party.append(recruit)
-    recruit = playerCharacter("Adam", "Robot", "Soldier", chatter)
+    recruit = playerCharacter("Adam", "Robot", "Soldier", chatter, 23)
     party.append(recruit)
-    recruit = playerCharacter("Hanzou", "Human", "Assassin", chatter)
+    recruit = playerCharacter("Hanzou", "Human", "Assassin", chatter, 25)
     party.append(recruit)
 elif module == 'SF2':
     recruit = playerCharacter("Bowie", "Human", "Swordsman", chatter)
@@ -761,12 +765,40 @@ else:
         recruit = playerCharacter(None, None, chatter)
         party.append(recruit)
 print("")
-levelUpNum = int(input("How many levels should they get? "))
-for i in range(levelUpNum):
-    for pc in party:
-        pc.levelUp(chatter)
-        if stopEveryLevel == "slow":
+sim = False
+if module:
+    mode = input("Type Yes if you want to simulate a game.")
+    if mode == "Yes":
+        sim = True
+if sim:
+    if module == "SF":
+        gameLevel = 0
+        modifier = 40 / 30
+        for i in range(30):
+            gameLevel = math.floor((i + 1) * modifier)
+            print(f"The party faces Battle {i + 1}")
+            for pc in party:
+                if pc.battleNum < i + 1:
+                    while pc.level < gameLevel:
+                        pc.levelUp(chatter)
+                    if i == pc.battleNum:
+                        print(
+                                f"{pc.name} is a level {pc.level} {pc.race}"
+                                f" {pc.title} with {pc.powers}.")
+                    else:
+                        print(
+                                f"{pc.name} is a level {pc.level} {pc.race}"
+                                f" {pc.title} with "
+                                f"{pc.powers[len(pc.powers) - 1:]}.")
             stop = input()
+    # elif module == "SF2":
+else:
+    levelUpNum = int(input("How many levels should they get? "))
+    for i in range(levelUpNum):
+        for pc in party:
+            pc.levelUp(chatter)
+            if stopEveryLevel == "slow":
+                stop = input()
 for pc in party:
     print(f"{pc.name} is a level {pc.level} {pc.race} {pc.title}.")
     print(pc.career)
