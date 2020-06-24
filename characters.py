@@ -4,7 +4,7 @@ import random
 
 
 class playerCharacter(object):
-    """docstring for PlayerCharacter"""
+    """docstring for playerCharacter"""
 
     def __init__(
             self, name=None, race=None, playerClass=None, chatter=False,
