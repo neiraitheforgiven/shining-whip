@@ -3,12 +3,52 @@ from operator import itemgetter
 import random
 
 
+class monster(object):
+
+    def __init__(self, name, level=None):
+        self.stats = {}
+        self.hp = 0
+        if name == "Dark Dwarf":
+            self.level = 3
+            kwargs = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
+            self.setStats(5, kwargs)
+        elif name == "Goblin":
+            self.level = 1
+            kwargs = {"Dexterity": 6, "Stamina": 6, "Speed": 5}
+            self.setStats(5, kwargs)
+        elif name == "Traitor Knight":
+            self.level = 4
+            kwargs = {"Strength": 11, "Stamina": 7, "Speed": 7, "Charisma": 7}
+            self.setStats(6, kwargs)
+        else:
+            self.level = level
+            kwargs = None
+            self.setStats(5, kwargs)
+
+    def setStats(self, statLevel, **stats):
+        statsToAssign = [
+                "Strength", "Dexterity", "Intelligence", "Faith", "Charisma",
+                "Luck", "Speed", "Stamina", "Voice", "Fame"]
+        advance = True
+        for i in range(len(statsToAssign)):
+            stat = random.choice(statsToAssign)
+            if stat in stats:
+                self.stats[stat] = stats[stat]
+            else:
+                self.stats[stat] = statLevel
+                advance = not advance
+                if advance:
+                    statLevel += 1
+            statsToAssign.remove(stat)
+
+
 class playerCharacter(object):
     """docstring for playerCharacter"""
 
     def __init__(
             self, name=None, race=None, playerClass=None, chatter=False,
             battleNum=None):
+        self.hp = 0
         self.powers = []
         if playerClass:
             if playerClass == "Assassin":
