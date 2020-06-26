@@ -1,5 +1,7 @@
 from characters import playerCharacter
+from characters import monster
 from operator import itemgetter
+import random
 
 class battle(object):
 
@@ -7,30 +9,88 @@ class battle(object):
         if num:
             if num == 1:
                 self.battleField = battleField([
-                        "Grass", "Grass", "Grass", "Ascending Stairway",
+                        "Forest", "Grass", "Grass", "Ascending Stairway",
                         "Rubble", "Tiled Floor", "Tiled Floor", "Tiled Floor",
-                        "Rubble", "Rubble"],
-                        [("Goblin", 5), ("Goblin", 8), ("Dark Dwarf", 8)],
+                        "Rubble", "Rubble", "Tiled Floor"],
+                        [("Goblin", 7), ("Traitor Knight", 7), ("Goblin", 8),
+                        ("Dark Dwarf", 9), ("Dark Dwarf", 9), ("Goblin", 10),
+                        ("Goblin", 10)],
                         party)
-            self.turnOrder = self.determineInitiative(self.battleField)
+            for unit in self.battleField.units:
+                unit.hp = unit.stats["Stamina"] * 2
+            self.turnOrder = self.determineInitiative()
+            while self.battleOn():
+                self.doRound()
 
-    def determineInitiative(self, battleField):
-        print("Welcome to determineInitiative")
+    def battleOn(self):
+        if any([
+                unit for unit in self.battleField.units
+                if type(unit) == playerCharacter and "Egress I"
+                in unit.powers]):
+            if any([
+                    unit for unit in self.battleField.units
+                    if type(unit) == monster]):
+                return True
+            else:
+                print("You are victorious!")
+                return False
+        else:
+            print("D E F E A T E D")
+            return False
+
+    def determineInitiative(self):
         initiativeOrder = []
-        print(battleField.units)
-        for unit in battleField.units:
-            if type(unit) == playerCharacter:
-                initiative = max(
-                        unit.stats["Charisma"], unit.stats["Speed"],
-                        unit.stats["Dexterity"])
+        random.shuffle(self.battleField.units)
+        for unit in self.battleField.units:
+            initiative = max(
+                    unit.stats["Charisma"], unit.stats["Speed"],
+                    unit.stats["Dexterity"])
+            initiativeOrder.append((unit, initiative, unit.stats["Luck"]))
+            while initiative > 15:
+                initiative -= 15
                 initiativeOrder.append((unit, initiative, unit.stats["Luck"]))
-                while initiative > 15:
-                    initiative -= 15
-                    initiativeOrder.append((unit, initiative))
         initiativeOrder = sorted(
                 initiativeOrder, key=itemgetter(1, 2), reverse=True)
-        print(initiativeOrder)
+        print([pair[0].name for pair in initiativeOrder])
         return initiativeOrder
+
+    def doRound(self):
+        for unit in self.battleField.units:
+            unit.movementPoints = unit.stats["Speed"]
+        for unit in self.turnOrder:
+            self.doTurn(unit[0])
+        print([
+                f"{[unit.name for unit in tile.units]} on "
+                f"{tile.name}: {tile.cost}"
+                for tile in self.battleField.terrainArray])
+
+    def doTurn(self, unit):
+        position = self.battleField.getUnitPosition(unit)
+        print(f"It's {unit.name}'s turn!")
+        if type(unit) == playerCharacter:
+            allowedCommands = ["W", "w"]
+            moveEnabled = self.battleField.checkMove(unit, position)
+            if moveEnabled:
+                print("Type (M) to move.")
+                allowedCommands.append("M")
+                allowedCommands.append("m")
+            # attackEnabled = self.battleField.checkAttack(unit, position)
+            # if attackEnabled:
+            #     print("Type (A) to attack.")
+            # spellEnabled = self.battleField.checkSpell(unit, position)
+            # if spellEnabled:
+            #     print("Type (S) to cast a spell.")
+            # equipEnabled = self.battleField.checkEquip(unit, position)
+            # if equipEnabled:
+            #     print("Type (E) to change equipment.")
+            print("Type (W) to wait.")
+            command = None
+            while command not in allowedCommands:
+                command = input()
+            if command in ("M", "m"):
+                self.battleField.move(unit)
+            if command in ("W", "w"):
+                return
 
 
 class battleTile(object):
@@ -67,10 +127,11 @@ class battleField(object):
         for tile in listOfTiles:
             self.terrainArray.append(battleTile(tile))
         for unit, position in listOfUnits:
+            unitMonster = monster(unit)
             tile = self.terrainArray[position]
             tileUnits = tile.units
-            tileUnits.append(unit)
-            self.units.append(unit)
+            tileUnits.append(unitMonster)
+            self.units.append(unitMonster)
         for pc in party:
             self.units.append(pc)
             if len(self.terrainArray[1].units) < 4:
@@ -80,8 +141,128 @@ class battleField(object):
             else:
                 self.terrainArray[2].units.append(pc)
         print([
-                f"{[unit.name if type(unit) == playerCharacter else unit for unit in tile.units]} on {tile.name}: {tile.cost}"
+                f"{[unit.name for unit in tile.units]} on "
+                f"{tile.name}: {tile.cost}"
                 for tile in self.terrainArray])
+
+    def calculatePossibleMovement(
+            self, unit, movementPoints, position, directionIsHigher,
+            unstable):
+        tile = self.terrainArray[position]
+        # calculate if there is space
+        if not unstable:
+            unstable = tile.unstable
+        candidate = False
+        if len([
+                tileUnit for tileUnit in tile.units
+                if type(tileUnit) == type(unit)]) < 4:
+            candidate = True
+        # remove movementPoints
+        if "Flying Movement" in unit.powers or "Unhindered Movement" \
+                in unit.powers:
+            movementPoints = movementPoints - 5
+        else:
+            movementPoints = movementPoints - tile.cost
+        if movementPoints <= 0 or (
+                "Unhindered Movement" in
+                unit.powers and movementPoints < 5):
+            if not("Mounted Movement" in unit.powers and unstable):
+                if candidate:
+                    unit.allowedMovement.append(position)
+            return
+        else:
+            if candidate:
+                unit.allowedMovement.append(position)
+        if "Movement: Ignore Enemies" not in unit.powers:
+            # calculate if we are blocked
+            if len([
+                    tileUnit for tileUnit in tile.units
+                    if type(tileUnit) != type(unit)]) >= 2:
+                blocked = True
+            else:
+                blocked = False
+        else:
+            blocked = False
+        if not blocked:
+            if directionIsHigher:
+                position += 1
+                if position <= len(self.terrainArray) - 1:
+                    self.calculatePossibleMovement(
+                            unit, movementPoints, position, directionIsHigher,
+                            unstable)
+            else:
+                position -= 1
+                if position >= 0:
+                    self.calculatePossibleMovement(
+                            unit, movementPoints, position, directionIsHigher,
+                            unstable)
+
+    def checkMove(self, unit, position):
+        unit.allowedMovement = []
+        currentTile = self.terrainArray[position]
+        unstable = currentTile.unstable
+        if "Movement: Ignore Enemies" in unit.powers:
+            retreatBlocked = False
+            advancingBlocked = False
+        else:
+            retreatBlocked = len([
+                    tileUnit for tileUnit in currentTile.units
+                    if type(tileUnit) != type(unit)]) >= 3
+            advancingBlocked = len([
+                    tileUnit for tileUnit in currentTile.units
+                    if type(tileUnit) != type(unit)]) >= 2
+        if retreatBlocked and advancingBlocked:
+            return False
+        if (type(unit) == playerCharacter and not advancingBlocked) \
+                or (type(unit) == monster and not retreatBlocked):
+            calcPosition = position + 1
+            if calcPosition <= len(self.terrainArray) - 1:
+                self.calculatePossibleMovement(
+                        unit, unit.movementPoints, calcPosition, True,
+                        unstable)
+        if (type(unit) == playerCharacter and not retreatBlocked) \
+                or (type(unit) == monster and not advancingBlocked):
+            calcPosition = position - 1
+            if calcPosition >= 0:
+                self.calculatePossibleMovement(
+                        unit, unit.movementPoints, calcPosition, False,
+                        unstable)
+        print(f"debug: {unit.allowedMovement}")
+        if any(unit.allowedMovement):
+            return True
+        else:
+            return False
+
+    def getUnitPosition(self, unit):
+        for tile in self.terrainArray:
+            if unit in tile.units:
+                print(f"debug: index is {self.terrainArray.index(tile)}")
+                return self.terrainArray.index(tile)
+
+    def move(self, unit):
+        movestring = f"{unit.name} can move to "
+        movestringAdds = []
+        print(f"debug: {unit.allowedMovement}")
+        unit.allowedMovement.sort()
+        for position in unit.allowedMovement:
+            movestringAdds.append(
+                    f"({position}) {self.terrainArray[position].name}")
+        movestring += ", ".join(movestringAdds)
+        print(movestring + ".")
+        moveTo = None
+        while moveTo not in unit.allowedMovement:
+            moveTo = int(input("Type a number to move to: "))
+        fromPosition = self.getUnitPosition(unit)
+        moveFromTile = self.terrainArray[fromPosition]
+        moveToTile = self.terrainArray[moveTo]
+        lowest = min(fromPosition, moveTo)
+        highest = max(fromPosition, moveTo)
+        for i in range(lowest, highest + 1):
+            if i != fromPosition:
+                costTile = self.terrainArray[i]
+                unit.movementPoints -= costTile.cost
+        moveFromTile.units.remove(unit)
+        moveToTile.units.append(unit)
 
 
 class game(object):
