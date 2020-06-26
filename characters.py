@@ -8,22 +8,24 @@ class monster(object):
     def __init__(self, name, level=None):
         self.stats = {}
         self.hp = 0
+        self.movementPoints = 0
+        self.name = name
         if name == "Dark Dwarf":
             self.level = 3
-            kwargs = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
-            self.setStats(5, kwargs)
+            stats = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
+            self.setStats(5, **stats)
         elif name == "Goblin":
             self.level = 1
-            kwargs = {"Dexterity": 6, "Stamina": 6, "Speed": 5}
-            self.setStats(5, kwargs)
+            stats = {"Dexterity": 6, "Stamina": 6, "Speed": 5}
+            self.setStats(5, **stats)
         elif name == "Traitor Knight":
             self.level = 4
-            kwargs = {"Strength": 11, "Stamina": 7, "Speed": 7, "Charisma": 7}
-            self.setStats(6, kwargs)
+            stats = {"Strength": 11, "Stamina": 7, "Speed": 7, "Charisma": 7}
+            self.setStats(6, **stats)
         else:
             self.level = level
-            kwargs = None
-            self.setStats(5, kwargs)
+            stats = None
+            self.setStats(5, **stats)
 
     def setStats(self, statLevel, **stats):
         statsToAssign = [
@@ -49,7 +51,11 @@ class playerCharacter(object):
             self, name=None, race=None, playerClass=None, chatter=False,
             battleNum=None):
         self.hp = 0
+        self.movementPoints = 0
         self.powers = []
+        self.allowedMovement = []
+        self.allowedAttacks = []
+        self.allowedEquipment = []
         if playerClass:
             if playerClass == "Assassin":
                 self.growth = self.initializeRandomStats(
@@ -117,7 +123,7 @@ class playerCharacter(object):
         self.battleNum = battleNum
         self.stats = {}
         for statName, statValue in self.growth.items():
-            self.stats[statName] = 20 - statValue
+            self.stats[statName] = 13 - statValue
         self.level = 0
         self.statIncreaseCount = 0
         if name:
