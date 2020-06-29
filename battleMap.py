@@ -155,6 +155,16 @@ class battleField(object):
         # calculate if there is space
         if not unstable:
             unstable = tile.unstable
+        if movementPoints <= 0 or (
+                "Unhindered Movement" in
+                unit.powers and movementPoints < 5):
+            # mounted units may have bonus movement if they move on solids
+            if (
+                    "Mounted Movement" in
+                    unit.powers and not bonusSpent and not unstable):
+                bonusSpent = True
+            else:
+                return
         candidate = False
         if len([
                 tileUnit for tileUnit in tile.units
