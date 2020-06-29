@@ -18,7 +18,6 @@ class battle(object):
                         party)
             for unit in self.battleField.units:
                 unit.hp = unit.stats["Stamina"] * 2
-            self.turnOrder = self.determineInitiative()
             while self.battleOn():
                 self.doRound()
 
@@ -55,6 +54,7 @@ class battle(object):
         return initiativeOrder
 
     def doRound(self):
+        self.turnOrder = self.determineInitiative()
         for unit in self.battleField.units:
             unit.movementPoints = unit.stats["Speed"]
         for unit in self.turnOrder:
@@ -64,36 +64,64 @@ class battle(object):
                 f"{tile.name}: {tile.cost}"
                 for tile in self.battleField.terrainArray])
 
-    def doTurn(self, unit):
+    def doTurn(self, unit, moved=False):
         position = self.battleField.getUnitPosition(unit)
-        print()
-        print(f"It's {unit.name}'s turn!")
+        tile = self.battleField.terrainArray[position]
+        otherUnits = ", ".join([
+                tileUnit.name for tileUnit in tile.units if tileUnit != unit])
         if type(unit) == playerCharacter:
             allowedCommands = ["W", "w"]
-            moveEnabled = self.battleField.checkMove(unit, position)
-            if moveEnabled:
-                self.battleField.printMoveString(unit)
-                print("Type (M) to move.")
-                allowedCommands.append("M")
-                allowedCommands.append("m")
-                # print("Type (L) to look at a tile.")
-            # attackEnabled = self.battleField.checkAttack(unit, position)
-            # if attackEnabled:
-            #     print("Type (A) to attack.")
-            # spellEnabled = self.battleField.checkSpell(unit, position)
-            # if spellEnabled:
-            #     print("Type (S) to cast a spell.")
-            # equipEnabled = self.battleField.checkEquip(unit, position)
-            # if equipEnabled:
-            #     print("Type (E) to change equipment.")
+            if not moved:
+                print()
+                print(f"It's {unit.name}'s turn!")
+                if otherUnits:
+                    print(
+                            f"{unit.name} is standing on {tile.name} with "
+                            f"{otherUnits}")
+                moveEnabled = self.battleField.checkMove(unit, position)
+                if moveEnabled:
+                    self.battleField.printMoveString(unit)
+                    print("Type (M) to move.")
+                    allowedCommands.append("M")
+                    allowedCommands.append("m")
+                    # print("Type (L) to look at a tile.")
+                # attackEnabled = self.battleField.checkAttack(unit, position)
+                # if attackEnabled:
+                #     print("Type (A) to attack.")
+                # spellEnabled = self.battleField.checkSpell(unit, position)
+                # if spellEnabled:
+                #     print("Type (S) to cast a spell.")
+                # equipEnabled = self.battleField.checkEquip(unit, position)
+                # if equipEnabled:
+                #     print("Type (E) to change equipment.")
+            if not any([
+                    allowedCommand for allowedCommand in allowedCommands
+                    if allowedCommand not in ("W", "w")]):
+                return
             print("Type (W) to wait.")
             command = None
             while command not in allowedCommands:
                 command = input()
             if command in ("M", "m"):
-                self.battleField.move(unit)
+                moveTo = None
+                while moveTo not in unit.allowedMovement:
+                    moveTo = int(input("Type a number to move to: "))
+                self.battleField.move(unit, moveTo)
+                self.doTurn(unit, True)
             if command in ("W", "w"):
                 return
+        elif type(unit) == monster:
+            print()
+            print(f"It's {unit.name}'s turn!")
+            if otherUnits:
+                print(
+                        f"{unit.name} is standing on {tile.name} with "
+                        f"{otherUnits}")
+            moveEnabled = self.battleField.checkMove(unit, position)
+            if moveEnabled:
+                self.battleField.doMonsterMove(unit, position)
+            else:
+                print(f"{unit.name} waited.")
 
 
 class battleTile(object):
@@ -256,15 +284,63 @@ class battleField(object):
         else:
             return False
 
+    def doMonsterMove(self, monster, position):
+        if monster.moveProfile == "Aggressive":
+            # will not move if in melee range of enemies
+            if any([
+                    unit for unit in self.terrainArray[position].units
+                    if type(unit) == playerCharacter]):
+                return
+            # move as far forward as possible to tiles with enemies
+            candidates = []
+            for position in monster.allowedMovement:
+                for unit in self.terrainArray[position].units:
+                    if type(unit) == playerCharacter:
+                        candidates.append(position)
+                        print(f"debug: added {position} to candidates")
+                        break
+            if candidates:
+                moveTo = min(candidates)
+                self.move(monster, moveTo)
+            else:
+                # move as far forward as possible
+                moveTo = min(monster.allowedMovement)
+                self.move(monster, moveTo)
+        elif monster.moveProfile == "Defensive":
+            if monster.hp < monster.stats["Stamina"] * 2:
+                monster.moveProfile == "Aggressive"
+                self.doMonsterMove(monster, position)
+                return
+            else:
+                candidates = []
+                for position in monster.allowedMovement:
+                    for unit in self.terrainArray[position].units:
+                        if type(unit) == playerCharacter:
+                            candidates.append(position)
+                            print(f"debug: added {position} to candidates")
+                            break
+                if candidates:
+                    moveTo = max(candidates)
+                    self.move(monster, moveTo)
+        elif monster.moveProfile == "Retreat-Defensive":
+            if monster.hp < monster.stats["Stamina"] * 2:
+                monster.moveProfile == "Aggressive"
+                self.doMonsterMove(monster, position)
+                return
+            else:
+                moveTo = max(monster.allowedMovement)
+                if moveTo == position:
+                    monster.moveProfile = "Defensive"
+                    self.doMonsterMove(monster, position)
+                    return
+                self.move(monster, moveTo)
+
     def getUnitPosition(self, unit):
         for tile in self.terrainArray:
             if unit in tile.units:
                 return self.terrainArray.index(tile)
 
-    def move(self, unit):
-        moveTo = None
-        while moveTo not in unit.allowedMovement:
-            moveTo = int(input("Type a number to move to: "))
+    def move(self, unit, moveTo):
         fromPosition = self.getUnitPosition(unit)
         moveFromTile = self.terrainArray[fromPosition]
         moveToTile = self.terrainArray[moveTo]
@@ -289,6 +365,38 @@ class battleField(object):
         print(movestring + ".")
 
 
+class equipment(object):
+
+    def __init__(
+            self, game, equipType, name, minRange=0, maxRange=0, damage=3,
+            fp=0, mp=0, character=None):
+        self.type = equipType
+        self.name = name
+        self.minRange = minRange
+        self.maxRange = maxRange
+        self.damage = damage
+        self.equippedBy = None
+        self.fp = fp
+        self.mp = mp
+        if character:
+            self.equipOnCharacter(game, character)
+
+    def equipOnCharacter(self, game, character):
+        if type(character) == str:
+            pc = [
+                    player for player in game.party
+                    if player.name == character][0]
+        elif type(character) == playerCharacter:
+            pc = character
+        if pc:
+            if pc.equipment:
+                incumbent = pc.equipment
+                incumbent.equippedBy = None
+            self.equippedBy = pc
+            pc.equipment = self
+            print(f"{pc.name} equipped the {self.name}.")
+
+
 class game(object):
 
     def __init__(self):
@@ -297,24 +405,31 @@ class game(object):
         chatter = False
         recruit = playerCharacter(
                 "Max", "Human", "Swordsman", chatter, 0)
+        equipment(self, "Swords", "Middle Sword", 0, 0, 3, 0, 0, recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Lowe", "Hobbit", "Priest", chatter, 0)
+        equipment(self, "Staffs", "Wooden Staff", 0, 0, 0, 3, 3, recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Tao", "Elf", "Fire Mage", chatter, 0)
+        equipment(self, "Staffs", "Wooden Staff", 0, 0, 0, 3, 3, recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Luke", "Dwarf", "Warrior", chatter, 0)
+        equipment(self, "Axes", "Short Axe", 0, 0, 5, 0, 0, recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Ken", "Centaur", "Knight", chatter, 0)
+        equipment(self, "Spears", "Wooden Spear", 0, 1, 3, 0, 0, recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Hans", "Elf", "Archer", chatter, 0)
+        equipment(self, "Arrows", "Wooden Arrow", 1, 1, 3, 0, 0, recruit)
         self.playerCharacters.append(recruit)
         self.party = self.playerCharacters[:5]
         battle(self.party, 1)
+
 
 
 print("Let's do a test!")

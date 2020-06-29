@@ -5,27 +5,41 @@ import random
 
 class monster(object):
 
-    def __init__(self, name, level=None):
+    def __init__(self, name, level=None, moveProfile=None, attackProfile=None):
         self.stats = {}
         self.hp = 0
         self.movementPoints = 0
         self.name = name
+        self.allowedMovement = []
+        self.allowedAttacks = []
+        self.allowedEquipment = []
+        self.powers = []
+        self.moveProfile = moveProfile
+        self.attackProfile = attackProfile
         if name == "Dark Dwarf":
             self.level = 3
             stats = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
             self.setStats(5, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Random"
         elif name == "Goblin":
             self.level = 1
             stats = {"Dexterity": 6, "Stamina": 6, "Speed": 5}
             self.setStats(5, **stats)
+            self.moveProfile = moveProfile or "Aggressive"
+            self.attackProfile = attackProfile or "Random"
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 7, "Speed": 7, "Charisma": 7}
             self.setStats(6, **stats)
+            self.moveProfile = moveProfile or "Retreat-Defensive"
+            self.attackProfile = attackProfile or "Famekiller"
         else:
             self.level = level
             stats = None
             self.setStats(5, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Random"
 
     def setStats(self, statLevel, **stats):
         statsToAssign = [
@@ -53,6 +67,7 @@ class playerCharacter(object):
         self.hp = 0
         self.movementPoints = 0
         self.powers = []
+        self.equipment = None
         self.allowedMovement = []
         self.allowedAttacks = []
         self.allowedEquipment = []
