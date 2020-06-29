@@ -66,14 +66,17 @@ class battle(object):
 
     def doTurn(self, unit):
         position = self.battleField.getUnitPosition(unit)
+        print()
         print(f"It's {unit.name}'s turn!")
         if type(unit) == playerCharacter:
             allowedCommands = ["W", "w"]
             moveEnabled = self.battleField.checkMove(unit, position)
             if moveEnabled:
+                self.battleField.printMoveString(unit)
                 print("Type (M) to move.")
                 allowedCommands.append("M")
                 allowedCommands.append("m")
+                # print("Type (L) to look at a tile.")
             # attackEnabled = self.battleField.checkAttack(unit, position)
             # if attackEnabled:
             #     print("Type (A) to attack.")
@@ -147,7 +150,7 @@ class battleField(object):
 
     def calculatePossibleMovement(
             self, unit, movementPoints, position, directionIsHigher,
-            unstable):
+            unstable, bonusSpent=False):
         tile = self.terrainArray[position]
         # calculate if there is space
         if not unstable:
@@ -166,10 +169,21 @@ class battleField(object):
         if movementPoints <= 0 or (
                 "Unhindered Movement" in
                 unit.powers and movementPoints < 5):
-            if not("Mounted Movement" in unit.powers and unstable):
-                if candidate:
-                    unit.allowedMovement.append(position)
-            return
+            # mounted units may have bonus movement if they move on solids
+            if ("Mounted Movement" in unit.powers and "Flying Movement"
+                    not in unit.powers):
+                if unstable:
+                    return  # you forfeit your final movement
+                else:
+                    if not bonusSpent:
+                        bonusSpent = True  # You get one more movement
+                        movementPoints = 1
+            if candidate:
+                unit.allowedMovement.append(position)
+            if movementPoints <= 0 or (
+                    "Unhindered Movement" in
+                    unit.powers and movementPoints < 5):
+                return
         else:
             if candidate:
                 unit.allowedMovement.append(position)
@@ -189,13 +203,13 @@ class battleField(object):
                 if position <= len(self.terrainArray) - 1:
                     self.calculatePossibleMovement(
                             unit, movementPoints, position, directionIsHigher,
-                            unstable)
+                            unstable, bonusSpent)
             else:
                 position -= 1
                 if position >= 0:
                     self.calculatePossibleMovement(
                             unit, movementPoints, position, directionIsHigher,
-                            unstable)
+                            unstable, bonusSpent)
 
     def checkMove(self, unit, position):
         unit.allowedMovement = []
@@ -227,7 +241,6 @@ class battleField(object):
                 self.calculatePossibleMovement(
                         unit, unit.movementPoints, calcPosition, False,
                         unstable)
-        print(f"debug: {unit.allowedMovement}")
         if any(unit.allowedMovement):
             return True
         else:
@@ -236,19 +249,9 @@ class battleField(object):
     def getUnitPosition(self, unit):
         for tile in self.terrainArray:
             if unit in tile.units:
-                print(f"debug: index is {self.terrainArray.index(tile)}")
                 return self.terrainArray.index(tile)
 
     def move(self, unit):
-        movestring = f"{unit.name} can move to "
-        movestringAdds = []
-        print(f"debug: {unit.allowedMovement}")
-        unit.allowedMovement.sort()
-        for position in unit.allowedMovement:
-            movestringAdds.append(
-                    f"({position}) {self.terrainArray[position].name}")
-        movestring += ", ".join(movestringAdds)
-        print(movestring + ".")
         moveTo = None
         while moveTo not in unit.allowedMovement:
             moveTo = int(input("Type a number to move to: "))
@@ -263,6 +266,17 @@ class battleField(object):
                 unit.movementPoints -= costTile.cost
         moveFromTile.units.remove(unit)
         moveToTile.units.append(unit)
+        print(f"{unit.name} moved to the {moveToTile.name}")
+
+    def printMoveString(self, unit):
+        movestring = f"{unit.name} can move to "
+        movestringAdds = []
+        unit.allowedMovement.sort()
+        for position in unit.allowedMovement:
+            movestringAdds.append(
+                    f"({position}) {self.terrainArray[position].name}")
+        movestring += ", ".join(movestringAdds)
+        print(movestring + ".")
 
 
 class game(object):
