@@ -85,9 +85,14 @@ class battle(object):
                     allowedCommands.append("M")
                     allowedCommands.append("m")
                     # print("Type (L) to look at a tile.")
-                # attackEnabled = self.battleField.checkAttack(unit, position)
-                # if attackEnabled:
-                #     print("Type (A) to attack.")
+                attackEnabled = self.battleField.checkAttack(unit, position)
+                if attackEnabled:
+                    print(
+                            f"{unit.name} can attack "
+                            f"{[target.name for target in unit.allowedAttacks]}")
+                    print("Type (A) to attack.")
+                    allowedCommands.append("A")
+                    allowedCommands.append("a")
                 # spellEnabled = self.battleField.checkSpell(unit, position)
                 # if spellEnabled:
                 #     print("Type (S) to cast a spell.")
@@ -97,6 +102,7 @@ class battle(object):
             if not any([
                     allowedCommand for allowedCommand in allowedCommands
                     if allowedCommand not in ("W", "w")]):
+                print(f"{unit.name} waited.")
                 return
             print("Type (W) to wait.")
             command = None
@@ -108,6 +114,10 @@ class battle(object):
                     moveTo = int(input("Type a number to move to: "))
                 self.battleField.move(unit, moveTo)
                 self.doTurn(unit, True)
+            if command in ("A", "a"):
+                attackTarget = None
+                while attackTarget not in unit.allowedAttacks:
+                    attackTarget = int(input("Type a number to attack: "))
             if command in ("W", "w"):
                 return
         elif type(unit) == monster:
@@ -248,6 +258,43 @@ class battleField(object):
                     self.calculatePossibleMovement(
                             unit, movementPoints, position, directionIsHigher,
                             unstable, bonusSpent)
+
+    def checkAttack(self, unit, position):
+        unit.allowedAttacks = []
+        currentTile = self.terrainArray[position]
+        if unit.equipment:
+            minRange = unit.equipment.minRange
+            maxRange = unit.equipment.maxRange
+        else:
+            minRange = 0
+            maxRange = 0
+        if type(unit) == playerCharacter:
+            targetType = monster
+        elif type(unit) == monster:
+            targetType = playerCharacter
+        if minRange == 0 and maxRange == 0:
+            unit.allowedAttacks = [
+                    unit for unit in currentTile.units
+                    if type(unit) == targetType]
+            return bool(unit.allowedAttacks)
+        else:
+            minRangeBottom = max(position - maxRange, 0)
+            minRangeTop = max(position - minRange, 0)
+            maxRangeBottom = min(
+                    position + minRange, len(self.terrainArray) - 1)
+            maxRangeTop = min(position + maxRange, len(self.terrainArray) - 1)
+            tilesInRange = []
+            for tile in self.terrainArray[minRangeBottom:minRangeTop]:
+                tilesInRange.append(tile) \
+                        if tile not in tilesInRange else tilesInRange
+            for tile in self.terrainArray[maxRangeBottom:maxRangeTop]:
+                tilesInRange.append(tile) \
+                        if tile not in tilesInRange else tilesInRange
+            for tile in tilesInRange:
+                for tileUnit in tile.units:
+                    if type(tileUnit) == targetType:
+                        unit.allowedAttacks.append(tileUnit)
+            return bool(unit.allowedAttacks)
 
     def checkMove(self, unit, position):
         unit.allowedMovement = []
