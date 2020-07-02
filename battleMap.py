@@ -20,6 +20,10 @@ class battle(object):
                         party)
             for unit in self.battleField.units:
                 unit.hp = unit.stats["Stamina"] * 2
+                unit.fp = unit.stats["Faith"] + unit.equipment.fp
+                unit.mp = unit.stats["Intelligence"] + unit.equipment.mp
+                if "Egress I" in unit.powers and unit.mp < 8:
+                    print(f"warning: {unit.name} has insufficient mp to Egress")
             while self.battleOn():
                 self.doRound()
 
@@ -53,42 +57,51 @@ class battle(object):
                     routSkill + (routSkill * (unit.stats["Luck"] / 10)))
             attackTypeArray.extend(["routing"] * routChance)
             attackType = random.choice(attackTypeArray)
-            if attackType == 'critical':
-                print("A Critical Attack!")
-            damage = (
-                    max(unit.stats["Strength"],
-                            unit.stats["Dexterity"]) + unit.equipment.damage)
-            if attackType != 'critical':
-                damage -= max(
-                        target.stats["Strength"],
-                        target.stats["Dexterity"], target.stats["Faith"])
-            damage = max(damage, 1)
-            damage = min(damage, target.hp)
-            print(f"{unit.name} deals {damage} damage to {target.name}!")
-            target.hp -= damage
-            self.giveExperience(unit, target, damage)
-            if target.hp <= 0:
-                print(f"{target.name} dies!")
-                field = self.battleField
-                targetPosition = field.getUnitPosition(target)
-                field.terrainArray[targetPosition].units.remove(target)
-                if target in self.turnOrder:
-                    self.turnOrder.remove(target)
-                del target
-                return
-            elif attackType == "routing":
-                routEnemy = True
-            if routEnemy and ((i + 1) == attackCount):
-                if type(target) == playerCharacter:
-                    moveTo = self.battleField.getUnitPosition(target) - 1
-                    if moveTo >= 0:
-                        print(f"{target.name} was routed!")
-                        self.battleField.move(target, moveTo)
-                elif type(target) == monster:
-                    moveTo = self.battleField.getUnitPosition(target) + 1
-                    if moveTo <= len(self.battleField.terrainArray) - 1:
-                        print(f"{target.name} was routed!")
-                        self.battleField.move(target, moveTo)
+            dodgeSkill = math.floor(max(
+                    target.stats["Intelligence"], target.stats["Luck"],
+                    target.stats["Speed"]) * (1 + (
+                            (target.stats["Luck"] / 10) - unit.stats["Luck"])))
+            if dodgeSkill > 0:
+                attackTypeArray.extend(["dodge"] * dodgeSkill)
+            if attackType == 'dodge':
+                print(f"{target.name} dodges the attack!")
+            else:
+                if attackType == 'critical':
+                    print("A Critical Attack!")
+                damage = (max(
+                        unit.stats["Strength"], unit.stats["Dexterity"]) + (
+                        unit.equipment.damage))
+                if attackType != 'critical':
+                    damage -= max(
+                            target.stats["Strength"],
+                            target.stats["Dexterity"], target.stats["Faith"])
+                damage = max(damage, 1)
+                damage = min(damage, target.hp)
+                print(f"{unit.name} deals {damage} damage to {target.name}!")
+                target.hp -= damage
+                self.giveExperience(unit, target, damage)
+                if target.hp <= 0:
+                    print(f"{target.name} dies!")
+                    field = self.battleField
+                    targetPosition = field.getUnitPosition(target)
+                    field.terrainArray[targetPosition].units.remove(target)
+                    if target in self.turnOrder:
+                        self.turnOrder.remove(target)
+                    del target
+                    return
+                elif attackType == "routing":
+                    routEnemy = True
+                if routEnemy and ((i + 1) == attackCount):
+                    if type(target) == playerCharacter:
+                        moveTo = self.battleField.getUnitPosition(target) - 1
+                        if moveTo >= 0:
+                            print(f"{target.name} was routed!")
+                            self.battleField.move(target, moveTo)
+                    elif type(target) == monster:
+                        moveTo = self.battleField.getUnitPosition(target) + 1
+                        if moveTo <= len(self.battleField.terrainArray) - 1:
+                            print(f"{target.name} was routed!")
+                            self.battleField.move(target, moveTo)
 
     def battleOn(self):
         if any([
@@ -105,6 +118,38 @@ class battle(object):
         else:
             print("D E F E A T E D")
             return False
+
+    def castSpell(self, unit, spellName, targetId):
+        if spellName == "Blaze I":
+            unit.mp -= 2
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            damage = min(6, target.hp)
+            print(f"{unit.name} deals {damage} damage to {target.name}!")
+            target.hp -= damage
+            self.giveExperience(unit, target, damage)
+            if target.hp <= 0:
+                print(f"{target.name} dies!")
+                field = self.battleField
+                targetPosition = field.getUnitPosition(target)
+                field.terrainArray[targetPosition].units.remove(target)
+                if target in self.turnOrder:
+                    self.turnOrder.remove(target)
+                del target
+                return
+        elif spellName == "Egress I":
+            unit.mp -= 8
+            print(f"{unit.name} casts {spellName}!")
+            print(f"Nothing happens... yet.")
+            # restart the battle
+        elif spellName == "Heal I":
+            unit.mp -= 3
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            healing = min(18, (target.stats["Stamina"] * 2) - target.hp)
+            print(f"{unit.name} restores {healing} health to {target.name}!")
+            target.hp += healing
+            self.giveExperience(unit, target, healing)
 
     def determineInitiative(self):
         initiativeOrder = []
@@ -126,7 +171,6 @@ class battle(object):
         self.attack(unit, target)
 
     def doMonsterAttack(self, monster):
-        print(f"debug: {monster.name} has {monster.attackProfile} profile.")
         if monster.attackProfile == "ChallengeAccepting":
             # will attack the highest fame, level, charisma, strength
             candidates = [
@@ -207,6 +251,12 @@ class battle(object):
                 # equipEnabled = self.battleField.checkEquip(unit, position)
                 # if equipEnabled:
                 #     print("Type (E) to change equipment.")
+            spellEnabled = self.battleField.checkSpells(unit, position)
+            if spellEnabled:
+                self.battleField.printSpellString(unit)
+                print("Type (S) to cast a spell.")
+                allowedCommands.append("S")
+                allowedCommands.append("s")
             if not any([
                     allowedCommand for allowedCommand in allowedCommands
                     if allowedCommand not in ("W", "w")]):
@@ -229,6 +279,21 @@ class battle(object):
                         for target in unit.allowedAttacks]:
                     attackTarget = int(input("Type a number to attack: "))
                 self.doAttack(unit, attackTarget)
+            if command in ("S", "s"):
+                spellChoice = None
+                spellTarget = None
+                spellKeys = list(unit.allowedSpells.keys())
+                while spellChoice not in [
+                        spellKeys.index(spell) for spell in spellKeys]:
+                    spellChoice = int(input(
+                            "Type the number of the spell to cast: "))
+                spellToCast = spellKeys[spellChoice]
+                self.battleField.printSpellTargetString(unit, spellToCast)
+                targetList = unit.allowedSpells[spellToCast]
+                while targetList != 'Self' and spellTarget not in (
+                        targetList.index(target) for target in targetList):
+                    spellTarget = int(input("Type a number to target: "))
+                self.castSpell(unit, spellToCast, spellTarget)
             if command in ("W", "w"):
                 return
         elif type(unit) == monster:
@@ -414,7 +479,6 @@ class battleField(object):
         else:
             minRange = 0
             maxRange = 0
-        print(f"debug: range of {minRange} to {maxRange}")
         if type(unit) == playerCharacter:
             targetType = monster
         elif type(unit) == monster:
@@ -429,9 +493,6 @@ class battleField(object):
             lowRangeTop = position - minRange
             highRangeBottom = position + minRange
             highRangeTop = position + maxRange
-            print(
-                    f"debug: {lowRangeBottom}-{lowRangeTop}, "
-                    f"{highRangeBottom}-{highRangeTop}")
             tilesInRange = []
             for tile in self.terrainArray[lowRangeBottom:(lowRangeTop + 1)]:
                 tilesInRange.append(tile) \
@@ -439,7 +500,6 @@ class battleField(object):
             for tile in self.terrainArray[highRangeBottom:(highRangeTop + 1)]:
                 tilesInRange.append(tile) \
                         if tile not in tilesInRange else tilesInRange
-            print(f"debug: {[self.terrainArray.index(tile) for tile in tilesInRange]}")
             for tile in tilesInRange:
                 for tileUnit in tile.units:
                     if type(tileUnit) == targetType:
@@ -481,10 +541,38 @@ class battleField(object):
         else:
             return False
 
+    def checkSpells(self, unit, position):
+        unit.allowedSpells = {}
+        currentTile = self.terrainArray[position]
+        if type(unit) == playerCharacter:
+            friend = playerCharacter
+            enemy = monster
+        elif type(unit) == monster:
+            friend = monster
+            enemy = playerCharacter
+        if "Blaze I" in unit.powers and unit.mp >= 2:
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) == enemy]
+            if any(targets):
+                unit.allowedSpells["Blaze I"] = targets
+        if "Egress I" in unit.powers and unit.mp >= 8:
+            unit.allowedSpells["Egress I"] = 'Self'
+        if "Heal I" in unit.powers and unit.fp >= 3:
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) == friend and target.hp < (
+                            target.stats["Stamina"] * 2)]
+            if any(targets):
+                unit.allowedSpells["Heal I"] = targets
+        if any(unit.allowedSpells):
+            return True
+        else:
+            return False
+
     def doMonsterMove(self, monster, position, assignMoveProfile=None):
         if assignMoveProfile:
             monster.moveProfile = assignMoveProfile
-        print(f"debug: {monster.name} {monster.moveProfile} move profile.")
         if monster.moveProfile == "Aggressive":
             # will not move if in melee range of enemies
             if any([
@@ -527,7 +615,7 @@ class battleField(object):
                 return
             else:
                 moveTo = max(monster.allowedMovement)
-                if moveTo == position:
+                if position == len(self.terrainArray) - 1 or moveTo < position:
                     monster.moveProfile = "Defensive"
                     self.doMonsterMove(monster, position)
                     return
@@ -564,6 +652,33 @@ class battleField(object):
                     f"(HP: {target.hp}/{targetHealth})")
         attackString += ", ".join(attackStringAdds)
         print(attackString + ".")
+
+    def printSpellString(self, unit):
+        spellString = f"{unit.name} can cast "
+        spellStringAdds = []
+        count = 0
+        print(f"debug: {unit.allowedSpells}")
+        for i in unit.allowedSpells:
+            print(f"debug: {i}")
+            spellStringAdds.append(f"({count}) {i}")
+            count += 1
+        spellString += ", ".join(spellStringAdds)
+        print(spellString + ".")
+
+    def printSpellTargetString(self, unit, spell):
+        targetStringAdds = []
+        targetString = "This spell can target "
+        count = 0
+        for target in unit.allowedSpells[spell]:
+            if type(target) == str:
+                # spell is a placeholder for a spell with no target
+                return
+            targetHealth = target.stats["Stamina"] * 2
+            targetStringAdds.append(
+                    f"({count}) {target.name} (HP: {target.hp}/{targetHealth})")
+            count += 1
+        targetString += ", ".join(targetStringAdds)
+        print(targetString + ".")
 
     def printMoveString(self, unit):
         moveString = f"{unit.name} can move to "

@@ -9,11 +9,14 @@ class monster(object):
             self, name, level=None, moveProfile=None, attackProfile=None):
         self.stats = {}
         self.hp = 0
+        self.fp = 0
+        self.mp = 0
         self.movementPoints = 0
         self.name = name
         self.allowedMovement = []
         self.allowedAttacks = []
         self.allowedEquipment = []
+        self.allowedSpells = {}
         self.powers = []
         self.moveProfile = moveProfile
         self.attackProfile = attackProfile
@@ -70,6 +73,8 @@ class playerCharacter(object):
             self, name=None, race=None, playerClass=None, chatter=False,
             battleNum=None):
         self.hp = 0
+        self.fp = 0
+        self.mp = 0
         self.xp = 0
         self.movementPoints = 0
         self.powers = []
@@ -77,6 +82,7 @@ class playerCharacter(object):
         self.allowedMovement = []
         self.allowedAttacks = []
         self.allowedEquipment = []
+        self.allowedSpells = {}
         self.trophies = []
         if playerClass:
             if playerClass == "Assassin":
@@ -869,12 +875,12 @@ if not stop == "stop":
                             pc.levelUp(chatter)
                         if i == pc.battleNum:
                             print(
-                                    f"{pc.name} is a level {pc.level} {pc.race}"
-                                    f" {pc.title} with {pc.powers}.")
+                                    f"{pc.name} is a level {pc.level} "
+                                    f"{pc.race} {pc.title} with {pc.powers}.")
                         else:
                             print(
-                                    f"{pc.name} is a level {pc.level} {pc.race}"
-                                    f" {pc.title} with "
+                                    f"{pc.name} is a level {pc.level} "
+                                    f"{pc.race} {pc.title} with "
                                     f"{pc.powers[len(pc.powers) - 1:]}.")
                 stop = input()
         # elif module == "SF2":
