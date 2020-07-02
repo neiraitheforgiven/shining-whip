@@ -5,7 +5,8 @@ import random
 
 class monster(object):
 
-    def __init__(self, name, level=None, moveProfile=None, attackProfile=None):
+    def __init__(
+            self, name, level=None, moveProfile=None, attackProfile=None):
         self.stats = {}
         self.hp = 0
         self.movementPoints = 0
@@ -16,27 +17,31 @@ class monster(object):
         self.powers = []
         self.moveProfile = moveProfile
         self.attackProfile = attackProfile
-        if name == "Dark Dwarf":
+        if name == "Crazed Dwarf":
             self.level = 3
             stats = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
             self.setStats(5, **stats)
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
+            self.equipment = equipment("Axes", "Rusted Axe", 0, 0, 3, 0, 0)
         elif name == "Goblin":
             self.level = 1
             stats = {"Dexterity": 6, "Stamina": 6, "Speed": 5}
             self.setStats(5, **stats)
             self.moveProfile = moveProfile or "Aggressive"
             self.attackProfile = attackProfile or "Random"
+            self.equipment = equipment("Swords", "Goblin Sword", 0, 0, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 7, "Speed": 7, "Charisma": 7}
             self.setStats(6, **stats)
             self.moveProfile = moveProfile or "Retreat-Defensive"
-            self.attackProfile = attackProfile or "Famekiller"
+            self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.equipment = equipment("Lances", "Bronze Lance", 0, 0, 6, 0, 0)
+            self.powers.append(["Mounted Movement"])
         else:
             self.level = level
-            stats = None
+            stats = {}
             self.setStats(5, **stats)
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
@@ -65,12 +70,14 @@ class playerCharacter(object):
             self, name=None, race=None, playerClass=None, chatter=False,
             battleNum=None):
         self.hp = 0
+        self.xp = 0
         self.movementPoints = 0
         self.powers = []
         self.equipment = None
         self.allowedMovement = []
         self.allowedAttacks = []
         self.allowedEquipment = []
+        self.trophies = []
         if playerClass:
             if playerClass == "Assassin":
                 self.growth = self.initializeRandomStats(
@@ -689,6 +696,21 @@ class playerCharacter(object):
                 growthLevel += 1
 
 
+class equipment(object):
+
+    def __init__(
+            self, equipType, name, minRange=0, maxRange=0, damage=3,
+            fp=0, mp=0):
+        self.type = equipType
+        self.name = name
+        self.minRange = minRange
+        self.maxRange = maxRange
+        self.damage = damage
+        self.equippedBy = None
+        self.fp = fp
+        self.mp = mp
+
+
 party = []
 stop = input("Type stop if you want to skip this.")
 if not stop == "stop":
@@ -725,7 +747,8 @@ if not stop == "stop":
         party.append(recruit)
         recruit = playerCharacter("Arthur", "Centaur", "Knight", chatter, 6)
         party.append(recruit)
-        recruit = playerCharacter("Balbaroy", "Birdman", "Sky Battler", chatter, 8)
+        recruit = playerCharacter(
+                "Balbaroy", "Birdman", "Sky Battler", chatter, 8)
         party.append(recruit)
         recruit = playerCharacter("Amon", "Birdman", "Sky Battler", chatter, 8)
         party.append(recruit)
