@@ -7,16 +7,45 @@ import random
 
 class battle(object):
 
-    def __init__(self, party, num=None):
+    def __init__(self, game, party, num=None):
+        self.game = game
         if num:
+            self.egressing = False
             if num == 1:
                 self.battleField = battleField([
                         "Forest", "Grass", "Grass", "Ascending Stairway",
                         "Rubble", "Tiled Floor", "Tiled Floor", "Tiled Floor",
                         "Rubble", "Rubble", "Tiled Floor"],
                         [("Goblin", 7), ("Traitor Knight", 7), ("Goblin", 8),
-                        ("Crazed Dwarf", 9), ("Crazed Dwarf", 9),
-                        ("Goblin", 10), ("Goblin", 10)],
+                                ("Crazed Dwarf", 9), ("Crazed Dwarf", 9),
+                                ("Goblin", 10), ("Goblin", 10)],
+                        party)
+            elif num == 2:
+                self.battleField = battleField([
+                        "Loose Rocks", "Loose Rocks", "Loose Rocks",
+                        "Loose Rocks", "Loose Rocks", "Grass", "Forest",
+                        "Grass", "Loose Rocks", "Grass", "Grass", "Path",
+                        "Bridge", "Path", "Path", "Path", "Grass", "Grass"],
+                        [("Goblin", 3, "Retreat-Defensive",
+                                "WeakKiller"),
+                                ("Goblin", 3, "Retreat-Defensive",
+                                        "WeakKiller"),
+                                ("Goblin", 3, "Retreat-Defensive",
+                                        "WeakKiller"),
+                                ("Goblin", 9, "Advance-Defensive",
+                                        "WeakKiller"),
+                                ("Goblin", 9, "Advance-Defensive",
+                                        "WeakKiller"),
+                                ("Goblin", 9, "Advance-Defensive",
+                                        "WeakKiller")
+                                ("Crazed Dwarf", 9, "Retreat-Defensive",
+                                        "ChallengeAccepting"),
+                                ("Crazed Dwarf", 10, "Retreat-Defensive",
+                                        "ChallengeAccepting"),
+                                ("Crazed Dwarf", 10, None,
+                                        "ChallengeAccepting"),
+                                ("Traitor Knight", 17, "Advance-Defensive"),
+                                ("Traitor Knight", 17, "Advance-Defensive")],
                         party)
             for unit in self.battleField.units:
                 unit.hp = unit.stats["Stamina"] * 2
@@ -24,6 +53,7 @@ class battle(object):
                 unit.mp = unit.stats["Intelligence"] + unit.equipment.mp
                 if "Egress I" in unit.powers and unit.mp < 8:
                     print(f"warning: {unit.name} has insufficient mp to Egress")
+            game.battleStatus = 'ongoing'
             while self.battleOn():
                 self.doRound()
 
@@ -88,6 +118,7 @@ class battle(object):
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
                     del target
+                    input()
                     return
                 elif attackType == "routing":
                     routEnemy = True
@@ -104,19 +135,24 @@ class battle(object):
                             self.battleField.move(target, moveTo)
 
     def battleOn(self):
+        if self.egressing:
+            self.game.battleStatus = 'egress'
+            return False
         if any([
                 unit for unit in self.battleField.units
                 if type(unit) == playerCharacter and "Egress I"
-                in unit.powers]):
+                in unit.powers and unit.hp > 0]):
             if any([
                     unit for unit in self.battleField.units
-                    if type(unit) == monster]):
+                    if type(unit) == monster and unit.hp > 0]):
                 return True
             else:
                 print("You are victorious!")
                 return False
+                game.battleStatus = 'victory'
         else:
             print("D E F E A T E D")
+            game.battleStatus = 'defeat'
             return False
 
     def castSpell(self, unit, spellName, targetId):
@@ -136,12 +172,24 @@ class battle(object):
                 if target in self.turnOrder:
                     self.turnOrder.remove(target)
                 del target
+                input()
                 return
         elif spellName == "Egress I":
             unit.mp -= 8
             print(f"{unit.name} casts {spellName}!")
-            print(f"Nothing happens... yet.")
-            # restart the battle
+            self.egressing = True
+            print(
+                    "A whistling fills your ears as the battlefield melts "
+                    "into a bright light.")
+            print(
+                    "The light becomes too bright to bear, and you blink to "
+                    "block it out.")
+            print(
+                    "When you open your eyes, you are somewhere else, with a "
+                    "priest, safe.")
+            print("")
+            print("")
+            self.battleOn()
         elif spellName == "Heal I":
             unit.mp -= 3
             target = unit.allowedSpells[spellName][targetId]
@@ -193,6 +241,13 @@ class battle(object):
             self.attack(monster, target)
         elif monster.attackProfile == "Random":
             target = random.choice(monster.allowedAttacks)
+            self.attack(monster, target)
+        elif monster.attackProfile == "Weakest":
+            candidates = [
+                    target for target in monster.allowedAttacks
+                    if target.hp == min(
+                            unit.hp for unit in monster.allowedAttacks)]
+            target = random.choice(candidates)
             self.attack(monster, target)
 
     def doRound(self):
@@ -352,7 +407,7 @@ class battleTile(object):
         self.name = terrain
         self.cost = 5
         # Assign cost
-        if self.name == "Tiled Floor":
+        if self.name in ("Bridge", "Path", "Tiled Floor"):
             self.cost = 5
         elif self.name == "Grass":
             self.cost = 6
@@ -573,7 +628,19 @@ class battleField(object):
     def doMonsterMove(self, monster, position, assignMoveProfile=None):
         if assignMoveProfile:
             monster.moveProfile = assignMoveProfile
-        if monster.moveProfile == "Aggressive":
+        if monster.moveProfile == "Advance-Defensive":
+            if monster.hp < monster.stats["Stamina"] * 2:
+                monster.moveProfile = "Aggressive"
+                self.doMonsterMove(monster, position)
+                return
+            else:
+                moveTo = min(monster.allowedMovement)
+                if position == 0 or moveTo > position:
+                    monster.moveProfile = "Defensive"
+                    self.doMonsterMove(monster, position)
+                    return
+                self.move(monster, moveTo)
+        elif monster.moveProfile == "Aggressive":
             # will not move if in melee range of enemies
             if any([
                     unit for unit in self.terrainArray[position].units
@@ -657,9 +724,7 @@ class battleField(object):
         spellString = f"{unit.name} can cast "
         spellStringAdds = []
         count = 0
-        print(f"debug: {unit.allowedSpells}")
         for i in unit.allowedSpells:
-            print(f"debug: {i}")
             spellStringAdds.append(f"({count}) {i}")
             count += 1
         spellString += ", ".join(spellStringAdds)
@@ -675,7 +740,8 @@ class battleField(object):
                 return
             targetHealth = target.stats["Stamina"] * 2
             targetStringAdds.append(
-                    f"({count}) {target.name} (HP: {target.hp}/{targetHealth})")
+                    f"({count}) {target.name} "
+                    f"(HP: {target.hp}/{targetHealth})")
             count += 1
         targetString += ", ".join(targetStringAdds)
         print(targetString + ".")
@@ -695,6 +761,8 @@ class game(object):
 
     def __init__(self):
         self.playerCharacters = []
+        self.battleStatus = None
+        self.money = 0
 
         chatter = False
         recruit = playerCharacter(
@@ -727,8 +795,34 @@ class game(object):
         self.equipOnCharacter(
                 equipment("Arrows", "Wooden Arrow", 1, 1, 3, 0, 0), recruit)
         self.playerCharacters.append(recruit)
+
         self.party = self.playerCharacters[:6]
-        battle(self.party, 1)
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(1, 'king')
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'king')
+            battle(self, self.party, 1)
+        print("")
+        print("The party arrives at a small hut overlooking the water.")
+        print("There, a lonely priest lives in solitude, a penance.")
+        print(
+                "A Half-Giant, turned from his life of butchery to that of a "
+                "holy monk,")
+        print("has come to bring him his supplies.")
+        print("The monk, Gong, joins your cause.")
+        print("")
+        recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
+        recruit.levelUp(chatter)
+        self.playerCharacters.append(recruit)
+        self.party = self.playerCharacters[:7]
+        self.reckoning(3, 'lonely priest')
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(1, 'lonely priest')
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'lonely priest')
+            battle(self, self.party, 2)
 
     def equipOnCharacter(self, equipment, character):
         if type(character) == str:
@@ -744,6 +838,32 @@ class game(object):
             equipment.equippedBy = pc
             pc.equipment = equipment
             print(f"{pc.name} equipped the {equipment.name}.")
+
+    def reckoning(self, bounty, patron):
+        clergyCost = sum([
+                unit.level * 10 for unit in self.playerCharacters
+                if unit.hp <= 0])
+        trophies = sum([len(unit.trophies) for unit in self.playerCharacters])
+        reward = trophies * bounty
+        amount = reward - clergyCost
+        if amount > 0:
+            if clergyCost:
+                print(
+                        f"The {patron} awards you with {amount} scroulings! "
+                        "The priests recalled the souls of your party.")
+            else:
+                print(f"The {patron} awards you with {amount} scroulings!")
+            self.money += amount
+        elif amount < 0:
+            if -amount >= self.money:
+                print(
+                        f"The priests take all of your money to cover the "
+                        f"cost of the prayers that saved you. Consider them "
+                        f"generous.")
+            else:
+                print(
+                        f"The priests request {-amount} scroulings for the "
+                        f"prayers that recalled the souls of your party.")
 
 
 game = game()

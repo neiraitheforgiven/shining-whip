@@ -6,7 +6,7 @@ import random
 class monster(object):
 
     def __init__(
-            self, name, level=None, moveProfile=None, attackProfile=None):
+            self, name, moveProfile=None, attackProfile=None, level=None):
         self.stats = {}
         self.hp = 0
         self.fp = 0
@@ -689,7 +689,7 @@ class playerCharacter(object):
             if chatter:
                 for statName, statValue in self.stats.items():
                     print("    {} of {}".format(statName, statValue))
-                print("")
+                input()
 
     def updateGrowth(self):
         sortedGrowth = sorted(self.growth.items(), key=itemgetter(1))
