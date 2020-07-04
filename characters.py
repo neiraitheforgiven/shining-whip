@@ -27,6 +27,13 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment("Axes", "Rusted Axe", 0, 0, 3, 0, 0)
+        elif name == "Giant Bat":
+            self.level = 5
+            stats = {"Voice": 11, "Stamina": 7, "Speed": 7, "Dexterity": 6}
+            self.setStats(7, **stats)
+            self.attackProfile = "Singer"
+            self.moveProfile = "Aggressive-Singer"
+            self.powers.append("Flying Movement")
         elif name == "Goblin":
             self.level = 1
             stats = {"Dexterity": 6, "Stamina": 6, "Speed": 5}
