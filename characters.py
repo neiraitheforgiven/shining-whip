@@ -20,6 +20,8 @@ class monster(object):
         self.powers = []
         self.moveProfile = moveProfile
         self.attackProfile = attackProfile
+        self.equipment = None
+        self.status = None
         if name == "Crazed Dwarf":
             self.level = 3
             stats = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
@@ -34,6 +36,7 @@ class monster(object):
             self.attackProfile = "Singer"
             self.moveProfile = "Aggressive-Singer"
             self.powers.append("Flying Movement")
+            self.powers.append("Sonorous Voice")
         elif name == "Goblin":
             self.level = 1
             stats = {"Dexterity": 6, "Stamina": 6, "Speed": 5}
@@ -90,6 +93,7 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.status = None
         self.trophies = []
         if playerClass:
             if playerClass == "Assassin":
@@ -418,8 +422,7 @@ class playerCharacter(object):
                             if 'Command:' in knownPower]):
                         nameOfPower = 'Command: ' + nameOfPower
                     self.powers.append(nameOfPower)
-                    if chatter:
-                        print(f"{self.name} learned {nameOfPower}!")
+                    print(f"{self.name} learned {nameOfPower}!")
                     return
 
     def assignRace(self, race=None):

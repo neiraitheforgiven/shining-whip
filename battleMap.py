@@ -4,11 +4,19 @@ from characters import monster
 from operator import itemgetter
 import math
 import random
+import sys
+import time
+
 
 class battle(object):
 
     def __init__(self, game, party, num=None):
         self.game = game
+        if input("Type skip to skip this battle: ") == "skip":
+            game.battleStatus = 'victory'
+            for unit in party:
+                unit.levelUp(False)
+            return
         if num:
             self.egressing = False
             if num == 1:
@@ -67,7 +75,7 @@ class battle(object):
             elif num == 3:
                 self.battleField = battleField([
                         "Path", "Path", "Path", "Path", "Path", "Path", "Path",
-                        "Path", "Path", "Path", "Path", "Path"],
+                        "Path", "Path", "Path", "Path", "Path", "Path"],
                         [(monster(
                                 "Crazed Dwarf", "Advance-Defensive",
                                 "ChallengeAccepting"), 5),
@@ -98,10 +106,11 @@ class battle(object):
                 unit.hp = unit.stats["Stamina"] * 2
                 unit.fp = unit.stats["Faith"]
                 unit.mp = unit.stats["Intelligence"]
+                unit.status = None
                 if unit.equipment:
                     unit.fp += unit.equipment.fp
                     unit.mp += unit.equipment.mp
-                if "Egress I" in unit.powers and unit.mp < 8:
+                if "Egress I" in unit.powers and unit.mp < self.mpCost(unit, 8):
                     print(f"warning: {unit.name} has insufficient mp to Egress")
             print(f"debug: {[unit.powers for unit in party]}")
             self.game.battleStatus = 'ongoing'
@@ -115,6 +124,8 @@ class battle(object):
         doubleChance = math.floor(
                 unit.stats["Dexterity"] + (
                         unit.stats["Dexterity"] * (unit.stats["Luck"] / 10)))
+        if "Quick Shot" in unit.powers:
+            doubleChance = math.ceil(doubleChance * 1.3)
         doubleChanceArray.extend([1] * (100 - unit.stats["Luck"]))
         doubleChanceArray.extend([2] * doubleChance)
         if "Luck: Enable Triple Attack" in unit.powers:
@@ -123,8 +134,10 @@ class battle(object):
         for i in range(0, attackCount):
             if i == 0:
                 print(f"{unit.name} attacks!")
+                time.sleep(2./10)
             elif i > 0:
                 print(f"{unit.name} attacks again!")
+                time.sleep(2./10)
             attackTypeArray = []
             attackTypeArray.extend(
                     ["normal"] * (100 - (
@@ -132,13 +145,13 @@ class battle(object):
             criticalChance = math.floor(
                     unit.stats["Strength"] + (
                             unit.stats["Strength"] * (
-                                    unit.stats["Luck"] / 10)))
+                                    unit.stats["Luc)k"] / 10))
             attackTypeArray.extend(["critical"] * criticalChance)
             routSkill = max(unit.stats["Charisma"], unit.stats["Voice"])
             routChance = math.floor(
                     routSkill + (routSkill * (unit.stats["Luck"] / 10)))
             attackTypeArray.extend(["routing"] * routChance)
-            if "Quick Shot" not in unit.powers:
+            if "Aimed Shot" not in unit.powers:
                 dodgeSkill = math.floor(max(
                         target.stats["Intelligence"], target.stats["Luck"],
                         target.stats["Speed"]) * (1 + (
@@ -215,15 +228,15 @@ class battle(object):
                 return False
         else:
             print("D E F E A T E D")
-            print()
+            print("")
             self.game.battleStatus = 'defeat'
             print("A priest managed to recall your soul from the grave.")
-            print()
+            print("")
             return False
 
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Blaze I":
-            unit.mp -= 2
+            unit.mp -= self.mpCost(unit, 2)
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
             damage = min(6, target.hp)
@@ -241,7 +254,7 @@ class battle(object):
                 input()
                 return
         elif spellName == "Egress I":
-            unit.mp -= 8
+            unit.mp -= self.mpCost(unit, 8)
             print(f"{unit.name} casts {spellName}!")
             self.egressing = True
             print(
@@ -337,6 +350,21 @@ class battle(object):
                 for tile in self.battleField.terrainArray])
 
     def doTurn(self, unit, moved=False):
+        if unit.status == "sleep":
+            resistSkill = sum(
+                    unit.stats["Faith"], unit.stats["Intelligence"],
+                    unit.stats["Stamina"])
+            resistChance = math.floor(
+                    resistSkill + (resistSkill * (unit.stats["Luck"] / 10)))
+            resistArray = []
+            resistArray.append(['resist'] * resistChance)
+            resistArray.append(['fail' = (100 - (unit.stats["Luck"]))
+            result = random.choice(resistArray)
+            if result == 'resist':
+                unit.status = None
+            elif unit.status == 'sleep':
+                print(f"{unit.name} is asleep.")
+                return
         position = self.battleField.getUnitPos(unit)
         tile = self.battleField.terrainArray[position]
         otherUnits = ", ".join([
@@ -344,7 +372,7 @@ class battle(object):
         if type(unit) == playerCharacter:
             allowedCommands = ["W", "w"]
             if not moved:
-                print()
+                print("")
                 if type(unit) == playerCharacter:
                     maxHP = unit.stats["Stamina"] * 2
                     maxFP = unit.stats["Faith"]
@@ -361,6 +389,7 @@ class battle(object):
                             f"(HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
                             f"MP: {unit.mp}/{maxMP} "
                             f"Move: {unit.movementPoints}/{maxMv}{mvType})")
+                    time.sleep(2./10)
                 if otherUnits:
                     print(
                             f"{unit.name} is standing on ("
@@ -445,7 +474,7 @@ class battle(object):
             if command in ("W", "w"):
                 return
         elif type(unit) == monster:
-            print()
+            print("")
             print(f"It's {unit.name}'s turn!")
             if otherUnits:
                 print(
@@ -466,6 +495,7 @@ class battle(object):
                 self.doMonsterAttack(unit)
             else:
                 print(f"{unit.name} waited.")
+        time.sleep(6./10)
         endBattle = not self.battleOn()
         return endBattle
 
@@ -482,6 +512,9 @@ class battle(object):
                         unit.stats["Voice"] * (
                                 unit.stats["Luck"] / 10)))
         attackTypeArray.extend(["critical"] * criticalChance)
+        if "Sonorous Voice" in unit.powers:
+            sleepChance = math.floor(unit.stats["Luck"])
+            attackTypeArray.extend(["sleep"] * sleepChance)
         routSkill = max(unit.stats["Charisma"], unit.stats["Voice"])
         routChance = math.floor(
                 routSkill + (routSkill * (unit.stats["Luck"] / 10)))
@@ -500,9 +533,14 @@ class battle(object):
                 if type(tileUnit) != type(unit)])
         amount = friendSound - enemySound
         if amount <= 0:
-            print(
-                    "The sound of the note is drowned out by the sound of the "
-                    "enemy!")
+            if type(unit) == playerCharacter:
+                print(
+                        "The sound of the note is drowned out by the sound of the "
+                        "enemy!")
+            elif type(unit) == monster:
+                print(
+                        "The sound of the note is drowned out by the holy song of "
+                        "the Force.")
             return
         damage = math.ceil(amount / 12)
         damage = max(damage, 1)
@@ -532,6 +570,8 @@ class battle(object):
                         if moveTo <= len(self.battleField.terrainArray) - 1:
                             print(f"{target.name} was routed!")
                             self.battleField.move(target, moveTo)
+                elif attackType == "sleep":
+                    target.status = "sleep"
 
     def giveExperience(self, unit, target, damage):
         numChunks = math.ceil(damage / (target.stats["Stamina"] * 0.2))
@@ -555,6 +595,13 @@ class battle(object):
         if unit.xp > 100:
             unit.xp -= 100
             unit.levelUp(True)
+
+    def mpCost(self, unit, amount):
+        cost = amount
+        if "Magic: Cost Reduction I" in unit.powers:
+            cost = math.ceil(cost * 0.75)
+        return cost
+
 
 
 class battleTile(object):
@@ -762,13 +809,13 @@ class battleField(object):
         elif type(unit) == monster:
             friend = monster
             enemy = playerCharacter
-        if "Blaze I" in unit.powers and unit.mp >= 2:
+        if "Blaze I" in unit.powers and unit.mp >= self.mpCost(unit, 2):
             targets = [
                     target for target in currentTile.units
                     if type(target) == enemy]
             if any(targets):
                 unit.allowedSpells["Blaze I"] = targets
-        if "Egress I" in unit.powers and unit.mp >= 8:
+        if "Egress I" in unit.powers and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = 'Self'
         if "Heal I" in unit.powers and unit.fp >= 3:
             targets = [
@@ -796,7 +843,7 @@ class battleField(object):
                     monster.moveProfile = "Defensive"
                     self.doMonsterMove(monster, position)
                     return
-                self.move(monster, moveTo)
+            self.move(monster, moveTo)
         elif monster.moveProfile == "Aggressive":
             # will not move if in melee range of enemies
             if any([
@@ -819,33 +866,40 @@ class battleField(object):
         elif monster.moveProfile == "Aggressive-Singer":
             # just like aggressive but prefers to move to places with larger
             # concentration of enemies and friends
+            print(f"debug: {monster.allowedMovement}")
             candidates = []
             maxPCs = max([len([
                     unit for unit in self.terrainArray[position].units
                     if type(unit) == playerCharacter])
                     for position in monster.allowedMovement])
-            for position in monster.allowedMovement:
-                if len([
-                        unit for unit in self.terrainArray[position].units
-                        if type(unit) == playerCharacter]) == maxPCs:
-                    candidates.append(position)
-            if candidates:
-                candidates2 = []
-                maxMonsters = max([len([
-                        unit for unit in self.terrainArray[position].units
-                        if type(unit) == monster])
-                        for position in candidates])
-                for position in candidates:
+            if maxPCs > 0:
+                for position in monster.allowedMovement:
                     if len([
                             unit for unit in self.terrainArray[position].units
-                            if type(unit) == monster]) == maxMonsters:
-                        candidates2.append(position)
-                if candidates2:
-                    moveTo = random.choice(candidates2)
+                            if type(unit) == playerCharacter]) == maxPCs:
+                        candidates.append(position)
+                print(f"debug: {candidates}")
+                if any(candidates):
+                    candidates2 = []
+                    maxMonsters = max([len([
+                            unit for unit in self.terrainArray[position].units
+                            if type(unit) == monster])
+                            for position in candidates])
+                    for position in candidates:
+                        if len([
+                                unit for unit in self.terrainArray[position].units
+                                if type(unit) == monster]) == maxMonsters:
+                            candidates2.append(position)
+                    print(f"debug: {candidates2}")
+                    if any(candidates2):
+                        moveTo = random.choice(candidates2)
+                    else:
+                        moveTo = min(monster.allowedMovement)
                 else:
                     moveTo = min(monster.allowedMovement)
             else:
                 moveTo = min(monster.allowedMovement)
+            self.move(monster, moveTo)
         elif monster.moveProfile == "Defensive":
             if monster.hp < monster.stats["Stamina"] * 2:
                 monster.moveProfile = "Aggressive"
@@ -860,7 +914,9 @@ class battleField(object):
                             break
                 if candidates:
                     moveTo = max(candidates)
-                    self.move(monster, moveTo)
+                else:
+                    return
+            self.move(monster, moveTo)
         elif monster.moveProfile == "Retreat-Defensive":
             if monster.hp < monster.stats["Stamina"] * 2:
                 monster.moveProfile = "Aggressive"
@@ -872,7 +928,7 @@ class battleField(object):
                     monster.moveProfile = "Defensive"
                     self.doMonsterMove(monster, position)
                     return
-                self.move(monster, moveTo)
+            self.move(monster, moveTo)
 
     def getUnitPos(self, unit):
         for tile in self.terrainArray:
@@ -894,6 +950,12 @@ class battleField(object):
         print(
                 f"{unit.name} moved to the ("
                 f"{self.terrainArray.index(moveToTile)}) {moveToTile.name}.")
+
+    def mpCost(self, unit, amount):
+        cost = amount
+        if "Magic: Cost Reduction I" in unit.powers:
+            cost = math.ceil(cost * 0.75)
+        return cost
 
     def printAttackString(self, unit):
         attackString = f"{unit.name} can attack "
@@ -989,7 +1051,7 @@ class game(object):
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'king')
             battle(self, self.party, 1)
-        print()
+        print("")
         print("The party arrives at a small hut overlooking the water.")
         print("There, a lonely priest lives in solitude, a penance.")
         print(
@@ -997,10 +1059,10 @@ class game(object):
                 "holy monk,")
         print("has come to bring him his supplies.")
         print("The monk, Gong, joins your cause.")
-        print()
+        print("")
         print("You spy a pillar of smoke rising from the direction of home.")
         print("That's not good....")
-        print()
+        print("")
         recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
@@ -1013,18 +1075,18 @@ class game(object):
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'lonely priest')
             battle(self, self.party, 2)
-        print()
+        print("")
         print("The party arrives at the Holy City of . It is burning.")
         print("Too late to intervene, you watch in horror as your mentor ")
         print("and your king are slain by a dark swordsman who looks exactly ")
         print("like you. The swordsman disappears into a black void")
         print("If you weren't in the room when this happened, you're sure ")
         print("that the Knights of  would have posted a bounty on your head.")
-        print()
+        print("")
         print("In the aftermath of the assassination, your mentor's daughter,")
         print(" Mae, joins you. With her is a washed up former city guard, ")
         print("drunk on wine and thirsty for vengence, Gort.")
-        print()
+        print("")
         recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
         recruit.levelUp(chatter)
         recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
