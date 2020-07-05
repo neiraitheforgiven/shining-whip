@@ -709,7 +709,12 @@ class battleField(object):
             if len([
                     tileUnit for tileUnit in tile.units
                     if type(tileUnit) != type(unit)]) >= 2:
-                blocked = True
+                # Stealthy Movement prevents blocking for 2 tiles
+                if "Stealthy Movement" in unit.powers and (
+                        abs(position - self.getUnitPos(unit)) <= 2):
+                    blocked = False
+                else:
+                    blocked = True
             else:
                 blocked = False
         else:
