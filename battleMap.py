@@ -112,7 +112,6 @@ class battle(object):
                     unit.mp += unit.equipment.mp
                 if "Egress I" in unit.powers and unit.mp < self.mpCost(unit, 8):
                     print(f"warning: {unit.name} has insufficient mp to Egress")
-            print(f"debug: {[unit.powers for unit in party]}")
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
                 self.doRound()
@@ -145,7 +144,7 @@ class battle(object):
             criticalChance = math.floor(
                     unit.stats["Strength"] + (
                             unit.stats["Strength"] * (
-                                    unit.stats["Luc)k"] / 10))
+                                    unit.stats["Luck"] / 10)))
             attackTypeArray.extend(["critical"] * criticalChance)
             routSkill = max(unit.stats["Charisma"], unit.stats["Voice"])
             routChance = math.floor(
@@ -194,7 +193,7 @@ class battle(object):
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
                     del target
-                    input()
+                    time.sleep(7./10)
                     return
                 elif attackType == "routing":
                     routEnemy = True
@@ -358,7 +357,7 @@ class battle(object):
                     resistSkill + (resistSkill * (unit.stats["Luck"] / 10)))
             resistArray = []
             resistArray.append(['resist'] * resistChance)
-            resistArray.append(['fail' = (100 - (unit.stats["Luck"]))
+            resistArray.append(['fail'] * (100 - (unit.stats["Luck"])))
             result = random.choice(resistArray)
             if result == 'resist':
                 unit.status = None
@@ -866,7 +865,6 @@ class battleField(object):
         elif monster.moveProfile == "Aggressive-Singer":
             # just like aggressive but prefers to move to places with larger
             # concentration of enemies and friends
-            print(f"debug: {monster.allowedMovement}")
             candidates = []
             maxPCs = max([len([
                     unit for unit in self.terrainArray[position].units
@@ -878,7 +876,6 @@ class battleField(object):
                             unit for unit in self.terrainArray[position].units
                             if type(unit) == playerCharacter]) == maxPCs:
                         candidates.append(position)
-                print(f"debug: {candidates}")
                 if any(candidates):
                     candidates2 = []
                     maxMonsters = max([len([
@@ -890,7 +887,6 @@ class battleField(object):
                                 unit for unit in self.terrainArray[position].units
                                 if type(unit) == monster]) == maxMonsters:
                             candidates2.append(position)
-                    print(f"debug: {candidates2}")
                     if any(candidates2):
                         moveTo = random.choice(candidates2)
                     else:
