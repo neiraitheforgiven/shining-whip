@@ -495,7 +495,7 @@ class playerCharacter(object):
                 self.title = "Thief"
             elif secondStat in ("Speed", "Stamina"):
                 self.title = "Archer"
-            elif self.stats["Luck"] < (13 + self.level / 4):
+            elif self.stats["Luck"] < (5 + self.level / 4):
                 self.title = "Werewolf"
             elif secondStat == "Strength" and "Knight" not in self.title:
                 self.title = "Assassin"
@@ -519,7 +519,7 @@ class playerCharacter(object):
                 self.title = "Frost Mage"
             elif secondStat == "Strength":
                 self.title = "Swordsman"
-            elif secondStat == "Faith":
+            elif secondStat in ("Faith", "Voice"):
                 self.title = "Sorceror"
             else:
                 self.title = "Scholar"
@@ -549,19 +549,19 @@ class playerCharacter(object):
             if secondStat in ("Charisma", "Faith"):
                 self.title = "Samurai"
             elif secondStat == "Intelligence":
-                if self.stats["Fame"] < (13 + self.level / 4):
+                if self.stats["Fame"] < (5 + self.level / 4):
                     self.title = "Steam Knight"
                 else:
                     self.title = "Blood Mage"
             elif secondStat == "Strength":
-                if self.stats["Luck"] < (13 + self.level / 4):
+                if self.stats["Luck"] < (5 + self.level / 4):
                     self.title = "Berserker"
                 self.title = "Warrior"
             elif secondStat == "Dexterity":
                 self.title = "Brass Gunner"
-            elif self.stats["Speed"] < (13 + self.level / 4):
+            elif self.stats["Speed"] < (5 + self.level / 4):
                 self.title = "Titan"
-            elif self.stats["Luck"] < (13 + self.level / 4):
+            elif self.stats["Luck"] < (5 + self.level / 4):
                 self.title = "Werewolf"
             else:
                 self.title = "Duelist"
@@ -582,10 +582,10 @@ class playerCharacter(object):
             elif secondStat == "Intelligence":
                 self.title = "Swordsman"
             elif secondStat == "Stamina":
-                if self.stats["Luck"] < (13 + self.level / 4):
+                if self.stats["Luck"] < (5 + self.level / 4):
                     self.title = "Berserker"
                 self.title = "Warrior"
-            elif self.stats["Luck"] < (13 + self.level / 4):
+            elif self.stats["Luck"] < (5 + self.level / 4):
                 self.title = "Werewolf"
             else:
                 self.title = "Duelist"

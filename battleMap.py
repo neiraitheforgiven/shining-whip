@@ -426,6 +426,11 @@ class battle(object):
                     if allowedCommand not in ("W", "w")]):
                 print(f"{unit.name} waited.")
                 return
+            vocalEnabled = self.battleField.checkVocal(unit)
+            if vocalEnabled:
+                print("Type (V) to make a vocal attack.")
+                allowedCommands.append("V")
+                allowedCommands.append("v")
             print("Type (W) to wait.")
             command = None
             while command not in allowedCommands:
@@ -470,6 +475,8 @@ class battle(object):
                     except ValueError:
                         spellTarget = None
                 self.castSpell(unit, spellToCast, spellTarget)
+            if command in ("V", "v"):
+                self.doVocalAttack(unit)
             if command in ("W", "w"):
                 return
         elif type(unit) == monster:
@@ -600,7 +607,6 @@ class battle(object):
         if "Magic: Cost Reduction I" in unit.powers:
             cost = math.ceil(cost * 0.75)
         return cost
-
 
 
 class battleTile(object):
@@ -830,6 +836,21 @@ class battleField(object):
                 unit.allowedSpells["Heal I"] = targets
         if any(unit.allowedSpells):
             return True
+        else:
+            return False
+
+    def checkVocal(self, unit):
+        if unit.movementPoints < 4:
+            return False
+        position = self.getUnitPos(unit)
+        currentTile = self.terrainArray[position]
+        if any([
+                tileUnit for tileUnit in currentTile.units
+                if type(tileUnit) != type(unit)]):
+            return sum([tileUnit.level for tileUnit in currentTile.units
+                if type(tileUnit) == type(unit)]) >= sum([
+                tileUnit.level for tileUnit in currentTile.units
+                if type(tileUnit) != type(unit)])
         else:
             return False
 
