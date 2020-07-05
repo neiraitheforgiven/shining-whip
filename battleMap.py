@@ -250,7 +250,7 @@ class battle(object):
                 if target in self.turnOrder:
                     self.turnOrder.remove(target)
                 del target
-                input()
+                time.sleep(7./10)
                 return
         elif spellName == "Egress I":
             unit.mp -= self.mpCost(unit, 8)
@@ -557,7 +557,7 @@ class battle(object):
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
                     del target
-                    input()
+                    time.sleep(7./10)
                 elif attackType == "routing":
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
