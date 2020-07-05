@@ -272,7 +272,15 @@ class battle(object):
             unit.fp -= 3
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(18, (target.stats["Stamina"] * 2) - target.hp)
+            healing = min(15, (target.stats["Stamina"] * 2) - target.hp)
+            print(f"{unit.name} restores {healing} health to {target.name}!")
+            target.hp += healing
+            self.giveExperience(unit, target, healing)
+        elif spellName == "Heal II":
+            unit.fp -= 6
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            healing = min(15, (target.stats["Stamina"] * 2) - target.hp)
             print(f"{unit.name} restores {healing} health to {target.name}!")
             target.hp += healing
             self.giveExperience(unit, target, healing)
@@ -695,7 +703,18 @@ class battleField(object):
             if ("Mounted Movement" in unit.powers and "Flying Movement"
                     not in unit.powers):
                 if unstable:
-                    return  # you forfeit your final movement
+                    if directionIsHigher:
+                        if position == self.getUnitPos(unit) + 1:
+                            bonusSpent = True
+                            candidate = True
+                        else:
+                            return # you forfeit your final movement
+                    else:
+                        if position == self.getUnitPos(unit) - 1:
+                            bonusSpent = True
+                            candidate = True
+                        else:
+                            return # you forfeit your final movement
                 else:
                     if not bonusSpent:
                         bonusSpent = True  # You get one more movement
@@ -834,6 +853,35 @@ class battleField(object):
                             target.stats["Stamina"] * 2)]
             if any(targets):
                 unit.allowedSpells["Heal I"] = targets
+        if "Heal II" in unit.powers and unit.fp >= 6:
+            targets = []
+            minPos = (position - 1)
+            if minPos >= 0:
+                minTile = self.terrainArray[minPos]
+                tileTargets = [
+                    target for target in minTile.units
+                    if type(target) == friend and target.hp < (
+                            target.stats["Stamina"] * 2)]
+                if any(tileTargets):
+                    targets.extend(target for target in tileTargets)
+            tileTargets = [
+                    target for target in currentTile.units
+                    if type(target) == friend and target.hp < (
+                            target.stats["Stamina"] * 2)]
+            if any(tileTargets):
+                targets.extend(target for target in tileTargets)
+            maxPos = (position + 1)
+            if maxPos <= len(self.terrainArray) - 1:
+                maxTile = self.terrainArray[maxPos]
+                tileTargets = [
+                    target for target in maxTile.units
+                    if type(target) == friend and target.hp < (
+                            target.stats["Stamina"] * 2)]
+                if any(tileTargets):
+                    targets.extend(target for target in tileTargets)
+            if any(targets):
+                unit.allowedSpells["Heal II"] = targets
+
         if any(unit.allowedSpells):
             return True
         else:
