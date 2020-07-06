@@ -32,7 +32,8 @@ class monster(object):
         elif name == "Dark Apprentice":
             self.level = 6
             stats = {
-                    "Stamina": 7, "Intelligence": 13, "Strength": 9, "Speed": 9}
+                    "Stamina": 7, "Intelligence": 13, "Strength": 9,
+                    "Speed": 9}
             self.setStats(6, **stats)
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Spellcaster"
@@ -59,7 +60,7 @@ class monster(object):
             self.setStats(5, **stats)
             self.moveProfile = moveProfile or "Sniper"
             self.attackProfile = attackProfile or "Weakest"
-            self.equipment = equipment("Arrows", "Wooden Arrow", 0, 0, 3, 0 0)
+            self.equipment = equipment("Arrows", "Wooden Arrow", 0, 0, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 7, "Speed": 7, "Charisma": 7}
