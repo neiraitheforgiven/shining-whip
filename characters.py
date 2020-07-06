@@ -260,8 +260,9 @@ class playerCharacter(object):
                         "Brass Guns: Attack Area Increased"]
             elif "Chorister" in self.title:
                 listOfPowers = [
-                        "Vocal Attack: Increased Damage I", "Heal I", "Blast I",
-                        "Vocal Attack: Increased Damage II", "Blast II", "Heal II",
+                        "Vocal Attack: Increased Damage I", "Heal I",
+                        "Blast I", "Vocal Attack: Increased Damage II",
+                        "Blast II", "Heal II",
                         "Vocal Attack: Increased Damage III", "Blast III"]
             elif "Dark Mage" in self.title:
                 listOfPowers = [
@@ -428,7 +429,8 @@ class playerCharacter(object):
                         "Luck: Increased Rout I", "Luck: Increased Rout II",
                         "Arrows: Add Effect: Muddle"]
             elif "Valkyrie" in self.title:
-                listOfPowers = ["Equip: Lances", "Defense: Melee Attacks I",
+                listOfPowers = [
+                        "Equip: Lances", "Defense: Melee Attacks I",
                         "Vocal Attack: Increased Damage I",
                         "Luck: Increase Rout I",
                         "Defense: Melee Attacks II", "Vocal Attack: Heal Self",
@@ -538,6 +540,7 @@ class playerCharacter(object):
             elif secondStat == "Strength":
                 self.title = "Knight"
             elif secondStat == "Voice":
+                self.title = "Troubadour"
         elif primeStat == "Dexterity":
             if secondStat == "Charisma":
                 self.title = "Thief"
@@ -556,7 +559,7 @@ class playerCharacter(object):
                 self.title = "Archer"
             elif secondStat == "Stamina":
                 self.title = "Archer"
-            elif secondStat == "Strength"
+            elif secondStat == "Strength":
                 if self.stats["Luck"] < (5 + self.level / 4):
                     self.title = "Werewolf"
                 elif "Knight" not in self.title:
@@ -604,7 +607,7 @@ class playerCharacter(object):
                 self.title = "Bard"
             elif secondStat == "Faith":
                 self.title = "Soldier"
-            elif secondStat in ("Fame, Intelligence, Speed, Stamina")
+            elif secondStat in ("Fame, Intelligence, Speed, Stamina"):
                 self.title = "Gambler"
             elif secondStat == "Strength":
                 self.title = "Soldier"
@@ -612,39 +615,45 @@ class playerCharacter(object):
                 self.title = "Gambler"
         elif primeStat == "Speed":
             if secondStat == "Charisma":
-                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
+                if ("Flying Movement" in
+                        self.powers or self.stats["Speed"] > 25):
                     self.title = "Sky Battler"
                 else:
                     self.title = "Duelist"
             elif secondStat == "Dexterity":
-                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
+                if ("Flying Movement" in
+                        self.powers or self.stats["Speed"] > 25):
                     self.title = "Sky Battler"
                 else:
                     self.title = "Brass Gunner"
             elif secondStat == "Faith":
                 self.title = "Harbinger"
             elif secondStat == "Fame":
-                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
+                if ("Flying Movement" in
+                        self.powers or self.stats["Speed"] > 25):
                     self.title = "Sky Battler"
                 else:
                     self.title = "Duelist"
             elif secondStat == "Intelligence":
-                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
+                if ("Flying Movement" in
+                        self.powers or self.stats["Speed"] > 25):
                     self.title = "Sky Lord"
                 else:
                     self.title = "Trickster"
             elif secondStat == "Luck":
-                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
+                if ("Flying Movement" in
+                        self.powers or self.stats["Speed"] > 25):
                     self.title = "Sky Battler"
                 else:
                     self.title = "Duelist"
             elif secondStat == "Stamina":
-                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
+                if ("Flying Movement" in
+                        self.powers or self.stats["Speed"] > 25):
                     self.title = "Sky Lord"
                 else:
                     self.title = "Knight"
             elif secondStat == "Strength":
-                if self.race in ("Dragon", "Tortoise") or self.level > 20):
+                if (self.race in ("Dragon", "Tortoise") or self.level > 20):
                     self.title = "Survivor"
                     if self.race not in ("Dragon", "Phoenix", "Tortoise") or (
                             self.race == "Tortoise" and "Flying Movement"
@@ -876,10 +885,12 @@ party = []
 stop = input("Type stop if you want to skip this.")
 if not stop == "stop":
     module = input("Type SF if you want me to run the SF module.")
-    chatty = input("Type chatty if you want to be barraged with leveling info.")
+    chatty = input(
+            "Type chatty if you want to be barraged with leveling info.")
     if chatty == 'chatty':
         chatter = True
-        stopEveryLevel = input("Type slow if you want to stop for every level.")
+        stopEveryLevel = input(
+                "Type slow if you want to stop for every level.")
     else:
         chatter = False
         stopEveryLevel = "fast"
