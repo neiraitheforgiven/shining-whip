@@ -141,8 +141,9 @@ class battle(object):
                 if unit.equipment:
                     unit.fp += unit.equipment.fp
                     unit.mp += unit.equipment.mp
-                if "Egress I" in unit.powers and unit.mp < self.mpCost(unit, 8):
-                    print(f"warning: {unit.name} has insufficient mp to Egress")
+                if "Egress I" in unit.powers and unit.mp < self.mpCost(
+                        unit, 8):
+                    print(f"warning: {unit.name} has too few mp to Egress")
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
                 self.doRound()
@@ -164,10 +165,10 @@ class battle(object):
         for i in range(0, attackCount):
             if i == 0:
                 print(f"{unit.name} attacks!")
-                time.sleep(2./10)
+                time.sleep(2. / 10)
             elif i > 0:
                 print(f"{unit.name} attacks again!")
-                time.sleep(2./10)
+                time.sleep(2. / 10)
             attackTypeArray = []
             attackTypeArray.extend(
                     ["normal"] * (100 - (
@@ -224,7 +225,7 @@ class battle(object):
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
                     del target
-                    time.sleep(7./10)
+                    time.sleep(7. / 10)
                     return
                 elif attackType == "routing":
                     routEnemy = True
@@ -283,20 +284,22 @@ class battle(object):
                 if target in self.turnOrder:
                     self.turnOrder.remove(target)
                 del target
-                time.sleep(7./10)
+                time.sleep(7. / 10)
                 return
         elif spellName == "Blaze II":
             unit.mp -= self.mpCost(unit, 6)
             position = unit.allowedSpells[spellName][targetId]
             # target will be a position
-            print(f"{unit.name} casts {spellname}!")
+            print(f"{unit.name} casts {spellName}!")
             field = self.battleField
             for target in field.terrainArray[position].units:
                 if type(target) != type(unit):
                     damage = min(9, target.hp)
                     if "Defense: Magic" in target.powers:
                         damage = min(7, target.hp)
-                    print(f"{unit.name} deals {damage} damage to {target.name}!")
+                    print(
+                            f"{unit.name} deals {damage} damage to "
+                            f"{target.name}!")
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
@@ -305,7 +308,7 @@ class battle(object):
                         if target in self.turnOrder:
                             self.turnOrder.remove(target)
                         del target
-                        time.sleep(7./10)
+                        time.sleep(7. / 10)
                         return
         elif spellName == "Egress I":
             unit.mp -= self.mpCost(unit, 8)
@@ -391,7 +394,7 @@ class battle(object):
             canCast = False
             field = self.battleField
             if "Blaze II" in monster.powers:
-                if monster.mp >= self.mpCost(unit, 6):
+                if monster.mp >= self.mpCost(monster, 6):
                     canCast = True
                     position = field.getUnitPos(monster)
                     minRange = max(0, position - 1)
@@ -399,14 +402,15 @@ class battle(object):
                 targets = []
                 targetHP = max([
                         sum(unit.hp) for unit in [
-                                tile.units for tile in 
+                                tile.units for tile in
                                 field.terrainArray[minRange:maxRange + 1]]])
                 targets = [
-                        tile for tile in field.terrainArray[minRange:maxRange + 1]
+                        tile for tile in
+                        field.terrainArray[minRange:maxRange + 1]
                         if [sum([unit.hp for unit in tile.units]) == targetHP]]
                 target = random.choice(targets)
                 if any(target):
-                    self.castSpell(unit, "Blaze II", target)
+                    self.castSpell(monster, "Blaze II", target)
             if not canCast:
                 monster.attackProfile = "Random"
         elif monster.attackProfile == "Weakest":
@@ -474,7 +478,7 @@ class battle(object):
                             f"(HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
                             f"MP: {unit.mp}/{maxMP} "
                             f"Move: {unit.movementPoints}/{maxMv}{mvType})")
-                    time.sleep(2./10)
+                    time.sleep(2. / 10)
                 if otherUnits:
                     print(
                             f"{unit.name} is standing on ("
@@ -587,7 +591,7 @@ class battle(object):
                 self.doMonsterAttack(unit)
             else:
                 print(f"{unit.name} waited.")
-        time.sleep(6./10)
+        time.sleep(6. / 10)
         endBattle = not self.battleOn()
         return endBattle
 
@@ -627,12 +631,12 @@ class battle(object):
         if amount <= 0:
             if type(unit) == playerCharacter:
                 print(
-                        "The sound of the note is drowned out by the sound of the "
-                        "enemy!")
+                        "The sound of the note is drowned out by the sound of "
+                        "the enemy!")
             elif type(unit) == monster:
                 print(
-                        "The sound of the note is drowned out by the holy song of "
-                        "the Force.")
+                        "The sound of the note is drowned out by the holy "
+                        "song of the Force.")
             return
         damage = math.ceil(amount / 12)
         damage = max(damage, 1)
@@ -650,7 +654,7 @@ class battle(object):
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
                     del target
-                    time.sleep(7./10)
+                    time.sleep(7. / 10)
                 elif attackType == "routing":
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
@@ -786,13 +790,13 @@ class battleField(object):
                             bonusSpent = True
                             candidate = True
                         else:
-                            return # you forfeit your final movement
+                            return  # you forfeit your final movement
                     else:
                         if position == self.getUnitPos(unit) - 1:
                             bonusSpent = True
                             candidate = True
                         else:
-                            return # you forfeit your final movement
+                            return  # you forfeit your final movement
                 else:
                     if not bonusSpent:
                         bonusSpent = True  # You get one more movement
@@ -936,9 +940,9 @@ class battleField(object):
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
             targets = []
-            for tile in self.terrainArray[minRage:(maxRange + 1)]:
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
                 tileTargets = [
-                    target for target in ile.units
+                    target for target in tile.units
                     if type(target) == type(unit) and target.hp < (
                             target.stats["Stamina"] * 2)]
                 if any(tileTargets):
@@ -959,10 +963,12 @@ class battleField(object):
         if any([
                 tileUnit for tileUnit in currentTile.units
                 if type(tileUnit) != type(unit)]):
-            return sum([tileUnit.level for tileUnit in currentTile.units
-                if type(tileUnit) == type(unit)]) >= sum([
-                tileUnit.level for tileUnit in currentTile.units
-                if type(tileUnit) != type(unit)])
+            return sum([
+                    tileUnit.level for tileUnit in currentTile.units
+                    if type(tileUnit) == type(unit)]) >= sum([
+                            tileUnit.level for tileUnit in
+                            currentTile.units
+                            if type(tileUnit) != type(unit)])
         else:
             return False
 
@@ -1020,7 +1026,8 @@ class battleField(object):
                             for position in candidates])
                     for position in candidates:
                         if len([
-                                unit for unit in self.terrainArray[position].units
+                                unit for unit in
+                                self.terrainArray[position].units
                                 if type(unit) == monster]) == maxMonsters:
                             candidates2.append(position)
                     if any(candidates2):
@@ -1087,13 +1094,14 @@ class battleField(object):
                     target for target in self.party if target.hp > 0]
             candidates = [
                     target for target in candidates
-                    if target.stats["Fame"] == max(unit.stats["Fame"]
-                    for unit in candidates)]
+                    if target.stats["Fame"] == max(
+                            unit.stats["Fame"] for unit in candidates)]
             candidates = [
                     target for target in candidates
-                    if target.hp == min(unit.hp
-                    for unit in candidates)]
-            targetPos = max([field.getUnitPos(target) for target in candidates]) + 1
+                    if target.hp == min(
+                            unit.hp for unit in candidates)]
+            targetPos = max([
+                    self.getUnitPos(target) for target in candidates]) + 1
             if targetPos in monster.allowedMovement:
                 moveTo = targetPos
             else:
