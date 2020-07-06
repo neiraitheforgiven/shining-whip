@@ -29,6 +29,15 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment("Axes", "Rusted Axe", 0, 0, 3, 0, 0)
+        elif name == "Dark Apprentice":
+            self.level = 6
+            stats = {
+                    "Stamina": 7, "Intelligence": 13, "Strength": 9, "Speed": 9}
+            self.setStats(6, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Spellcaster"
+            self.equipment = equipment("Staffs", "Wooden Staff", 0, 0, 1, 3, 3)
+            self.powers = ["Blaze II", "Defense: Magic"]
         elif name == "Giant Bat":
             self.level = 5
             stats = {"Voice": 11, "Stamina": 7, "Speed": 7, "Dexterity": 6}
@@ -44,6 +53,13 @@ class monster(object):
             self.moveProfile = moveProfile or "Aggressive"
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment("Swords", "Goblin Sword", 0, 0, 3, 0, 0)
+        elif name == "Sniper":
+            self.level = 4
+            stats = {"Dexterity": 12, "Stamina": 7, "Speed": 7}
+            self.setStats(5, **stats)
+            self.moveProfile = moveProfile or "Sniper"
+            self.attackProfile = attackProfile or "Weakest"
+            self.equipment = equipment("Arrows", "Wooden Arrow", 0, 0, 3, 0 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 7, "Speed": 7, "Charisma": 7}

@@ -12,6 +12,7 @@ class battle(object):
 
     def __init__(self, game, party, num=None):
         self.game = game
+        self.party = party
         if input("Type skip to skip this battle: ") == "skip":
             game.battleStatus = 'victory'
             for unit in party:
@@ -101,6 +102,36 @@ class battle(object):
                                 (monster("Traitor Knight"), 11),
                                 (monster("Traitor Knight"), 11),
                                 (monster("Traitor Knight"), 12)],
+                        party)
+            elif num == 4:
+                self.battleField = battleField([
+                        "Path", "Path", "Path", "Bridge", "Bridge", "Path",
+                        "Path", "Bridge", "Path", "Path", "Path", "Bridge",
+                        "Bridge", "Path", "Path", "Path", "Path", "Bridge",
+                        "Bridge", "Path"],
+                        [(monster(
+                                "Crazed Dwarf", "Advance-Defensive",
+                                        "ChallengeAccepting"), 11),
+                                (monster(
+                                        "Crazed Dwarf", "Advance-Defensive",
+                                        "ChallengeAccepting"), 11),
+                                (monster(
+                                        "Crazed Dwarf", "Advance-Defensive",
+                                        "ChallengeAccepting"), 11),
+                                (monster(
+                                        "Crazed Dwarf", "Advance-Defensive",
+                                        "ChallengeAccepting"), 11),
+                                (monster("Giant Bat"), 10),
+                                (monster("Giant Bat"), 13),
+                                (monster("Giant Bat"), 13),
+                                (monster("Giant Bat"), 14),
+                                (monster("Traitor Knight", "SlowAdvance"), 18),
+                                (monster("Traitor Knight", "SlowAdvance"), 18),
+                                (monster("Traitor Knight", "SlowAdvance"), 18),
+                                (monster("Traitor Knight", "SlowAdvance"), 18),
+                                (monster("Sniper"), 19),
+                                (monster("Sniper"), 19),
+                                (monster("Dark Apprentice"), 19)],
                         party)
             for unit in self.battleField.units:
                 unit.hp = unit.stats["Stamina"] * 2
@@ -239,6 +270,8 @@ class battle(object):
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
             damage = min(6, target.hp)
+            if "Defense: Magic" in target.powers:
+                damage = min(4, target.hp)
             print(f"{unit.name} deals {damage} damage to {target.name}!")
             target.hp -= damage
             self.giveExperience(unit, target, damage)
@@ -252,6 +285,28 @@ class battle(object):
                 del target
                 time.sleep(7./10)
                 return
+        elif spellName == "Blaze II":
+            unit.mp -= self.mpCost(unit, 6)
+            position = unit.allowedSpells[spellName][targetId]
+            # target will be a position
+            print(f"{unit.name} casts {spellname}!")
+            field = self.battleField
+            for target in field.terrainArray[position].units:
+                if type(target) != type(unit):
+                    damage = min(9, target.hp)
+                    if "Defense: Magic" in target.powers:
+                        damage = min(7, target.hp)
+                    print(f"{unit.name} deals {damage} damage to {target.name}!")
+                    target.hp -= damage
+                    self.giveExperience(unit, target, damage)
+                    if target.hp <= 0:
+                        print(f"{target.name} dies!")
+                        field.terrainArray[position].units.remove(target)
+                        if target in self.turnOrder:
+                            self.turnOrder.remove(target)
+                        del target
+                        time.sleep(7./10)
+                        return
         elif spellName == "Egress I":
             unit.mp -= self.mpCost(unit, 8)
             print(f"{unit.name} casts {spellName}!")
@@ -305,6 +360,7 @@ class battle(object):
         self.attack(unit, target)
 
     def doMonsterAttack(self, monster):
+        field = self.battleField
         if monster.attackProfile == "ChallengeAccepting":
             # will attack the highest fame, level, charisma, strength
             candidates = [
@@ -331,6 +387,28 @@ class battle(object):
         elif monster.attackProfile == "Singer":
             if monster.allowedAttacks:
                 self.doVocalAttack(monster)
+        elif monster.attackProfile == "Spellcaster":
+            canCast = False
+            field = self.battleField
+            if "Blaze II" in monster.powers:
+                if monster.mp >= self.mpCost(unit, 6):
+                    canCast = True
+                    position = field.getUnitPos(monster)
+                    minRange = max(0, position - 1)
+                    maxRange = min(position + 1, len(field.terrainArray) - 1)
+                targets = []
+                targetHP = max([
+                        sum(unit.hp) for unit in [
+                                tile.units for tile in 
+                                field.terrainArray[minRange:maxRange + 1]]])
+                targets = [
+                        tile for tile in field.terrainArray[minRange:maxRange + 1]
+                        if [sum([unit.hp for unit in tile.units]) == targetHP]]
+                target = random.choice(targets)
+                if any(target):
+                    self.castSpell(unit, "Blaze II", target)
+            if not canCast:
+                monster.attackProfile = "Random"
         elif monster.attackProfile == "Weakest":
             candidates = [
                     target for target in monster.allowedAttacks
@@ -858,10 +936,9 @@ class battleField(object):
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
             targets = []
-            tilesInRange = []
             for tile in self.terrainArray[minRage:(maxRange + 1)]:
                 tileTargets = [
-                    target for target in minTile.units
+                    target for target in ile.units
                     if type(target) == type(unit) and target.hp < (
                             target.stats["Stamina"] * 2)]
                 if any(tileTargets):
@@ -889,9 +966,7 @@ class battleField(object):
         else:
             return False
 
-    def doMonsterMove(self, monster, position, assignMoveProfile=None):
-        if assignMoveProfile:
-            monster.moveProfile = assignMoveProfile
+    def doMonsterMove(self, monster, position):
         if monster.moveProfile == "Advance-Defensive":
             if monster.hp < monster.stats["Stamina"] * 2:
                 monster.moveProfile = "Aggressive"
@@ -984,6 +1059,28 @@ class battleField(object):
                 if position == len(self.terrainArray) - 1 or moveTo < position:
                     monster.moveProfile = "Defensive"
                     self.doMonsterMove(monster, position)
+                    return
+            self.move(monster, moveTo)
+        elif monster.moveProfile == "Sniper":
+            candidates = [
+                    target for target in self.party if target.hp > 0]
+            candidates = [
+                    target for target in candidates
+                    if target.stats["Fame"] == max(unit.stats["Fame"]
+                    for unit in candidates)]
+            candidates = [
+                    target for target in candidates
+                    if target.hp == min(unit.hp
+                    for unit in candidates)]
+            targetPos = max([field.getUnitPos(target) for target in candidates]) + 1
+            if targetPos in monster.allowedMovement:
+                moveTo = targetPos
+            else:
+                if targetPos < min(monster.allowedMovement):
+                    moveTo = min(monster.allowedMovement)
+                elif targetPos > max(monster.allowedMovement):
+                    moveTo = max(monster.allowedMovement)
+                else:
                     return
             self.move(monster, moveTo)
 
