@@ -155,7 +155,7 @@ class playerCharacter(object):
             elif playerClass == "Steam Knight":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Intelligence", "Fame")
-            elif playerClass == "Swordsman":
+            elif playerClass == "Hero":
                 self.growth = self.initializeRandomStats(
                         "Strength", "Intelligence")
             elif playerClass == "Survivor":
@@ -389,7 +389,7 @@ class playerCharacter(object):
                         "Defense: Magic II", "Unarmed Attack: Fire",
                         "Defense: Weapons I",
                         "Critical Attack: Bolt III"]
-            elif "Swordsman" in self.title:
+            elif "Hero" in self.title:
                 listOfPowers = [
                         "Egress I", "Equip: Long Swords",
                         "Equip: Sacred Swords", "Counterattack",
@@ -534,7 +534,7 @@ class playerCharacter(object):
             elif secondStat == "Stamina":
                 self.title = "Frost Mage"
             elif secondStat == "Strength":
-                self.title = "Swordsman"
+                self.title = "Hero"
             elif secondStat in ("Faith", "Voice"):
                 self.title = "Sorceror"
             else:
@@ -596,7 +596,7 @@ class playerCharacter(object):
             elif secondStat == "Fame":
                 self.title = "Baron"
             elif secondStat == "Intelligence":
-                self.title = "Swordsman"
+                self.title = "Hero"
             elif secondStat == "Stamina":
                 if self.stats["Luck"] < (5 + self.level / 4):
                     self.title = "Berserker"
@@ -755,7 +755,7 @@ if not stop == "stop":
         chatter = False
         stopEveryLevel = "fast"
     if module == 'SF':
-        recruit = playerCharacter("Max", "Human", "Swordsman", chatter, 0)
+        recruit = playerCharacter("Max", "Human", "Hero", chatter, 0)
         party.append(recruit)
         recruit = playerCharacter("Lowe", "Hobbit", "Priest", chatter, 0)
         party.append(recruit)
@@ -817,7 +817,7 @@ if not stop == "stop":
         recruit = playerCharacter("Hanzou", "Human", "Assassin", chatter, 25)
         party.append(recruit)
     elif module == 'SF2':
-        recruit = playerCharacter("Bowie", "Human", "Swordsman", chatter)
+        recruit = playerCharacter("Bowie", "Human", "Hero", chatter)
         party.append(recruit)
         recruit = playerCharacter("Sarah", "Elf", "Priest", chatter)
         party.append(recruit)

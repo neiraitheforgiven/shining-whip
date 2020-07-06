@@ -1061,6 +1061,27 @@ class battleField(object):
                     self.doMonsterMove(monster, position)
                     return
             self.move(monster, moveTo)
+        elif monster.moveProfile == "SlowAdvance":
+            # will not move if in melee range of enemies
+            if any([
+                    unit for unit in self.terrainArray[position].units
+                    if type(unit) == playerCharacter]):
+                monster.moveProfile == "Aggressive"
+                return
+            # move as far forward as possible to tiles with enemies
+            candidates = []
+            for position in monster.allowedMovement:
+                if any([
+                        unit for unit in self.terrainArray[position].units
+                        if type(unit) == playerCharacter]):
+                    candidates.append(position)
+                    monster.moveProfile == "Aggressive"
+            if candidates:
+                moveTo = min(candidates)
+            else:
+                # move as far forward as possible
+                moveTo = min(monster.allowedMovement)
+            self.move(monster, moveTo)
         elif monster.moveProfile == "Sniper":
             candidates = [
                     target for target in self.party if target.hp > 0]
@@ -1168,7 +1189,7 @@ class game(object):
 
         chatter = False
         recruit = playerCharacter(
-                "Max", "Human", "Swordsman", chatter, 0)
+                "Max", "Human", "Hero", chatter, 0)
         self.equipOnCharacter(
                 equipment("Swords", "Middle Sword", 0, 0, 5, 0, 0), recruit)
         self.playerCharacters.append(recruit)
