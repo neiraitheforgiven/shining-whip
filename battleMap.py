@@ -1182,7 +1182,7 @@ class battleField(object):
 
     def mpCost(self, unit, amount):
         cost = amount
-        if "Magic: Cost Reduction I" in unit.powers:
+        if self.getPower(unit, "Magic: Cost Reduction I"):
             cost = math.ceil(cost * 0.75)
         return cost
 
