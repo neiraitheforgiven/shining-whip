@@ -368,8 +368,8 @@ class battle(object):
             # will attack the highest fame, level, charisma, strength
             candidates = [
                     target for target in monster.allowedAttacks
-                    if self.getStat(target, "Fame") == max(
-                            self.getStat(unit, "Fame")
+                    if target.stat["Fame"] == max(
+                            unit.stat["Fame"]
                             for unit in monster.allowedAttacks)]
             candidates = [
                     target for target in candidates if target.level == max(
@@ -483,7 +483,7 @@ class battle(object):
                             f"(HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
                             f"MP: {unit.mp}/{maxMP} "
                             f"Move: {unit.movementPoints}/{maxMv}{mvType} "
-                            f"Fame Bonus: {fame})")
+                            f"Fame Bonus: {fame}%)")
                     time.sleep(2. / 10)
                 if otherUnits:
                     print(
@@ -673,7 +673,7 @@ class battle(object):
                 elif attackType == "sleep":
                     target.status = "sleep"
 
-    def getFameBonus(unit):
+    def getFameBonus(self, unit):
         return self.battleField.getFameBonus(unit)
 
     def getStat(self, unit, statName):
@@ -1125,10 +1125,16 @@ class battleField(object):
 
     def getFameBonus(self, unit):
         position = self.getUnitPos(unit)
+        if not position:
+            return 0
         currentTile = self.terrainArray[position]
-        return max([
+        allyFame = [
                 ally.stats["Fame"] for ally in currentTile.units
-                if type(ally) == type(unit) and ally != unit])
+                if type(ally) == type(unit) and ally != unit]
+        if any(allyFame):
+            return max(allyFame)
+        else:
+            return 0
 
     def getStat(self, unit, statName):
         if statName == "Fame":
