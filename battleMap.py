@@ -4,7 +4,6 @@ from characters import monster
 from operator import itemgetter
 import math
 import random
-import sys
 import time
 
 
@@ -141,7 +140,7 @@ class battle(object):
                 if unit.equipment:
                     unit.fp += unit.equipment.fp
                     unit.mp += unit.equipment.mp
-                if "Egress I" in unit.powers and unit.mp < self.mpCost(
+                if self.getPower(unit, "Egress I") and unit.mp < self.mpCost(
                         unit, 8):
                     print(f"warning: {unit.name} has too few mp to Egress")
             self.game.battleStatus = 'ongoing'
@@ -155,11 +154,11 @@ class battle(object):
         dex = self.getStat(unit, "Dexterity")
         luck = self.getStat(unit, "Luck")
         doubleChance = math.floor(dex + (dex * (luck / 10)))
-        if "Quick Shot" in unit.powers:
+        if self.getPower(unit, "Quick Shot"):
             doubleChance = math.ceil(doubleChance * 1.3)
         doubleChanceArray.extend([1] * (100 - luck))
         doubleChanceArray.extend([2] * doubleChance)
-        if "Luck: Enable Triple Attack" in unit.powers:
+        if self.getPower(unit, "Luck: Enable Triple Attack"):
             doubleChanceArray.extend([3] * doubleChance)
         attackCount = random.choice(doubleChanceArray)
         for i in range(0, attackCount):
@@ -180,7 +179,7 @@ class battle(object):
                     self.getStat(unit, "Voice"))
             routChance = math.floor(routSkill + (routSkill * (luck / 10)))
             attackTypeArray.extend(["routing"] * routChance)
-            if "Aimed Shot" not in unit.powers:
+            if not self.getPower(unit, "Aimed Shot"):
                 dodgeSkill = math.floor(max(
                         self.getStat(target, "Intelligence"), targetLuck,
                         self.getStat(target, "Speed")) * (1 + (
@@ -194,12 +193,12 @@ class battle(object):
                 if attackType == 'critical':
                     print("A Critical Attack!")
                 damage = max(strength, dex)
-                if (
-                        "Unarmed Attack: Increased Damage I"
-                        in unit.powers and not unit.equipment):
+                if (self.getPower(
+                        unit, "Unarmed Attack: Increased Damage I") and not (
+                                unit.equipment)):
                     damage *= 1.3
                     damage = math.ceil(damage)
-                if "Defense: Melee Attacks I" in target.powers and (
+                if self.getPower(target, "Defense: Melee Attacks I") and (
                         bf.getUnitPos(unit) == bf.getUnitPos(target)):
                     damage *= 0.7
                     damage = math.floor(damage)
@@ -245,8 +244,8 @@ class battle(object):
             return False
         if any([
                 unit for unit in self.battleField.units
-                if type(unit) == playerCharacter and "Egress I"
-                in unit.powers and unit.hp > 0]):
+                if type(unit) == playerCharacter and self.getPower(
+                        unit, "Egress I") and unit.hp > 0]):
             if any([
                     unit for unit in self.battleField.units
                     if type(unit) == monster and unit.hp > 0]):
@@ -269,7 +268,7 @@ class battle(object):
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
             damage = min(6, target.hp)
-            if "Defense: Magic" in target.powers:
+            if self.getPower(target, "Defense: Magic"):
                 damage = min(4, target.hp)
             print(f"{unit.name} deals {damage} damage to {target.name}!")
             target.hp -= damage
@@ -293,7 +292,7 @@ class battle(object):
             for target in field.terrainArray[position].units:
                 if type(target) != type(unit):
                     damage = min(9, target.hp)
-                    if "Defense: Magic" in target.powers:
+                    if self.getPower(target, "Defense: Magic"):
                         damage = min(7, target.hp)
                     print(
                             f"{unit.name} deals {damage} damage to "
@@ -395,7 +394,7 @@ class battle(object):
         elif monster.attackProfile == "Spellcaster":
             canCast = False
             field = self.battleField
-            if "Blaze II" in monster.powers:
+            if self.getPower(monster, "Blaze II"):
                 if monster.mp >= self.mpCost(monster, 6):
                     canCast = True
                     position = field.getUnitPos(monster)
@@ -473,7 +472,7 @@ class battle(object):
                     maxMv = unit.stats["Speed"]
                     fame = self.getFameBonus(unit)
                     mvType = ""
-                    if "Mounted Movement" in unit.powers:
+                    if self.getPower(unit, "Mounted Movement"):
                         mvType = "M"
                     if unit.equipment:
                         maxFP += unit.equipment.fp
@@ -613,7 +612,7 @@ class battle(object):
                 ["normal"] * (100 - (luck)))
         criticalChance = math.floor(voice + (voice * (luck / 10)))
         attackTypeArray.extend(["critical"] * criticalChance)
-        if "Sonorous Voice" in unit.powers:
+        if self.getPower(unit, "Sonorous Voice"):
             sleepChance = luck
             attackTypeArray.extend(["sleep"] * sleepChance)
         routSkill = max(cha, voice)
@@ -676,6 +675,9 @@ class battle(object):
     def getFameBonus(self, unit):
         return self.battleField.getFameBonus(unit)
 
+    def getPower(self, unit, name):
+        return self.battleField.getPower(unit, name)
+
     def getStat(self, unit, statName):
         return self.battleField.getStat(unit, statName)
 
@@ -704,7 +706,7 @@ class battle(object):
 
     def mpCost(self, unit, amount):
         cost = amount
-        if "Magic: Cost Reduction I" in unit.powers:
+        if self.getPower(unit, "Magic: Cost Reduction I"):
             cost = math.ceil(cost * 0.75)
         return cost
 
@@ -768,12 +770,12 @@ class battleField(object):
         if not unstable:
             unstable = tile.unstable
         if movementPoints <= 0 or (
-                "Unhindered Movement" in
-                unit.powers and movementPoints < 5):
+                self.getPower(unit, "Unhindered Movement") and (
+                        movementPoints < 5)):
             # mounted units may have bonus movement if they move on solids
             if (
-                    "Mounted Movement" in
-                    unit.powers and not bonusSpent and not unstable):
+                    self.getPower(unit, "Mounted Movement") and not (
+                            bonusSpent) and not unstable):
                 bonusSpent = True
             else:
                 return
@@ -783,17 +785,17 @@ class battleField(object):
                 if type(tileUnit) == type(unit)]) < 4:
             candidate = True
         # remove movementPoints
-        if "Flying Movement" in unit.powers or "Unhindered Movement" \
-                in unit.powers:
+        if self.getPower(unit, "Flying Movement") or (
+                self.getPower(unit, "Unhindered Movement")):
             movementPoints = movementPoints - 5
         else:
             movementPoints = movementPoints - tile.cost
         if movementPoints <= 0 or (
-                "Unhindered Movement" in
-                unit.powers and movementPoints < 5):
+                self.getPower(unit, "Unhindered Movement") and (
+                        movementPoints < 5)):
             # mounted units may have bonus movement if they move on solids
-            if ("Mounted Movement" in unit.powers and "Flying Movement"
-                    not in unit.powers):
+            if (self.getPower(unit, "Mounted Movement") and not (
+                    self.getPower(unit, "Flying Movement"))):
                 if unstable:
                     if directionIsHigher:
                         if position == self.getUnitPos(unit) + 1:
@@ -815,19 +817,19 @@ class battleField(object):
             if candidate:
                 unit.allowedMovement.append(position)
             if movementPoints <= 0 or (
-                    "Unhindered Movement" in
-                    unit.powers and movementPoints < 5):
+                        self.getPower(unit, "Unhindered Movement") and (
+                                movementPoints < 5)):
                 return
         else:
             if candidate:
                 unit.allowedMovement.append(position)
-        if "Movement: Ignore Enemies" not in unit.powers:
+        if not self.getPower(unit, "Movement: Ignore Enemies"):
             # calculate if we are blocked
             if len([
                     tileUnit for tileUnit in tile.units
                     if type(tileUnit) != type(unit)]) >= 2:
                 # Stealthy Movement prevents blocking for 2 tiles
-                if "Stealthy Movement" in unit.powers and (
+                if self.getPower(unit, "Stealthy Movement") and (
                         abs(position - self.getUnitPos(unit)) <= 2):
                     blocked = False
                 else:
@@ -890,7 +892,7 @@ class battleField(object):
         unit.allowedMovement = []
         currentTile = self.terrainArray[position]
         unstable = currentTile.unstable
-        if "Movement: Ignore Enemies" in unit.powers:
+        if self.getPower(unit, "Movement: Ignore Enemies"):
             retreatBlocked = False
             advancingBlocked = False
         else:
@@ -930,22 +932,22 @@ class battleField(object):
         elif type(unit) == monster:
             friend = monster
             enemy = playerCharacter
-        if "Blaze I" in unit.powers and unit.mp >= self.mpCost(unit, 2):
+        if self.getPower(unit, "Blaze I") and unit.mp >= self.mpCost(unit, 2):
             targets = [
                     target for target in currentTile.units
                     if type(target) == enemy]
             if any(targets):
                 unit.allowedSpells["Blaze I"] = targets
-        if "Egress I" in unit.powers and unit.mp >= self.mpCost(unit, 8):
+        if self.getPower(unit, "Egress I") and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = 'Self'
-        if "Heal I" in unit.powers and unit.fp >= 3:
+        if self.getPower(unit, "Heal I") and unit.fp >= 3:
             targets = [
                     target for target in currentTile.units
                     if type(target) == friend and target.hp < (
                             target.stats["Stamina"] * 2)]
             if any(targets):
                 unit.allowedSpells["Heal I"] = targets
-        if "Heal II" in unit.powers and unit.fp >= 6:
+        if self.getPower(unit, "Heal II") and unit.fp >= 6:
             targets = []
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
@@ -1135,6 +1137,19 @@ class battleField(object):
             return max(allyFame)
         else:
             return 0
+
+    def getPower(self, unit, name):
+        if name in unit.powers:
+            return True
+        else:
+            commandName = "Command: " + name
+            position = self.getUnitPos(unit)
+            currentTile = self.terrainArray[position]
+            for ally in currentTile.units:
+                if type(ally) == type(unit):
+                    if commandName in unit.powers:
+                        return True
+        return False
 
     def getStat(self, unit, statName):
         if statName == "Fame":
