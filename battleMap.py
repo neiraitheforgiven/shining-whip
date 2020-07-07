@@ -152,12 +152,12 @@ class battle(object):
         bf = self.battleField
         routEnemy = False
         doubleChanceArray = []
-        doubleChance = math.floor(
-                unit.stats["Dexterity"] + (
-                        unit.stats["Dexterity"] * (unit.stats["Luck"] / 10)))
+        dex = self.getStat(unit, "Dexterity")
+        luck = self.getStat(unit, "Luck")
+        doubleChance = math.floor(dex + (dex * (luck / 10)))
         if "Quick Shot" in unit.powers:
             doubleChance = math.ceil(doubleChance * 1.3)
-        doubleChanceArray.extend([1] * (100 - unit.stats["Luck"]))
+        doubleChanceArray.extend([1] * (100 - luck))
         doubleChanceArray.extend([2] * doubleChance)
         if "Luck: Enable Triple Attack" in unit.powers:
             doubleChanceArray.extend([3] * doubleChance)
@@ -170,23 +170,21 @@ class battle(object):
                 print(f"{unit.name} attacks again!")
                 time.sleep(2. / 10)
             attackTypeArray = []
-            attackTypeArray.extend(
-                    ["normal"] * (100 - (
-                            unit.stats["Luck"] - target.stats["Luck"])))
-            criticalChance = math.floor(
-                    unit.stats["Strength"] + (
-                            unit.stats["Strength"] * (
-                                    unit.stats["Luck"] / 10)))
+            targetLuck = self.getStat(target, "Luck")
+            attackTypeArray.extend(["normal"] * (100 - (luck - targetLuck)))
+            strength = self.getStat(unit, "Strength")
+            criticalChance = math.floor(strength + (strength * (luck / 10)))
             attackTypeArray.extend(["critical"] * criticalChance)
-            routSkill = max(unit.stats["Charisma"], unit.stats["Voice"])
-            routChance = math.floor(
-                    routSkill + (routSkill * (unit.stats["Luck"] / 10)))
+            routSkill = max(
+                    self.getStat(unit, "Charisma"),
+                    self.getStat(unit, "Voice"))
+            routChance = math.floor(routSkill + (routSkill * (luck / 10)))
             attackTypeArray.extend(["routing"] * routChance)
             if "Aimed Shot" not in unit.powers:
                 dodgeSkill = math.floor(max(
-                        target.stats["Intelligence"], target.stats["Luck"],
-                        target.stats["Speed"]) * (1 + (
-                                (target.stats["Luck"] / 10))))
+                        self.getStat(target, "Intelligence"), targetLuck,
+                        self.getStat(target, "Speed")) * (1 + (
+                                (targetLuck / 10))))
                 attackTypeArray.extend(["dodge"] * dodgeSkill)
             attackType = random.choice(attackTypeArray)
             if attackType == 'dodge':
@@ -195,8 +193,7 @@ class battle(object):
             else:
                 if attackType == 'critical':
                     print("A Critical Attack!")
-                damage = max(
-                        unit.stats["Strength"], unit.stats["Dexterity"])
+                damage = max(strength, dex)
                 if (
                         "Unarmed Attack: Increased Damage I"
                         in unit.powers and not unit.equipment):
@@ -210,8 +207,9 @@ class battle(object):
                     damage += unit.equipment.damage
                 if attackType != 'critical':
                     damage -= max(
-                            target.stats["Strength"],
-                            target.stats["Dexterity"], target.stats["Faith"])
+                            self.getStat(target, "Strength"),
+                            self.getStat(target, "Dexterity"),
+                            self.getStat(target, "Faith"))
                 damage = max(damage, 1)
                 damage = min(damage, target.hp)
                 print(f"{unit.name} deals {damage} damage to {target.name}!")
@@ -347,13 +345,15 @@ class battle(object):
         initiativeOrder = []
         random.shuffle(self.battleField.units)
         for unit in self.battleField.units:
+            luck = self.getStat(unit, "Luck")
             initiative = max(
-                    unit.stats["Charisma"], unit.stats["Speed"],
-                    unit.stats["Dexterity"])
-            initiativeOrder.append((unit, initiative, unit.stats["Luck"]))
+                    self.getStat(unit, "Charisma"),
+                    self.getStat(unit, "Speed"),
+                    self.getStat(unit, "Dexterity"))
+            initiativeOrder.append((unit, initiative, luck))
             while initiative > 15:
                 initiative -= 15
-                initiativeOrder.append((unit, initiative, unit.stats["Luck"]))
+                initiativeOrder.append((unit, initiative, luck))
         initiativeOrder = sorted(
                 initiativeOrder, key=itemgetter(1, 2), reverse=True)
         return initiativeOrder
@@ -368,20 +368,22 @@ class battle(object):
             # will attack the highest fame, level, charisma, strength
             candidates = [
                     target for target in monster.allowedAttacks
-                    if target.stats["Fame"] == max(
-                            unit.stats["Fame"]
+                    if self.getStat(target, "Fame") == max(
+                            self.getStat(unit, "Fame")
                             for unit in monster.allowedAttacks)]
             candidates = [
                     target for target in candidates if target.level == max(
                             unit.level for unit in candidates)]
             candidates = [
                     target for target in candidates
-                    if target.stats["Charisma"] == max(
-                            unit.stats["Charisma"] for unit in candidates)]
+                    if self.getStat(target, "Charisma") == max(
+                            self.getStat(unit, "Charisma")
+                            for unit in candidates)]
             candidates = [
                     target for target in candidates
-                    if target.stats["Strength"] == max(
-                            unit.stats["Strength"] for unit in candidates)]
+                    if self.getStat(target, "Strength") == max(
+                            self.getStat(unit, "Strength")
+                            for unit in candidates)]
             target = random.choice(candidates)
             self.attack(monster, target)
         elif monster.attackProfile == "Random":
@@ -424,7 +426,7 @@ class battle(object):
     def doRound(self):
         self.turnOrder = self.determineInitiative()
         for unit in self.battleField.units:
-            unit.movementPoints = unit.stats["Speed"]
+            unit.movementPoints = self.getStat(unit, "Speed")
         for unit in self.turnOrder:
             # unit may have died since this loop started.
             if unit[0].hp <= 0:
@@ -440,14 +442,16 @@ class battle(object):
 
     def doTurn(self, unit, moved=False):
         if unit.status == "sleep":
+            luck = self.getStat(unit, "Luck")
             resistSkill = sum(
-                    unit.stats["Faith"], unit.stats["Intelligence"],
-                    unit.stats["Stamina"])
+                    self.getStat(unit, "Faith"),
+                    self.getStat(unit, "Intelligence"),
+                    self.getStat(unit, "Stamina"))
             resistChance = math.floor(
-                    resistSkill + (resistSkill * (unit.stats["Luck"] / 10)))
+                    resistSkill + (resistSkill * (luck / 10)))
             resistArray = []
             resistArray.append(['resist'] * resistChance)
-            resistArray.append(['fail'] * (100 - (unit.stats["Luck"])))
+            resistArray.append(['fail'] * (100 - (luck)))
             result = random.choice(resistArray)
             if result == 'resist':
                 unit.status = None
@@ -467,6 +471,7 @@ class battle(object):
                     maxFP = unit.stats["Faith"]
                     maxMP = unit.stats["Intelligence"]
                     maxMv = unit.stats["Speed"]
+                    fame = self.getFameBonus(unit)
                     mvType = ""
                     if "Mounted Movement" in unit.powers:
                         mvType = "M"
@@ -477,7 +482,8 @@ class battle(object):
                             f"It's {unit.name}'s turn! "
                             f"(HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
                             f"MP: {unit.mp}/{maxMP} "
-                            f"Move: {unit.movementPoints}/{maxMv}{mvType})")
+                            f"Move: {unit.movementPoints}/{maxMv}{mvType} "
+                            f"Fame Bonus: {fame})")
                     time.sleep(2. / 10)
                 if otherUnits:
                     print(
@@ -599,24 +605,22 @@ class battle(object):
         bf = self.battleField
         position = bf.getUnitPos(unit)
         print(f"{unit.name} sings out a note of power!")
+        cha = self.getStat(unit, "Charisma")
+        luck = self.getStat(unit, "Luck")
+        voice = self.getStat(unit, "Voice")
         attackTypeArray = []
         attackTypeArray.extend(
-                ["normal"] * (100 - (
-                        unit.stats["Luck"])))
-        criticalChance = math.floor(
-                unit.stats["Voice"] + (
-                        unit.stats["Voice"] * (
-                                unit.stats["Luck"] / 10)))
+                ["normal"] * (100 - (luck)))
+        criticalChance = math.floor(voice + (voice * (luck / 10)))
         attackTypeArray.extend(["critical"] * criticalChance)
         if "Sonorous Voice" in unit.powers:
-            sleepChance = math.floor(unit.stats["Luck"])
+            sleepChance = luck
             attackTypeArray.extend(["sleep"] * sleepChance)
-        routSkill = max(unit.stats["Charisma"], unit.stats["Voice"])
-        routChance = math.floor(
-                routSkill + (routSkill * (unit.stats["Luck"] / 10)))
+        routSkill = max(cha, voice)
+        routChance = math.floor(routSkill + (routSkill * (luck / 10)))
         attackTypeArray.extend(["routing"] * routChance)
         friendSound = sum([
-                tileUnit.stats["Voice"] for tileUnit in
+                self.getStat(tileUnit, "Voice") for tileUnit in
                 bf.terrainArray[position].units
                 if type(tileUnit) == type(unit)])
         attackType = random.choice(attackTypeArray)
@@ -624,7 +628,7 @@ class battle(object):
             print("A Thunderous Attack!")
             friendSound *= 2
         enemySound = sum([
-                tileUnit.stats["Voice"] for tileUnit in
+                self.getStat(tileUnit, "Voice") for tileUnit in
                 bf.terrainArray[position].units
                 if type(tileUnit) != type(unit)])
         amount = friendSound - enemySound
@@ -668,6 +672,12 @@ class battle(object):
                             self.battleField.move(target, moveTo)
                 elif attackType == "sleep":
                     target.status = "sleep"
+
+    def getFameBonus(unit):
+        return self.battleField.getFameBonus(unit)
+
+    def getStat(self, unit, statName):
+        return self.battleField.getStat(unit, statName)
 
     def giveExperience(self, unit, target, damage):
         numChunks = math.ceil(damage / (target.stats["Stamina"] * 0.2))
@@ -1112,6 +1122,21 @@ class battleField(object):
                 else:
                     return
             self.move(monster, moveTo)
+
+    def getFameBonus(self, unit):
+        position = self.getUnitPos(unit)
+        currentTile = self.terrainArray[position]
+        return max([
+                ally.stats["Fame"] for ally in currentTile.units
+                if type(ally) == type(unit) and ally != unit])
+
+    def getStat(self, unit, statName):
+        if statName == "Fame":
+            print("warning: you called getStat for fame.")
+        self.getFameBonus(unit)
+        stat = unit.stats[statName]
+        stat = math.floor(stat + (stat * (self.getFameBonus(unit) / 100)))
+        return stat
 
     def getUnitPos(self, unit):
         for tile in self.terrainArray:
