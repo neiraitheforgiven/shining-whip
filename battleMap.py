@@ -367,8 +367,8 @@ class battle(object):
             # will attack the highest fame, level, charisma, strength
             candidates = [
                     target for target in monster.allowedAttacks
-                    if target.stat["Fame"] == max(
-                            unit.stat["Fame"]
+                    if target.stats["Fame"] == max(
+                            unit.stats["Fame"]
                             for unit in monster.allowedAttacks)]
             candidates = [
                     target for target in candidates if target.level == max(
@@ -1144,6 +1144,8 @@ class battleField(object):
         else:
             commandName = "Command: " + name
             position = self.getUnitPos(unit)
+            if not position:
+                return False
             currentTile = self.terrainArray[position]
             for ally in currentTile.units:
                 if type(ally) == type(unit):
