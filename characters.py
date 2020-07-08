@@ -32,7 +32,7 @@ class monster(object):
         elif name == "Dark Apprentice":
             self.level = 6
             stats = {
-                    "Stamina": 7, "Intelligence": 13, "Strength": 9,
+                    "Stamina": 5, "Intelligence": 13, "Strength": 9,
                     "Speed": 9}
             self.setStats(6, **stats)
             self.moveProfile = moveProfile or "Defensive"
@@ -49,21 +49,21 @@ class monster(object):
             self.powers.append("Sonorous Voice")
         elif name == "Goblin":
             self.level = 1
-            stats = {"Dexterity": 6, "Stamina": 6, "Speed": 5}
+            stats = {"Dexterity": 6, "Stamina": 5, "Speed": 5}
             self.setStats(5, **stats)
             self.moveProfile = moveProfile or "Aggressive"
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment("Swords", "Goblin Sword", 0, 0, 3, 0, 0)
         elif name == "Sniper":
             self.level = 4
-            stats = {"Dexterity": 12, "Stamina": 7, "Speed": 7}
+            stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
             self.setStats(5, **stats)
             self.moveProfile = moveProfile or "Sniper"
             self.attackProfile = attackProfile or "Weakest"
             self.equipment = equipment("Arrows", "Wooden Arrow", 0, 0, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
-            stats = {"Strength": 11, "Stamina": 7, "Speed": 7, "Charisma": 7}
+            stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
             self.setStats(6, **stats)
             self.moveProfile = moveProfile or "Retreat-Defensive"
             self.attackProfile = attackProfile or "ChallengeAccepting"
@@ -75,6 +75,9 @@ class monster(object):
             self.setStats(5, **stats)
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
+
+    def maxHP(self):
+        return ((self.stats["Stamina"] * 2) + self.level)
 
     def setStats(self, statLevel, **stats):
         statsToAssign = [
@@ -864,6 +867,9 @@ class playerCharacter(object):
                 for statName, statValue in self.stats.items():
                     print("    {} of {}".format(statName, statValue))
                 input()
+
+    def maxHP(self):
+        return ((self.stats["Stamina"] * 2) + self.level)
 
     def updateGrowth(self):
         sortedGrowth = sorted(self.growth.items(), key=itemgetter(1))

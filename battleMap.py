@@ -133,7 +133,7 @@ class battle(object):
                                 (monster("Dark Apprentice"), 19)],
                         party)
             for unit in self.battleField.units:
-                unit.hp = unit.stats["Stamina"] * 2
+                unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
                 unit.mp = unit.stats["Intelligence"]
                 unit.status = None
@@ -327,7 +327,7 @@ class battle(object):
             unit.fp -= 3
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(15, (target.stats["Stamina"] * 2) - target.hp)
+            healing = min(15, (target.maxHP() - target.hp))
             print(f"{unit.name} restores {healing} health to {target.name}!")
             target.hp += healing
             self.giveExperience(unit, target, healing)
@@ -335,7 +335,7 @@ class battle(object):
             unit.fp -= 6
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(15, (target.stats["Stamina"] * 2) - target.hp)
+            healing = min(15, (target.maxHP - target.hp))
             print(f"{unit.name} restores {healing} health to {target.name}!")
             target.hp += healing
             self.giveExperience(unit, target, healing)
@@ -466,7 +466,7 @@ class battle(object):
             if not moved:
                 print("")
                 if type(unit) == playerCharacter:
-                    maxHP = unit.stats["Stamina"] * 2
+                    maxHP = unit.maxHP()
                     maxFP = unit.stats["Faith"]
                     maxMP = unit.stats["Intelligence"]
                     maxMv = unit.stats["Speed"]
@@ -944,7 +944,7 @@ class battleField(object):
             targets = [
                     target for target in currentTile.units
                     if type(target) == friend and target.hp < (
-                            target.stats["Stamina"] * 2)]
+                            target.maxHP())]
             if any(targets):
                 unit.allowedSpells["Heal I"] = targets
         if self.getPower(unit, "Heal II") and unit.fp >= 6:
@@ -956,7 +956,7 @@ class battleField(object):
                 tileTargets = [
                     target for target in tile.units
                     if type(target) == type(unit) and target.hp < (
-                            target.stats["Stamina"] * 2)]
+                            target.maxHP())]
                 if any(tileTargets):
                     targets.extend(target for target in tileTargets)
             if any(targets):
@@ -986,7 +986,7 @@ class battleField(object):
 
     def doMonsterMove(self, monster, position):
         if monster.moveProfile == "Advance-Defensive":
-            if monster.hp < monster.stats["Stamina"] * 2:
+            if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
                 self.doMonsterMove(monster, position)
                 return
@@ -1052,7 +1052,7 @@ class battleField(object):
                 moveTo = min(monster.allowedMovement)
             self.move(monster, moveTo)
         elif monster.moveProfile == "Defensive":
-            if monster.hp < monster.stats["Stamina"] * 2:
+            if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
                 self.doMonsterMove(monster, position)
                 return
@@ -1069,7 +1069,7 @@ class battleField(object):
                     return
             self.move(monster, moveTo)
         elif monster.moveProfile == "Retreat-Defensive":
-            if monster.hp < monster.stats["Stamina"] * 2:
+            if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
                 self.doMonsterMove(monster, position)
                 return
@@ -1192,7 +1192,7 @@ class battleField(object):
         attackString = f"{unit.name} can attack "
         attackStringAdds = []
         for target in unit.allowedAttacks:
-            targetHealth = target.stats["Stamina"] * 2
+            targetHealth = target.maxHP()
             attackStringAdds.append(
                     f"({unit.allowedAttacks.index(target)}) {target.name} "
                     f"(HP: {target.hp}/{targetHealth})")
@@ -1217,7 +1217,7 @@ class battleField(object):
             if type(target) == str:
                 # spell is a placeholder for a spell with no target
                 return
-            targetHealth = target.stats["Stamina"] * 2
+            targetHealth = target.maxHP()
             targetStringAdds.append(
                     f"({count}) {target.name} "
                     f"(HP: {target.hp}/{targetHealth})")
