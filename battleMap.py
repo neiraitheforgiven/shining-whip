@@ -21,7 +21,7 @@ class battle(object):
             self.egressing = False
             if num == 1:
                 self.battleField = battleField([
-                        "Forest", "Grass", "Grass", "Ascending Stairway",
+                        "Forest", "Grass", "Grass", "Upward Stair",
                         "Rubble", "Tiled Floor", "Tiled Floor", "Tiled Floor",
                         "Rubble", "Rubble", "Tiled Floor"],
                         [(monster("Goblin"), 7),
@@ -433,11 +433,6 @@ class battle(object):
             endBattle = self.doTurn(unit[0])
             if endBattle:
                 return
-        print([
-                f"{[unit.name for unit in tile.units]} on "
-                f"({self.battleField.terrainArray.index(tile)}) {tile.name}: "
-                f"{tile.cost}"
-                for tile in self.battleField.terrainArray])
 
     def doTurn(self, unit, moved=False):
         if unit.status == "sleep":
@@ -464,6 +459,8 @@ class battle(object):
         if type(unit) == playerCharacter:
             allowedCommands = ["W", "w"]
             if not moved:
+                print("")
+                self.battleField.viewMapFromUnit(unit)
                 print("")
                 if type(unit) == playerCharacter:
                     maxHP = unit.maxHP()
@@ -725,7 +722,7 @@ class battleTile(object):
         elif self.name in ("Sand", "Overgrowth"):
             self.cost = 7
         elif self.name in (
-                "Ascending Stairway", "Descending Stairway", "Loose Rocks"):
+                "Upward Stair", "Downward Stair", "Loose Rocks"):
             self.cost = 8
         elif self.name == "Forest":
             self.cost = 10
@@ -757,10 +754,7 @@ class battleField(object):
                 self.terrainArray[0].units.append(pc)
             else:
                 self.terrainArray[2].units.append(pc)
-        print([
-                f"{[unit.name for unit in tile.units]} on "
-                f"{tile.name}: {tile.cost}"
-                for tile in self.terrainArray])
+        self.viewMap(0)
 
     def calculatePossibleMovement(
             self, unit, movementPoints, position, directionIsHigher,
@@ -1235,6 +1229,44 @@ class battleField(object):
         moveString += ", ".join(moveStringAdds)
         print(moveString + ".")
 
+    def viewMap(self, position):
+        minRange = max(0, position - 2)
+        maxRange = minRange + 5
+        if maxRange > len(self.terrainArray) - 1:
+            maxRange = len(self.terrainArray) - 1
+            minRange = maxRange - 5
+        tilesInRange = self.terrainArray[minRange:maxRange + 1]
+        for i in range(3, -1, -1):
+            mapRow = ""
+            for tile in tilesInRange:
+                try:
+                    goodUnits = [
+                            unit for unit in tile.units
+                            if type(unit) == playerCharacter]
+                    goodUnits.sort(key=lambda x: x.name, reverse=True)
+                    mapRow += f"{goodUnits[i].name:7}  "
+                except IndexError:
+                    mapRow += (" " * 9)
+                try:
+                    badUnits = [
+                            unit.name for unit in tile.units
+                            if type(unit) == monster]
+                    badUnits.sort(reverse=True)
+                    mapRow += f"{badUnits[i].name:7}  "
+                except IndexError:
+                    mapRow += (" " * 9)
+            if [letter for letter in mapRow if letter != " "]:
+                print(mapRow)
+        print("-" * 18 * len(tilesInRange))
+        mapRow = ""
+        for tile in tilesInRange:
+            mapRow += f"{tile.name:18}"
+        print(mapRow)
+
+    def viewMapFromUnit(self, unit):
+        # center the map on the unit
+        position = self.getUnitPos(unit)
+        self.viewMap(position)
 
 class game(object):
 
