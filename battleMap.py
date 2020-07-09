@@ -1314,7 +1314,7 @@ class game(object):
         self.party = self.playerCharacters[:6]
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'king')
+                self.reckoning(10, 'king')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'king')
             battle(self, self.party, 1)
@@ -1334,11 +1334,11 @@ class game(object):
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
         self.party = self.playerCharacters[:7]
-        self.reckoning(3, 'lonely priest')
+        self.reckoning(30, 'lonely priest')
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'lonely priest')
+                self.reckoning(10, 'lonely priest')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'lonely priest')
             battle(self, self.party, 2)
@@ -1370,11 +1370,11 @@ class game(object):
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
         self.party = self.playerCharacters[:9]
-        self.reckoning(3, 'widow of your mentor')
+        self.reckoning(30, 'widow of your mentor')
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'widow of your mentor')
+                self.reckoning(10, 'widow of your mentor')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'widow of your mentor')
             battle(self, self.party, 3)
