@@ -754,7 +754,6 @@ class battleField(object):
                 self.terrainArray[0].units.append(pc)
             else:
                 self.terrainArray[2].units.append(pc)
-        self.viewMap(0)
 
     def calculatePossibleMovement(
             self, unit, movementPoints, position, directionIsHigher,
