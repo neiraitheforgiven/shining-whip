@@ -13,6 +13,7 @@ class monster(object):
         self.mp = 0
         self.movementPoints = 0
         self.name = name
+        self.shortName = name[:7]
         self.allowedMovement = []
         self.allowedAttacks = []
         self.allowedEquipment = []
@@ -29,6 +30,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment("Axes", "Rusted Axe", 0, 0, 3, 0, 0)
+            self.shortName = "C.Dwarf"
         elif name == "Dark Apprentice":
             self.level = 6
             stats = {
@@ -39,6 +41,7 @@ class monster(object):
             self.attackProfile = attackProfile or "Spellcaster"
             self.equipment = equipment("Staffs", "Wooden Staff", 0, 0, 1, 3, 3)
             self.powers = ["Blaze II", "Defense: Magic"]
+            self.shortName = "D.Apprc"
         elif name == "Giant Bat":
             self.level = 5
             stats = {"Voice": 11, "Stamina": 7, "Speed": 7, "Dexterity": 6}
@@ -47,6 +50,7 @@ class monster(object):
             self.moveProfile = "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
+            self.shortName = "Bat"
         elif name == "Goblin":
             self.level = 1
             stats = {"Dexterity": 6, "Stamina": 5, "Speed": 5}
@@ -69,6 +73,7 @@ class monster(object):
             self.attackProfile = attackProfile or "ChallengeAccepting"
             self.equipment = equipment("Lances", "Bronze Lance", 0, 0, 6, 0, 0)
             self.powers.append(["Mounted Movement"])
+            self.shortName = "Knight"
         else:
             self.level = level
             stats = {}
@@ -187,8 +192,11 @@ class playerCharacter(object):
         self.statIncreaseCount = 0
         if name:
             self.name = name
+            self.shortName = name[:7]
         else:
-            self.name = 'Test Subject {}'.format(random.randint(1, 9999))
+            num = random.randint(1, 9999)
+            self.name = f"Test Subject {num}"
+            self.shortName = f"{num}"
         self.title = "newbie"
         self.career = ""
         self.race = self.assignRace(race)

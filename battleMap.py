@@ -1230,12 +1230,17 @@ class battleField(object):
         print(moveString + ".")
 
     def viewMap(self, position):
-        minRange = max(0, position - 2)
-        maxRange = minRange + 5
+        minRange = max(0, position - 3)
+        maxRange = minRange + 6
         if maxRange > len(self.terrainArray) - 1:
             maxRange = len(self.terrainArray) - 1
             minRange = maxRange - 5
         tilesInRange = self.terrainArray[minRange:maxRange + 1]
+        mapRow = ""
+        for tile in tilesInRange:
+            mapAdd = f"({self.terrainArray.index(tile)})"
+            mapRow += f"{mapAdd:18}"
+        print(mapRow)
         for i in range(3, -1, -1):
             mapRow = ""
             for tile in tilesInRange:
@@ -1243,16 +1248,16 @@ class battleField(object):
                     goodUnits = [
                             unit for unit in tile.units
                             if type(unit) == playerCharacter]
-                    goodUnits.sort(key=lambda x: x.name, reverse=True)
-                    mapRow += f"{goodUnits[i].name:7}  "
+                    goodUnits.sort(key=lambda x: x.shortName, reverse=True)
+                    mapRow += f"{goodUnits[i].shortName:7}  "
                 except IndexError:
                     mapRow += (" " * 9)
                 try:
                     badUnits = [
-                            unit.name for unit in tile.units
+                            unit for unit in tile.units
                             if type(unit) == monster]
-                    badUnits.sort(reverse=True)
-                    mapRow += f"{badUnits[i].name:7}  "
+                    badUnits.sort(key=lambda x: x.shortName, reverse=True)
+                    mapRow += f"{badUnits[i].shortName:7}  "
                 except IndexError:
                     mapRow += (" " * 9)
             if [letter for letter in mapRow if letter != " "]:
