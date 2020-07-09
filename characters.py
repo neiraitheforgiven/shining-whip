@@ -345,7 +345,7 @@ class playerCharacter(object):
                         "Shield I", "Aura II", "Aura III",
                         "Vocal Attack: Increased Damage II", "Aura IV",
                         "Vocal Attack: Increased Range I"]
-            elif "Paladin" in self.title:
+            elif "Cantor" in self.title:
                 listOfPowers = [
                         "Mounted Movement", "Luck: Increased Rout I",
                         "Defense: Vocal Attack I",
@@ -634,7 +634,7 @@ class playerCharacter(object):
             elif secondStat == "Strength":
                 self.title = "Soldier"
             elif secondStat == "Voice":
-                self.title = "Paladin"
+                self.title = "Cantor"
         elif primeStat == "Speed":
             if secondStat == "Charisma":
                 if ("Flying Movement" in
@@ -749,7 +749,7 @@ class playerCharacter(object):
                     self.title = "Berserker"
                 self.title = "Warrior"
             elif secondStat == "Voice":
-                self.title = "Paladin"
+                self.title = "Cantor"
         elif primeStat == "Voice":
             if secondStat in ("Stamina", "Strength", "Speed") and (
                     self.race in ("Dragon", "Tortoise") or self.level > 20):
@@ -766,13 +766,13 @@ class playerCharacter(object):
             elif secondStat in ("Fame", "Intelligence"):
                 self.title = "Orator"
             elif secondStat == "Luck":
-                self.title = "Paladin"
+                self.title = "Cantor"
             elif secondStat == "Speed":
                 self.title = "Chorister"
             elif secondStat == "Stamina":
                 self.title = "Valkyrie"
             elif secondStat == "Strength":
-                self.title = "Paladin"
+                self.title = "Cantor"
         if self.title == "newbie":
             print(
                     f"Newbie found. Let Neirai the Forgiven know."
