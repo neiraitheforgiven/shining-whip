@@ -1298,7 +1298,7 @@ class game(object):
         recruit = playerCharacter(
                 "Luke", "Dwarf", "Warrior", chatter, 0)
         self.equipOnCharacter(
-                equipment("Axes", "Short Axe", 0, 0, 5, 0, 0), recruit)
+                equipment("Axes", "Hand Axe", 0, 0, 4, 0, 0), recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Ken", "Centaur", "Knight", chatter, 0)
