@@ -1278,6 +1278,7 @@ class game(object):
         self.playerCharacters = []
         self.battleStatus = None
         self.money = 0
+        self.inventory = []
 
         chatter = False
         recruit = playerCharacter(
@@ -1378,6 +1379,40 @@ class game(object):
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'widow of your mentor')
             battle(self, self.party, 3)
+
+    def equipItem(self, equipment):
+        allowedUnits = [
+                unit for unit in game.playerCharacters
+                if unit.canEquip(equipment)]
+        if allowedUnits:
+            for unit in allowedUnits:
+                equipString = f"({allowedUnits.index(unit)}) {unit.name} "
+                if unit.equipment:
+                    currentDamage = unit.equipment.damage
+                    currentFaith = unit.equipment.fp
+                    currentMagic = unit.equipment.mp
+                else:
+                    currentDamage = 0
+                    currentFaith = 0
+                    currentMagic = 0
+                if equipment.damage != currentDamage:
+                    equipString += (
+                            f"Damage: {currentDamage}-->{equipment.damage} ")
+                if equipment.fp != currentFaith:
+                    equipString += f"Faith: {currentFaith}-->{equipment.fp} "
+                if equipment.mp != currentMagic:
+                    equipString += f"Magic: {currentMagic}-->{equipment.mp}"
+                print(equipString)
+            print(f"({len(allowedUnits)}) Just throw it in my bag.")
+            command = None
+            while command not in (allowedUnits, len(allowedUnits)):
+                try:
+                    command = int(input(
+                            "Type a number to equip the weapon."))
+                except ValueError:
+                    command = None
+            if command in allowedUnits:
+                game.equipOnCharacter(equipment, allowedUnits[command])
 
     def equipOnCharacter(self, equipment, character):
         if type(character) == str:
