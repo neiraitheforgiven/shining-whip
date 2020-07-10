@@ -1,89 +1,200 @@
 
+from characters import equipment
+
 class shop(object):
 
-    def __init__(self, listOfGoods):
+    def __init__(self, game, listOfGoods):
         self.goods = []
         for goodName in listOfGoods:
-            self.goods. append(self.addGoodToShop(name))
+            self.goods.append(self.createGood(goodName))
+        self.deal = None
+        print("You enter a shop.")
+        print("The shopkeeper looks up. \"You here to buy, or just look?\"")
+        print(
+                "\"If you buy something, I'll show you a little something "
+                "extra I keep on hand for payin' folk.\"")
+        allowedCommands = ["B", "b", "E", "e", "L", "l"]
+        print("Type (B) to buy weapons.")
+        print("Type (E) to equip your troops.")
+        if any([weapon for weapon in game.inventory if not weapon.equippedBy]):
+            print("Type (S) to sell weapons you are not using.")
+            allowedCommands.append("S", "s")
+        print("Type (L) to leave.")
+        command = None
+        while command not in ("L", "l"):
+            while command not in allowedCommands:
+                command = input()
+            if command in ("B", "b"):
+                self.printShopGoods()
+                print(f"You have {game.money} Scroulings.")
+                itemToBuy = None
+                while itemToBuy not in shop.goods:
+                    try:
+                        itemToBuy = int(input(
+                                "Type a number to buy a weapon: "))
+                    except ValueError:
+                        itemToBuy = None
+                self.buyGood(game, itemToBuy)
+            elif command in ("E", "e"):
+                for item in game.inventory:
+                    itemString = (
+                            f"({game.inventory.index(item)}) {item.name} ")
+                    if item.equippedBy:
+                        itemString += f"E: {item.equippedBy}"
+                    print(itemString)
+                itemToEquip = None
+                while itemToEquip not in [
+                        game.inventory.index(item) for item in game.inventory]:
+                    try:
+                        itemToEquip = int(input("Type a number to equip: "))
+                    except ValueError:
+                        itemToEquip = None
+                game.equipItem(self, game.inventory[itemToEquip])
+            elif command in ("S", "s"):
+                force = [unit.fame for unit in game.playerCharacters]
+                markdown = float(sum(force) / len(force))
+                allowedItems = [
+                        item for item in game.inventory if not item.equippedBy]
+                for item in allowedItems:
+                    sellString = f"({allowedItems.index(item)}) {item.name} "
+        print("\"Thanks for coming, kid.\"")
 
-    def addGoodToShop(self, name):
-        if name == "Ancient Cannon":
-            return potentialItem("Brass Guns", name, 6000, 1, 1, 22, 0, 0)
-        elif name == "Assault Shell":
-            return potentialItem("Brass Guns", name, 4500, 1, 2, 18, 0, 0)
-        elif name == "Atlas Axe":
-            return potentialItem(
-                    "Axes", name, 11000, 0, 0, 22, 0, 28, ["Atlas I"])
-        elif name == "Balista Bolt":
-            return potentialItem("Spears", name, 14000, 0, 1, 23, 0, 0)
-        elif name == "Battle Axe":
-            return potentialItem("Axes", name, 2600, 0, 0, 11, 0, 0)
-        elif name == "Broadsword":
-            return potentialItem("Long Swords", name, 4800, 0, 0, 14, 0, 0)
-        elif name == "Bronze Lance":
-            return potentialItem("Lances", name, 300, 0, 0, 6, 0, 0)
-        elif name == "Buster Shot":
-            return potentialItem("Brass Guns", name, 12400, 1, 2, 23, 0, 0)
-        elif name == "Chrome Lance":
-            return potentialItem("Lances", name, 4500, 0, 0, 15, 0, 0)
-        elif name == "Demon Rod":
-            return potentialItem(
-                    "Staffs", name, 5000, 0, 0, 23, -6, -6, ["Conduit I"])
-        elif name == "Devil Lance":
-            return potentialItem(
-                    "Lances", name, 7000, 0, 0, 23, 0, 0, ["Cursed Weapon"])
-        elif name == "Doom Blade":
-            return potentialItem("Katanas", name, 5000, 0, 0, 17, 0, 0)
-        elif name == "Elven Arrow":
+    def buyGood(self, game, itemToBuy):
+        item = self.goods[itemToBuy]
+        if game.money < item.price:
+            print("\"Sorry, kid, but you ain't got the bills for that one.\"")
+        else:
+            game.money -= item.price
+            equip = equipment(
+                    item.type, item.name, item.minRange, item.maxRange,
+                    item.damage, item.fp, item.fp, item.powers)
+            game.inventory.append(equip)
+            print("\"Thanks for the scrolls, kid!\"")
+            print("Would you like to equip it right away?")
+            game.equipItem(equip)
+
+    def checkPriceList(self, equipment):
+
+
+    def createGood(self, name):
+        # Arrows
+        if name == "Elven Arrow":
             return potentialItem("Arrows", name, 2300, 1, 2, 12, 0, 0)
         elif name == "Faerie Arrow":
             return potentialItem(
                     "Arrows", name, 9000, 1, 2, 20, 0, 0, ["Quick Shot"])
-        elif name == "Grand Cannon":
+        elif name == "Hyperial Arrow":
+            return potentialItem("Arrows", name, 17000, 1, 3, 27, 0, 0)
+        elif name == "Robin's Arrow":
+            return potentialItem("Arrows", name, 1480, 1, 1, 11, 0, 0)
+        elif name == "Steel Arrow":
+            return potentialItem("Arrows", name, 1200, 0, 0, 9, 0, 0)
+        elif name == "Wooden Arrow":
+            return potentialItem("Arrows", name, 150, 1, 1, 5, 0, 0)
+
+        # Axes
+        elif name == "Atlas Axe":
             return potentialItem(
-                    "Brass Guns", name, 18500, 1, 2, 29, 0, 18, ["Muddle I"])
+                    "Axes", name, 11000, 0, 0, 22, 0, 28, ["Atlas I"])
+        elif name == "Battle Axe":
+            return potentialItem("Axes", name, 2600, 0, 0, 11, 0, 0)
         elif name == "Great Axe":
             return potentialItem("Axes", name, 10000, 0, 0, 18, 0, 0)
-        elif name == "Guardian Staff":
-            return potentialItem("Staffs", name, 3200, 0, 0, 12, 12, 12)
-        elif name == "Halberd":
-            return potentialItem(
-                    "Lances", name, 5000, 0, 0, 17, 0, 16, ["Bolt I"])
         elif name == "Hand Axe":
             return potentialItem("Axes", name, 200, 0, 0, 4, 0, 0)
         elif name == "Heat Axe":
             return potentialItem(
                     "Axes", name, 4400, 0, 0, 15, 0, 10,
                     ["Axes: Added Effect: Fire", "Blaze II"])
+        elif name == "Middle Axe":
+            return potentialItem("Axes", name, 200, 0, 0, 7, 0, 0)
+        elif name == "Power Axe":
+            return potentialItem("Axes", name, 1100, 0, 0, 11, 0, 0)
+        elif name == "Short Axe":
+            return potentialItem("Axes", name, 120, 0, 0, 3, 0, 0)
+
+        # Brass Guns
+        elif name == "Ancient Cannon":
+            return potentialItem("Brass Guns", name, 6000, 1, 1, 22, 0, 0)
+        elif name == "Assault Shell":
+            return potentialItem("Brass Guns", name, 4500, 1, 2, 18, 0, 0)
+        elif name == "Buster Shot":
+            return potentialItem("Brass Guns", name, 12400, 1, 2, 23, 0, 0)
+        elif name == "Grand Cannon":
+            return potentialItem(
+                    "Brass Guns", name, 18500, 1, 2, 29, 0, 18, ["Muddle I"])
+        elif name == "Iron Shot":
+            return potentialItem("Brass Guns", name, 800, 1, 1, 7, 0, 0)
+
+        # Daggers
+        elif name == "Bloody Knife":
+            return potentialItem(
+                    "Daggers", name, 4500, 0, 0, 14, 0, 0,
+                    ["Luck: Critical Drain I"])
+        elif name == "Dagger":
+            return potentialItem("Daggers", name, 320, 0, 0, 5, 0, 0)
+        elif name == "Knife":
+            return potentialItem("Daggers", name, 500, 0, 0, 8, 0, 0)
+        elif name == "Ritual Dagger":
+            return potentialItem(
+                    "Daggers", name, 9500, 0, 0, 17, 8, 0,
+                    ["Daggers: Added Effect: Poison"])
+        elif name == "Short Knife":
+            return potentialItem("Daggers", name, 70, 0, 0, 3, 0, 0)
+        elif name == "Thief's Dagger":
+            return potentialItem(
+                    "Daggers", name, 1000, 0, 0, 12, 0, 0,
+                    ["Daggers: Increased Luck"])
+
+        # Lances
+        elif name == "Bronze Lance":
+            return potentialItem("Lances", name, 300, 0, 0, 6, 0, 0)
+        elif name == "Chrome Lance":
+            return potentialItem("Lances", name, 4500, 0, 0, 15, 0, 0)
+        elif name == "Devil Lance":
+            return potentialItem(
+                    "Lances", name, 7000, 0, 0, 23, 0, 0, ["Cursed Weapon"])
+        elif name == "Halberd":
+            return potentialItem(
+                    "Lances", name, 5000, 0, 0, 17, 0, 16, ["Bolt I"])
+        elif name == "Steel Lance":
+            return potentialItem("Lances", name, 3000, 0, 0, 12, 0, 0)
+
+        # Spears
+        elif name == "Balista Bolt":
+            return potentialItem("Spears", name, 14000, 0, 1, 23, 0, 0)
+        elif name == "Power Spear":
+            return potentialItem("Spears", name, 900, 0, 1, 10, 0, 0)
+        elif name == "Spear":
+            return potentialItem("Spears", name, 150, 0, 1, 5, 0, 0)
+
+        # Staffs
+        elif name == "Demon Rod":
+            return potentialItem(
+                    "Staffs", name, 5000, 0, 0, 23, -6, -6, ["Conduit I"])
+        elif name == "Guardian Staff":
+            return potentialItem("Staffs", name, 3200, 0, 0, 12, 12, 12)
         elif name == "Holy Staff":
             return potentialItem(
                     "Staffs", name, 8000, 0, 0, 17, 24, 24, ["Blast II"])
-        elif name == "Hyperial Arrow":
-            return potentialItem("Arrows", name, 17000, 1, 3, 27, 0, 0)
-        elif name == "Iron Shot":
-            return potentialItem("Brass Guns", name, 800, 1, 1, 7, 0, 0)
+        elif name == "Power Staff":
+            return potentialItem("Staffs", name, 500, 0, 0, 8, 6, 6)
+        elif name == "Wooden Staff":
+            return potentialItem("Staffs", name, 80, 0, 0, 1, 3, 3)
+
+        # Swords
+        elif name == "Broadsword":
+            return potentialItem("Long Swords", name, 4800, 0, 0, 14, 0, 0)
+        elif name == "Doom Blade":
+            return potentialItem("Katanas", name, 5000, 0, 0, 17, 0, 0)
         elif name == "Katana":
             return potentialItem("Katanas", name, 6000, 0, 0, 20, 0, 0)
         elif name == "Long Sword":
             return potentialItem("Long Swords", name, 750, 0, 0, 8, 0, 0)
-        elif name == "Middle Axe":
-            return potentialItem("Axes", name, 200, 0, 0, 7, 0, 0)
         elif name == "Middle Sword":
             return potentialItem("Swords", name, 250, 0, 0, 5, 0, 0)
-        elif name == "Power Spear":
-            return potentialItem("Spears", name, 900, 0, 1, 10, 0, 0)
-        elif name == "Power Staff":
-            return potentialItem("Staffs", name, 500, 0, 0, 8, 6, 6)
-        elif name == "Robin's Arrow":
-            return potentialItem("Arrows", name, 1480, 1, 1, 11, 0, 0)
         elif name == "Short Sword":
             return potentialItem("Swords", name, 100, 0, 0, 3, 0, 0)
-        elif name == "Spear":
-            return potentialItem("Spears", name, 150, 0, 1, 5, 0, 0)
-        elif name == "Steel Arrow":
-            return potentialItem("Arrows", name, 1200, 0, 0, 9, 0, 0)
-        elif name == "Steel Lance":
-            return potentialItem("Lances", name, 3000, 0, 0, 12, 0, 0)
         elif name == "Steel Sword":
             return potentialItem("Swords", name, 2500, 0, 0, 12, 0, 0)
         elif name == "Sword of Darkness":
@@ -97,10 +208,26 @@ class shop(object):
             return potentialItem(
                     "Sacred Swords", name, 7200, 0, 0, 27, 0, 20,
                     ["Freeze III"])
-        elif name == "Wooden Arrow":
-            return potentialItem("Arrows", name, 150, 1, 1, 5, 0, 0)
-        elif name == "Wooden Staff":
-            return potentialItem("Staffs", name, 80, 0, 0, 1, 3, 3)
+        else:
+            print(f"warning. No shop item called {name} exists.")
+
+    def printShopItems(self):
+        for item in self.goods:
+            shopString = (
+                    f"({self.goods.index(item)}) {item.name} ({item.cost} "
+                    "Scroulings")
+            shopStringAdd = []
+            for pc in game.playerCharacters:
+                if pc.equipment:
+                    if item.damage > pc.equipment.damage:
+                        shopStringAdd.extend("Damage Upgrade!")
+                    if item.fp > pc.equipment.fp:
+                        shopStringAdd.extend("Faith Upgrade!")
+                    if item.mp > pc.equipment.mp:
+                        shopStringAdd.extend("Magic Upgrade!")
+            if any(shopStringAdd):
+                shopString += f" ({" ".join(shopStringAdd)})"
+            print(shopString)
 
 
 class potentialItem(object):
@@ -119,6 +246,6 @@ class potentialItem(object):
         self.price = price
         self.powers = powers
 
-
-def createPotentialItemModule(game, moduleNum):
-
+    def canEquip(self, unit):
+        equipPower = f"Equip: {self.type}"
+        return equipPower in unit.powers
