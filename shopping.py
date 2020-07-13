@@ -51,12 +51,24 @@ class shop(object):
                         itemToEquip = None
                 game.equipItem(self, game.inventory[itemToEquip])
             elif command in ("S", "s"):
-                force = [unit.fame for unit in game.playerCharacters]
-                markdown = float(sum(force) / len(force))
                 allowedItems = [
                         item for item in game.inventory if not item.equippedBy]
                 for item in allowedItems:
-                    sellString = f"({allowedItems.index(item)}) {item.name} "
+                    price = game.getSellPrice(item)
+                    sellString = (
+                            f"({allowedItems.index(item)}) {item.name} "
+                            f"{price} Scroulings")
+                    print(sellString)
+                print(f"({len(allowedItems)}) I'm done selling.")
+                whatToSell = None
+                while whatToSell != len(allowedItems):
+                    while whatToSell not in allowedItems:
+                        try:
+                            whatToSell = int(input(
+                                    "Type a number to sell a weapon: "))
+                        except ValueError:
+                            whatToSell = None
+                    self.sellItem(game, allowedItems[whatToSell])
         print("\"Thanks for coming, kid.\"")
 
     def buyGood(self, game, itemToBuy):
@@ -66,15 +78,12 @@ class shop(object):
         else:
             game.money -= item.price
             equip = equipment(
-                    item.type, item.name, item.minRange, item.maxRange,
-                    item.damage, item.fp, item.fp, item.powers)
+                    item.type, item.name, item.price, item.minRange,
+                    item.maxRange, item.damage, item.fp, item.fp, item.powers)
             game.inventory.append(equip)
             print("\"Thanks for the scrolls, kid!\"")
             print("Would you like to equip it right away?")
             game.equipItem(equip)
-
-    def checkPriceList(self, equipment):
-
 
     def createGood(self, name):
         # Arrows
@@ -107,7 +116,7 @@ class shop(object):
                     "Axes", name, 4400, 0, 0, 15, 0, 10,
                     ["Axes: Added Effect: Fire", "Blaze II"])
         elif name == "Middle Axe":
-            return potentialItem("Axes", name, 200, 0, 0, 7, 0, 0)
+            return potentialItem("Axes", name, 300, 0, 0, 7, 0, 0)
         elif name == "Power Axe":
             return potentialItem("Axes", name, 1100, 0, 0, 11, 0, 0)
         elif name == "Short Axe":
@@ -167,6 +176,8 @@ class shop(object):
             return potentialItem("Spears", name, 900, 0, 1, 10, 0, 0)
         elif name == "Spear":
             return potentialItem("Spears", name, 150, 0, 1, 5, 0, 0)
+        elif name == "Wooden Spear":
+            return potentialItem("Spears", name, 100, 0, 1, 3, 0, 0)
 
         # Staffs
         elif name == "Demon Rod":
@@ -211,7 +222,7 @@ class shop(object):
         else:
             print(f"warning. No shop item called {name} exists.")
 
-    def printShopItems(self):
+    def printShopItems(self, game):
         for item in self.goods:
             shopString = (
                     f"({self.goods.index(item)}) {item.name} ({item.cost} "
@@ -226,8 +237,16 @@ class shop(object):
                     if item.mp > pc.equipment.mp:
                         shopStringAdd.extend("Magic Upgrade!")
             if any(shopStringAdd):
-                shopString += f" ({" ".join(shopStringAdd)})"
+                shopString += " ".join(shopStringAdd)
             print(shopString)
+
+    def sellItem(self, game, item):
+        price = game.getSellPrice(item)
+        game.money += price
+        game.inventory.remove(item)
+        print(
+                "\"Ahh, this will fetch a good price... if we make it through "
+                "the war.\"")
 
 
 class potentialItem(object):

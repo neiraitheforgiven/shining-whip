@@ -1284,32 +1284,37 @@ class game(object):
         recruit = playerCharacter(
                 "Max", "Human", "Hero", chatter, 0)
         self.equipOnCharacter(
-                equipment("Swords", "Middle Sword", 0, 0, 5, 0, 0), recruit)
+                equipment("Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Lowe", "Hobbit", "Priest", chatter, 0)
         self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 0, 0, 1, 3, 3), recruit)
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Tao", "Elf", "Fire Mage", chatter, 0)
         self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 0, 0, 1, 3, 3), recruit)
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Luke", "Dwarf", "Warrior", chatter, 0)
         self.equipOnCharacter(
-                equipment("Axes", "Hand Axe", 0, 0, 4, 0, 0), recruit)
+                equipment("Axes", "Short Axe", 120, 0, 0, 3, 0, 0), recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Ken", "Centaur", "Knight", chatter, 0)
         self.equipOnCharacter(
-                equipment("Spears", "Wooden Spear", 0, 1, 4, 0, 0), recruit)
+                equipment("Spears", "Wooden Spear", 100, 0, 1, 3, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Hans", "Elf", "Archer", chatter, 0)
         self.equipOnCharacter(
-                equipment("Arrows", "Wooden Arrow", 1, 1, 3, 0, 0), recruit)
+                equipment("Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
 
         self.party = self.playerCharacters[:6]
@@ -1360,13 +1365,14 @@ class game(object):
         recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
         self.playerCharacters.append(recruit)
         self.equipOnCharacter(
-                equipment("Lances", "Bronze Lance", 0, 0, 6, 0, 0), recruit)
+                equipment("Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
+                recruit)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
         self.playerCharacters.append(recruit)
         self.equipOnCharacter(
-                equipment("Axes", "Short Axe", 0, 0, 5, 0, 0), recruit)
+                equipment("Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
