@@ -2,6 +2,7 @@ from characters import equipment
 from characters import playerCharacter
 from characters import monster
 from operator import itemgetter
+from shopping import shop
 import math
 import random
 import time
@@ -1135,6 +1136,9 @@ class battleField(object):
     def getPower(self, unit, name):
         if name in unit.powers:
             return True
+        elif unit.equipment:
+            if name in unit.equipment.powers:
+                return True
         else:
             commandName = "Command: " + name
             position = self.getUnitPos(unit)
@@ -1279,43 +1283,49 @@ class game(object):
         self.playerCharacters = []
         self.battleStatus = None
         self.money = 0
+        self.inventory = []
 
         chatter = False
         recruit = playerCharacter(
                 "Max", "Human", "Hero", chatter, 0)
         self.equipOnCharacter(
-                equipment("Swords", "Middle Sword", 0, 0, 5, 0, 0), recruit)
+                equipment("Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Lowe", "Hobbit", "Priest", chatter, 0)
         self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 0, 0, 1, 3, 3), recruit)
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Tao", "Elf", "Fire Mage", chatter, 0)
         self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 0, 0, 1, 3, 3), recruit)
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Luke", "Dwarf", "Warrior", chatter, 0)
         self.equipOnCharacter(
-                equipment("Axes", "Short Axe", 0, 0, 5, 0, 0), recruit)
+                equipment("Axes", "Short Axe", 120, 0, 0, 3, 0, 0), recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Ken", "Centaur", "Knight", chatter, 0)
         self.equipOnCharacter(
-                equipment("Spears", "Wooden Spear", 0, 1, 4, 0, 0), recruit)
+                equipment("Spears", "Wooden Spear", 100, 0, 1, 3, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Hans", "Elf", "Archer", chatter, 0)
         self.equipOnCharacter(
-                equipment("Arrows", "Wooden Arrow", 1, 1, 3, 0, 0), recruit)
+                equipment("Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
 
-        self.party = self.playerCharacters[:6]
+        self.party = self.playerCharacters
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'king')
+                self.reckoning(10, 'king')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'king')
             battle(self, self.party, 1)
@@ -1334,17 +1344,17 @@ class game(object):
         recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
-        self.party = self.playerCharacters[:7]
-        self.reckoning(3, 'lonely priest')
+        self.party = self.playerCharacters
+        self.reckoning(30, 'lonely priest')
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'lonely priest')
+                self.reckoning(10, 'lonely priest')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'lonely priest')
             battle(self, self.party, 2)
         print("")
-        print("The party arrives at the Holy City of . It is burning.")
+        print("The party arrives at the Holy City of Yatahal. It is burning.")
         print("Too late to intervene, you watch in horror as your mentor ")
         print("and your king are slain by a dark swordsman who looks exactly ")
         print("like you. The swordsman disappears into a black void")
@@ -1355,30 +1365,122 @@ class game(object):
         print(" Mae, joins you. With her is a washed up former city guard, ")
         print("drunk on wine and thirsty for vengence, Gort.")
         print("")
-        recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
-        recruit.levelUp(chatter)
         recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
         self.playerCharacters.append(recruit)
         self.equipOnCharacter(
-                equipment("Lances", "Bronze Lance", 0, 0, 6, 0, 0), recruit)
+                equipment("Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
+                recruit)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
         self.playerCharacters.append(recruit)
         self.equipOnCharacter(
-                equipment("Axes", "Short Axe", 0, 0, 5, 0, 0), recruit)
+                equipment("Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
-        self.party = self.playerCharacters[:9]
-        self.reckoning(3, 'widow of your mentor')
+        self.party = self.playerCharacters
+        self.reckoning(30, 'widow of your mentor')
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'widow of your mentor')
+                self.reckoning(10, 'widow of your mentor')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'widow of your mentor')
             battle(self, self.party, 3)
+        print("")
+        print("You arrive in Ulmara, a small merchant city bordering Yatahal.")
+        print("The King of Ulmara greets you warmly, bestowing lavish gifts.")
+        self.reckoning(50, "King of Ulmara")
+        print(
+                "The King gestures to the shopping district: \"Go visit a "
+                "smith!\"")
+        print(
+                "On your way to the shops, you notice a young Kyantol woman "
+                "following you.")
+        shop(self, 350, [
+                "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
+                "Wooden Staff", "Middle Sword"])
+        print("")
+        print(
+                "As you leave the shop, the young Kyantol woman appears at "
+                "your side.")
+        print("\"Don't trust the king!\", she hisses, then spirits away.")
+        print("She looked a bit wild, like a prophet.")
+        print(
+            "Before you can decide what to do, the king summons you to the "
+            "castle.")
+        print("There, the king reveals that he has made a deal with Darksol,")
+        print("the dark wizard behind the army that destroyed Yatahal.")
+        print(
+                "In exchange for keeping Ulmara safe, he is now supplying "
+                "Darksol.")
+        print("You are now to be sent to Darksol as more recruits.")
+        print("")
+        print("You refuse, so the king throws you into prison.")
+        print("")
+        print("")
+        print("")
+        print(
+                "That night, a door opens in the wall of your cell and the "
+                "Kyantol woman enters.")
+        print("\"My people built this palace and the prison.\" She smirks.")
+        print("\"Come with me -- we'll have to fight our way out of town.\"")
+        print(
+                "\"We have to go north to inform Her Majesty of her father's "
+                "death.\"")
+        print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
+        recruit = playerCharacter("Khris", "Kyantol", "Prophet", chatter, 4)
+        self.equipOnCharacter(
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        self.playerCharacters.append(recruit)
+        self.party = self.playerCharacters
+        self.battleStatus = None
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(20, 'the priests')
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'the priests')
+            battle(self, self.party, 4)
+
+    def equipItem(self, equipment):
+        allowedUnits = [
+                unit for unit in game.playerCharacters
+                if unit.canEquip(equipment)]
+        if allowedUnits:
+            for unit in allowedUnits:
+                equipString = f"({allowedUnits.index(unit)}) {unit.name} "
+                if unit.equipment:
+                    currentDamage = unit.equipment.damage
+                    currentFaith = unit.equipment.fp
+                    currentMagic = unit.equipment.mp
+                else:
+                    currentDamage = 0
+                    currentFaith = 0
+                    currentMagic = 0
+                if equipment.damage != currentDamage:
+                    equipString += (
+                            f"Damage: {currentDamage}-->{equipment.damage} ")
+                if equipment.fp != currentFaith:
+                    equipString += f"Faith: {currentFaith}-->{equipment.fp} "
+                if equipment.mp != currentMagic:
+                    equipString += f"Magic: {currentMagic}-->{equipment.mp}"
+                print(equipString)
+            print(f"({len(allowedUnits)}) Just throw it in my bag.")
+            command = None
+            while command not in (allowedUnits, len(allowedUnits)):
+                try:
+                    command = int(input(
+                            "Type a number to equip the weapon."))
+                except ValueError:
+                    command = None
+            if command in allowedUnits:
+                game.equipOnCharacter(equipment, allowedUnits[command])
 
     def equipOnCharacter(self, equipment, character):
         if type(character) == str:
@@ -1394,6 +1496,14 @@ class game(object):
             equipment.equippedBy = pc
             pc.equipment = equipment
             print(f"{pc.name} equipped the {equipment.name}.")
+
+    def getSellPrice(self, item):
+        equipString = f"Equip: {item.type}"
+        fame = max([
+                pc.stat["Fame"] for pc in self.playerCharacters
+                if equipString in pc.powers])
+        amount = math.floor(item.price * (0.1 + (fame / 100)))
+        return amount
 
     def reckoning(self, bounty, patron):
         clergyCost = sum([

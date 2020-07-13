@@ -796,6 +796,10 @@ class playerCharacter(object):
                 print(f"{self.name} became a {self.title}!")
             self.career += f" --> {self.title} ({self.level})"
 
+    def canEquip(self, equipment):
+        equipPower = f"Equip: {equipment.type}"
+        return equipPower in self.powers
+
     def initializeRandomStats(
                 self, bestStat=None, secondBestStat=None, dumpStat=None):
         statsToAssign = [
@@ -893,16 +897,22 @@ class playerCharacter(object):
 class equipment(object):
 
     def __init__(
-            self, equipType, name, minRange=0, maxRange=0, damage=3,
-            fp=0, mp=0):
+            self, equipType, name, price, minRange=0, maxRange=0, damage=3,
+            fp=0, mp=0, powers=[]):
         self.type = equipType
         self.name = name
+        self.price = price
         self.minRange = minRange
         self.maxRange = maxRange
         self.damage = damage
         self.equippedBy = None
         self.fp = fp
         self.mp = mp
+        self.powers = powers
+
+    def canEquip(self, unit):
+        equipPower = f"Equip: {self.type}"
+        return equipPower in unit.powers
 
 
 party = []
