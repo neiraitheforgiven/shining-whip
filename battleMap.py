@@ -31,7 +31,7 @@ class battle(object):
                                 (monster("Crazed Dwarf"), 9),
                                 (monster("Goblin"), 10),
                                 (monster("Goblin"), 10)],
-                        party)
+                        party, game)
             elif num == 2:
                 self.battleField = battleField([
                         "Loose Rocks", "Loose Rocks", "Loose Rocks",
@@ -71,7 +71,7 @@ class battle(object):
                                 (monster(
                                         "Traitor Knight", "Advance-Defensive"),
                                         17)],
-                        party)
+                        party, game)
             elif num == 3:
                 self.battleField = battleField([
                         "Path", "Path", "Path", "Path", "Path", "Path", "Path",
@@ -101,7 +101,7 @@ class battle(object):
                                 (monster("Traitor Knight"), 11),
                                 (monster("Traitor Knight"), 11),
                                 (monster("Traitor Knight"), 12)],
-                        party)
+                        party, game)
             elif num == 4:
                 self.battleField = battleField([
                         "Path", "Path", "Path", "Bridge", "Bridge", "Path",
@@ -131,7 +131,7 @@ class battle(object):
                                 (monster("Sniper"), 19),
                                 (monster("Sniper"), 19),
                                 (monster("Dark Apprentice"), 19)],
-                        party)
+                        party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
@@ -736,7 +736,8 @@ class battleTile(object):
 
 class battleField(object):
 
-    def __init__(self, listOfTiles, listOfUnits, party):
+    def __init__(self, listOfTiles, listOfUnits, party, game):
+        self.game = game
         self.terrainArray = []
         self.units = []
         for tile in listOfTiles:
@@ -1096,7 +1097,7 @@ class battleField(object):
             self.move(monster, moveTo)
         elif monster.moveProfile == "Sniper":
             candidates = [
-                    target for target in self.party if target.hp > 0]
+                    target for target in self.game.party if target.hp > 0]
             candidates = [
                     target for target in candidates
                     if target.stats["Fame"] == max(
