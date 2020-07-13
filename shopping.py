@@ -3,7 +3,7 @@ from characters import equipment
 
 class shop(object):
 
-    def __init__(self, game, listOfGoods):
+    def __init__(self, game, dealLimit, listOfGoods):
         self.goods = []
         for goodName in listOfGoods:
             self.goods.append(self.createGood(goodName))
@@ -14,28 +14,39 @@ class shop(object):
                 "\"If you buy something, I'll show you a little something "
                 "extra I keep on hand for payin' folk.\"")
         allowedCommands = ["B", "b", "E", "e", "L", "l"]
-        print("Type (B) to buy weapons.")
-        print("Type (E) to equip your troops.")
-        if any([weapon for weapon in game.inventory if not weapon.equippedBy]):
-            print("Type (S) to sell weapons you are not using.")
-            allowedCommands.append("S", "s")
-        print("Type (L) to leave.")
         command = None
         while command not in ("L", "l"):
+            print("(B) Buy weapons.")
+            print("(E) Equip your troops.")
+            if any([
+                    weapon for weapon in game.inventory
+                    if not weapon.equippedBy]):
+                print("Type (S) to sell weapons you are not using.")
+                allowedCommands.append("S", "s")
+            print("(L) Leave the shop.")
             while command not in allowedCommands:
-                command = input()
+                command = input("Type a letter to make your choice: ")
             if command in ("B", "b"):
-                self.printShopGoods()
+                command = None
+                self.printShopItems(game)
+                print(f"({len(self.goods)}) Don't buy anything.")
                 print(f"You have {game.money} Scroulings.")
                 itemToBuy = None
-                while itemToBuy not in shop.goods:
-                    try:
-                        itemToBuy = int(input(
-                                "Type a number to buy a weapon: "))
-                    except ValueError:
+                while itemToBuy != len(self.goods):
+                    while itemToBuy not in [
+                            self.goods.index(item) for item in self.goods] \
+                            and itemToBuy != len(self.goods):
+                        print(f"debug: {len(self.goods)}")
+                        try:
+                            itemToBuy = int(input(
+                                    "Type a number to buy a weapon: "))
+                        except ValueError:
+                            itemToBuy = None
+                    if itemToBuy and itemToBuy != len(self.goods):
+                        self.buyGood(game, itemToBuy)
                         itemToBuy = None
-                self.buyGood(game, itemToBuy)
             elif command in ("E", "e"):
+                command = None
                 for item in game.inventory:
                     itemString = (
                             f"({game.inventory.index(item)}) {item.name} ")
@@ -51,12 +62,13 @@ class shop(object):
                         itemToEquip = None
                 game.equipItem(self, game.inventory[itemToEquip])
             elif command in ("S", "s"):
+                command = None
                 allowedItems = [
                         item for item in game.inventory if not item.equippedBy]
                 for item in allowedItems:
                     price = game.getSellPrice(item)
                     sellString = (
-                            f"({allowedItems.index(item)}) {item.name} "
+                            f"({allowedItems.index(item)}) {item.name} - "
                             f"{price} Scroulings")
                     print(sellString)
                 print(f"({len(allowedItems)}) I'm done selling.")
@@ -224,20 +236,27 @@ class shop(object):
 
     def printShopItems(self, game):
         for item in self.goods:
+            equipString = f"Equip: {item.type}"
             shopString = (
-                    f"({self.goods.index(item)}) {item.name} ({item.cost} "
+                    f"({self.goods.index(item)}) {item.name} - {item.price} "
                     "Scroulings")
-            shopStringAdd = []
+            damageUp = False
+            faithUp = False
+            mpUp = False
             for pc in game.playerCharacters:
-                if pc.equipment:
+                if equipString in pc.powers:
                     if item.damage > pc.equipment.damage:
-                        shopStringAdd.extend("Damage Upgrade!")
+                        damageUp = True
                     if item.fp > pc.equipment.fp:
-                        shopStringAdd.extend("Faith Upgrade!")
+                        faithUp = True
                     if item.mp > pc.equipment.mp:
-                        shopStringAdd.extend("Magic Upgrade!")
-            if any(shopStringAdd):
-                shopString += " ".join(shopStringAdd)
+                        mpUp = True
+            if damageUp:
+                shopString += " Damage Upgrade!"
+            if faithUp:
+                shopString += " Faith Upgrade!"
+            if mpUp:
+                shopString += " Magic Upgrade!"
             print(shopString)
 
     def sellItem(self, game, item):

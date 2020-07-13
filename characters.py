@@ -897,10 +897,11 @@ class playerCharacter(object):
 class equipment(object):
 
     def __init__(
-            self, equipType, name, minRange=0, maxRange=0, damage=3,
+            self, equipType, name, price, minRange=0, maxRange=0, damage=3,
             fp=0, mp=0, powers=[]):
         self.type = equipType
         self.name = name
+        self.price = price
         self.minRange = minRange
         self.maxRange = maxRange
         self.damage = damage

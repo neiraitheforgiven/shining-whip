@@ -2,6 +2,7 @@ from characters import equipment
 from characters import playerCharacter
 from characters import monster
 from operator import itemgetter
+from shopping import shop
 import math
 import random
 import time
@@ -1317,7 +1318,7 @@ class game(object):
                 recruit)
         self.playerCharacters.append(recruit)
 
-        self.party = self.playerCharacters[:6]
+        self.party = self.playerCharacters
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
                 self.reckoning(10, 'king')
@@ -1339,7 +1340,7 @@ class game(object):
         recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
-        self.party = self.playerCharacters[:7]
+        self.party = self.playerCharacters
         self.reckoning(30, 'lonely priest')
         self.battleStatus = None
         while self.battleStatus != 'victory':
@@ -1349,7 +1350,7 @@ class game(object):
                 self.reckoning(0, 'lonely priest')
             battle(self, self.party, 2)
         print("")
-        print("The party arrives at the Holy City of . It is burning.")
+        print("The party arrives at the Holy City of Yatahal. It is burning.")
         print("Too late to intervene, you watch in horror as your mentor ")
         print("and your king are slain by a dark swordsman who looks exactly ")
         print("like you. The swordsman disappears into a black void")
@@ -1360,8 +1361,6 @@ class game(object):
         print(" Mae, joins you. With her is a washed up former city guard, ")
         print("drunk on wine and thirsty for vengence, Gort.")
         print("")
-        recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
-        recruit.levelUp(chatter)
         recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
         self.playerCharacters.append(recruit)
         self.equipOnCharacter(
@@ -1376,7 +1375,7 @@ class game(object):
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
-        self.party = self.playerCharacters[:9]
+        self.party = self.playerCharacters
         self.reckoning(30, 'widow of your mentor')
         self.battleStatus = None
         while self.battleStatus != 'victory':
@@ -1385,6 +1384,65 @@ class game(object):
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'widow of your mentor')
             battle(self, self.party, 3)
+        print("")
+        print("You arrive in Ulmara, a small merchant city bordering Yatahal.")
+        print("The King of Ulmara greets you warmly, bestowing lavish gifts.")
+        self.reckoning(50, "King of Ulmara")
+        print(
+                "The King gestures to the shopping district: \"Go visit a "
+                "smith!\"")
+        print(
+                "On your way to the shops, you notice a young Kyantol woman "
+                "following you.")
+        shop1 = shop(self, 350, [
+                "Wooden Arrow", "Hand Axe", "Short Knife",
+                "Spear", "Wooden Staff", "Middle Sword"])
+        print("")
+        print(
+                "As you leave the shop, the young Kyantol woman appears at "
+                "your side.")
+        print("\"Don't trust the king!\", she hisses, then spirits away.")
+        print("She looked a bit wild, like a prophet.")
+        print(
+            "Before you can decide what to do, the king summons you to the "
+            "castle.")
+        print("There, the king reveals that he has made a deal with Darksol,")
+        print("the dark wizard behind the army that destroyed Yatahal.")
+        print(
+                "In exchange for keeping Ulmara safe, he is now supplying "
+                "Darksol.")
+        print("You are now to be sent to Darksol as more recruits.")
+        print("")
+        print("You refuse, so the king throws you into prison.")
+        print("")
+        print("")
+        print("")
+        print(
+                "That night, a door opens in the wall of your cell and the "
+                "Kyantol woman enters.")
+        print("\"My people built this palace and the prison.\" She smirks.")
+        print("\"Come with me -- we'll have to fight our way out of town.\"")
+        print(
+                "\"We have to go north to inform Her Majesty of her father's "
+                "death.\"")
+        print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
+        recruit = playerCharacter("Khris", "Kyantol", "Prophet", chatter, 4)
+        self.equipOnCharacter(
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        self.playerCharacters.append(recruit)
+        self.party = self.playerCharacters
+        self.battleStatus = None
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(20, 'the priests')
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'the priests')
+            battle(self, self.party, 4)
 
     def equipItem(self, equipment):
         allowedUnits = [
@@ -1434,6 +1492,14 @@ class game(object):
             equipment.equippedBy = pc
             pc.equipment = equipment
             print(f"{pc.name} equipped the {equipment.name}.")
+
+    def getSellPrice(self, item):
+        equipString = f"Equip: {item.type}"
+        fame = max([
+                pc.stat["Fame"] for pc in self.playerCharacters
+                if equipString in pc.powers])
+        amount = math.floor(item.price * (0.1 + (fame / 100)))
+        return amount
 
     def reckoning(self, bounty, patron):
         clergyCost = sum([
