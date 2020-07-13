@@ -1135,6 +1135,9 @@ class battleField(object):
     def getPower(self, unit, name):
         if name in unit.powers:
             return True
+        elif unit.equipment:
+            if name in unit.equipment.powers:
+                return True
         else:
             commandName = "Command: " + name
             position = self.getUnitPos(unit)
@@ -1394,9 +1397,9 @@ class game(object):
         print(
                 "On your way to the shops, you notice a young Kyantol woman "
                 "following you.")
-        shop1 = shop(self, 350, [
-                "Wooden Arrow", "Hand Axe", "Short Knife",
-                "Spear", "Wooden Staff", "Middle Sword"])
+        shop(self, 350, [
+                "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
+                "Wooden Staff", "Middle Sword"])
         print("")
         print(
                 "As you leave the shop, the young Kyantol woman appears at "
