@@ -856,14 +856,10 @@ class battleField(object):
         else:
             minRange = 0
             maxRange = 0
-        if type(unit) == playerCharacter:
-            targetType = monster
-        elif type(unit) == monster:
-            targetType = playerCharacter
         if minRange == 0 and maxRange == 0:
             unit.allowedAttacks = [
-                    unit for unit in currentTile.units
-                    if type(unit) == targetType]
+                    target for target in currentTile.units
+                    if type(unit) != type(target)]
             return bool(unit.allowedAttacks)
         else:
             lowRangeBottom = position - maxRange
@@ -879,7 +875,7 @@ class battleField(object):
                         if tile not in tilesInRange else tilesInRange
             for tile in tilesInRange:
                 for tileUnit in tile.units:
-                    if type(tileUnit) == targetType:
+                    if type(tileUnit) != type(unit):
                         unit.allowedAttacks.append(tileUnit)
             return bool(unit.allowedAttacks)
 
