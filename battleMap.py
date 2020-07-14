@@ -316,6 +316,13 @@ class battle(object):
                         del target
                         time.sleep(7. / 10)
                         return
+        elif spellName == "Detox I":
+            unit.mp -= self.mpCost(unit, 3)
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            target.status = None
+            print(f"{target.name} recovers!")
+            self.giveExperience(unit, target, 10)
         elif spellName == "Egress I":
             unit.mp -= self.mpCost(unit, 8)
             print(f"{unit.name} casts {spellName}!")
@@ -937,6 +944,12 @@ class battleField(object):
                     if type(target) == enemy]
             if any(targets):
                 unit.allowedSpells["Blaze I"] = targets
+        if self.getPower(unit, "Detox I") and unit.mp >= self.mpCost(unit, 3):
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) == type(unit) and target.status]
+            if any(targets):
+                unit.allowedSpells["Detox I"] = targets
         if self.getPower(unit, "Egress I") and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = 'Self'
         if self.getPower(unit, "Heal I") and unit.fp >= 3:
