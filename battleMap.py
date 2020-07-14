@@ -194,11 +194,19 @@ class battle(object):
                 if attackType == 'critical':
                     print("A Critical Attack!")
                 damage = max(strength, dex)
-                if (self.getPower(
-                        unit, "Unarmed Attack: Increased Damage I") and not (
-                                unit.equipment)):
+                if unit.equipment:
+                    damageString = f"{equipment.type}: Increased Damage "
+                else:
+                    damageString = "Unarmed Attack: Increased Damage "
+                if self.getPower(unit, damageString + "I"):
                     damage *= 1.3
-                    damage = math.ceil(damage)
+                if self.getPower(unit, damageString + "II"):
+                    damage *= 1.3
+                if self.getPower(unit, damageString + "III"):
+                    damage *= 1.3
+                if self.getPower(unit, damageString + "IV"):
+                    damage *= 1.3
+                damage = math.ceil(damage)
                 if self.getPower(target, "Defense: Melee Attacks I") and (
                         bf.getUnitPos(unit) == bf.getUnitPos(target)):
                     damage *= 0.7
