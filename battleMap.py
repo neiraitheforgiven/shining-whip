@@ -195,7 +195,7 @@ class battle(object):
                     print("A Critical Attack!")
                 damage = max(strength, dex)
                 if unit.equipment:
-                    damageString = f"{equipment.type}: Increased Damage "
+                    damageString = f"{unit.equipment.type}: Increased Damage "
                 else:
                     damageString = "Unarmed Attack: Increased Damage "
                 if self.getPower(unit, damageString + "I"):
@@ -1382,7 +1382,6 @@ class game(object):
                 equipment("Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
-        self.playerCharacters.append(recruit)
         self.party = self.playerCharacters
         self.reckoning(30, 'widow of your mentor')
         self.battleStatus = None
