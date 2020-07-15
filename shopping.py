@@ -28,23 +28,24 @@ class shop(object):
                 command = input("Type a letter to make your choice: ")
             if command in ("B", "b"):
                 command = None
-                self.printShopItems(game)
-                print(f"({len(self.goods)}) Don't buy anything.")
-                print(f"You have {game.money} Scroulings.")
                 itemToBuy = None
-                while itemToBuy != len(self.goods):
-                    while itemToBuy not in [
-                            self.goods.index(item) for item in self.goods] \
-                            and itemToBuy != len(self.goods):
-                        print(f"debug: {len(self.goods)}")
-                        try:
-                            itemToBuy = int(input(
-                                    "Type a number to buy a weapon: "))
-                        except ValueError:
-                            itemToBuy = None
-                    if itemToBuy and itemToBuy != len(self.goods):
+                while itemToBuy not in [
+                        self.goods.index(item) for item in self.goods] or (
+                        itemToBuy != len(self.goods)):
+                    self.printShopItems(game)
+                    print(f"({len(self.goods)}) Don't buy anything.")
+                    print(f"You have {game.money} Scroulings.")
+                    try:
+                        itemToBuy = int(input(
+                                "Type a number to buy a weapon: "))
+                    except ValueError:
+                        itemToBuy = None
+                    if itemToBuy == len(self.goods):
+                        break
+                    if itemToBuy is not None:
                         self.buyGood(game, itemToBuy)
                         itemToBuy = None
+                        print()
             elif command in ("E", "e"):
                 command = None
                 for item in game.inventory:
