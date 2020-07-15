@@ -1466,7 +1466,7 @@ class game(object):
 
     def equipItem(self, equipment):
         allowedUnits = [
-                unit for unit in game.playerCharacters
+                unit for unit in self.playerCharacters
                 if unit.canEquip(equipment)]
         if allowedUnits:
             for unit in allowedUnits:
@@ -1489,14 +1489,17 @@ class game(object):
                 print(equipString)
             print(f"({len(allowedUnits)}) Just throw it in my bag.")
             command = None
-            while command not in (allowedUnits, len(allowedUnits)):
+            while command not in [
+                    allowedUnits.index(unit) for unit in allowedUnits]:
                 try:
                     command = int(input(
                             "Type a number to equip the weapon."))
                 except ValueError:
                     command = None
-            if command in allowedUnits:
-                game.equipOnCharacter(equipment, allowedUnits[command])
+                if command == len(allowedUnits):
+                    break
+            if command in [allowedUnits.index(unit) for unit in allowedUnits]:
+                self.equipOnCharacter(equipment, allowedUnits[command])
 
     def equipOnCharacter(self, equipment, character):
         if type(character) == str:
