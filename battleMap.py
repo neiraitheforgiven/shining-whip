@@ -495,17 +495,19 @@ class battle(object):
     def doTurn(self, unit, moved=False):
         if unit.status == "sleep":
             luck = self.getStat(unit, "Luck")
-            resistSkill = sum(
+            resistSkill = sum([
                     self.getStat(unit, "Faith"),
                     self.getStat(unit, "Intelligence"),
-                    self.getStat(unit, "Stamina"))
+                    self.getStat(unit, "Stamina")])
             resistChance = math.floor(
                     resistSkill + (resistSkill * (luck / 10)))
             resistArray = []
             resistArray.append(['resist'] * resistChance)
-            resistArray.append(['fail'] * (100 - (luck)))
+            resistArray.append(['fail'] * (min(10, 50 - (resistChance))))
             result = random.choice(resistArray)
             if result == 'resist':
+                if unit.status == 'sleep':
+                    print(f"{unit.name} woke up!")
                 unit.status = None
             elif unit.status == 'sleep':
                 print(f"{unit.name} is asleep.")
@@ -663,16 +665,9 @@ class battle(object):
         luck = self.getStat(unit, "Luck")
         voice = self.getStat(unit, "Voice")
         attackTypeArray = []
-        attackTypeArray.extend(
-                ["normal"] * (100 - (luck)))
+        attackTypeArray.extend(["normal"] * (100 - (luck)))
         criticalChance = math.floor(voice + (voice * (luck / 10)))
         attackTypeArray.extend(["critical"] * criticalChance)
-        if self.getPower(unit, "Sonorous Voice"):
-            sleepChance = luck
-            attackTypeArray.extend(["sleep"] * sleepChance)
-        routSkill = max(cha, voice)
-        routChance = math.floor(routSkill + (routSkill * (luck / 10)))
-        attackTypeArray.extend(["routing"] * routChance)
         friendSound = sum([
                 self.getStat(tileUnit, "Voice") for tileUnit in
                 bf.terrainArray[position].units
@@ -685,21 +680,20 @@ class battle(object):
                 self.getStat(tileUnit, "Voice") for tileUnit in
                 bf.terrainArray[position].units
                 if type(tileUnit) != type(unit)])
-        amount = friendSound - enemySound
-        if amount <= 0:
-            if type(unit) == playerCharacter:
-                print(
-                        "The sound of the note is drowned out by the sound of "
-                        "the enemy!")
-            elif type(unit) == monster:
-                print(
-                        "The sound of the note is drowned out by the holy "
-                        "song of the Force.")
-            return
+        amount = max(1, friendSound - enemySound)
         damage = math.ceil(amount / 12)
         damage = max(damage, 1)
         for target in bf.terrainArray[position].units:
             if type(target) != type(unit):
+                attackTypeArray = []
+                attackTypeArray.extend(["normal"] * (100 - (luck)))
+                if self.getPower(unit, "Sonorous Voice"):
+                    sleepChance = luck
+                    attackTypeArray.extend(["sleep"] * sleepChance)
+                routSkill = max(cha, voice)
+                routChance = math.floor(routSkill + (routSkill * (luck / 10)))
+                attackTypeArray.extend(["routing"] * routChance)
+                attackType = random.choice(attackTypeArray)
                 damage = min(damage, target.hp)
                 print(f"The note deals {damage} damage to {target.name}!")
                 target.hp -= damage
@@ -726,6 +720,7 @@ class battle(object):
                             self.battleField.move(target, moveTo)
                 elif attackType == "sleep":
                     target.status = "sleep"
+                    print(f"{target.name} fell asleep!")
 
     def getFameBonus(self, unit):
         return self.battleField.getFameBonus(unit)
