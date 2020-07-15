@@ -283,15 +283,7 @@ class battle(object):
             target.hp -= damage
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
-                print(f"{target.name} dies!")
-                field = self.battleField
-                targetPosition = field.getUnitPos(target)
-                field.terrainArray[targetPosition].units.remove(target)
-                if target in self.turnOrder:
-                    self.turnOrder.remove(target)
-                del target
-                time.sleep(7. / 10)
-                return
+                self.kill(target)
         elif spellName == "Blaze II":
             unit.mp -= self.mpCost(unit, 6)
             position = unit.allowedSpells[spellName][targetId]
@@ -309,13 +301,7 @@ class battle(object):
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
-                        print(f"{target.name} dies!")
-                        field.terrainArray[position].units.remove(target)
-                        if target in self.turnOrder:
-                            self.turnOrder.remove(target)
-                        del target
-                        time.sleep(7. / 10)
-                        return
+                        self.kill(target)
         elif spellName == "Detox I":
             unit.mp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
@@ -339,6 +325,62 @@ class battle(object):
             print("")
             print("")
             self.battleOn()
+        elif spellName == "Freeze I":
+            unit.mp -= self.mpCost(unit, 3)
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            damage = min(9, target.hp)
+            if self.getPower(target, "Defense: Magic"):
+                damage = min(7, target.hp)
+            print(f"{unit.name} deals {damage} damage to {target.name}!")
+            target.hp -= damage
+            self.giveExperience(unit, target, damage)
+            if target.hp <= 0:
+                self.kill(target)
+        elif spellName == "Freeze II":
+            unit.mp -= self.mpCost(unit, 7)
+            targetTile = self.battleField.getUnitPos(unit)
+            for target in targetTile.units:
+                if type(unit) != type(target):
+                    print(f"{unit.name} casts {spellName} on {target.name}!")
+                    damage = min(14, target.hp)
+                    if self.getPower(target, "Defense: Magic"):
+                        damage = min(10, target.hp)
+                    print(
+                            f"{unit.name} deals {damage} damage to "
+                            f"{target.name}!")
+                    target.hp -= damage
+                    self.giveExperience(unit, target, damage)
+                    if target.hp <= 0:
+                        self.kill(target)
+        elif spellName == "Frezze III":
+            unit.mp -= self.mpCost(unit, 10)
+            targetTile = unit.allowedSpells[spellName][targetId]
+            for target in targetTile.units:
+                if type(unit) != type(target):
+                    print(f"{unit.name} casts {spellName} on {target.name}!")
+                    damage = min(20, target.hp)
+                    if self.getPower(target, "Defense: Magic"):
+                        damage = min(17, target.hp)
+                    print(
+                            f"{unit.name} deals {damage} damage to "
+                            f"{target.name}!")
+                    target.hp -= damage
+                    self.giveExperience(unit, target, damage)
+                    if target.hp <= 0:
+                        self.kill(target)
+        elif spellName == "Freeze IV":
+            unit.mp -= self.mpCost(unit, 12)
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            damage = min(52, target.hp)
+            if self.getPower(target, "Defense: Magic"):
+                damage = min(45, target.hp)
+            print(f"{unit.name} deals {damage} damage to {target.name}!")
+            target.hp -= damage
+            self.giveExperience(unit, target, damage)
+            if target.hp <= 0:
+                self.kill(target)
         elif spellName == "Heal I":
             unit.fp -= 3
             target = unit.allowedSpells[spellName][targetId]
@@ -717,6 +759,17 @@ class battle(object):
             unit.xp -= 100
             unit.levelUp(True)
 
+    def kill(self, target):
+        print(f"{target.name} dies!")
+        field = self.battleField
+        targetPosition = field.getUnitPos(target)
+        field.terrainArray[targetPosition].units.remove(target)
+        if target in self.turnOrder:
+            self.turnOrder.remove(target)
+        del target
+        time.sleep(7. / 10)
+        return
+
     def mpCost(self, unit, amount):
         cost = amount
         if self.getPower(unit, "Magic: Cost Reduction I"):
@@ -932,16 +985,10 @@ class battleField(object):
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
-        if type(unit) == playerCharacter:
-            friend = playerCharacter
-            enemy = monster
-        elif type(unit) == monster:
-            friend = monster
-            enemy = playerCharacter
         if self.getPower(unit, "Blaze I") and unit.mp >= self.mpCost(unit, 2):
             targets = [
                     target for target in currentTile.units
-                    if type(target) == enemy]
+                    if type(target) != type(unit)]
             if any(targets):
                 unit.allowedSpells["Blaze I"] = targets
         if self.getPower(unit, "Detox I") and unit.mp >= self.mpCost(unit, 3):
@@ -952,10 +999,53 @@ class battleField(object):
                 unit.allowedSpells["Detox I"] = targets
         if self.getPower(unit, "Egress I") and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = 'Self'
+        if self.getPower(unit, "Freeze I") and unit.mp >= self.mpCost(unit, 3):
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) != type(unit)]
+            if any(targets):
+                unit.allowedSpells["Freeze I"] = targets
+        if (
+                self.getPower(unit, "Freeze II") and (
+                unit.mp >= self.mpCost(unit, 7))):
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) != type(unit)]
+            if any(targets):
+                unit.allowedSpells["Freeze II"] = currentTile
+        if (
+                self.getPower(unit, "Freeze III") and (
+                unit.mp >= self.mpCost(unit, 10))):
+            targetTiles = []
+            minRange = max(0, (position - 1))
+            maxRange = min((position + 1), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) != type(unit)]
+                if any(tileTargets):
+                    targetTiles.append(tile)
+                    continue
+            if any(targetTiles):
+                unit.allowedSpells["Freeze III"] = targetTiles
+        if (
+                self.getPower(unit, "Freeze IV") and (
+                unit.mp >= self.mpCost(unit, 12))):
+            targets = []
+            minRange = max(0, position - 2)
+            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) != type(unit)]
+                if any(tileTargets):
+                    targets.extend(target for target in tileTargets)
+            if any(targets):
+                unit.allowedSpells["Freeze IV"] = targets
         if self.getPower(unit, "Heal I") and unit.fp >= 3:
             targets = [
                     target for target in currentTile.units
-                    if type(target) == friend and target.hp < (
+                    if type(target) == type(unit) and target.hp < (
                             target.maxHP())]
             if any(targets):
                 unit.allowedSpells["Heal I"] = targets
@@ -963,7 +1053,6 @@ class battleField(object):
             targets = []
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
-            targets = []
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
                 tileTargets = [
                     target for target in tile.units
