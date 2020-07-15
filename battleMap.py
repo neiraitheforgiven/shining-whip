@@ -292,6 +292,7 @@ class battle(object):
                 del target
                 time.sleep(7. / 10)
                 return
+                self.kill(target)
         elif spellName == "Blaze II":
             unit.mp -= self.mpCost(unit, 6)
             position = unit.allowedSpells[spellName][targetId]
@@ -309,13 +310,8 @@ class battle(object):
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
-                        print(f"{target.name} dies!")
-                        field.terrainArray[position].units.remove(target)
-                        if target in self.turnOrder:
-                            self.turnOrder.remove(target)
-                        del target
-                        time.sleep(7. / 10)
-                        return
+                        self.kill(target)
+            # remember that Defense: Dark Magic I and II are a thing.
         elif spellName == "Detox I":
             unit.mp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
@@ -716,6 +712,17 @@ class battle(object):
         if unit.xp > 100:
             unit.xp -= 100
             unit.levelUp(True)
+
+    def kill(self, target):
+        print(f"{target.name} dies!")
+        field = self.battleField
+        targetPosition = field.getUnitPos(target)
+        field.terrainArray[targetPosition].units.remove(target)
+        if target in self.turnOrder:
+            self.turnOrder.remove(target)
+        del target
+        time.sleep(7. / 10)
+        return
 
     def mpCost(self, unit, amount):
         cost = amount
