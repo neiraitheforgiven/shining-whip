@@ -535,18 +535,14 @@ class battle(object):
                         maxFP += unit.equipment.fp
                         maxMP += unit.equipment.mp
                     print(
-                            f"It's {unit.name}'s turn! "
-                            f"(HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
+                            f"It's {unit.name}'s turn! (Level {unit.level} "
+                            f"{unit.title})")
+                    print(
+                            f"  (HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
                             f"MP: {unit.mp}/{maxMP} "
                             f"Move: {unit.movementPoints}/{maxMv}{mvType} "
                             f"Fame Bonus: {fame}%)")
                     time.sleep(2. / 10)
-                if otherUnits:
-                    print(
-                            f"{unit.name} is standing on ("
-                            f"{self.battleField.terrainArray.index(tile)}) "
-                            f"{tile.name} with {otherUnits}.")
-                else:
                     print(
                             f"{unit.name} is standing on ("
                             f"{self.battleField.terrainArray.index(tile)}) "
