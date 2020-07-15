@@ -393,7 +393,7 @@ class battle(object):
             unit.fp -= 6
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(15, (target.maxHP - target.hp))
+            healing = min(15, (target.maxHP() - target.hp))
             print(f"{unit.name} restores {healing} health to {target.name}!")
             target.hp += healing
             self.giveExperience(unit, target, healing)
