@@ -1594,6 +1594,8 @@ class game(object):
                 incumbent.equippedBy = None
             equipment.equippedBy = pc
             pc.equipment = equipment
+            if equipment not in self.inventory:
+                self.inventory.append(equipment)
             print(f"{pc.name} equipped the {equipment.name}.")
 
     def getSellPrice(self, item):
