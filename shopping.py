@@ -24,6 +24,7 @@ class shop(object):
                 print("Type (S) to sell weapons you are not using.")
                 allowedCommands.append("S", "s")
             print("(L) Leave the shop.")
+            print()
             while command not in allowedCommands:
                 command = input("Type a letter to make your choice: ")
             if command in ("B", "b"):
@@ -35,6 +36,7 @@ class shop(object):
                     self.printShopItems(game)
                     print(f"({len(self.goods)}) Don't buy anything.")
                     print(f"You have {game.money} Scroulings.")
+                    print()
                     try:
                         itemToBuy = int(input(
                                 "Type a number to buy a weapon: "))
@@ -52,16 +54,24 @@ class shop(object):
                     itemString = (
                             f"({game.inventory.index(item)}) {item.name} ")
                     if item.equippedBy:
-                        itemString += f"E: {item.equippedBy}"
+                        itemString += f"E: {item.equippedBy.name}"
                     print(itemString)
+                print(f"({len(game.inventory)}) Done equiping my troops.")
                 itemToEquip = None
                 while itemToEquip not in [
-                        game.inventory.index(item) for item in game.inventory]:
+                        game.inventory.index(item)
+                        for item in game.inventory] or (
+                        itemToEquip != len(game.inventory)):
                     try:
                         itemToEquip = int(input("Type a number to equip: "))
                     except ValueError:
                         itemToEquip = None
-                game.equipItem(self, game.inventory[itemToEquip])
+                    if itemToEquip == len(game.inventory):
+                        break
+                    if itemToEquip is not None:
+                        game.equipItem(game.inventory[itemToEquip])
+                        itemToEquip = None
+                        print()
             elif command in ("S", "s"):
                 command = None
                 allowedItems = [
@@ -74,14 +84,19 @@ class shop(object):
                     print(sellString)
                 print(f"({len(allowedItems)}) I'm done selling.")
                 whatToSell = None
-                while whatToSell != len(allowedItems):
-                    while whatToSell not in allowedItems:
-                        try:
-                            whatToSell = int(input(
-                                    "Type a number to sell a weapon: "))
-                        except ValueError:
-                            whatToSell = None
-                    self.sellItem(game, allowedItems[whatToSell])
+                while whatToSell not in allowedItems or (
+                        whatToSell != len(allowedItems)):
+                    try:
+                        whatToSell = int(input(
+                                "Type a number to sell a weapon: "))
+                    except ValueError:
+                        whatToSell = None
+                    if whatToSell == len(allowedItems):
+                        break
+                    if whatToSell is not None:
+                        self.sellItem(game, allowedItems[whatToSell])
+                        whatToSell = None
+                        print()
         print("\"Thanks for coming, kid.\"")
 
     def buyGood(self, game, itemToBuy):
