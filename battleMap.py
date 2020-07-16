@@ -1426,7 +1426,7 @@ class game(object):
                 "\"We have to go north to inform Her Majesty of her father's "
                 "death.\"")
         print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
-        recruit = playerCharacter("Khris", "Kyantol", "Prophet", chatter, 4)
+        recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter, 4)
         self.equipOnCharacter(
                 equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
                 recruit)
