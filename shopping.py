@@ -50,18 +50,18 @@ class shop(object):
                         print()
             elif command in ("E", "e"):
                 command = None
-                for item in game.inventory:
-                    itemString = (
-                            f"({game.inventory.index(item)}) {item.name} ")
-                    if item.equippedBy:
-                        itemString += f"E: {item.equippedBy.name}"
-                    print(itemString)
-                print(f"({len(game.inventory)}) Done equiping my troops.")
                 itemToEquip = None
                 while itemToEquip not in [
                         game.inventory.index(item)
                         for item in game.inventory] or (
                         itemToEquip != len(game.inventory)):
+                    for item in game.inventory:
+                        itemString = (
+                                f"({game.inventory.index(item)}) {item.name} ")
+                        if item.equippedBy:
+                            itemString += f"E: {item.equippedBy.name}"
+                        print(itemString)
+                    print(f"({len(game.inventory)}) Done equipping my troops.")
                     try:
                         itemToEquip = int(input("Type a number to equip: "))
                     except ValueError:

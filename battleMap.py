@@ -1592,6 +1592,9 @@ class game(object):
             if pc.equipment:
                 incumbent = pc.equipment
                 incumbent.equippedBy = None
+            if equipment.equippedBy:
+                incumbent = equipment.equippedBy
+                incumbent.equipment = None
             equipment.equippedBy = pc
             pc.equipment = equipment
             if equipment not in self.inventory:
