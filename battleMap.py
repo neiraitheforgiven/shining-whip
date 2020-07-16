@@ -501,9 +501,10 @@ class battle(object):
             # unit may have died since this loop started.
             if unit[0].hp <= 0:
                 continue
-            print("")
-            self.battleField.viewMapFromUnit(unit)
-            print("")
+            if type(unit) == playerCharacter:
+                print("")
+                self.battleField.viewMapFromUnit(unit)
+                print("")
             endBattle = self.doTurn(unit[0])
             if endBattle:
                 return
