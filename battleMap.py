@@ -614,8 +614,8 @@ class battle(object):
                 itemToEquip = None
                 while itemToEquip not in [
                         allowedEquipment.index(item)
-                        for item in allowedEquipment] or (
-                        len(allowedEquipment) or len(allowedEquipment) + 1):
+                        for item in allowedEquipment] and (itemToEquip not in (
+                        len(allowedEquipment), len(allowedEquipment) + 1)):
                     for item in allowedEquipment:
                         print(
                                 f"({allowedEquipment.index(item)}) "
