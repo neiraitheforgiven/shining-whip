@@ -1498,7 +1498,7 @@ class game(object):
     def getSellPrice(self, item):
         equipString = f"Equip: {item.type}"
         fame = max([
-                pc.stat["Fame"] for pc in self.playerCharacters
+                pc.stats["Fame"] for pc in self.playerCharacters
                 if equipString in pc.powers])
         amount = math.floor(item.price * (0.1 + (fame / 100)))
         return amount
