@@ -67,7 +67,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Sniper"
             self.attackProfile = attackProfile or "Weakest"
             self.equipment = equipment(
-                    "Arrows", "Wooden Arrow", 150, 0, 0, 3, 0, 0)
+                    "Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
