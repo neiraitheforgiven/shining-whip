@@ -150,6 +150,7 @@ class battle(object):
 
     def attack(self, unit, target):
         bf = self.battleField
+        counterattack = False
         routEnemy = False
         doubleChanceArray = []
         dex = self.getStat(unit, "Dexterity")
@@ -186,6 +187,11 @@ class battle(object):
                         self.getStat(target, "Speed")) * (1 + (
                                 (targetLuck / 10))))
                 attackTypeArray.extend(["dodge"] * dodgeSkill)
+            if self.getPower(unit, "Luck: Counterattack"):
+                counterSkill = math.floor(
+                        self.getSkill(target, "Dexterity") * (
+                                1 + targetLuck / 10))
+                attackTypeArray.extend(["counter"] * counterSkill)
             attackType = random.choice(attackTypeArray)
             if attackType == 'dodge':
                 print(f"{target.name} dodges the attack!")
@@ -235,6 +241,8 @@ class battle(object):
                     return
                 elif attackType == "routing":
                     routEnemy = True
+                elif attackType == "counter":
+                    counterattack = True
                 if routEnemy and ((i + 1) == attackCount):
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
@@ -246,6 +254,10 @@ class battle(object):
                         if moveTo <= len(self.battleField.terrainArray) - 1:
                             print(f"{target.name} was routed!")
                             self.battleField.move(target, moveTo)
+                if counterattack and ((i + 1) == attackCount):
+                    bf.checkAttack(target, bf.getunitPos(target))
+                    if unit in target.allowedAttacks:
+                        self.attack(target, unit)
 
     def battleOn(self):
         if self.egressing:

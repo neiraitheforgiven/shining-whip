@@ -237,13 +237,13 @@ class playerCharacter(object):
             elif "Bard" in self.title:
                 listOfPowers = [
                         "Equip: Dagger", "Heal I", "Equip: Bows",
-                        "Counterattack", "Luck: Enable Triple Attack",
+                        "Luck: Counterattack", "Luck: Enable Triple Attack",
                         "Command: Health Regeneration",
                         "Vocal Attack: Increased Damage I",
                         "Luck: Increased Dodge Chance"]
             elif "Baron" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Command: Counterattack",
+                        "Equip: Long Swords", "Command: Luck: Counterattack",
                         "Luck: Reverse Death", "Command: Phalanx",
                         "Luck: Critical Drain I",
                         "Swords: Increased Damage I",
@@ -288,7 +288,8 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Vocal Attack: Increased Damage I", "Heal I",
                         "Blast I", "Vocal Attack: Increased Damage II",
-                        "Blast II", "Command: Vocal Attack: Increased Damage II",
+                        "Blast II",
+                        "Command: Vocal Attack: Increased Damage II",
                         "Vocal Attack: Increased Damage III", "Blast III"]
             elif "Dark Mage" in self.title:
                 listOfPowers = [
@@ -301,9 +302,10 @@ class playerCharacter(object):
                         "Defense: Increased Resistance II", "Blast III"]
             elif "Duelist" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Counterattack",
+                        "Equip: Long Swords", "Luck: Counterattack",
                         "Defense: Swords I", "Swords: Increased Luck I",
-                        "Swords: Increased Luck II", "Luck: Dodge Grants Counterattack",
+                        "Swords: Increased Luck II",
+                        "Luck: Dodge Grants Counterattack",
                         "Swords: Increased Luck III", "First Strike"]
             elif "Fire Mage" in self.title:
                 listOfPowers = [
@@ -318,7 +320,7 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Equip: Axes", "Luck: Dodge Chance Increased I",
                         "Improvised Attack",
-                        "Luck: Dodge Grants Counterattack",
+                        "Luck: Dodge Grants Luck: Counterattack",
                         "Luck: Reverse Death", "Axes: Range + 1",
                         "Luck: Dodge Chance Increased I",
                         "Luck: Dodge Chance Increased II"]
@@ -333,7 +335,7 @@ class playerCharacter(object):
             elif "Hero" in self.title:
                 listOfPowers = [
                         "Egress I", "Equip: Long Swords",
-                        "Equip: Sacred Swords", "Counterattack",
+                        "Equip: Sacred Swords", "Luck: Counterattack",
                         "Swords: Increased Luck I", "Bolt I", "Bolt II",
                         "Swords: Increased Luck II"]
             elif ("Knight" in self.title and "Mage Knight" not in
@@ -387,7 +389,7 @@ class playerCharacter(object):
             elif "Sky Battler" in self.title:
                 listOfPowers = [
                         "Flying Movement", "Equip: Long Swords",
-                        "Counterattack", "Luck: Increased Dodge I",
+                        "Luck: Counterattack", "Luck: Increased Dodge I",
                         "Swords: Increased Luck II",
                         "Luck: Increased Dodge II", "Movement: Ignore Enemies",
                         "Swords: Increased Luck III"]
@@ -403,7 +405,7 @@ class playerCharacter(object):
                         "Unarmed Attack: Increased Damage I", "Ninja Bolt I",
                         "Unarmed Attack: Increased Damage II",
                         "Increased Defense", "Whirlwind Attack",
-                        "Attack: Lightning", "Counterattack",
+                        "Attack: Lightning", "Luck: Counterattack",
                         "Unarmed Attack: Increased Damage III"]
             elif "Sorceror" in self.title:
                 listOfPowers = [
@@ -431,7 +433,7 @@ class playerCharacter(object):
                         "Critical Attack: Bolt III"]
             elif "Thief" in self.title:
                 listOfPowers = [
-                        "Equip: Daggers", "Counterattack", "Luck: Steal",
+                        "Equip: Daggers", "Luck: Counterattack", "Luck: Steal",
                         "Daggers: Range +1", "Stealthy Movement",
                         "Ninja Fire I", "Ninja Bolt I", "Ninja Fire II"]
             elif "Titan" in self.title:
