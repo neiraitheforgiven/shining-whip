@@ -243,9 +243,9 @@ class playerCharacter(object):
             elif "Baron" in self.title:
                 listOfPowers = [
                         "Equip: Long Swords", "Command: Counterattack",
-                        "Luck: Reverse Death", "Swords: Increased Damage I",
+                        "Luck: Reverse Death", "Command: Phalanx",
                         "Luck: Critical Drain I",
-                        "Command: Luck: Increased Critical Chance",
+                        "Swords: Increased Damage I",
                         "Death II", "Luck: Critical Drain II"]
             elif "Berserker" in self.title:
                 listOfPowers = [
