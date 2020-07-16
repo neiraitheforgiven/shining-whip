@@ -2,6 +2,7 @@ from characters import equipment
 from characters import playerCharacter
 from characters import monster
 from operator import itemgetter
+from shopping import shop
 import math
 import random
 import time
@@ -31,7 +32,7 @@ class battle(object):
                                 (monster("Crazed Dwarf"), 9),
                                 (monster("Goblin"), 10),
                                 (monster("Goblin"), 10)],
-                        party)
+                        party, game)
             elif num == 2:
                 self.battleField = battleField([
                         "Loose Rocks", "Loose Rocks", "Loose Rocks",
@@ -71,7 +72,7 @@ class battle(object):
                                 (monster(
                                         "Traitor Knight", "Advance-Defensive"),
                                         17)],
-                        party)
+                        party, game)
             elif num == 3:
                 self.battleField = battleField([
                         "Path", "Path", "Path", "Path", "Path", "Path", "Path",
@@ -101,7 +102,7 @@ class battle(object):
                                 (monster("Traitor Knight"), 11),
                                 (monster("Traitor Knight"), 11),
                                 (monster("Traitor Knight"), 12)],
-                        party)
+                        party, game)
             elif num == 4:
                 self.battleField = battleField([
                         "Path", "Path", "Path", "Bridge", "Bridge", "Path",
@@ -131,7 +132,7 @@ class battle(object):
                                 (monster("Sniper"), 19),
                                 (monster("Sniper"), 19),
                                 (monster("Dark Apprentice"), 19)],
-                        party)
+                        party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
@@ -193,11 +194,19 @@ class battle(object):
                 if attackType == 'critical':
                     print("A Critical Attack!")
                 damage = max(strength, dex)
-                if (self.getPower(
-                        unit, "Unarmed Attack: Increased Damage I") and not (
-                                unit.equipment)):
+                if unit.equipment:
+                    damageString = f"{unit.equipment.type}: Increased Damage "
+                else:
+                    damageString = "Unarmed Attack: Increased Damage "
+                if self.getPower(unit, damageString + "I"):
                     damage *= 1.3
-                    damage = math.ceil(damage)
+                if self.getPower(unit, damageString + "II"):
+                    damage *= 1.3
+                if self.getPower(unit, damageString + "III"):
+                    damage *= 1.3
+                if self.getPower(unit, damageString + "IV"):
+                    damage *= 1.3
+                damage = math.ceil(damage)
                 if self.getPower(target, "Defense: Melee Attacks I") and (
                         bf.getUnitPos(unit) == bf.getUnitPos(target)):
                     damage *= 0.7
@@ -274,15 +283,7 @@ class battle(object):
             target.hp -= damage
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
-                print(f"{target.name} dies!")
-                field = self.battleField
-                targetPosition = field.getUnitPos(target)
-                field.terrainArray[targetPosition].units.remove(target)
-                if target in self.turnOrder:
-                    self.turnOrder.remove(target)
-                del target
-                time.sleep(7. / 10)
-                return
+                self.kill(target)
         elif spellName == "Blaze II":
             unit.mp -= self.mpCost(unit, 6)
             position = unit.allowedSpells[spellName][targetId]
@@ -300,13 +301,14 @@ class battle(object):
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
-                        print(f"{target.name} dies!")
-                        field.terrainArray[position].units.remove(target)
-                        if target in self.turnOrder:
-                            self.turnOrder.remove(target)
-                        del target
-                        time.sleep(7. / 10)
-                        return
+                        self.kill(target)
+        elif spellName == "Detox I":
+            unit.mp -= self.mpCost(unit, 3)
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            target.status = None
+            print(f"{target.name} recovers!")
+            self.giveExperience(unit, target, 10)
         elif spellName == "Egress I":
             unit.mp -= self.mpCost(unit, 8)
             print(f"{unit.name} casts {spellName}!")
@@ -323,6 +325,62 @@ class battle(object):
             print("")
             print("")
             self.battleOn()
+        elif spellName == "Freeze I":
+            unit.mp -= self.mpCost(unit, 3)
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            damage = min(9, target.hp)
+            if self.getPower(target, "Defense: Magic"):
+                damage = min(7, target.hp)
+            print(f"{unit.name} deals {damage} damage to {target.name}!")
+            target.hp -= damage
+            self.giveExperience(unit, target, damage)
+            if target.hp <= 0:
+                self.kill(target)
+        elif spellName == "Freeze II":
+            unit.mp -= self.mpCost(unit, 7)
+            targetTile = self.battleField.getUnitPos(unit)
+            for target in targetTile.units:
+                if type(unit) != type(target):
+                    print(f"{unit.name} casts {spellName} on {target.name}!")
+                    damage = min(14, target.hp)
+                    if self.getPower(target, "Defense: Magic"):
+                        damage = min(10, target.hp)
+                    print(
+                            f"{unit.name} deals {damage} damage to "
+                            f"{target.name}!")
+                    target.hp -= damage
+                    self.giveExperience(unit, target, damage)
+                    if target.hp <= 0:
+                        self.kill(target)
+        elif spellName == "Frezze III":
+            unit.mp -= self.mpCost(unit, 10)
+            targetTile = unit.allowedSpells[spellName][targetId]
+            for target in targetTile.units:
+                if type(unit) != type(target):
+                    print(f"{unit.name} casts {spellName} on {target.name}!")
+                    damage = min(20, target.hp)
+                    if self.getPower(target, "Defense: Magic"):
+                        damage = min(17, target.hp)
+                    print(
+                            f"{unit.name} deals {damage} damage to "
+                            f"{target.name}!")
+                    target.hp -= damage
+                    self.giveExperience(unit, target, damage)
+                    if target.hp <= 0:
+                        self.kill(target)
+        elif spellName == "Freeze IV":
+            unit.mp -= self.mpCost(unit, 12)
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            damage = min(52, target.hp)
+            if self.getPower(target, "Defense: Magic"):
+                damage = min(45, target.hp)
+            print(f"{unit.name} deals {damage} damage to {target.name}!")
+            target.hp -= damage
+            self.giveExperience(unit, target, damage)
+            if target.hp <= 0:
+                self.kill(target)
         elif spellName == "Heal I":
             unit.fp -= 3
             target = unit.allowedSpells[spellName][targetId]
@@ -335,7 +393,7 @@ class battle(object):
             unit.fp -= 6
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(15, (target.maxHP - target.hp))
+            healing = min(15, (target.maxHP() - target.hp))
             print(f"{unit.name} restores {healing} health to {target.name}!")
             target.hp += healing
             self.giveExperience(unit, target, healing)
@@ -437,17 +495,19 @@ class battle(object):
     def doTurn(self, unit, moved=False):
         if unit.status == "sleep":
             luck = self.getStat(unit, "Luck")
-            resistSkill = sum(
+            resistSkill = sum([
                     self.getStat(unit, "Faith"),
                     self.getStat(unit, "Intelligence"),
-                    self.getStat(unit, "Stamina"))
+                    self.getStat(unit, "Stamina")])
             resistChance = math.floor(
                     resistSkill + (resistSkill * (luck / 10)))
             resistArray = []
             resistArray.append(['resist'] * resistChance)
-            resistArray.append(['fail'] * (100 - (luck)))
+            resistArray.append(['fail'] * (min(10, 50 - (resistChance))))
             result = random.choice(resistArray)
             if result == 'resist':
+                if unit.status == 'sleep':
+                    print(f"{unit.name} woke up!")
                 unit.status = None
             elif unit.status == 'sleep':
                 print(f"{unit.name} is asleep.")
@@ -475,18 +535,14 @@ class battle(object):
                         maxFP += unit.equipment.fp
                         maxMP += unit.equipment.mp
                     print(
-                            f"It's {unit.name}'s turn! "
-                            f"(HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
+                            f"It's {unit.name}'s turn! (Level {unit.level} "
+                            f"{unit.title})")
+                    print(
+                            f"  (HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
                             f"MP: {unit.mp}/{maxMP} "
                             f"Move: {unit.movementPoints}/{maxMv}{mvType} "
                             f"Fame Bonus: {fame}%)")
                     time.sleep(2. / 10)
-                if otherUnits:
-                    print(
-                            f"{unit.name} is standing on ("
-                            f"{self.battleField.terrainArray.index(tile)}) "
-                            f"{tile.name} with {otherUnits}.")
-                else:
                     print(
                             f"{unit.name} is standing on ("
                             f"{self.battleField.terrainArray.index(tile)}) "
@@ -605,16 +661,9 @@ class battle(object):
         luck = self.getStat(unit, "Luck")
         voice = self.getStat(unit, "Voice")
         attackTypeArray = []
-        attackTypeArray.extend(
-                ["normal"] * (100 - (luck)))
+        attackTypeArray.extend(["normal"] * (100 - (luck)))
         criticalChance = math.floor(voice + (voice * (luck / 10)))
         attackTypeArray.extend(["critical"] * criticalChance)
-        if self.getPower(unit, "Sonorous Voice"):
-            sleepChance = luck
-            attackTypeArray.extend(["sleep"] * sleepChance)
-        routSkill = max(cha, voice)
-        routChance = math.floor(routSkill + (routSkill * (luck / 10)))
-        attackTypeArray.extend(["routing"] * routChance)
         friendSound = sum([
                 self.getStat(tileUnit, "Voice") for tileUnit in
                 bf.terrainArray[position].units
@@ -627,21 +676,20 @@ class battle(object):
                 self.getStat(tileUnit, "Voice") for tileUnit in
                 bf.terrainArray[position].units
                 if type(tileUnit) != type(unit)])
-        amount = friendSound - enemySound
-        if amount <= 0:
-            if type(unit) == playerCharacter:
-                print(
-                        "The sound of the note is drowned out by the sound of "
-                        "the enemy!")
-            elif type(unit) == monster:
-                print(
-                        "The sound of the note is drowned out by the holy "
-                        "song of the Force.")
-            return
+        amount = max(1, friendSound - enemySound)
         damage = math.ceil(amount / 12)
         damage = max(damage, 1)
         for target in bf.terrainArray[position].units:
             if type(target) != type(unit):
+                attackTypeArray = []
+                attackTypeArray.extend(["normal"] * (100 - (luck)))
+                if self.getPower(unit, "Sonorous Voice"):
+                    sleepChance = luck
+                    attackTypeArray.extend(["sleep"] * sleepChance)
+                routSkill = max(cha, voice)
+                routChance = math.floor(routSkill + (routSkill * (luck / 10)))
+                attackTypeArray.extend(["routing"] * routChance)
+                attackType = random.choice(attackTypeArray)
                 damage = min(damage, target.hp)
                 print(f"The note deals {damage} damage to {target.name}!")
                 target.hp -= damage
@@ -668,6 +716,7 @@ class battle(object):
                             self.battleField.move(target, moveTo)
                 elif attackType == "sleep":
                     target.status = "sleep"
+                    print(f"{target.name} fell asleep!")
 
     def getFameBonus(self, unit):
         return self.battleField.getFameBonus(unit)
@@ -700,6 +749,17 @@ class battle(object):
         if unit.xp > 100:
             unit.xp -= 100
             unit.levelUp(True)
+
+    def kill(self, target):
+        print(f"{target.name} dies!")
+        field = self.battleField
+        targetPosition = field.getUnitPos(target)
+        field.terrainArray[targetPosition].units.remove(target)
+        if target in self.turnOrder:
+            self.turnOrder.remove(target)
+        del target
+        time.sleep(7. / 10)
+        return
 
     def mpCost(self, unit, amount):
         cost = amount
@@ -736,7 +796,8 @@ class battleTile(object):
 
 class battleField(object):
 
-    def __init__(self, listOfTiles, listOfUnits, party):
+    def __init__(self, listOfTiles, listOfUnits, party, game):
+        self.game = game
         self.terrainArray = []
         self.units = []
         for tile in listOfTiles:
@@ -854,14 +915,10 @@ class battleField(object):
         else:
             minRange = 0
             maxRange = 0
-        if type(unit) == playerCharacter:
-            targetType = monster
-        elif type(unit) == monster:
-            targetType = playerCharacter
         if minRange == 0 and maxRange == 0:
             unit.allowedAttacks = [
-                    unit for unit in currentTile.units
-                    if type(unit) == targetType]
+                    target for target in currentTile.units
+                    if type(unit) != type(target)]
             return bool(unit.allowedAttacks)
         else:
             lowRangeBottom = position - maxRange
@@ -877,7 +934,7 @@ class battleField(object):
                         if tile not in tilesInRange else tilesInRange
             for tile in tilesInRange:
                 for tileUnit in tile.units:
-                    if type(tileUnit) == targetType:
+                    if type(tileUnit) != type(unit):
                         unit.allowedAttacks.append(tileUnit)
             return bool(unit.allowedAttacks)
 
@@ -919,24 +976,67 @@ class battleField(object):
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
-        if type(unit) == playerCharacter:
-            friend = playerCharacter
-            enemy = monster
-        elif type(unit) == monster:
-            friend = monster
-            enemy = playerCharacter
         if self.getPower(unit, "Blaze I") and unit.mp >= self.mpCost(unit, 2):
             targets = [
                     target for target in currentTile.units
-                    if type(target) == enemy]
+                    if type(target) != type(unit)]
             if any(targets):
                 unit.allowedSpells["Blaze I"] = targets
+        if self.getPower(unit, "Detox I") and unit.mp >= self.mpCost(unit, 3):
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) == type(unit) and target.status]
+            if any(targets):
+                unit.allowedSpells["Detox I"] = targets
         if self.getPower(unit, "Egress I") and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = 'Self'
+        if self.getPower(unit, "Freeze I") and unit.mp >= self.mpCost(unit, 3):
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) != type(unit)]
+            if any(targets):
+                unit.allowedSpells["Freeze I"] = targets
+        if (
+                self.getPower(unit, "Freeze II") and (
+                unit.mp >= self.mpCost(unit, 7))):
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) != type(unit)]
+            if any(targets):
+                unit.allowedSpells["Freeze II"] = currentTile
+        if (
+                self.getPower(unit, "Freeze III") and (
+                unit.mp >= self.mpCost(unit, 10))):
+            targetTiles = []
+            minRange = max(0, (position - 1))
+            maxRange = min((position + 1), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) != type(unit)]
+                if any(tileTargets):
+                    targetTiles.append(tile)
+                    continue
+            if any(targetTiles):
+                unit.allowedSpells["Freeze III"] = targetTiles
+        if (
+                self.getPower(unit, "Freeze IV") and (
+                unit.mp >= self.mpCost(unit, 12))):
+            targets = []
+            minRange = max(0, position - 2)
+            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) != type(unit)]
+                if any(tileTargets):
+                    targets.extend(target for target in tileTargets)
+            if any(targets):
+                unit.allowedSpells["Freeze IV"] = targets
         if self.getPower(unit, "Heal I") and unit.fp >= 3:
             targets = [
                     target for target in currentTile.units
-                    if type(target) == friend and target.hp < (
+                    if type(target) == type(unit) and target.hp < (
                             target.maxHP())]
             if any(targets):
                 unit.allowedSpells["Heal I"] = targets
@@ -944,7 +1044,6 @@ class battleField(object):
             targets = []
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
-            targets = []
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
                 tileTargets = [
                     target for target in tile.units
@@ -1096,7 +1195,7 @@ class battleField(object):
             self.move(monster, moveTo)
         elif monster.moveProfile == "Sniper":
             candidates = [
-                    target for target in self.party if target.hp > 0]
+                    target for target in self.game.party if target.hp > 0]
             candidates = [
                     target for target in candidates
                     if target.stats["Fame"] == max(
@@ -1134,6 +1233,9 @@ class battleField(object):
     def getPower(self, unit, name):
         if name in unit.powers:
             return True
+        elif unit.equipment:
+            if name in unit.equipment.powers:
+                return True
         else:
             commandName = "Command: " + name
             position = self.getUnitPos(unit)
@@ -1278,43 +1380,49 @@ class game(object):
         self.playerCharacters = []
         self.battleStatus = None
         self.money = 0
+        self.inventory = []
 
         chatter = False
         recruit = playerCharacter(
                 "Max", "Human", "Hero", chatter, 0)
         self.equipOnCharacter(
-                equipment("Swords", "Middle Sword", 0, 0, 5, 0, 0), recruit)
+                equipment("Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Lowe", "Hobbit", "Priest", chatter, 0)
         self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 0, 0, 1, 3, 3), recruit)
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Tao", "Elf", "Fire Mage", chatter, 0)
         self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 0, 0, 1, 3, 3), recruit)
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Luke", "Dwarf", "Warrior", chatter, 0)
         self.equipOnCharacter(
-                equipment("Axes", "Short Axe", 0, 0, 5, 0, 0), recruit)
+                equipment("Axes", "Short Axe", 120, 0, 0, 3, 0, 0), recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Ken", "Centaur", "Knight", chatter, 0)
         self.equipOnCharacter(
-                equipment("Spears", "Wooden Spear", 0, 1, 4, 0, 0), recruit)
+                equipment("Spears", "Wooden Spear", 100, 0, 1, 3, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
         recruit = playerCharacter(
                 "Hans", "Elf", "Archer", chatter, 0)
         self.equipOnCharacter(
-                equipment("Arrows", "Wooden Arrow", 1, 1, 3, 0, 0), recruit)
+                equipment("Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0),
+                recruit)
         self.playerCharacters.append(recruit)
 
-        self.party = self.playerCharacters[:6]
+        self.party = self.playerCharacters
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'king')
+                self.reckoning(10, 'king')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'king')
             battle(self, self.party, 1)
@@ -1333,17 +1441,17 @@ class game(object):
         recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
-        self.party = self.playerCharacters[:7]
-        self.reckoning(3, 'lonely priest')
+        self.party = self.playerCharacters
+        self.reckoning(30, 'lonely priest')
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'lonely priest')
+                self.reckoning(10, 'lonely priest')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'lonely priest')
             battle(self, self.party, 2)
         print("")
-        print("The party arrives at the Holy City of . It is burning.")
+        print("The party arrives at the Holy City of Yatahal. It is burning.")
         print("Too late to intervene, you watch in horror as your mentor ")
         print("and your king are slain by a dark swordsman who looks exactly ")
         print("like you. The swordsman disappears into a black void")
@@ -1354,30 +1462,124 @@ class game(object):
         print(" Mae, joins you. With her is a washed up former city guard, ")
         print("drunk on wine and thirsty for vengence, Gort.")
         print("")
-        recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
-        recruit.levelUp(chatter)
         recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
         self.playerCharacters.append(recruit)
         self.equipOnCharacter(
-                equipment("Lances", "Bronze Lance", 0, 0, 6, 0, 0), recruit)
+                equipment("Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
+                recruit)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
         self.playerCharacters.append(recruit)
         self.equipOnCharacter(
-                equipment("Axes", "Short Axe", 0, 0, 5, 0, 0), recruit)
+                equipment("Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
-        self.playerCharacters.append(recruit)
-        self.party = self.playerCharacters[:9]
-        self.reckoning(3, 'widow of your mentor')
+        self.party = self.playerCharacters
+        self.reckoning(30, 'widow of your mentor')
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(1, 'widow of your mentor')
+                self.reckoning(10, 'widow of your mentor')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'widow of your mentor')
             battle(self, self.party, 3)
+        print("")
+        print("You arrive in Ulmara, a small merchant city bordering Yatahal.")
+        print("The King of Ulmara greets you warmly, bestowing lavish gifts.")
+        self.reckoning(50, "King of Ulmara")
+        print(
+                "The King gestures to the shopping district: \"Go visit a "
+                "smith!\"")
+        print(
+                "On your way to the shops, you notice a young Kyantol woman "
+                "following you.")
+        shop(self, 350, [
+                "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
+                "Wooden Staff", "Middle Sword"])
+        print("")
+        print(
+                "As you leave the shop, the young Kyantol woman appears at "
+                "your side.")
+        print("\"Don't trust the king!\", she hisses, then spirits away.")
+        print("She looked a bit wild, like a prophet.")
+        print(
+            "Before you can decide what to do, the king summons you to the "
+            "castle.")
+        print("There, the king reveals that he has made a deal with Darksol,")
+        print("the dark wizard behind the army that destroyed Yatahal.")
+        print(
+                "In exchange for keeping Ulmara safe, he is now supplying "
+                "Darksol.")
+        print("You are now to be sent to Darksol as more recruits.")
+        print("")
+        print("You refuse, so the king throws you into prison.")
+        print("")
+        print("")
+        print("")
+        print(
+                "That night, a door opens in the wall of your cell and the "
+                "Kyantol woman enters.")
+        print("\"My people built this palace and the prison.\" She smirks.")
+        print("\"Come with me -- we'll have to fight our way out of town.\"")
+        print(
+                "\"We have to go north to inform Her Majesty of her father's "
+                "death.\"")
+        print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
+        recruit = playerCharacter("Khris", "Kyantol", "Prophet", chatter, 4)
+        self.equipOnCharacter(
+                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                recruit)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        self.playerCharacters.append(recruit)
+        self.party = self.playerCharacters
+        self.battleStatus = None
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(20, 'the priests')
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'the priests')
+            battle(self, self.party, 4)
+
+    def equipItem(self, equipment):
+        allowedUnits = [
+                unit for unit in self.playerCharacters
+                if unit.canEquip(equipment)]
+        if allowedUnits:
+            for unit in allowedUnits:
+                equipString = f"({allowedUnits.index(unit)}) {unit.name} "
+                if unit.equipment:
+                    currentDamage = unit.equipment.damage
+                    currentFaith = unit.equipment.fp
+                    currentMagic = unit.equipment.mp
+                else:
+                    currentDamage = 0
+                    currentFaith = 0
+                    currentMagic = 0
+                if equipment.damage != currentDamage:
+                    equipString += (
+                            f"Damage: {currentDamage}-->{equipment.damage} ")
+                if equipment.fp != currentFaith:
+                    equipString += f"Faith: {currentFaith}-->{equipment.fp} "
+                if equipment.mp != currentMagic:
+                    equipString += f"Magic: {currentMagic}-->{equipment.mp}"
+                print(equipString)
+            print(f"({len(allowedUnits)}) Just throw it in my bag.")
+            command = None
+            while command not in [
+                    allowedUnits.index(unit) for unit in allowedUnits]:
+                try:
+                    command = int(input(
+                            "Type a number to equip the weapon."))
+                except ValueError:
+                    command = None
+                if command == len(allowedUnits):
+                    break
+            if command in [allowedUnits.index(unit) for unit in allowedUnits]:
+                self.equipOnCharacter(equipment, allowedUnits[command])
 
     def equipOnCharacter(self, equipment, character):
         if type(character) == str:
@@ -1393,6 +1595,14 @@ class game(object):
             equipment.equippedBy = pc
             pc.equipment = equipment
             print(f"{pc.name} equipped the {equipment.name}.")
+
+    def getSellPrice(self, item):
+        equipString = f"Equip: {item.type}"
+        fame = max([
+                pc.stat["Fame"] for pc in self.playerCharacters
+                if equipString in pc.powers])
+        amount = math.floor(item.price * (0.1 + (fame / 100)))
+        return amount
 
     def reckoning(self, bounty, patron):
         clergyCost = sum([
