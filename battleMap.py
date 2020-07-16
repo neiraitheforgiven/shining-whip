@@ -561,29 +561,26 @@ class battle(object):
                 print("Type (A) to attack.")
                 allowedCommands.append("A")
                 allowedCommands.append("a")
-                # equipEnabled = self.battleField.checkEquip(unit, position)
-                # if equipEnabled:
-                #     print("Type (E) to change equipment.")
+            if not unit.hasEquipped and not moved:
+                print("Type (E) to equip or unequip weapons.")
+                allowedCommands.append("E")
+                allowedCommands.append("e")
             spellEnabled = self.battleField.checkSpells(unit, position)
             if spellEnabled:
                 self.battleField.printSpellString(unit)
                 print("Type (S) to cast a spell.")
                 allowedCommands.append("S")
                 allowedCommands.append("s")
-            if not any([
-                    allowedCommand for allowedCommand in allowedCommands
-                    if allowedCommand not in ("W", "w")]):
-                print(f"{unit.name} waited.")
-                return
             vocalEnabled = self.battleField.checkVocal(unit)
             if vocalEnabled:
                 print("Type (V) to make a vocal attack.")
                 allowedCommands.append("V")
                 allowedCommands.append("v")
-            if not unit.hasEquipped and not moved:
-                print("Type (E) to equip or unequip weapons.")
-                allowedCommands.append("E")
-                allowedCommands.append("e")
+            if not any([
+                    allowedCommand for allowedCommand in allowedCommands
+                    if allowedCommand not in ("W", "w")]):
+                print(f"{unit.name} waited.")
+                return
             print("Type (W) to wait.")
             command = None
             while command not in allowedCommands:
