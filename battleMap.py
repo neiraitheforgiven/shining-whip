@@ -483,6 +483,7 @@ class battle(object):
     def doRound(self):
         self.turnOrder = self.determineInitiative()
         for unit in self.battleField.units:
+            unit.hasEquipped = False
             unit.movementPoints = self.getStat(unit, "Speed")
         for unit in self.turnOrder:
             # unit may have died since this loop started.
@@ -579,6 +580,10 @@ class battle(object):
                 print("Type (V) to make a vocal attack.")
                 allowedCommands.append("V")
                 allowedCommands.append("v")
+            if not unit.hasEquipped and not moved:
+                print("Type (E) to equip or unequip weapons.")
+                allowedCommands.append("E")
+                allowedCommands.append("e")
             print("Type (W) to wait.")
             command = None
             while command not in allowedCommands:
@@ -592,7 +597,7 @@ class battle(object):
                         moveTo = None
                 self.battleField.move(unit, moveTo)
                 self.doTurn(unit, True)
-            if command in ("A", "a"):
+            elif command in ("A", "a"):
                 attackTarget = None
                 while attackTarget not in [
                         unit.allowedAttacks.index(target)
@@ -602,7 +607,47 @@ class battle(object):
                     except ValueError:
                         attackTarget = None
                 self.doAttack(unit, attackTarget)
-            if command in ("S", "s"):
+            elif command in ("E", "e"):
+                allowedEquipment = [
+                        item for item in self.game.inventory
+                        if unit.canEquip(item) and not item.equippedBy]
+                itemToEquip = None
+                while itemToEquip not in [
+                        allowedEquipment.index(item)
+                        for item in allowedEquipment] or (
+                        len(allowedEquipment) or len(allowedEquipment) + 1):
+                    for item in allowedEquipment:
+                        print(
+                                f"({allowedEquipment.index(item)}) "
+                                f"{item.name}")
+                        self.printEstimatedValue(unit, item)
+                    print(f"({len(allowedEquipment)}) Go barehanded.")
+                    self.printEstimatedValue(unit)
+                    print(f"({len(allowedEquipment) + 1}) Never mind.")
+                    try:
+                        itemToEquip = int(input("Type a number to equip: "))
+                    except ValueError:
+                        itemToEquip = None
+                    if itemToEquip == len(allowedEquipment):
+                        if unit.equipment:
+                            incumbent = unit.equipment
+                            incumbent.equippedBy = None
+                        unit.equipment = None
+                        unit.hasEquipped = True
+                        print(f"{unit.name} put away their weapon.")
+                        itemToEquip = None
+                        break
+                    if itemToEquip == len(allowedEquipment) + 1:
+                        break
+                    if itemToEquip is not None:
+                        self.game.equipOnCharacter(
+                                allowedEquipment[itemToEquip], unit)
+                        itemToEquip = None
+                        unit.hasEquipped = True
+                        print()
+                        break
+                self.doTurn(unit, True)
+            elif command in ("S", "s"):
                 spellChoice = None
                 spellTarget = None
                 spellKeys = list(unit.allowedSpells.keys())
@@ -623,9 +668,9 @@ class battle(object):
                     except ValueError:
                         spellTarget = None
                 self.castSpell(unit, spellToCast, spellTarget)
-            if command in ("V", "v"):
+            elif command in ("V", "v"):
                 self.doVocalAttack(unit)
-            if command in ("W", "w"):
+            elif command in ("W", "w"):
                 return
         elif type(unit) == monster:
             print("")
@@ -766,6 +811,10 @@ class battle(object):
         if self.getPower(unit, "Magic: Cost Reduction I"):
             cost = math.ceil(cost * 0.75)
         return cost
+
+    def printEstimatedValue(self, unit, equipment=None):
+        bf = self.battleField
+        bf.printEstimatedValue(unit, equipment)
 
 
 class battleTile(object):
@@ -1293,6 +1342,56 @@ class battleField(object):
                     f"(HP: {target.hp}/{targetHealth})")
         attackString += ", ".join(attackStringAdds)
         print(attackString + ".")
+
+    def printEstimatedValue(self, unit, equipment=None):
+        valueString = "  "
+        incumbent = unit.equipment
+        unitDamage = max(
+                self.getStat(unit, "Strength"),
+                self.getStat(unit, "Dexterity"))
+        if incumbent:
+            fromDamage = incumbent.damage + unitDamage
+            fromFaith = incumbent.fp + self.getStat(unit, "Faith")
+            fromMagic = incumbent.mp + self.getStat(unit, "Intelligence")
+            fromType = incumbent.type
+        else:
+            fromDamage = unitDamage
+            fromFaith = self.getStat(unit, "Faith")
+            fromMagic = self.getStat(unit, "Intelligence")
+            fromType = "Unarmed Attack"
+        if self.getPower(unit, f"{fromType}: Increased Damage I"):
+            fromDamage *= 1.3
+        if self.getPower(unit, f"{fromType}: Increased Damage II"):
+            fromDamage *= 1.3
+        if self.getPower(unit, f"{fromType}: Increased Damage III"):
+            fromDamage *= 1.3
+        if self.getPower(unit, f"{fromType}: Increased Damage II"):
+            fromDamage *= 1.3
+        if equipment:
+            toDamage = equipment.damage + unitDamage
+            toFaith = equipment.fp + self.getStat(unit, "Faith")
+            toMagic = equipment.mp + self.getStat(unit, "Intelligence")
+            toType = equipment.type
+        else:
+            toDamage = unitDamage
+            toFaith = self.getStat(unit, "Faith")
+            toMagic = self.getStat(unit, "Intelligence")
+            toType = "Unarmed Attack"
+        if self.getPower(unit, f"{toType}: Increased Damage I"):
+            toDamage *= 1.3
+        if self.getPower(unit, f"{toType}: Increased Damage II"):
+            toDamage *= 1.3
+        if self.getPower(unit, f"{toType}: Increased Damage III"):
+            toDamage *= 1.3
+        if self.getPower(unit, f"{toType}: Increased Damage II"):
+            toDamage *= 1.3
+        if fromDamage != toDamage:
+            valueString += f"Damage: {fromDamage}-->{toDamage}  "
+        if fromFaith != toFaith:
+            valueString += f"FP: {fromFaith}-->{toFaith}  "
+        if fromMagic != toMagic:
+            valueString += f"MP: {fromMagic}-->{toMagic}  "
+        print(valueString)
 
     def printSpellString(self, unit):
         spellString = f"{unit.name} can cast "

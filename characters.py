@@ -122,6 +122,7 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.hasEquipped = False
         self.status = None
         self.trophies = []
         if playerClass:
