@@ -22,7 +22,8 @@ class shop(object):
                     weapon for weapon in game.inventory
                     if not weapon.equippedBy]):
                 print("Type (S) to sell weapons you are not using.")
-                allowedCommands.append("S", "s")
+                allowedCommands.append("S")
+                allowedCommands.append("s")
             print("(L) Leave the shop.")
             print()
             while command not in allowedCommands:
@@ -76,16 +77,16 @@ class shop(object):
                 command = None
                 allowedItems = [
                         item for item in game.inventory if not item.equippedBy]
-                for item in allowedItems:
-                    price = game.getSellPrice(item)
-                    sellString = (
-                            f"({allowedItems.index(item)}) {item.name} - "
-                            f"{price} Scroulings")
-                    print(sellString)
-                print(f"({len(allowedItems)}) I'm done selling.")
                 whatToSell = None
                 while whatToSell not in allowedItems or (
                         whatToSell != len(allowedItems)):
+                    for item in allowedItems:
+                        price = game.getSellPrice(item)
+                        sellString = (
+                                f"({allowedItems.index(item)}) {item.name} - "
+                                f"{price} Scroulings")
+                        print(sellString)
+                    print(f"({len(allowedItems)}) I'm done selling.")
                     try:
                         whatToSell = int(input(
                                 "Type a number to sell a weapon: "))
@@ -97,6 +98,11 @@ class shop(object):
                         self.sellItem(game, allowedItems[whatToSell])
                         whatToSell = None
                         print()
+                        allowedItems = [
+                                item for item in game.inventory
+                                if not item.equippedBy]
+                        if not any(allowedItems):
+                            break
         print("\"Thanks for coming, kid.\"")
 
     def buyGood(self, game, itemToBuy):
