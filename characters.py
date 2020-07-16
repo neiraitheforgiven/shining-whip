@@ -152,7 +152,7 @@ class playerCharacter(object):
             elif playerClass == "Samurai":
                 self.growth = self.initializeRandomStats("Stamina", "Faith")
             elif playerClass == "Sky Battler":
-                self.growth = self.initializeRandomStats("Speed", "Strength")
+                self.growth = self.initializeRandomStats("Speed", "Dexterity")
             elif playerClass == "Sky Lord":
                 self.growth = self.initializeRandomStats(
                         "Speed", "Intelligence")
