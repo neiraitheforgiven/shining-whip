@@ -628,24 +628,22 @@ class battle(object):
                         itemToEquip = int(input("Type a number to equip: "))
                     except ValueError:
                         itemToEquip = None
-                    if itemToEquip == len(allowedEquipment):
-                        if unit.equipment:
-                            incumbent = unit.equipment
-                            incumbent.equippedBy = None
-                        unit.equipment = None
-                        unit.hasEquipped = True
-                        print(f"{unit.name} put away their weapon.")
-                        itemToEquip = None
-                        break
-                    if itemToEquip == len(allowedEquipment) + 1:
-                        break
-                    if itemToEquip is not None:
-                        self.game.equipOnCharacter(
-                                allowedEquipment[itemToEquip], unit)
-                        itemToEquip = None
-                        unit.hasEquipped = True
-                        print()
-                        break
+                if itemToEquip == len(allowedEquipment):
+                    if unit.equipment:
+                        incumbent = unit.equipment
+                        incumbent.equippedBy = None
+                    unit.equipment = None
+                    unit.hasEquipped = True
+                    print(f"{unit.name} put away their weapon.")
+                    itemToEquip = None
+                elif itemToEquip == len(allowedEquipment) + 1:
+                    pass
+                elif itemToEquip is not None:
+                    self.game.equipOnCharacter(
+                            allowedEquipment[itemToEquip], unit)
+                    itemToEquip = None
+                    unit.hasEquipped = True
+                    print()
                 self.doTurn(unit, True)
             elif command in ("S", "s"):
                 spellChoice = None
