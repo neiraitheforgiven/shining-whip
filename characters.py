@@ -909,13 +909,13 @@ class playerCharacter(object):
         fame = self.stats["Fame"]
         luck = self.stats["Luck"]
         speed = self.stats["Speed"]
-        print(f"  Level    {self.level:3}    Strength: {strength}")
-        print(f"  HP:  {self.hp:3}/{self.maxHP():3}    Dexterity: {dex}")
-        print(f"  FP:  {self.fp:3}/{self.maxFP():3}    Charisma: {cha}")
-        print(f"  MP:  {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
+        print(f"  Level     {self.level:3}    Strength: {strength}")
+        print(f"  HP:   {self.hp:3}/{self.maxHP():3}    Dexterity: {dex}")
+        print(f"  FP:   {self.fp:3}/{self.maxFP():3}    Charisma: {cha}")
+        print(f"  MP:   {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
         print(f"  Moves: {self.movementPoints:2}/{speed:3}    Luck: {luck:3}")
         print(
-                f"  Exp: {self.xp:3}/100    Fame:    {fame:3}"
+                f"  Exp:  {self.xp:3}/100    Fame:    {fame:3}"
                 f"")
         sortedPowers = sorted(self.powers)
         print("Powers:")
@@ -957,8 +957,8 @@ class equipment(object):
 
 
 party = []
-stop = input("Type stop if you want to skip this.")
-if not stop == "stop":
+stop = input("Type debug to enter debug mode.")
+if stop == "debug":
     module = input("Type SF if you want me to run the SF module.")
     chatty = input(
             "Type chatty if you want to be barraged with leveling info.")
