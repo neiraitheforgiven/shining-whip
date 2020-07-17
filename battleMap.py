@@ -503,6 +503,9 @@ class battle(object):
                 continue
             if type(unit[0]) == playerCharacter:
                 pc = unit[0]
+                print("")
+                self.battleField.viewMapFromUnit(pc)
+                print("")
                 maxHP = pc.maxHP()
                 maxFP = pc.stats["Faith"]
                 maxMP = pc.stats["Intelligence"]
@@ -529,9 +532,6 @@ class battle(object):
                         f"{pc.name} is standing on ("
                         f"{self.battleField.terrainArray.index(tile)}) "
                         f"{tile.name}.")
-                print("")
-                self.battleField.viewMapFromUnit(pc)
-                print("")
             endBattle = self.doTurn(unit[0])
             if endBattle:
                 return
