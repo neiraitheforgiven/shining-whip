@@ -888,8 +888,44 @@ class playerCharacter(object):
                     print("    {} of {}".format(statName, statValue))
                 input()
 
+    def maxFP(self):
+        if self.equipment:
+            return self.stats["Faith"] + self.equipment.fp
+        else:
+            return self.stats["Faith"]
+
     def maxHP(self):
         return ((self.stats["Stamina"] * 2) + self.level)
+
+    def maxMP(self):
+        if self.equipment:
+            return self.stats["Intelligence"] + self.equipment.mp
+        else:
+            return self.stats["Intelligence"]
+
+    def printCharacterSheet(self):
+        print(f"{self.title:12} {self.name}")
+        strength = self.stats["Strength"]
+        dex = self.stats["Dexterity"]
+        cha = self.stats["Charisma"]
+        voi = self.stats["Voice"]
+        fame = self.stats["Fame"]
+        luck = self.stats["Luck"]
+        speed = self.stats["Speed"]
+        print(f"  Level    {self.level:3}    Strength: {strength}")
+        print(f"  HP:  {self.hp:3}/{self.maxHP():3}    Dexterity: {dex}")
+        print(f"  FP:  {self.fp:3}/{self.maxFP():3}    Charisma: {cha}")
+        print(f"  MP:  {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
+        print(f"  Fame:    {fame:3}    Luck: {luck:3}")
+        print(
+                f"  Exp: {self.xp:3}/100    "
+                f"Moves {self.movementPoints} / {speed}")
+        sortedPowers = sorted(self.powers)
+        print("Powers:")
+        print("  " + " - ".join(sortedPowers))
+        if self.equipment:
+            print(f"Equipped: {self.equipment.name}")
+        print(f"Trophies: {len(self.trophies):3}")
 
     def updateGrowth(self):
         sortedGrowth = sorted(self.growth.items(), key=itemgetter(1))
