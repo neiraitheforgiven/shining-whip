@@ -916,10 +916,10 @@ class playerCharacter(object):
         print(f"  HP:  {self.hp:3}/{self.maxHP():3}    Dexterity: {dex}")
         print(f"  FP:  {self.fp:3}/{self.maxFP():3}    Charisma: {cha}")
         print(f"  MP:  {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
-        print(f"  Fame:    {fame:3}    Luck: {luck:3}")
+        print(f"  Moves: {self.movementPoints:2}/{speed:3}    Luck: {luck:3}")
         print(
-                f"  Exp: {self.xp:3}/100    "
-                f"Moves {self.movementPoints} / {speed}")
+                f"  Exp: {self.xp:3}/100    Fame:    {fame:3}"
+                f"")
         sortedPowers = sorted(self.powers)
         print("Powers:")
         print("  " + " - ".join(sortedPowers))
