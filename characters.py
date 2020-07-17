@@ -67,7 +67,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Sniper"
             self.attackProfile = attackProfile or "Weakest"
             self.equipment = equipment(
-                    "Arrows", "Wooden Arrow", 150, 0, 0, 3, 0, 0)
+                    "Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
@@ -122,6 +122,7 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.hasEquipped = False
         self.status = None
         self.trophies = []
         if playerClass:
@@ -156,7 +157,7 @@ class playerCharacter(object):
             elif playerClass == "Samurai":
                 self.growth = self.initializeRandomStats("Stamina", "Faith")
             elif playerClass == "Sky Battler":
-                self.growth = self.initializeRandomStats("Speed", "Strength")
+                self.growth = self.initializeRandomStats("Speed", "Dexterity")
             elif playerClass == "Sky Lord":
                 self.growth = self.initializeRandomStats(
                         "Speed", "Intelligence")
@@ -236,16 +237,16 @@ class playerCharacter(object):
             elif "Bard" in self.title:
                 listOfPowers = [
                         "Equip: Dagger", "Heal I", "Equip: Bows",
-                        "Counterattack", "Luck: Enable Triple Attack",
+                        "Luck: Counterattack", "Luck: Enable Triple Attack",
                         "Command: Health Regeneration",
                         "Vocal Attack: Increased Damage I",
                         "Luck: Increased Dodge Chance"]
             elif "Baron" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Command: Counterattack",
-                        "Luck: Reverse Death", "Swords: Increased Damage I",
+                        "Equip: Long Swords", "Command: Luck: Counterattack",
+                        "Luck: Reverse Death", "Command: Phalanx",
                         "Luck: Critical Drain I",
-                        "Command: Luck: Increased Critical Chance",
+                        "Swords: Increased Damage I",
                         "Death II", "Luck: Critical Drain II"]
             elif "Berserker" in self.title:
                 listOfPowers = [
@@ -287,7 +288,8 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Vocal Attack: Increased Damage I", "Heal I",
                         "Blast I", "Vocal Attack: Increased Damage II",
-                        "Blast II", "Command: Vocal Attack: Increased Damage II",
+                        "Blast II",
+                        "Command: Vocal Attack: Increased Damage II",
                         "Vocal Attack: Increased Damage III", "Blast III"]
             elif "Dark Mage" in self.title:
                 listOfPowers = [
@@ -300,9 +302,10 @@ class playerCharacter(object):
                         "Defense: Increased Resistance II", "Blast III"]
             elif "Duelist" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Counterattack",
+                        "Equip: Long Swords", "Luck: Counterattack",
                         "Defense: Swords I", "Swords: Increased Luck I",
-                        "Swords: Increased Luck II", "Luck: Dodge Grants Counterattack",
+                        "Swords: Increased Luck II",
+                        "Luck: Dodge Grants Counterattack",
                         "Swords: Increased Luck III", "First Strike"]
             elif "Fire Mage" in self.title:
                 listOfPowers = [
@@ -317,7 +320,7 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Equip: Axes", "Luck: Dodge Chance Increased I",
                         "Improvised Attack",
-                        "Luck: Dodge Grants Counterattack",
+                        "Luck: Dodge Grants Luck: Counterattack",
                         "Luck: Reverse Death", "Axes: Range + 1",
                         "Luck: Dodge Chance Increased I",
                         "Luck: Dodge Chance Increased II"]
@@ -332,7 +335,7 @@ class playerCharacter(object):
             elif "Hero" in self.title:
                 listOfPowers = [
                         "Egress I", "Equip: Long Swords",
-                        "Equip: Sacred Swords", "Counterattack",
+                        "Equip: Sacred Swords", "Luck: Counterattack",
                         "Swords: Increased Luck I", "Bolt I", "Bolt II",
                         "Swords: Increased Luck II"]
             elif ("Knight" in self.title and "Mage Knight" not in
@@ -386,7 +389,7 @@ class playerCharacter(object):
             elif "Sky Battler" in self.title:
                 listOfPowers = [
                         "Flying Movement", "Equip: Long Swords",
-                        "Counterattack", "Luck: Increased Dodge I",
+                        "Luck: Counterattack", "Luck: Increased Dodge I",
                         "Swords: Increased Luck II",
                         "Luck: Increased Dodge II", "Movement: Ignore Enemies",
                         "Swords: Increased Luck III"]
@@ -402,7 +405,7 @@ class playerCharacter(object):
                         "Unarmed Attack: Increased Damage I", "Ninja Bolt I",
                         "Unarmed Attack: Increased Damage II",
                         "Increased Defense", "Whirlwind Attack",
-                        "Attack: Lightning", "Counterattack",
+                        "Attack: Lightning", "Luck: Counterattack",
                         "Unarmed Attack: Increased Damage III"]
             elif "Sorceror" in self.title:
                 listOfPowers = [
@@ -430,7 +433,7 @@ class playerCharacter(object):
                         "Critical Attack: Bolt III"]
             elif "Thief" in self.title:
                 listOfPowers = [
-                        "Equip: Daggers", "Counterattack", "Luck: Steal",
+                        "Equip: Daggers", "Luck: Counterattack", "Luck: Steal",
                         "Daggers: Range +1", "Stealthy Movement",
                         "Ninja Fire I", "Ninja Bolt I", "Ninja Fire II"]
             elif "Titan" in self.title:
@@ -487,8 +490,8 @@ class playerCharacter(object):
                             if knownPower == "Flying Movement"]):
                         continue
                     elif nameOfPower == "Equip: Polearms":
-                        self.powers.extend("Equip: Lances")
-                        self.powers.extend("Equip: Spears")
+                        self.powers.extend(["Equip: Lances"])
+                        self.powers.extend(["Equip: Spears"])
                     if 'Captain' in self.title and not any([
                             knownPower for knownPower in self.powers
                             if 'Command:' in knownPower]):
@@ -639,7 +642,7 @@ class playerCharacter(object):
             elif secondStat == "Strength":
                 self.title = "Soldier"
             elif secondStat == "Voice":
-                self.title = "Paladin"
+                self.title = "Cantor"
         elif primeStat == "Speed":
             if secondStat == "Charisma":
                 if ("Flying Movement" in
@@ -754,7 +757,7 @@ class playerCharacter(object):
                     self.title = "Berserker"
                 self.title = "Warrior"
             elif secondStat == "Voice":
-                self.title = "Paladin"
+                self.title = "Cantor"
         elif primeStat == "Voice":
             if secondStat in ("Stamina", "Strength", "Speed") and (
                     self.race in ("Dragon", "Tortoise") or self.level > 20):
@@ -771,13 +774,13 @@ class playerCharacter(object):
             elif secondStat in ("Fame", "Intelligence"):
                 self.title = "Orator"
             elif secondStat == "Luck":
-                self.title = "Paladin"
+                self.title = "Cantor"
             elif secondStat == "Speed":
                 self.title = "Chorister"
             elif secondStat == "Stamina":
                 self.title = "Valkyrie"
             elif secondStat == "Strength":
-                self.title = "Paladin"
+                self.title = "Cantor"
         if self.title == "newbie":
             print(
                     f"Newbie found. Let Neirai the Forgiven know."
@@ -885,8 +888,44 @@ class playerCharacter(object):
                     print("    {} of {}".format(statName, statValue))
                 input()
 
+    def maxFP(self):
+        if self.equipment:
+            return self.stats["Faith"] + self.equipment.fp
+        else:
+            return self.stats["Faith"]
+
     def maxHP(self):
         return ((self.stats["Stamina"] * 2) + self.level)
+
+    def maxMP(self):
+        if self.equipment:
+            return self.stats["Intelligence"] + self.equipment.mp
+        else:
+            return self.stats["Intelligence"]
+
+    def printCharacterSheet(self):
+        print(f"{self.title:12} {self.name}")
+        strength = self.stats["Strength"]
+        dex = self.stats["Dexterity"]
+        cha = self.stats["Charisma"]
+        voi = self.stats["Voice"]
+        fame = self.stats["Fame"]
+        luck = self.stats["Luck"]
+        speed = self.stats["Speed"]
+        print(f"  Level    {self.level:3}    Strength: {strength}")
+        print(f"  HP:  {self.hp:3}/{self.maxHP():3}    Dexterity: {dex}")
+        print(f"  FP:  {self.fp:3}/{self.maxFP():3}    Charisma: {cha}")
+        print(f"  MP:  {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
+        print(f"  Moves: {self.movementPoints:2}/{speed:3}    Luck: {luck:3}")
+        print(
+                f"  Exp: {self.xp:3}/100    Fame:    {fame:3}"
+                f"")
+        sortedPowers = sorted(self.powers)
+        print("Powers:")
+        print("  " + " - ".join(sortedPowers))
+        if self.equipment:
+            print(f"Equipped: {self.equipment.name}")
+        print(f"Trophies: {len(self.trophies):3}")
 
     def updateGrowth(self):
         sortedGrowth = sorted(self.growth.items(), key=itemgetter(1))
