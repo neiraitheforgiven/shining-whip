@@ -501,9 +501,36 @@ class battle(object):
             # unit may have died since this loop started.
             if unit[0].hp <= 0:
                 continue
-            if type(unit) == playerCharacter:
+            if type(unit[0]) == playerCharacter:
+                pc = unit[0]
+                maxHP = pc.maxHP()
+                maxFP = pc.stats["Faith"]
+                maxMP = pc.stats["Intelligence"]
+                maxMv = pc.stats["Speed"]
+                fame = self.getFameBonus(pc)
+                mvType = ""
+                if self.getPower(pc, "Mounted Movement"):
+                    mvType = "M"
+                if pc.equipment:
+                    maxFP += pc.equipment.fp
+                    maxMP += pc.equipment.mp
+                print(
+                        f"It's {pc.name}'s turn! (Level {pc.level} "
+                        f"{pc.title})")
+                print(
+                        f"  (HP: {pc.hp}/{maxHP} FP: {pc.fp}/{maxFP} "
+                        f"MP: {pc.mp}/{maxMP} "
+                        f"Move: {pc.movementPoints}/{maxMv}{mvType} "
+                        f"Fame Bonus: {fame}%)")
+                time.sleep(2. / 10)
+                position = self.battleField.getUnitPos(pc)
+                tile = self.battleField.terrainArray[position]
+                print(
+                        f"{pc.name} is standing on ("
+                        f"{self.battleField.terrainArray.index(tile)}) "
+                        f"{tile.name}.")
                 print("")
-                self.battleField.viewMapFromUnit(unit)
+                self.battleField.viewMapFromUnit(pc)
                 print("")
             endBattle = self.doTurn(unit[0])
             if endBattle:
@@ -534,40 +561,17 @@ class battle(object):
         otherUnits = ", ".join([
                 tileUnit.name for tileUnit in tile.units if tileUnit != unit])
         if type(unit) == playerCharacter:
-            allowedCommands = ["L", "l", "W", "w"]
-            print("Type (L) to look at the battlefield,")
+            allowedCommands = ["C", "c", "L", "l", "W", "w"]
             if not moved:
                 if type(unit) == playerCharacter:
-                    maxHP = unit.maxHP()
-                    maxFP = unit.stats["Faith"]
-                    maxMP = unit.stats["Intelligence"]
-                    maxMv = unit.stats["Speed"]
-                    fame = self.getFameBonus(unit)
-                    mvType = ""
-                    if self.getPower(unit, "Mounted Movement"):
-                        mvType = "M"
-                    if unit.equipment:
-                        maxFP += unit.equipment.fp
-                        maxMP += unit.equipment.mp
-                    print(
-                            f"It's {unit.name}'s turn! (Level {unit.level} "
-                            f"{unit.title})")
-                    print(
-                            f"  (HP: {unit.hp}/{maxHP} FP: {unit.fp}/{maxFP} "
-                            f"MP: {unit.mp}/{maxMP} "
-                            f"Move: {unit.movementPoints}/{maxMv}{mvType} "
-                            f"Fame Bonus: {fame}%)")
-                    time.sleep(2. / 10)
-                    print(
-                            f"{unit.name} is standing on ("
-                            f"{self.battleField.terrainArray.index(tile)}) "
-                            f"{tile.name}.")
-                moveEnabled = self.battleField.checkMove(unit, position)
+                    moveEnabled = self.battleField.checkMove(unit, position)
                 if moveEnabled:
                     self.battleField.printMoveString(unit)
                     print("Type (M) to move.")
                     allowedCommands.append("M")
                     allowedCommands.append("m")
+            print(f"Type (C) to look at {unit.name}'s character sheet.")
+            print("Type (L) to look at the battlefield,")
             attackEnabled = self.battleField.checkAttack(unit, position)
             if attackEnabled:
                 self.battleField.printAttackString(unit)
@@ -612,6 +616,12 @@ class battle(object):
                     except ValueError:
                         attackTarget = None
                 self.doAttack(unit, attackTarget)
+            elif command in ("C", "c"):
+                print()
+                unit.printCharacterSheet()
+                print(f"Scroulings: {self.game.money}")
+                print()
+                self.doTurn(unit, moved)
             elif command in ("E", "e"):
                 allowedEquipment = [
                         item for item in self.game.inventory
