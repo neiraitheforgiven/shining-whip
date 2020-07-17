@@ -490,8 +490,8 @@ class playerCharacter(object):
                             if knownPower == "Flying Movement"]):
                         continue
                     elif nameOfPower == "Equip: Polearms":
-                        self.powers.extend("Equip: Lances")
-                        self.powers.extend("Equip: Spears")
+                        self.powers.extend(["Equip: Lances"])
+                        self.powers.extend(["Equip: Spears"])
                     if 'Captain' in self.title and not any([
                             knownPower for knownPower in self.powers
                             if 'Command:' in knownPower]):
