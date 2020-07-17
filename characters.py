@@ -909,7 +909,7 @@ class playerCharacter(object):
         fame = self.stats["Fame"]
         luck = self.stats["Luck"]
         speed = self.stats["Speed"]
-        print(f"  Level     {self.level:3}    Strength: {strength}")
+        print(f"  Level:    {self.level:3}    Strength: {strength}")
         print(f"  HP:   {self.hp:3}/{self.maxHP():3}    Dexterity: {dex}")
         print(f"  FP:   {self.fp:3}/{self.maxFP():3}    Charisma: {cha}")
         print(f"  MP:   {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
