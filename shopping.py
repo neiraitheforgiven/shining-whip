@@ -1,109 +1,18 @@
 
 from characters import equipment
+import math
+import random
 
 class shop(object):
 
-    def __init__(self, game, dealLimit, listOfGoods):
+    def __init__(self, game, listOfGoods, listOfDealGoods):
         self.goods = []
         for goodName in listOfGoods:
             self.goods.append(self.createGood(goodName))
         self.deal = None
-        print("You enter a shop.")
-        print("The shopkeeper looks up. \"You here to buy, or just look?\"")
-        print(
-                "\"If you buy something, I'll show you a little something "
-                "extra I keep on hand for payin' folk.\"")
-        allowedCommands = ["B", "b", "E", "e", "L", "l"]
-        command = None
-        while command not in ("L", "l"):
-            print("(B) Buy weapons.")
-            print("(E) Equip your troops.")
-            if any([
-                    weapon for weapon in game.inventory
-                    if not weapon.equippedBy]):
-                print("Type (S) to sell weapons you are not using.")
-                allowedCommands.append("S")
-                allowedCommands.append("s")
-            print("(L) Leave the shop.")
-            print()
-            while command not in allowedCommands:
-                command = input("Type a letter to make your choice: ")
-            if command in ("B", "b"):
-                command = None
-                itemToBuy = None
-                while itemToBuy not in [
-                        self.goods.index(item) for item in self.goods] or (
-                        itemToBuy != len(self.goods)):
-                    self.printShopItems(game)
-                    print(f"({len(self.goods)}) Don't buy anything.")
-                    print(f"You have {game.money} Scroulings.")
-                    print()
-                    try:
-                        itemToBuy = int(input(
-                                "Type a number to buy a weapon: "))
-                    except ValueError:
-                        itemToBuy = None
-                    if itemToBuy == len(self.goods):
-                        break
-                    if itemToBuy is not None:
-                        self.buyGood(game, itemToBuy)
-                        itemToBuy = None
-                        print()
-            elif command in ("E", "e"):
-                command = None
-                itemToEquip = None
-                while itemToEquip not in [
-                        game.inventory.index(item)
-                        for item in game.inventory] or (
-                        itemToEquip != len(game.inventory)):
-                    for item in game.inventory:
-                        itemString = (
-                                f"({game.inventory.index(item)}) {item.name} ")
-                        if item.equippedBy:
-                            itemString += f"E: {item.equippedBy.name}"
-                        print(itemString)
-                    print(f"({len(game.inventory)}) Done equipping my troops.")
-                    try:
-                        itemToEquip = int(input("Type a number to equip: "))
-                    except ValueError:
-                        itemToEquip = None
-                    if itemToEquip == len(game.inventory):
-                        break
-                    if itemToEquip is not None:
-                        game.equipItem(game.inventory[itemToEquip])
-                        itemToEquip = None
-                        print()
-            elif command in ("S", "s"):
-                command = None
-                allowedItems = [
-                        item for item in game.inventory if not item.equippedBy]
-                whatToSell = None
-                while whatToSell not in allowedItems or (
-                        whatToSell != len(allowedItems)):
-                    for item in allowedItems:
-                        price = game.getSellPrice(item)
-                        sellString = (
-                                f"({allowedItems.index(item)}) {item.name} - "
-                                f"{price} Scroulings")
-                        print(sellString)
-                    print(f"({len(allowedItems)}) I'm done selling.")
-                    try:
-                        whatToSell = int(input(
-                                "Type a number to sell a weapon: "))
-                    except ValueError:
-                        whatToSell = None
-                    if whatToSell == len(allowedItems):
-                        break
-                    if whatToSell is not None:
-                        self.sellItem(game, allowedItems[whatToSell])
-                        whatToSell = None
-                        print()
-                        allowedItems = [
-                                item for item in game.inventory
-                                if not item.equippedBy]
-                        if not any(allowedItems):
-                            break
-        print("\"Thanks for coming, kid.\"")
+        self.dealBought = False
+        self.dealNameList = listOfDealGoods
+        self.goShopping(game)
 
     def buyGood(self, game, itemToBuy):
         item = self.goods[itemToBuy]
@@ -118,6 +27,23 @@ class shop(object):
             print("\"Thanks for the scrolls, kid!\"")
             print("Would you like to equip it right away?")
             game.equipItem(equip)
+            if item == self.deal:
+                self.dealBought = True
+                self.goods.remove(item)
+            if not self.dealBought and not self.deal:
+                dealGood = self.createGood(random.choice(self.dealNameList))
+                if dealGood.name in [good.name for good in self.goods]:
+                    dealGood.price = math.ceil(dealGood.price / 2)
+                    print(
+                            "I toldja I kept something for payin' folks: "
+                            f"it's a one-time discount on a {dealGood.name}!")
+                else:
+                    print("I toldja I kept something for payin' folks!")
+                    print(
+                            f"Now feast yer eyes on this {dealGood.name}. "
+                            "It's the only one of 'er kind in town!")
+                self.deal = dealGood
+                self.goods.append(dealGood)
 
     def createGood(self, name):
         # Arrows
@@ -256,6 +182,104 @@ class shop(object):
         else:
             print(f"warning. No shop item called {name} exists.")
 
+    def goShopping(self, game):
+        print("You enter a shop.")
+        print("The shopkeeper looks up. \"You here to buy, or just look?\"")
+        print(
+                "\"If you buy something, I'll show you a little something "
+                "extra I keep on hand for payin' folk.\"")
+        command = None
+        while command not in ("L", "l"):
+            allowedCommands = ["B", "b", "E", "e", "L", "l"]
+            print("(B) Buy weapons.")
+            print("(E) Equip your troops.")
+            if any([
+                    weapon for weapon in game.inventory
+                    if not weapon.equippedBy]):
+                print("Type (S) to sell weapons you are not using.")
+                allowedCommands.append("S")
+                allowedCommands.append("s")
+            print("(L) Leave the shop.")
+            print()
+            while command not in allowedCommands:
+                command = input("Type a letter to make your choice: ")
+            if command in ("B", "b"):
+                command = None
+                itemToBuy = None
+                while itemToBuy not in [
+                        self.goods.index(item) for item in self.goods] or (
+                        itemToBuy != len(self.goods)):
+                    self.printShopItems(game)
+                    print(f"({len(self.goods)}) Don't buy anything.")
+                    print(f"You have {game.money} Scroulings.")
+                    print()
+                    try:
+                        itemToBuy = int(input(
+                                "Type a number to buy a weapon: "))
+                    except ValueError:
+                        itemToBuy = None
+                    if itemToBuy == len(self.goods):
+                        break
+                    if itemToBuy is not None:
+                        self.buyGood(game, itemToBuy)
+                        itemToBuy = None
+                        print()
+            elif command in ("E", "e"):
+                command = None
+                itemToEquip = None
+                while itemToEquip not in [
+                        game.inventory.index(item)
+                        for item in game.inventory] or (
+                        itemToEquip != len(game.inventory)):
+                    for item in game.inventory:
+                        itemString = (
+                                f"({game.inventory.index(item)}) {item.name} ")
+                        if item.equippedBy:
+                            itemString += f"E: {item.equippedBy.name}"
+                        print(itemString)
+                    print(f"({len(game.inventory)}) Done equipping my troops.")
+                    try:
+                        itemToEquip = int(input("Type a number to equip: "))
+                    except ValueError:
+                        itemToEquip = None
+                    if itemToEquip == len(game.inventory):
+                        break
+                    if itemToEquip is not None:
+                        game.equipItem(game.inventory[itemToEquip])
+                        itemToEquip = None
+                        print()
+            elif command in ("S", "s"):
+                command = None
+                allowedItems = [
+                        item for item in game.inventory if not item.equippedBy]
+                whatToSell = None
+                while whatToSell not in allowedItems or (
+                        whatToSell != len(allowedItems)):
+                    for item in allowedItems:
+                        price = game.getSellPrice(item)
+                        sellString = (
+                                f"({allowedItems.index(item)}) {item.name} - "
+                                f"{price} Scroulings")
+                        print(sellString)
+                    print(f"({len(allowedItems)}) I'm done selling.")
+                    try:
+                        whatToSell = int(input(
+                                "Type a number to sell a weapon: "))
+                    except ValueError:
+                        whatToSell = None
+                    if whatToSell == len(allowedItems):
+                        break
+                    if whatToSell is not None:
+                        self.sellItem(game, allowedItems[whatToSell])
+                        whatToSell = None
+                        print()
+                        allowedItems = [
+                                item for item in game.inventory
+                                if not item.equippedBy]
+                        if not any(allowedItems):
+                            break
+        print("\"Thanks for coming, kid.\"")
+
     def printShopItems(self, game):
         for item in self.goods:
             equipString = f"Equip: {item.type}"
@@ -282,12 +306,17 @@ class shop(object):
             print(shopString)
 
     def sellItem(self, game, item):
-        price = game.getSellPrice(item)
+        price, blame = game.getSellPrice(item)
         game.money += price
         game.inventory.remove(item)
-        print(
-                "\"Ahh, this will fetch a good price... if we make it through "
-                "the war.\"")
+        if blame:
+            print(
+                    f"I've always wanted to own a {item.name} that {blame} "
+                    "used in battle!")
+        else:
+            print(
+                    "\"Ahh, this will fetch a good price... if we make it "
+                    "through the war.\"")
 
 
 class potentialItem(object):
