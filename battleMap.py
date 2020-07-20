@@ -551,9 +551,7 @@ class battle(object):
             print(f"debug: {resistArray}")
             result = random.choice(resistArray)
             print(f"debug: {result}")
-            if result == 'resist':
-                if unit.status == 'sleep':
-                    print(f"{unit.name} woke up!")
+            if result == ['resist']:
                 unit.status = None
                 print(f"{unit.name} woke up!")
             elif unit.status == 'sleep':
