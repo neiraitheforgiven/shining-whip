@@ -588,16 +588,13 @@ class battle(object):
                 print("Type (S) to cast a spell.")
                 allowedCommands.append("S")
                 allowedCommands.append("s")
-            vocalEnabled = self.battleField.checkVocal(unit)
-            if vocalEnabled:
-                print("Type (V) to make a vocal attack.")
-                allowedCommands.append("V")
-                allowedCommands.append("v")
-            if not any([
-                    allowedCommand for allowedCommand in allowedCommands
-                    if allowedCommand not in ("W", "w")]):
-                print(f"{unit.name} waited.")
-                return
+            if not moved or self.getPower(
+                    unit, "Vocal Attack: Ignore Movement"):
+                vocalEnabled = self.battleField.checkVocal(unit)
+                if vocalEnabled:
+                    print("Type (V) to make a vocal attack.")
+                    allowedCommands.append("V")
+                    allowedCommands.append("v")
             print("Type (W) to wait.")
             command = None
             while command not in allowedCommands:
@@ -1139,21 +1136,11 @@ class battleField(object):
             return False
 
     def checkVocal(self, unit):
-        if unit.movementPoints < 4:
-            return False
         position = self.getUnitPos(unit)
         currentTile = self.terrainArray[position]
-        if any([
+        return any([
                 tileUnit for tileUnit in currentTile.units
-                if type(tileUnit) != type(unit)]):
-            return sum([
-                    tileUnit.level for tileUnit in currentTile.units
-                    if type(tileUnit) == type(unit)]) >= sum([
-                            tileUnit.level for tileUnit in
-                            currentTile.units
-                            if type(tileUnit) != type(unit)])
-        else:
-            return False
+                if type(tileUnit) != type(unit)])
 
     def doMonsterMove(self, monster, position):
         if monster.moveProfile == "Advance-Defensive":

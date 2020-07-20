@@ -452,7 +452,7 @@ class playerCharacter(object):
             elif "Troubadour" in self.title:
                 listOfPowers = [
                         "Equip: Arrows", "Vocal Attack: Increased Damage I",
-                        "Vocal Attack: Ignore Movement Cost",
+                        "Vocal Attack: Ignore Movement",
                         "Vocal Attack: Add Effect: Sleep",
                         "Luck: Increased Rout I", "Luck: Increased Rout II",
                         "Arrows: Add Effect: Muddle"]
