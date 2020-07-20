@@ -1320,7 +1320,7 @@ class game(object):
         self.party = self.playerCharacters
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(10, 'king')
+                self.reckoning(8, 'king')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'king')
             battle(self, self.party, 1)
@@ -1340,11 +1340,11 @@ class game(object):
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
         self.party = self.playerCharacters
-        self.reckoning(30, 'lonely priest')
+        self.reckoning(25, 'lonely priest')
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(10, 'lonely priest')
+                self.reckoning(8, 'lonely priest')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'lonely priest')
             battle(self, self.party, 2)
@@ -1353,8 +1353,12 @@ class game(object):
         print("Too late to intervene, you watch in horror as your mentor ")
         print("and your king are slain by a dark swordsman who looks exactly ")
         print("like you. The swordsman disappears into a black void")
-        print("If you weren't in the room when this happened, you're sure ")
-        print("that the Knights of  would have posted a bounty on your head.")
+        print(
+                "If you weren't in the room with them when this happened, "
+                "you're sure ")
+        print(
+                "that the Knights of Yatahal would have posted a bounty on "
+                "your head.")
         print("")
         print("In the aftermath of the assassination, your mentor's daughter,")
         print(" Mae, joins you. With her is a washed up former city guard, ")
@@ -1375,27 +1379,30 @@ class game(object):
         recruit.levelUp(chatter)
         self.playerCharacters.append(recruit)
         self.party = self.playerCharacters
-        self.reckoning(30, 'widow of your mentor')
+        self.reckoning(25, 'widow of your mentor')
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(10, 'widow of your mentor')
+                self.reckoning(8, 'widow of your mentor')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'widow of your mentor')
             battle(self, self.party, 3)
         print("")
         print("You arrive in Ulmara, a small merchant city bordering Yatahal.")
         print("The King of Ulmara greets you warmly, bestowing lavish gifts.")
-        self.reckoning(50, "King of Ulmara")
+        self.reckoning(40, "King of Ulmara")
         print(
                 "The King gestures to the shopping district: \"Go visit a "
                 "smith!\"")
         print(
                 "On your way to the shops, you notice a young Kyantol woman "
                 "following you.")
-        shop(self, 350, [
+        shop(self, [
                 "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
-                "Wooden Staff", "Middle Sword"])
+                "Wooden Staff", "Middle Sword"], [
+                "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
+                "Wooden Staff", "Middle Sword", "Middle Axe", "Iron Shot",
+                "Bronze Lance"])
         print("")
         print(
                 "As you leave the shop, the young Kyantol woman appears at "
@@ -1438,7 +1445,7 @@ class game(object):
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(20, 'the priests')
+                self.reckoning(15, 'the priests')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'the priests')
             battle(self, self.party, 4)
@@ -1497,11 +1504,17 @@ class game(object):
 
     def getSellPrice(self, item):
         equipString = f"Equip: {item.type}"
+        blame = None
         fame = max([
                 pc.stats["Fame"] for pc in self.playerCharacters
                 if equipString in pc.powers])
+        if game > 15:
+            blame = [
+                    pc.name for pc in self.playerCharacters
+                    if equipString in
+                    pc.powers and pc.stats["Fame"] == fame][0]
         amount = math.floor(item.price * (0.1 + (fame / 100)))
-        return amount
+        return amount, blame
 
     def reckoning(self, bounty, patron):
         clergyCost = sum([
