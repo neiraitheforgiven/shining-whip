@@ -302,6 +302,50 @@ class battle(object):
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
                         self.kill(target)
+        elif spellName == "Dao I":
+            unit.mp -= self.mpCost(unit, 8)
+            position = unit.allowedSpells[spellName][targetId]
+            # target will be a position
+            print(f"{unit.name} summons the genie Dao!")
+            field = self.battleField
+            targets = [
+                    target for target in field.terrainArray[position].units
+                    if type(unit) != type(target)]
+            for target in targets:
+                if type(target) != type(unit):
+                    damage = math.ceil(18 / len(targets))
+                    if self.getPower(target, "Defense: Magic"):
+                        damage = math.floor(damage * 0.8)
+                    damage = min(damage, target.hp)
+                    print(
+                            f"{unit.name} deals {damage} damage to "
+                            f"{target.name}!")
+                    target.hp -= damage
+                    self.giveExperience(unit, target, damage)
+                    if target.hp <= 0:
+                        self.kill(target)
+        elif spellName == "Dao II":
+            unit.mp -= self.mpCost(unit, 15)
+            position = unit.allowedSpells[spellName][targetId]
+            # target will be a position
+            print(f"{unit.name} summons the genie Dao!")
+            field = self.battleField
+            targets = [
+                    target for target in field.terrainArray[position].units
+                    if type(unit) != type(target)]
+            for target in targets:
+                if type(target) != type(unit):
+                    damage = math.ceil(40 / len(targets))
+                    if self.getPower(target, "Defense: Magic"):
+                        damage = math.floor(damage * 0.8)
+                    damage = min(damage, target.hp)
+                    print(
+                            f"{unit.name} deals {damage} damage to "
+                            f"{target.name}!")
+                    target.hp -= damage
+                    self.giveExperience(unit, target, damage)
+                    if target.hp <= 0:
+                        self.kill(target)
         elif spellName == "Detox I":
             unit.mp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
@@ -1026,6 +1070,42 @@ class battleField(object):
                     if type(target) != type(unit)]
             if any(targets):
                 unit.allowedSpells["Blaze I"] = targets
+        if self.getPower(unit, "Blaze II") and unit.mp >= self.mpCost(unit, 6):
+            targetTiles = []
+            minRange = max(0, (position - 1))
+            maxRange = min((position + 1), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) != type(unit)]
+                if any(tileTargets):
+                    targetTiles.append(tile)
+            if any(targetTiles):
+                unit.allowedSpells["Blaze II"] = targetTiles
+        if self.getPower(unit, "Dao I") and unit.mp >= self.mpCost(unit, 8):
+            targetTiles = []
+            minRange = max(0, (position - 1))
+            maxRange = min((position + 1), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) != type(unit)]
+                if any(tileTargets):
+                    targetTiles.append(tile)
+            if any(targetTiles):
+                unit.allowedSpells["Dao I"] = targetTiles
+        if self.getPower(unit, "Dao II") and unit.mp >= self.mpCost(unit, 15):
+            targetTiles = []
+            minRange = max(0, (position - 1))
+            maxRange = min((position + 1), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) != type(unit)]
+                if any(tileTargets):
+                    targetTiles.append(tile)
+            if any(targetTiles):
+                unit.allowedSpells["Dao II"] = targetTiles
         if self.getPower(unit, "Detox I") and unit.mp >= self.mpCost(unit, 3):
             targets = [
                     target for target in currentTile.units
@@ -1060,7 +1140,6 @@ class battleField(object):
                     if type(target) != type(unit)]
                 if any(tileTargets):
                     targetTiles.append(tile)
-                    continue
             if any(targetTiles):
                 unit.allowedSpells["Freeze III"] = targetTiles
         if (
