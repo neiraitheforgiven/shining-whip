@@ -590,12 +590,12 @@ class battle(object):
             resistChance = math.floor(
                     resistSkill + (resistSkill * (luck / 10)))
             resistArray = []
-            resistArray.append(['resist'] * resistChance)
-            resistArray.append(['fail'] * (50 - (luck)))
+            resistArray.extend(['resist'] * resistChance)
+            resistArray.extend(['fail'] * (50 - (luck)))
             print(f"debug: {resistArray}")
             result = random.choice(resistArray)
             print(f"debug: {result}")
-            if result == ['resist']:
+            if result == 'resist':
                 unit.status = None
                 print(f"{unit.name} woke up!")
             elif unit.status == 'sleep':
