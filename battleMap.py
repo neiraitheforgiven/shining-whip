@@ -524,7 +524,9 @@ class battle(object):
                             targetTile = tile
                             numTargets = len(targets)
                     if targetTile:
-                        self.castSpell(monster, "Blaze II", targetTile)
+                        targetPosition = field.terrainArray.index(targetTile)
+                        monster.allowedSpells["Blaze II"] = targetPosition
+                        self.castSpell(monster, "Blaze II", 0)
             if not canCast:
                 monster.attackProfile = "Random"
         elif monster.attackProfile == "Weakest":
