@@ -453,6 +453,49 @@ class battle(object):
             print(f"{unit.name} restores {healing} health to {target.name}!")
             target.hp += healing
             self.giveExperience(unit, target, healing)
+        elif spellName == "Portal I":
+            unit.mp -= self.mpCost(unit, 21)
+            field = self.battleField
+            moveFromTile = field.terrainArray[field.getUnitPos(unit)]
+            position = unit.allowedSpells[spellName][targetId]
+            # target is a position
+            moveToTile = field.terrainArray[position]
+            for tileUnit in moveFromTile.units:
+                if type(tileUnit) == type(unit):
+                    moveFromTile.units.remove(tileUnit)
+                    moveToTile.units.append(tileUnit)
+                    self.giveExperience(unit, tileUnit, 5)
+        elif spellName == "Teleport I":
+            unit.mp -= self.mpCost(unit, 5)
+            field = self.battleField
+            moveFromTile = field.terrainArray[field.getUnitPos(unit)]
+            position = unit.allowedSpells[spellName][targetId]
+            # target is a position
+            moveToTile = field.terrainArray[position]
+            moveFromTile.units.remove(unit)
+            moveToTile.units.append(unit)
+            self.giveExperience(unit, unit, 5)
+        elif spellName == "Teleport II":
+            unit.mp -= self.mpCost(unit, 10)
+            field = self.battleField
+            moveFromTile = field.terrainArray[field.getUnitPos(unit)]
+            position = unit.allowedSpells[spellName][targetId]
+            # target is a position
+            moveToTile = field.terrainArray[position]
+            moveFromTile.units.remove(unit)
+            moveToTile.units.append(unit)
+            self.giveExperience(unit, unit, 10)
+        elif spellName == "Teleport III":
+            unit.mp -= self.mpCost(unit, 6)
+            field = self.battleField
+            moveFromTile = field.terrainArray[field.getUnitPos(unit)]
+            position = unit.allowedSpells[spellName][targetId]
+            # target is a position
+            moveToTile = field.terrainArray[position]
+            moveFromTile.units.remove(unit)
+            moveToTile.units.append(unit)
+            self.giveExperience(unit, unit, 10)
+
 
     def determineInitiative(self):
         initiativeOrder = []
@@ -1270,7 +1313,59 @@ class battleField(object):
                     targets.extend(target for target in tileTargets)
             if any(targets):
                 unit.allowedSpells["Heal II"] = targets
-
+        if self.getPower(unit, "Portal I") and unit.mp >= 21:
+            targets = []
+            minRange = max(0, (position - 2))
+            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            currentTile = self.terrainArray[self.getUnitPos(unit)]
+            passengers = [
+                    tileUnit for tileUnit in currentTile.units
+                    if type(tileUnit) == type(unit)]
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                if tile >= position:
+                    if len([
+                            target for target in tile.units
+                            if type(target) == type(unit)]) <= (
+                            4 - len(passengers)):
+                        targets.extend(tile)
+            if any(targets):
+                unit.allowedSpells["Portal I"] = targets
+        if self.getPower(unit, "Teleport I") and unit.mp >= 5:
+            targets = []
+            minRange = max(0, (position - 1))
+            maxRange = min((position + 1), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                if tile >= position:
+                    if len([
+                            target for target in tile.units
+                            if type(target) == type(unit)]) < 4:
+                        targets.extend(tile)
+            if any(targets):
+                unit.allowedSpells["Teleport I"] = targets
+        if self.getPower(unit, "Teleport II") and unit.mp >= 10:
+            targets = []
+            minRange = max(0, (position - 2))
+            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                if tile >= position:
+                    if len([
+                            target for target in tile.units
+                            if type(target) == type(unit)]) < 4:
+                        targets.extend(tile)
+            if any(targets):
+                unit.allowedSpells["Teleport II"] = targets
+        if self.getPower(unit, "Teleport III") and unit.mp >= 6:
+            targets = []
+            minRange = max(0, (position - 3))
+            maxRange = min((position + 3), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                if tile >= position:
+                    if len([
+                            target for target in tile.units
+                            if type(target) == type(unit)]) < 4:
+                        targets.extend(tile)
+            if any(targets):
+                unit.allowedSpells["Teleport III"] = targets
         if any(unit.allowedSpells):
             return True
         else:
