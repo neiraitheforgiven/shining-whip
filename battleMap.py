@@ -617,21 +617,17 @@ class battle(object):
                     position = field.getUnitPos(monster)
                     minRange = max(0, position - 1)
                     maxRange = min(position + 1, len(field.terrainArray) - 1)
-                targets = []
-                targetHP = max([
-                        sum([unit.hp for unit in [
-                                tile.units for tile in
-                                field.terrainArray[minRange:maxRange + 1]]
-                                if type(unit) != type(monster)])])
-                targets = [
-                        tile for tile in
-                        field.terrainArray[minRange:maxRange + 1]
-                        if [sum([
-                                unit.hp for unit in tile.units
-                                if type(unit) != type(monster)]) == targetHP]]
-                target = random.choice(targets)
-                if any(target):
-                    self.castSpell(monster, "Blaze II", target)
+                    targetTile = None
+                    numTargets = 0
+                    for tile in field.terrainArray[minRange:(maxRange + 1)]:
+                        targets = [
+                                unit for unit in tile.units
+                                if type(unit) != type(monster)]
+                        if len(targets) > numTargets:
+                            targetTile = tile
+                            numTargets = len(targets)
+                    if targetTile:
+                        self.castSpell(monster, "Blaze II", targetTile)
             if not canCast:
                 monster.attackProfile = "Random"
         elif monster.attackProfile == "Weakest":
