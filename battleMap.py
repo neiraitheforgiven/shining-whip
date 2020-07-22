@@ -1066,7 +1066,8 @@ class battleField(object):
         unit.allowedMovement = []
         currentTile = self.terrainArray[position]
         unstable = currentTile.unstable
-        if self.getPower(unit, "Movement: Ignore Enemies"):
+        if (self.getPower(unit, "Movement: Ignore Enemies") or self.getPower(
+                unit, "Stealthy Movement")):
             retreatBlocked = False
             advancingBlocked = False
         else:
