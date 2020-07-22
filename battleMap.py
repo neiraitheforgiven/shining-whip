@@ -1752,7 +1752,7 @@ class battleField(object):
             mapAdd = f"({self.terrainArray.index(tile)})"
             mapRow += f"{mapAdd:18}"
         print(mapRow)
-        for i in range(3, -1, -1):
+        for i in range(11, -1, -1):
             mapRow = ""
             for tile in tilesInRange:
                 try:
