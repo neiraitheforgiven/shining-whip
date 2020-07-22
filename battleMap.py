@@ -1101,6 +1101,65 @@ class battleField(object):
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
+        if self.getPower(unit, "Aura I") and unit.mp >= self.mpCost(unit, 7):
+            targets = []
+            minRange = max(0, (position - 2))
+            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) == type(unit) and target.hp < (
+                            target.maxHP())]
+                if any(tileTargets):
+                    targets.extend(tile)
+            if any(targets):
+                unit.allowedSpells["Aura I"] = targets
+        if self.getPower(unit, "Aura II") and unit.mp >= self.mpCost(unit, 11):
+            targets = []
+            minRange = max(0, (position - 2))
+            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            for i in range(minRange, (maxRange + 1)):
+                minFocusedRange = max(0, i - 1)
+                maxFocusedRange = min(i + 1, len(self.terrainArray - 1))
+                for tile in [
+                        self.terrainArray[minFocusedRange:(
+                        maxFocusedRange + 1)]]:
+                    tileTargets = [
+                        target for target in tile.units
+                        if type(target) == type(unit) and target.hp < (
+                                target.maxHP())]
+                    if any(tileTargets):
+                        targets.extend(self.terrainArray[i])
+                        continue
+            if any(targets):
+                unit.allowedSpells["Aura II"] = targets
+        if (
+                self.getPower(unit, "Aura III") and (
+                        unit.mp >= self.mpCost(unit, 15))):
+            targets = []
+            minRange = max(0, (position - 2))
+            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            for i in range(minRange, (maxRange + 1)):
+                minFocusedRange = max(0, i - 1)
+                maxFocusedRange = min(i + 1, len(self.terrainArray - 1))
+                for tile in [
+                        self.terrainArray[minFocusedRange:(
+                        maxFocusedRange + 1)]]:
+                    tileTargets = [
+                        target for target in tile.units
+                        if type(target) == type(unit) and target.hp < (
+                                target.maxHP())]
+                    if any(tileTargets):
+                        targets.extend(self.terrainArray[i])
+                        continue
+            if any(targets):
+                unit.allowedSpells["Aura III"] = targets
+        if self.getPower(unit, "Aura IV") and unit.mp >= self.mpCost(unit, 20):
+            targets = [
+                    target for target in self.party
+                    if target.hp > 0 and target.hp < target.maxHP()]
+            if any(targets):
+                unit.allowedSpells["Aura IV"] = "Self"
         if self.getPower(unit, "Blaze I") and unit.mp >= self.mpCost(unit, 2):
             targets = [
                     target for target in currentTile.units
