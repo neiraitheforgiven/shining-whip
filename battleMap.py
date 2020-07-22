@@ -247,11 +247,29 @@ class battle(object):
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
                         if moveTo >= 0:
-                            print(f"{target.name} was routed!")
-                            self.battleField.move(target, moveTo)
+                            if len([
+                                    tileUnit for tileUnit
+                                    in bf.terrainArray[moveTo].units
+                                    if type(tileUnit) == type(tileUnit)]) <= 4:
+                                print(f"{target.name} was routed!")
+                                self.battleField.move(target, moveTo)
+                            else:
+                                if target in self.turnOrder:
+                                    print(f"{target.name} was stunned!")
+                                    self.turnOrder.remove(target)
                     elif type(target) == monster:
                         moveTo = self.battleField.getUnitPos(target) + 1
                         if moveTo <= len(self.battleField.terrainArray) - 1:
+                            if len([
+                                    tileUnit for tileUnit
+                                    in bf.terrainArray[moveTo].units
+                                    if type(tileUnit) == type(tileUnit)]) <= 4:
+                                print(f"{target.name} was routed!")
+                                self.battleField.move(target, moveTo)
+                            else:
+                                if target in self.turnOrder:
+                                    print(f"{target.name} was stunned!")
+                                    self.turnOrder.remove(target)
                             print(f"{target.name} was routed!")
                             self.battleField.move(target, moveTo)
                 if counterattack and ((i + 1) == attackCount):
@@ -555,7 +573,6 @@ class battle(object):
             moveFromTile.units.remove(unit)
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
-
 
     def determineInitiative(self):
         initiativeOrder = []
