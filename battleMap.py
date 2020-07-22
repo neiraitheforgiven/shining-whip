@@ -516,13 +516,16 @@ class battle(object):
                     maxRange = min(position + 1, len(field.terrainArray) - 1)
                 targets = []
                 targetHP = max([
-                        sum(unit.hp) for unit in [
+                        sum([unit.hp for unit in [
                                 tile.units for tile in
-                                field.terrainArray[minRange:maxRange + 1]]])
+                                field.terrainArray[minRange:maxRange + 1]]
+                                if type(unit) != type(monster)])])
                 targets = [
                         tile for tile in
                         field.terrainArray[minRange:maxRange + 1]
-                        if [sum([unit.hp for unit in tile.units]) == targetHP]]
+                        if [sum([
+                                unit.hp for unit in tile.units
+                                if type(unit) != type(monster)]) == targetHP]]
                 target = random.choice(targets)
                 if any(target):
                     self.castSpell(monster, "Blaze II", target)
