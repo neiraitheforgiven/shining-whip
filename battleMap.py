@@ -284,6 +284,66 @@ class battle(object):
             return False
 
     def castSpell(self, unit, spellName, targetId):
+        if spellName == "Aura I":
+            unit.mp -= self.mpCost(unit, 7)
+            position = unit.allowedSpells[spellName][targetId]
+            # target will be a position
+            print(f"{unit.name} casts {spellName}!")
+            field = self.battleField
+            for target in field.terrainArray[position].units:
+                if type(target) == type(unit):
+                    healing = min(15, (target.maxHP() - target.hp))
+                    print(
+                            f"{unit.name} restores {healing} health to "
+                            f"{target.name}!")
+                    target.hp += healing
+                    self.giveExperience(unit, target, healing)
+        if spellName == "Aura II":
+            unit.mp -= self.mpCost(unit, 11)
+            position = unit.allowedSpells[spellName][targetId]
+            # target will be a position
+            print(f"{unit.name} casts {spellName}!")
+            field = self.battleField
+            minRange = max(0, position - 1)
+            maxRange = min(position + 1, len(field.terrainArray - 1))
+            for i in range(minRange, maxRange):
+                tile = field.terrainArray[i]
+                for target in tile.units:
+                    if type(target) == type(unit):
+                        healing = min(15, (target.maxHP() - target.hp))
+                        print(
+                                f"{unit.name} restores {healing} health to "
+                                f"{target.name}!")
+                        target.hp += healing
+                        self.giveExperience(unit, target, healing)
+        if spellName == "Aura III":
+            unit.mp -= self.mpCost(unit, 15)
+            position = unit.allowedSpells[spellName][targetId]
+            # target will be a position
+            print(f"{unit.name} casts {spellName}!")
+            field = self.battleField
+            minRange = max(0, position - 1)
+            maxRange = min(position + 1, len(field.terrainArray - 1))
+            for i in range(minRange, maxRange):
+                tile = field.terrainArray[i]
+                for target in tile.units:
+                    if type(target) == type(unit):
+                        healing = min(30, (target.maxHP() - target.hp))
+                        print(
+                                f"{unit.name} restores {healing} health to "
+                                f"{target.name}!")
+                        target.hp += healing
+                        self.giveExperience(unit, target, healing)
+        if spellName == "Aura IV":
+            unit.mp -= self.mpCost(unit, 20)
+            print(f"{unit.name} casts {spellName}!")
+            for target in self.party:
+                healing = min(25, (target.maxHP() - target.hp))
+                print(
+                        f"{unit.name} restores {healing} health to "
+                        f"{target.name}!")
+                target.hp += healing
+                self.giveExperience(unit, target, healing)
         if spellName == "Blaze I":
             unit.mp -= self.mpCost(unit, 2)
             target = unit.allowedSpells[spellName][targetId]
