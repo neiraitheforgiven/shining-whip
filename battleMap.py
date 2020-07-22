@@ -628,7 +628,7 @@ class battle(object):
                             numTargets = len(targets)
                     if targetTile:
                         targetPosition = field.terrainArray.index(targetTile)
-                        monster.allowedSpells["Blaze II"] = targetPosition
+                        monster.allowedSpells["Blaze II"] = [targetPosition]
                         self.castSpell(monster, "Blaze II", 0)
             if not canCast:
                 monster.attackProfile = "Random"
