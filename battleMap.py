@@ -1741,9 +1741,9 @@ class game(object):
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
-                self.reckoning(15, 'the priests')
+                self.reckoning(15, 'priests')
             elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'the priests')
+                self.reckoning(0, 'priests')
             battle(self, self.party, 4)
 
     def equipItem(self, equipment):
