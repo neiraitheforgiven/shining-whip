@@ -47,8 +47,8 @@ class monster(object):
             self.level = 5
             stats = {"Voice": 11, "Stamina": 7, "Speed": 7, "Dexterity": 6}
             self.setStats(7, **stats)
-            self.attackProfile = "Singer"
-            self.moveProfile = "Aggressive-Singer"
+            self.attackProfile = attackProfile or "Singer"
+            self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
             self.shortName = "Bat"
@@ -76,8 +76,16 @@ class monster(object):
             self.attackProfile = attackProfile or "ChallengeAccepting"
             self.equipment = equipment(
                     "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0)
-            self.powers.append(["Mounted Movement"])
+            self.powers.append("Mounted Movement")
             self.shortName = "Knight"
+        elif name == "Zombie":
+            self.level = 5
+            stats = {"Strength": 14, "Dexterity": 7, "Speed": 5, "Stamina": 10}
+            self.setStats(6, **stats)
+            self.moveProfile = moveProfile or "SlowAdvance"
+            self.attackProfile = attackProfile or "Random"
+            self.powers.append("Unarmed Attack: Increased Damage")
+            self.powers.append("Poisonous Attack")
         else:
             self.level = level
             stats = {}
@@ -226,7 +234,7 @@ class playerCharacter(object):
             if "Archer" in self.title:
                 listOfPowers = [
                         "Equip: Arrows", "Quick Shot", "Aimed Shot",
-                        "Arrows: Increased Damage I", "Poison Arrow",
+                        "Arrows: Increased Damage I", "Poisonous Attack",
                         "Luck: Enable Triple Attack", "Arrows: Range + 1",
                         "Point-Blank Shot"]
             elif "Assassin" in self.title:
