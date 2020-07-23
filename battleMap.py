@@ -133,6 +133,34 @@ class battle(object):
                                 (monster("Sniper"), 19),
                                 (monster("Dark Apprentice"), 19)],
                         party, game)
+            elif num == 5:
+                self.battleField = battleField([
+                        "Grass", "Grass", "Grass", "Grass", "Grass", "Bridge",
+                        "Grass", "Grass", "Desert", "Desert", "Desert",
+                        "Desert", "Desert", "Desert", "Desert", "Desert",
+                        "Desert"],
+                        [(monster(
+                                "Crazed Dwarf", "Defensive",
+                                "ChallengeAccepting"), 6),
+                                (monster(
+                                        "Crazed Dwarf", "Defensive",
+                                        "ChallengeAccepting"), 6),
+                                (monster(
+                                        "Crazed Dwarf", "Defensive",
+                                        "ChallengeAccepting"), 6),
+                                (monster("Giant Bat"), 10),
+                                (monster("Sniper"), 11),
+                                (monster("Sniper"), 11),
+                                (monster(
+                                        "Dark Apprentice", "SlowAdvance"), 12),
+                                (monster("Giant Bat"), 14),
+                                (monster("Giant Bat"), 15),
+                                (monster("Zombie"), 14),
+                                (monster("Zombie"), 14),
+                                (monster("Zombie"), 16),
+                                (monster("Zombie"), 16),
+                                (monster("Dark Apprentice"), 16)
+                                (monster("Dark Apprentice"), 16)], party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
@@ -567,7 +595,6 @@ class battle(object):
             moveFromTile.units.remove(unit)
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
-
 
     def determineInitiative(self):
         initiativeOrder = []
