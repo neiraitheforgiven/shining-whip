@@ -270,8 +270,8 @@ class battle(object):
                                 if target in self.turnOrder:
                                     print(f"{target.name} was stunned!")
                                     self.turnOrder.remove(target)
-                            print(f"{target.name} was routed!")
-                            self.battleField.move(target, moveTo)
+                                    print(f"{target.name} was routed!")
+                                    self.battleField.move(target, moveTo)
                 if counterattack and ((i + 1) == attackCount):
                     bf.checkAttack(target, bf.getunitPos(target))
                     if unit in target.allowedAttacks:
