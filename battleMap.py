@@ -136,9 +136,8 @@ class battle(object):
             elif num == 5:
                 self.battleField = battleField([
                         "Grass", "Grass", "Grass", "Grass", "Grass", "Bridge",
-                        "Grass", "Grass", "Desert", "Desert", "Desert",
-                        "Desert", "Desert", "Desert", "Desert", "Desert",
-                        "Desert"],
+                        "Grass", "Grass", "Sand", "Sand", "Sand", "Sand",
+                        "Sand", "Sand", "Sand", "Sand", "Sand"],
                         [(monster(
                                 "Crazed Dwarf", "Defensive",
                                 "ChallengeAccepting"), 6),
