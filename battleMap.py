@@ -151,6 +151,7 @@ class battle(object):
     def attack(self, unit, target):
         bf = self.battleField
         counterattack = False
+        poisonEnemy = False
         routEnemy = False
         doubleChanceArray = []
         dex = self.getStat(unit, "Dexterity")
@@ -193,6 +194,12 @@ class battle(object):
                                 1 + targetLuck / 10))
                 attackTypeArray.extend(["counter"] * counterSkill)
             attackType = random.choice(attackTypeArray)
+            if self.getPower(unit, "Poisonous Attack"):
+                stamina = self.getStat(unit, "Stamina")
+                vsStamina = self.getStat(target, "Stamina")
+                poisonChance = luck + stamina - vsStamina
+                if poisonChance > 0:
+                    attackTypeArray.extend(["poison"] * poisonChance)
             if attackType == 'dodge':
                 print(f"{target.name} dodges the attack!")
                 self.giveExperience(unit, target, 1)
@@ -239,10 +246,15 @@ class battle(object):
                     del target
                     time.sleep(7. / 10)
                     return
-                elif attackType == "routing":
-                    routEnemy = True
                 elif attackType == "counter":
                     counterattack = True
+                elif attackType == "poison":
+                    poisonEnemy = True
+                elif attackType == "routing":
+                    routEnemy = True
+                if poisonEnemy and ((i + 1) == attackCount):
+                    print(f"{target.name} is poisoned!.")
+                    target.status = 'poison'
                 if routEnemy and ((i + 1) == attackCount):
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
@@ -685,7 +697,7 @@ class battle(object):
                 return
 
     def doTurn(self, unit, moved=False):
-        if unit.status == "sleep":
+        if unit.status in ("sleep", "poison"):
             luck = self.getStat(unit, "Luck")
             resistSkill = sum([
                     self.getStat(unit, "Faith"),
@@ -699,10 +711,28 @@ class battle(object):
             result = random.choice(resistArray)
             if result == 'resist':
                 unit.status = None
-                print(f"{unit.name} woke up!")
+                if unit.status == "poison":
+                    print(f"{unit.name} recovered from the {unit.status}!")
+                elif unit.stats == "sleep":
+                    print(f"{unit.name} woke up!")
             elif unit.status == 'sleep':
                 print(f"{unit.name} is asleep.")
                 return
+            elif unit.stats == 'poison':
+                print(f"{unit.name} is poisoned!")
+                damage = math.floor(self.getStat(unit, "Stamina") * 1.5)
+                unit.hp -= damage
+                print(f"{unit.name} takes {damage} damage from the poison.")
+                if unit.hp <= 0:
+                    print(f"{unit.name} dies!")
+                    field = self.battleField
+                    unitPosition = field.getUnitPos(unit)
+                    field.terrainArray[unitPosition].units.remove(unit)
+                    if unit in self.turnOrder:
+                        self.turnOrder.remove(unit)
+                    del unit
+                    time.sleep(7. / 10)
+                    return
         position = self.battleField.getUnitPos(unit)
         tile = self.battleField.terrainArray[position]
         otherUnits = ", ".join([
