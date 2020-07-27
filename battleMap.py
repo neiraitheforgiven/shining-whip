@@ -874,6 +874,10 @@ class battle(object):
                     unit.hasEquipped = True
                     print(f"{unit.name} put away their weapon.")
                     itemToEquip = None
+                    if unit.fp > self.getStat("Faith"):
+                        unit.fp = self.getStat("Faith")
+                    if unit.mp > self.getStat("Intelligence"):
+                        unit.mp = self.getStat("Intelligence")
                 elif itemToEquip == len(allowedEquipment) + 1:
                     pass
                 elif itemToEquip is not None:
@@ -881,6 +885,12 @@ class battle(object):
                             allowedEquipment[itemToEquip], unit)
                     itemToEquip = None
                     unit.hasEquipped = True
+                    if unit.fp > self.getStat("Faith") + unit.equipment.fp:
+                        unit.fp = self.getStat("Faith") + unit.equipment.fp
+                    if unit.mp > (self.getStat(
+                            "Intelligence") + unit.equipment.mp):
+                        unit.mp = (self.getStat(
+                                "Intelligence") + unit.equipment.mp)
                     print()
                 self.doTurn(unit, True)
             elif command in ("L", "l"):
