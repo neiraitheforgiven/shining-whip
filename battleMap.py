@@ -2016,6 +2016,43 @@ class game(object):
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'the priests')
             battle(self, self.party, 4)
+        print("")
+        print("You arrive at Malanar, the Cathedral of magic.")
+        print(
+                "Malanar is the heart of magical and divine research and "
+                "training in Yatahal, and ")
+        print("still stands against the enemy forces.")
+        print(
+                "You ask to see the Princess, now the queen of Malanar and "
+                "Yatahal.")
+        print(
+                "You are ushered into the court of the Ice Rose, retainers "
+                "for the princess.")
+        self.reckoning(30, 'the courtiers')
+        print(
+                "A worried courtier directs you north, across the desert of "
+                "Penance.")
+        print(
+                "She says that the princess is at the Chapel of Penance "
+                "learning the secrets of the Songs of the Creator.")
+        print(
+                "Before you venture north, you establish a base of operations "
+                "in Malanar and go shopping.")
+        shop2 = shop(self, [
+                "Middle Sword", "Spear", "Bronze Lance", "Wooden Staff",
+                "Power Staff", "Iron Shot"], [
+                "Steel Arrow", "Middle Axe", "Knife", "Power Staff",
+                "Power Spear"])
+        self.party = self.playerCharacters
+        self.battleStatus = None
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(15, 'the courtiers')
+                shop2.goShopping(self)
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'the courtiers')
+                shop2.goShopping(self)
+            battle(self, self.party, 5)
 
     def equipItem(self, equipment):
         allowedUnits = [
@@ -2104,7 +2141,7 @@ class game(object):
                 print(f"The {patron} awards you with {amount} scroulings!")
             self.money += amount
         elif amount < 0:
-            if -amount >= self.money:
+            if amount >= self.money:
                 print(
                         f"The priests take all of your money to cover the "
                         f"cost of the prayers that saved you. Consider them "
