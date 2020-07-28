@@ -2145,7 +2145,7 @@ class game(object):
         fame = max([
                 pc.stats["Fame"] for pc in self.playerCharacters
                 if equipString in pc.powers])
-        if game > 15:
+        if fame > 15:
             blame = [
                     pc.name for pc in self.playerCharacters
                     if equipString in
