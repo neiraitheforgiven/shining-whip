@@ -1380,7 +1380,7 @@ class battleField(object):
                     tileUnit for tileUnit in currentTile.units
                     if type(tileUnit) == type(unit)]
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                if tile >= position:
+                if self.terrainArray.index(tile) != position:
                     if len([
                             target for target in tile.units
                             if type(target) == type(unit)]) <= (
@@ -1393,7 +1393,7 @@ class battleField(object):
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                if tile >= position:
+                if self.terrainArray.index(tile) != position:
                     if len([
                             target for target in tile.units
                             if type(target) == type(unit)]) < 4:
@@ -1405,7 +1405,7 @@ class battleField(object):
             minRange = max(0, (position - 2))
             maxRange = min((position + 2), len(self.terrainArray) - 1)
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                if tile >= position:
+                if self.terrainArray.index(tile) != position:
                     if len([
                             target for target in tile.units
                             if type(target) == type(unit)]) < 4:
@@ -1417,7 +1417,7 @@ class battleField(object):
             minRange = max(0, (position - 3))
             maxRange = min((position + 3), len(self.terrainArray) - 1)
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                if tile >= position:
+                if self.terrainArray.index(tile) != position:
                     if len([
                             target for target in tile.units
                             if type(target) == type(unit)]) < 4:
