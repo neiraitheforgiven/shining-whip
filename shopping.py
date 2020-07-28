@@ -256,7 +256,7 @@ class shop(object):
                 while whatToSell not in allowedItems or (
                         whatToSell != len(allowedItems)):
                     for item in allowedItems:
-                        price = game.getSellPrice(item)
+                        price = game.getSellPrice(item)[0]
                         sellString = (
                                 f"({allowedItems.index(item)}) {item.name} - "
                                 f"{price} Scroulings")
