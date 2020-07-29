@@ -1132,11 +1132,11 @@ class battleField(object):
             unstable = tile.unstable
         if movementPoints <= 0 or (
                 self.getPower(unit, "Unhindered Movement") and (
-                        movementPoints < 5)):
+                movementPoints < 5)):
             # mounted units may have bonus movement if they move on solids
             if (
                     self.getPower(unit, "Mounted Movement") and not (
-                            bonusSpent) and not unstable):
+                    bonusSpent) and not unstable):
                 bonusSpent = True
             else:
                 return
@@ -1153,7 +1153,7 @@ class battleField(object):
             movementPoints = movementPoints - tile.cost
         if movementPoints <= 0 or (
                 self.getPower(unit, "Unhindered Movement") and (
-                        movementPoints < 5)):
+                movementPoints < 5)):
             # mounted units may have bonus movement if they move on solids
             if (self.getPower(unit, "Mounted Movement") and not (
                     self.getPower(unit, "Flying Movement"))):
@@ -1171,15 +1171,17 @@ class battleField(object):
                         else:
                             return  # you forfeit your final movement
                 else:
-                    if not bonusSpent:
+                    if not bonusSpent and len([
+                            tileUnit for tileUnit in tile.units
+                            if type(tileUnit) == type(unit)]) < 4:
                         bonusSpent = True  # You get one more movement
                         candidate = True
                         movementPoints = 1
             if candidate:
                 unit.allowedMovement.append(position)
             if movementPoints <= 0 or (
-                        self.getPower(unit, "Unhindered Movement") and (
-                                movementPoints < 5)):
+                    self.getPower(unit, "Unhindered Movement") and (
+                    movementPoints < 5)):
                 return
         else:
             if candidate:
