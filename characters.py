@@ -86,6 +86,7 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.powers.append("Unarmed Attack: Increased Damage")
             self.powers.append("Poisonous Attack")
+            self.power.append("Luck: Counterattack")
         else:
             self.level = level
             stats = {}
