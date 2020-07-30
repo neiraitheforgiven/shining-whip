@@ -2118,7 +2118,18 @@ class game(object):
         print("To do that, you will need to brave a dark cave under Malanar ")
         print("-- the very thing that Malanar was created to seal.")
         print("Within, she claims you will find a sacred sword.")
-        print(  "You head to the shopping district before descending into the "
+        recruit = playerCharacter("Anri", "Human", "Frost Mage", chatter, 6)
+        self.equipOnCharacter(
+                equipment("Staffs", "Power Staff", 500, 0, 0, 8, 6, 6),
+                recruit)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        recruit.levelUp(chatter)
+        print(
+                "You head to the shopping district before descending into the "
                 "cavern.")
         self.reckoning(35, 'the royal coffers')
         self.party = self.playerCharacters
