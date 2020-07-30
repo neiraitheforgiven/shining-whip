@@ -60,6 +60,15 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment(
                     "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
+        elif name == "Skeleton":
+            self.level = 9
+            stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
+            self.setStats(9, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.equipment = equipment(
+                    "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0)
+            self.powers.append("Command: Luck: Counterattack")
         elif name == "Sniper":
             self.level = 4
             stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
@@ -86,7 +95,7 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.powers.append("Unarmed Attack: Increased Damage")
             self.powers.append("Poisonous Attack")
-            self.power.append("Luck: Counterattack")
+            self.powers.append("Luck: Counterattack")
         else:
             self.level = level
             stats = {}

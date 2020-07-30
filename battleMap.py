@@ -160,6 +160,28 @@ class battle(object):
                                 (monster("Zombie"), 16),
                                 (monster("Dark Apprentice"), 16),
                                 (monster("Dark Apprentice"), 16)], party, game)
+            elif num == 6:
+                self.battleField = battleField([
+                        "Cavern", "Cavern", "Cavern", "Cavern", "Cavern",
+                        "Bridge", "Cavern", "Cavern", "Cavern", "Loose Rocks",
+                        "Cavern", "Loose Rocks", "Cavern"],
+                        [(monster(
+                                "Zombie"), 3),
+                                (monster("Zombie"), 3),
+                                (monster("Zombie"), 6),
+                                (monster("Sniper"), 6),
+                                (monster("Sniper"), 6),
+                                (monster("Dark Apprentice"), 6),
+                                (monster("Giant Bat", "SlowAdvance"), 10),
+                                (monster("Giant Bat", "SlowAdvance"), 10),
+                                (monster("Giant Bat", "SlowAdvance"), 10),
+                                (monster("Giant Bat", "SlowAdvance"), 10),
+                                (monster("Giant Bat", "SlowAdvance"), 11),
+                                (monster("Dark Apprentice"), 12),
+                                (monster("Dark Apprentice"), 12),
+                                (monster("Dark Apprentice"), 12),
+                                (monster("Skeleton"), 12)],
+                                party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
@@ -1083,7 +1105,7 @@ class battleTile(object):
         # Assign cost
         if self.name in ("Bridge", "Path", "Tiled Floor"):
             self.cost = 5
-        elif self.name == "Grass":
+        elif self.name in ("Cavern", "Grass"):
             self.cost = 6
         elif self.name in ("Sand", "Overgrowth"):
             self.cost = 7
@@ -2082,6 +2104,33 @@ class game(object):
                 self.reckoning(0, 'the courtiers')
                 shop2.goShopping(self)
             battle(self, self.party, 5)
+        print("")
+        print("You enter the chapel and immediately find the princess.")
+        print(
+                "You inform her that her father is dead and that she is now "
+                "the Queen.")
+        print(
+                "She turns white and orders you to take her back to Malanar "
+                "at once.")
+        print(
+                "Once in Malanar, she informs you of her intent to join you "
+                "and take the battle back to Darksol.")
+        print("To do that, you will need to brave a dark cave under Malanar ")
+        print("-- the very thing that Malanar was created to seal.")
+        print("Within, she claims you will find a sacred sword.")
+        print(  "You head to the shopping district before descending into the "
+                "cavern.")
+        self.reckoning(35, 'the royal coffers')
+        self.party = self.playerCharacters
+        self.battleStatus = None
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(15, 'the royal coffers')
+                shop2.goShopping(self)
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'the royal coffers')
+                shop2.goShopping(self)
+            battle(self, self.party, 6)
 
     def equipItem(self, equipment):
         allowedUnits = [
