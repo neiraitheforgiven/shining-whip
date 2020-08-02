@@ -1145,13 +1145,24 @@ class battleField(object):
                     self.getStat(pc, "Dexterity"))
             initiativeOrder.append((pc, initiative, luck))
             initiativeOrder = sorted(initiativeOrder, key=itemgetter(1, 2))
-        for pc in initiativeOrder:
             self.units.append(pc)
-            if len(self.terrainArray[0].units) < 4:
-                self.terrainArray[0].units.append(pc)
-            elif len((self.terrainArray[1].units)) < 4:
+
+        characterBuffer = len(initiativeOrder)
+        if characterBuffer < 5:
+            for pc, _, _ in initiativeOrder:
                 self.terrainArray[1].units.append(pc)
-            else:
+        elif characterBuffer < 9:
+            for pc, _, _ in initiativeOrder[:characterBuffer - 4]:
+                self.terrainArray[0].units.append(pc)
+            for pc, _, _ in initiativeOrder[characterBuffer - 4:]:
+                self.terrainArray[1].units.append(pc)
+        else:
+            for pc, _, _ in initiativeOrder[:characterBuffer - 8]:
+                self.terrainArray[0].units.append(pc)
+            for pc, _, _ in initiativeOrder[
+                    characterBuffer - 8:characterBuffer - 4]:
+                self.terrainArray[1].units.append(pc)
+            for pc, _, _ in initiativeOrder[characterBuffer - 4:]:
                 self.terrainArray[2].units.append(pc)
 
     def calculatePossibleMovement(
