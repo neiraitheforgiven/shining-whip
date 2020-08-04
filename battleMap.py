@@ -497,6 +497,7 @@ class battle(object):
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
                         self.kill(target)
+            # remember that Defense: Dark Magic I and II are a thing.
         elif spellName == "Detox I":
             unit.mp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
