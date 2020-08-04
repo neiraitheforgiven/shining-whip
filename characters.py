@@ -857,8 +857,7 @@ class playerCharacter(object):
         return growth
 
     def levelUp(self, chatter):
-        if chatter:
-            print('{} hit level {}!'.format(self.name, self.level + 1))
+        print('{} hit level {}!'.format(self.name, self.level + 1))
         preLevelStatIncreaseCount = self.statIncreaseCount
         if self.statIncreaseCount != 0:
             bonus = self.level * 4 / self.statIncreaseCount
@@ -869,16 +868,15 @@ class playerCharacter(object):
         elif bonus > 2:
             bonus = 2
 
+        beforeDict = {}
+        afterDict = {}
         for statName, statValue in self.growth.items():
+            beforeDict[statName] = self.stats[statName]
             roll = random.randint(1, 10)
             result = math.floor(bonus * roll)
             if result >= statValue:
                 statIncrease = math.ceil(result / 10)
                 self.stats[statName] += statIncrease
-                if chatter:
-                    print("    {} became {}{}".format(
-                            statName, self.stats[statName],
-                            '!' * statIncrease))
                 self.statIncreaseCount += statIncrease
         while preLevelStatIncreaseCount == self.statIncreaseCount:
             for statName, statValue in self.growth.items():
@@ -886,25 +884,116 @@ class playerCharacter(object):
                 if result >= statValue:
                     statIncrease = math.ceil(result / 10)
                     self.stats[statName] += statIncrease
-                    if chatter:
-                        print("    {} became {}{}".format(
-                                statName, self.stats[statName],
-                                '!' * statIncrease))
                     self.statIncreaseCount += statIncrease
                     break
+        happy = False
+        if self.statIncreaseCount - preLevelStatIncreaseCount >= 4:
+            happy = True
+        for statName, statValue in self.growth.items():
+            afterDict[statName] = self.stats[statName]
         self.level += 1
-        if chatter:
-            print("")
+        fulfilled = False
+        # Stamina
+        stamString = f"{Stamina:<12} {beforeDict["Stamina"]}"
+        stamString = f"{stamString:<20}"
+        if afterDict["Stamina"] > beforeDict["Stamina"]:
+            if self.growth["Stamina"] == 5:
+                fulfilled = True
+            stamString += f" --> {afterDict["Stamina"]}"
+        # Speed
+        spdString = f"{"Speed":<12} {beforeDict["Speed"]}"
+        spdString = f"{spdString:<20}"
+        if afterDict["Speed"] > beforeDict["Speed"]:
+            if self.growth["Speed"] == 5:
+                fulfilled = True
+            spdString += f" --> {afterDict["Speed"]}"
+        # Strength
+        strString = f"{"Strength":<12} {beforeDict["Strength"]}"
+        strString = f"{strString:<20}"
+        if afterDict["Strength"] > beforeDict["Strength"]:
+            if self.growth["Strength"] == 5:
+                fulfilled = True
+            strString += f" --> {afterDict["Strength"]}"
+        # Intelligence
+        intString = f"{"Intelligence":<12} {beforeDict["Intelligence"]}"
+        intString = f"{intString:<20}"
+        if afterDict["Intelligence"] > beforeDict["Intelligence"]:
+            if self.growth["Intelligence"] == 5:
+                fulfilled = True
+            intString += f" --> {afterDict["Intelligence"]}"
+        # Dexterity
+        dexString = f"{"Dexterity":<12} {beforeDict["Dexterity"]}"
+        dexString = f"{dexString:<20}"
+        if afterDict["Dexterity"] > beforeDict["Dexterity"]:
+            if self.growth["Dexterity"] == 5:
+                fulfilled = True
+            dexString += f" --> {afterDict["Dexterity"]}"
+        # Faith
+        faithString = f"{"Faith":<12} {beforeDict["Faith"]}"
+        faithString = f"{faithString:<20}"
+        if afterDict["Faith"] > beforeDict["Faith"]:
+            if self.growth["Faith"] == 5:
+                fulfilled = True
+            faithString += f" --> {afterDict["Faith"]}"
+        # Charisma
+        chaString = f"{"Charisma":<12} {beforeDict["Charisma"]}"
+        chaString = f"{chaString:<20}"
+        if afterDict["Charisma"] > beforeDict["Charisma"]:
+            if self.growth["Charisma"] == 5:
+                fulfilled = True
+            chaString += f" --> {afterDict["Charisma"]}"
+        # Voice
+        voiceString = f"{"Voice":<12} {beforeDict["Voice"]}"
+        voiceString = f"{voiceString:<20}"
+        if afterDict["Voice"] > beforeDict["Voice"]:
+            if self.growth["Voice"] == 5:
+                fulfilled = True
+            voiceString += f" --> {afterDict["Voice"]}"
+        # Fame
+        fameString = f"{"Fame":<12} {beforeDict["Fame"]}"
+        fameString = f"{fameString:<20}"
+        if afterDict["Fame"] > beforeDict["Fame"]:
+            if self.growth["Fame"] == 5:
+                fulfilled = True
+            fameString += f" --> {afterDict["Fame"]}"
+        # Luck
+        luckString = f"{"Luck":<12} {beforeDict["Luck"]}"
+        luckString = f"{luckString:<20}"
+        if afterDict["Luck"] > beforeDict["Luck"]:
+            if self.growth["Luck"] == 5:
+                fulfilled = True
+            luckString += f" --> {afterDict["Luck"]}"
+        print(f"    {stamString}    {spdString}")
+        print(f"    {strString}    {intString}")
+        print(f"    {dexString}    {faithString}")
+        print(f"    {chaString}    {voiceString}")
+        print(f"    {fameString}    {luckString})
+
         if self.level % 5 == 0:
-            if chatter:
-                print(f"It's time for {self.name}'s class review.")
+            beforeTitle = self.title
             self.assignTitle(chatter)
             self.assignPower()
             self.updateGrowth()
-            if chatter:
-                for statName, statValue in self.stats.items():
-                    print("    {} of {}".format(statName, statValue))
-                input()
+            print("")
+            if self.title != beforeTitle:
+                return
+        if fulfilled:
+            if happy:
+                print(f"{self.name}: \"Yes! I am an unequalled {self.title}!\"")
+            else:
+                print(
+                        f"{self.name}: \"Being a {self.title} is harder than "
+                        "I expected.\"")
+        else:
+            if happy:
+                print(
+                        f"{self.name}: \"Wow! That really opened up some new "
+                        "perspectives!\"")
+            else:
+                print(
+                        f"{self.name}: \"Maybe I'm not cut out to be a "
+                        f"{self.title}.\"")
+
 
     def maxFP(self):
         if self.equipment:
