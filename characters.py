@@ -895,74 +895,84 @@ class playerCharacter(object):
         fulfilled = False
         # Stamina
         stamString = f"{'Stamina':<12} {beforeDict['Stamina']}"
-        stamString = f"{stamString:<20}"
+        stamString = f"{stamString:<16}"
         if afterDict['Stamina'] > beforeDict['Stamina']:
             if self.growth["Stamina"] == 5:
                 fulfilled = True
             stamString += f" --> {afterDict['Stamina']}"
+        stamString = f"{stamString:<25}"
         # Speed
         spdString = f"{'Speed':<12} {beforeDict['Speed']}"
-        spdString = f"{spdString:<20}"
+        spdString = f"{spdString:<16}"
         if afterDict['Speed'] > beforeDict['Speed']:
             if self.growth["Speed"] == 5:
                 fulfilled = True
             spdString += f" --> {afterDict['Speed']}"
+        spdString = f"{spdString:<25}"
         # Strength
         strString = f"{'Strength':<12} {beforeDict['Strength']}"
-        strString = f"{strString:<20}"
+        strString = f"{strString:<16}"
         if afterDict['Strength'] > beforeDict['Strength']:
             if self.growth["Strength"] == 5:
                 fulfilled = True
             strString += f" --> {afterDict['Strength']}"
+        strString = f"{strString:<25}"
         # Intelligence
         intString = f"{'Intelligence':<12} {beforeDict['Intelligence']}"
-        intString = f"{intString:<20}"
+        intString = f"{intString:<16}"
         if afterDict['Intelligence'] > beforeDict['Intelligence']:
             if self.growth["Intelligence"] == 5:
                 fulfilled = True
             intString += f" --> {afterDict['Intelligence']}"
+        intString = f"{intString:<25}"
         # Dexterity
         dexString = f"{'Dexterity':<12} {beforeDict['Dexterity']}"
-        dexString = f"{dexString:<20}"
+        dexString = f"{dexString:<16}"
         if afterDict['Dexterity'] > beforeDict['Dexterity']:
             if self.growth["Dexterity"] == 5:
                 fulfilled = True
             dexString += f" --> {afterDict['Dexterity']}"
+        dexString = f"{dexString:<25}"
         # Faith
         faithString = f"{'Faith':<12} {beforeDict['Faith']}"
-        faithString = f"{faithString:<20}"
+        faithString = f"{faithString:<16}"
         if afterDict['Faith'] > beforeDict['Faith']:
             if self.growth["Faith"] == 5:
                 fulfilled = True
             faithString += f" --> {afterDict['Faith']}"
+        faithString = f"{faithString:<25}"
         # Charisma
         chaString = f"{'Charisma':<12} {beforeDict['Charisma']}"
-        chaString = f"{chaString:<20}"
+        chaString = f"{chaString:<16}"
         if afterDict['Charisma'] > beforeDict['Charisma']:
             if self.growth["Charisma"] == 5:
                 fulfilled = True
             chaString += f" --> {afterDict['Charisma']}"
+        chaString = f"{chaString:<25}"
         # Voice
         voiceString = f"{'Voice':<12} {beforeDict['Voice']}"
-        voiceString = f"{voiceString:<20}"
+        voiceString = f"{voiceString:<16}"
         if afterDict['Voice'] > beforeDict['Voice']:
             if self.growth["Voice"] == 5:
                 fulfilled = True
             voiceString += f" --> {afterDict['Voice']}"
+        voiceString = f"{voiceString:<25}"
         # Fame
         fameString = f"{'Fame':<12} {beforeDict['Fame']}"
-        fameString = f"{fameString:<20}"
+        fameString = f"{fameString:<16}"
         if afterDict['Fame'] > beforeDict['Fame']:
             if self.growth["Fame"] == 5:
                 fulfilled = True
             fameString += f" --> {afterDict['Fame']}"
+        fameString = f"{fameString:<25}"
         # Luck
         luckString = f"{'Luck':<12} {beforeDict['Luck']}"
-        luckString = f"{luckString:<20}"
+        luckString = f"{luckString:<16}"
         if afterDict['Luck'] > beforeDict['Luck']:
             if self.growth["Luck"] == 5:
                 fulfilled = True
             luckString += f" --> {afterDict['Luck']}"
+        luckString = f"{luckString:<25}"
         print(f"    {stamString}    {spdString}")
         print(f"    {strString}    {intString}")
         print(f"    {dexString}    {faithString}")
