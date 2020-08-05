@@ -205,6 +205,15 @@ class battle(object):
         doubleChanceArray = []
         dex = self.getStat(unit, "Dexterity")
         luck = self.getStat(unit, "Luck")
+        if self.getPower(unit, "Swords: Increased Luck I"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
+        if self.getPower(unit, "Swords: Increased Luck II"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
+        if self.getPower(unit, "Swords: Increased Luck III"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
         doubleChance = math.floor(dex + (dex * (luck / 10)))
         if self.getPower(unit, "Quick Shot"):
             doubleChance = math.ceil(doubleChance * 1.3)
@@ -641,6 +650,15 @@ class battle(object):
         random.shuffle(self.battleField.units)
         for unit in self.battleField.units:
             luck = self.getStat(unit, "Luck")
+            if self.getPower(unit, "Swords: Increased Luck I"):
+                if unit.equipment and unit.equipment.type == "Swords":
+                    luck = math.ceil(luck * 1.3)
+            if self.getPower(unit, "Swords: Increased Luck II"):
+                if unit.equipment and unit.equipment.type == "Swords":
+                    luck = math.ceil(luck * 1.3)
+            if self.getPower(unit, "Swords: Increased Luck III"):
+                if unit.equipment and unit.equipment.type == "Swords":
+                    luck = math.ceil(luck * 1.3)
             initiative = max(
                     self.getStat(unit, "Charisma"),
                     self.getStat(unit, "Speed"),
@@ -766,6 +784,15 @@ class battle(object):
     def doTurn(self, unit, moved=False):
         if unit.status in ("sleep", "poison"):
             luck = self.getStat(unit, "Luck")
+            if self.getPower(unit, "Swords: Increased Luck I"):
+                if unit.equipment and unit.equipment.type == "Swords":
+                    luck = math.ceil(luck * 1.3)
+            if self.getPower(unit, "Swords: Increased Luck II"):
+                if unit.equipment and unit.equipment.type == "Swords":
+                    luck = math.ceil(luck * 1.3)
+            if self.getPower(unit, "Swords: Increased Luck III"):
+                if unit.equipment and unit.equipment.type == "Swords":
+                    luck = math.ceil(luck * 1.3)
             resistSkill = sum([
                     self.getStat(unit, "Faith"),
                     self.getStat(unit, "Intelligence"),
@@ -985,6 +1012,15 @@ class battle(object):
         print(f"{unit.name} sings out a note of power!")
         cha = self.getStat(unit, "Charisma")
         luck = self.getStat(unit, "Luck")
+        if self.getPower(unit, "Swords: Increased Luck I"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
+        if self.getPower(unit, "Swords: Increased Luck II"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
+        if self.getPower(unit, "Swords: Increased Luck III"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
         voice = self.getStat(unit, "Voice")
         attackTypeArray = []
         attackTypeArray.extend(["normal"] * (100 - (luck)))
