@@ -787,10 +787,10 @@ class battle(object):
         for tile in self.battleField.terrainArray:
             print(
                     f"debug: ({self.battleField.terrainArray.index(tile)}) "
-                    f"resonance: {tile.voicePower} ({tile.singing})")
-            if not tile.singing:
+                    f"resonance: {tile.voicePower} ({tile.ringing})")
+            if not tile.ringing:
                 tile.voicePower = math.floor(tile.voicePower / 2)
-            tile.singing = False
+            tile.ringing = False
 
     def doTurn(self, unit, moved=False):
         if unit.status in ("sleep", "poison"):
@@ -910,7 +910,8 @@ class battle(object):
                             unit, "Vocal Attack: Increased Resonance II"):
                         vp = math.ceil(vp * 1.3)
                     tile.voicePower += vp
-                    tile.singing = True
+                    if self.getPower(unit, "Vocal Attack: Sustain Effect"):
+                        tile.ringing = True
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
@@ -1011,7 +1012,8 @@ class battle(object):
                             unit, "Vocal Attack: Increased Resonance II"):
                         vp = math.ceil(vp * 1.3)
                     tile.voicePower += vp
-                    tile.singing = True
+                    if self.getPower(unit, "Vocal Attack: Sustain Effect"):
+                        tile.ringing = True
                 return
         elif type(unit) == monster:
             print("")
@@ -1045,7 +1047,8 @@ class battle(object):
                         unit, "Vocal Attack: Increased Resonance II"):
                     vp = math.ceil(vp * 1.3)
                 tile.voicePower -= vp
-                tile.singing = True
+                if self.getPower(unit, "Vocal Attack: Sustain Effect"):
+                    tile.ringing = True
         time.sleep(6. / 10)
         endBattle = not self.battleOn()
         return endBattle
@@ -1185,7 +1188,7 @@ class battleTile(object):
     def __init__(self, terrain):
         self.name = terrain
         self.cost = 5
-        self.singing = False
+        self.ringing = False
         self.voicePower = 0
         # Assign cost
         if self.name in ("Bridge", "Path", "Tiled Floor"):
@@ -1648,8 +1651,8 @@ class battleField(object):
         vp = currentTile.voicePower
         voice = self.getStat(unit, "Voice")
         if ((
-                type(unit) == playerCharacter and (vp + voice >= 24)) or (
-                type(unit) == monster and (vp - voice <= -24))):
+                type(unit) == playerCharacter and (vp + voice > 0)) or (
+                type(unit) == monster and (vp - voice <= 0))):
             return any([
                     tileUnit for tileUnit in currentTile.units
                     if type(tileUnit) != type(unit)])

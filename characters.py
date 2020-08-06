@@ -258,9 +258,9 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Equip: Dagger", "Heal I", "Equip: Bows",
                         "Luck: Counterattack", "Luck: Enable Triple Attack",
-                        "Command: Health Regeneration",
-                        "Vocal Attack: Increased Damage I",
-                        "Luck: Increased Dodge Chance"]
+                        "Command: Health Regeneration I",
+                        "Magic: Add Resonance",
+                        "Luck: Increased Dodge Chance I"]
             elif "Baron" in self.title:
                 listOfPowers = [
                         "Equip: Long Swords", "Command: Luck: Counterattack",
@@ -306,8 +306,8 @@ class playerCharacter(object):
                         "Rout: Add Effect: Fear"]
             elif "Chorister" in self.title:
                 listOfPowers = [
-                        "Vocal Attack: Increased Damage I", "Heal I",
-                        "Blast I", "Vocal Attack: Increased Damage II",
+                        "Vocal Attack: Sustain Effect", "Heal I",
+                        "Blast I", "Command: Vocal Attack: Increased Damage I",
                         "Blast II",
                         "Command: Vocal Attack: Increased Damage II",
                         "Vocal Attack: Increased Damage III", "Blast III"]
@@ -381,7 +381,7 @@ class playerCharacter(object):
                         "Aura I", "Vocal Attack: Increased Resonance I",
                         "Shield I", "Aura II", "Aura III",
                         "Vocal Attack: Increased Resonance II", "Aura IV",
-                        "Vocal Attack: Increased Range I"]
+                        "Vocal Attack: Sustain Effect"]
             elif "Priest" in self.title:
                 listOfPowers = [
                         "Heal I", "Detox I", "Heal II",
