@@ -780,6 +780,9 @@ class battle(object):
             endBattle = self.doTurn(unit[0])
             if endBattle:
                 return
+        for tile in self.battleField.terrainArray:
+            if not tile.singing:
+                tile.voicePower = math.floor(tile.voicePower / 2)
 
     def doTurn(self, unit, moved=False):
         if unit.status in ("sleep", "poison"):
@@ -979,7 +982,13 @@ class battle(object):
             elif command in ("V", "v"):
                 self.doVocalAttack(unit)
             elif command in ("W", "w"):
+                if not moved or self.getPower(
+                        unit, "Vocal Attack: Ignore Movement"):
+                    tile.voicePower += self.getStat(unit, "Voice")
                 return
+            if not moved or self.getPower(
+                    unit, "Vocal Attack: Ignore Movement"):
+                tile.voicePower += self.getStat(unit, "Voice")
         elif type(unit) == monster:
             print("")
             print(f"It's {unit.name}'s turn!")
@@ -1002,6 +1011,9 @@ class battle(object):
                 self.doMonsterAttack(unit)
             else:
                 print(f"{unit.name} waited.")
+            if not moved or self.getPower(
+                    unit, "Vocal Attack: Ignore Movement"):
+                tile.voicePower -= self.getStat(unit, "Voice")
         time.sleep(6. / 10)
         endBattle = not self.battleOn()
         return endBattle
@@ -1009,6 +1021,7 @@ class battle(object):
     def doVocalAttack(self, unit):
         bf = self.battleField
         position = bf.getUnitPos(unit)
+        tile = bf.terrainArray[position]
         print(f"{unit.name} sings out a note of power!")
         cha = self.getStat(unit, "Charisma")
         luck = self.getStat(unit, "Luck")
@@ -1039,9 +1052,10 @@ class battle(object):
                 bf.terrainArray[position].units
                 if type(tileUnit) != type(unit)])
         amount = max(1, friendSound - enemySound)
+        amount = amount + abs(tile.voicePower)
         damage = math.ceil(amount / 12)
         damage = max(damage, 1)
-        for target in bf.terrainArray[position].units:
+        for target in tile.units:
             if type(target) != type(unit):
                 attackTypeArray = []
                 attackTypeArray.extend(["normal"] * (100 - (luck)))
@@ -1139,6 +1153,8 @@ class battleTile(object):
     def __init__(self, terrain):
         self.name = terrain
         self.cost = 5
+        self.singing = False
+        self.voicePower = 0
         # Assign cost
         if self.name in ("Bridge", "Path", "Tiled Floor"):
             self.cost = 5
@@ -1597,9 +1613,16 @@ class battleField(object):
     def checkVocal(self, unit):
         position = self.getUnitPos(unit)
         currentTile = self.terrainArray[position]
-        return any([
-                tileUnit for tileUnit in currentTile.units
-                if type(tileUnit) != type(unit)])
+        vp = currentTile.voicePower
+        voice = self.getStat(unit, "Voice")
+        if ((
+                type(unit) == playerCharacter and (vp + voice >= 30)) or (
+                type(unit) == monster and (vp - voice <= -30))):
+            return any([
+                    tileUnit for tileUnit in currentTile.units
+                    if type(tileUnit) != type(unit)])
+        else:
+            return False
 
     def doMonsterMove(self, monster, position):
         if monster.moveProfile == "Advance-Defensive":
