@@ -1028,8 +1028,7 @@ class battle(object):
                         f"{tile.name}.")
             moveEnabled = self.battleField.checkMove(unit, position)
             if moveEnabled:
-                self.battleField.doMonsterMove(unit, position)
-                moved = True
+                moved = self.battleField.doMonsterMove(unit, position)
             position = self.battleField.getUnitPos(unit)
             attackEnabled = self.battleField.checkAttack(unit, position)
             if attackEnabled:
@@ -1661,21 +1660,21 @@ class battleField(object):
         if monster.moveProfile == "Advance-Defensive":
             if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
-                self.doMonsterMove(monster, position)
-                return
+                moved = self.doMonsterMove(monster, position)
+                return moved
             else:
                 moveTo = min(monster.allowedMovement)
                 if position == 0 or moveTo > position:
                     monster.moveProfile = "Defensive"
-                    self.doMonsterMove(monster, position)
-                    return
+                    moved = self.doMonsterMove(monster, position)
+                    return moved
             self.move(monster, moveTo)
         elif monster.moveProfile == "Aggressive":
             # will not move if in melee range of enemies
             if any([
                     unit for unit in self.terrainArray[position].units
                     if type(unit) == playerCharacter]):
-                return
+                return False
             # move as far forward as possible to tiles with enemies
             candidates = []
             for position in monster.allowedMovement:
@@ -1689,6 +1688,7 @@ class battleField(object):
                 # move as far forward as possible
                 moveTo = min(monster.allowedMovement)
             self.move(monster, moveTo)
+            return True
         elif monster.moveProfile == "Aggressive-Singer":
             # just like aggressive but prefers to move to places with larger
             # concentration of enemies and friends
@@ -1724,11 +1724,12 @@ class battleField(object):
             else:
                 moveTo = min(monster.allowedMovement)
             self.move(monster, moveTo)
+            return True
         elif monster.moveProfile == "Defensive":
             if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
-                self.doMonsterMove(monster, position)
-                return
+                moved = self.doMonsterMove(monster, position)
+                return moved
             else:
                 candidates = []
                 for position in monster.allowedMovement:
@@ -1739,27 +1740,29 @@ class battleField(object):
                 if candidates:
                     moveTo = max(candidates)
                 else:
-                    return
+                    return False
             self.move(monster, moveTo)
+            return True
         elif monster.moveProfile == "Retreat-Defensive":
             if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
-                self.doMonsterMove(monster, position)
-                return
+                moved = self.doMonsterMove(monster, position)
+                return moved
             else:
                 moveTo = max(monster.allowedMovement)
                 if position == len(self.terrainArray) - 1 or moveTo < position:
                     monster.moveProfile = "Defensive"
-                    self.doMonsterMove(monster, position)
-                    return
+                    moved = self.doMonsterMove(monster, position)
+                    return moved
             self.move(monster, moveTo)
+            return True
         elif monster.moveProfile == "SlowAdvance":
             # will not move if in melee range of enemies
             if any([
                     unit for unit in self.terrainArray[position].units
                     if type(unit) == playerCharacter]):
                 monster.moveProfile == "Aggressive"
-                return
+                return False
             # move as far forward as possible to tiles with enemies
             candidates = []
             for position in monster.allowedMovement:
@@ -1767,13 +1770,14 @@ class battleField(object):
                         unit for unit in self.terrainArray[position].units
                         if type(unit) == playerCharacter]):
                     candidates.append(position)
-                    monster.moveProfile == "Aggressive"
             if candidates:
                 moveTo = min(candidates)
+                monster.moveProfile == "Aggressive"
             else:
                 # move as far forward as possible
                 moveTo = min(monster.allowedMovement)
             self.move(monster, moveTo)
+            return True
         elif monster.moveProfile == "Sniper":
             candidates = [
                     target for target in self.game.party if target.hp > 0]
@@ -1795,8 +1799,9 @@ class battleField(object):
                 elif targetPos > max(monster.allowedMovement):
                     moveTo = max(monster.allowedMovement)
                 else:
-                    return
+                    return False
             self.move(monster, moveTo)
+            return True
 
     def getFameBonus(self, unit):
         position = self.getUnitPos(unit)
