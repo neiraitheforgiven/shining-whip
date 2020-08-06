@@ -51,6 +51,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
+            self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
         elif name == "Goblin":
             self.level = 1

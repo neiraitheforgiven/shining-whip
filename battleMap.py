@@ -781,6 +781,9 @@ class battle(object):
             if endBattle:
                 return
         for tile in self.battleField.terrainArray:
+            print(
+                    f"debug: ({self.battleField.terrainArray.index(tile)}) "
+                    f"resonance: {tile.voicePower} ({tile.singing})")
             if not tile.singing:
                 tile.voicePower = math.floor(tile.voicePower / 2)
             tile.singing = False
@@ -893,6 +896,10 @@ class battle(object):
                     except ValueError:
                         attackTarget = None
                 self.doAttack(unit, attackTarget)
+                if not moved or self.getPower(
+                        unit, "Vocal Attack: Ignore Movement"):
+                    tile.voicePower += self.getStat(unit, "Voice")
+                    tile.singing = True
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
@@ -988,10 +995,6 @@ class battle(object):
                     tile.voicePower += self.getStat(unit, "Voice")
                     tile.singing = True
                 return
-            if not moved or self.getPower(
-                    unit, "Vocal Attack: Ignore Movement"):
-                tile.voicePower += self.getStat(unit, "Voice")
-                tile.singing = True
         elif type(unit) == monster:
             print("")
             print(f"It's {unit.name}'s turn!")
@@ -1008,6 +1011,7 @@ class battle(object):
             moveEnabled = self.battleField.checkMove(unit, position)
             if moveEnabled:
                 self.battleField.doMonsterMove(unit, position)
+                moved = True
             position = self.battleField.getUnitPos(unit)
             attackEnabled = self.battleField.checkAttack(unit, position)
             if attackEnabled:
