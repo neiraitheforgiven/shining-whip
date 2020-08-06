@@ -902,7 +902,14 @@ class battle(object):
                 self.doAttack(unit, attackTarget)
                 if not moved or self.getPower(
                         unit, "Vocal Attack: Ignore Movement"):
-                    tile.voicePower += self.getStat(unit, "Voice")
+                    vp = self.getStat(unit, "Voice")
+                    if self.getPower(
+                            unit, "Vocal Attack: Increased Resonance I"):
+                        vp = math.ceil(vp * 1.3)
+                    if self.getPower(
+                            unit, "Vocal Attack: Increased Resonance II"):
+                        vp = math.ceil(vp * 1.3)
+                    tile.voicePower += vp
                     tile.singing = True
             elif command in ("C", "c"):
                 print()
@@ -996,7 +1003,14 @@ class battle(object):
             elif command in ("W", "w"):
                 if not moved or self.getPower(
                         unit, "Vocal Attack: Ignore Movement"):
-                    tile.voicePower += self.getStat(unit, "Voice")
+                    vp = self.getStat(unit, "Voice")
+                    if self.getPower(
+                            unit, "Vocal Attack: Increased Resonance I"):
+                        vp = math.ceil(vp * 1.3)
+                    if self.getPower(
+                            unit, "Vocal Attack: Increased Resonance II"):
+                        vp = math.ceil(vp * 1.3)
+                    tile.voicePower += vp
                     tile.singing = True
                 return
         elif type(unit) == monster:
@@ -1024,7 +1038,14 @@ class battle(object):
                 print(f"{unit.name} waited.")
             if not moved or self.getPower(
                     unit, "Vocal Attack: Ignore Movement"):
-                tile.voicePower -= self.getStat(unit, "Voice")
+                vp = self.getStat(unit, "Voice")
+                if self.getPower(
+                        unit, "Vocal Attack: Increased Resonance I"):
+                    vp = math.ceil(vp * 1.3)
+                if self.getPower(
+                        unit, "Vocal Attack: Increased Resonance II"):
+                    vp = math.ceil(vp * 1.3)
+                tile.voicePower -= vp
                 tile.singing = True
         time.sleep(6. / 10)
         endBattle = not self.battleOn()

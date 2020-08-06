@@ -51,6 +51,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
+            self.powers.append("Vocal Attack: Increased Resonance I")
             self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
         elif name == "Goblin":
@@ -377,9 +378,9 @@ class playerCharacter(object):
                         "Heal IV", "Seal I", "Aura I"]
             elif "Orator" in self.title:
                 listOfPowers = [
-                        "Aura I", "Vocal Attack: Increased Damage I",
+                        "Aura I", "Vocal Attack: Increased Resonance I",
                         "Shield I", "Aura II", "Aura III",
-                        "Vocal Attack: Increased Damage II", "Aura IV",
+                        "Vocal Attack: Increased Resonance II", "Aura IV",
                         "Vocal Attack: Increased Range I"]
             elif "Priest" in self.title:
                 listOfPowers = [
