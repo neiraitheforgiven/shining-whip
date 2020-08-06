@@ -704,7 +704,11 @@ class battle(object):
             self.attack(monster, target)
         elif monster.attackProfile == "Singer":
             if monster.allowedAttacks:
-                self.doVocalAttack(monster)
+                if field.checkVocal(monster):
+                    self.doVocalAttack(monster)
+                else:
+                    target = random.choice(monster.allowedAttacks)
+                    self.attack(monster, target)
         elif monster.attackProfile == "Spellcaster":
             canCast = False
             field = self.battleField
@@ -1624,8 +1628,8 @@ class battleField(object):
         vp = currentTile.voicePower
         voice = self.getStat(unit, "Voice")
         if ((
-                type(unit) == playerCharacter and (vp + voice >= 30)) or (
-                type(unit) == monster and (vp - voice <= -30))):
+                type(unit) == playerCharacter and (vp + voice >= 24)) or (
+                type(unit) == monster and (vp - voice <= -24))):
             return any([
                     tileUnit for tileUnit in currentTile.units
                     if type(tileUnit) != type(unit)])
