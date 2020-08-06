@@ -783,6 +783,7 @@ class battle(object):
         for tile in self.battleField.terrainArray:
             if not tile.singing:
                 tile.voicePower = math.floor(tile.voicePower / 2)
+            tile.singing = False
 
     def doTurn(self, unit, moved=False):
         if unit.status in ("sleep", "poison"):
@@ -985,10 +986,12 @@ class battle(object):
                 if not moved or self.getPower(
                         unit, "Vocal Attack: Ignore Movement"):
                     tile.voicePower += self.getStat(unit, "Voice")
+                    tile.singing = True
                 return
             if not moved or self.getPower(
                     unit, "Vocal Attack: Ignore Movement"):
                 tile.voicePower += self.getStat(unit, "Voice")
+                tile.singing = True
         elif type(unit) == monster:
             print("")
             print(f"It's {unit.name}'s turn!")
@@ -1014,6 +1017,7 @@ class battle(object):
             if not moved or self.getPower(
                     unit, "Vocal Attack: Ignore Movement"):
                 tile.voicePower -= self.getStat(unit, "Voice")
+                tile.singing = True
         time.sleep(6. / 10)
         endBattle = not self.battleOn()
         return endBattle
