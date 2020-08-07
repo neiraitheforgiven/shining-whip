@@ -45,7 +45,9 @@ class monster(object):
             self.shortName = "D.Apprc"
         elif name == "Giant Bat":
             self.level = 5
-            stats = {"Voice": 11, "Stamina": 7, "Speed": 7, "Dexterity": 6}
+            stats = {
+                    "Voice": 11, "Stamina": 7, "Speed": 7, "Strength": 9,
+                    "Dexterity": 6}
             self.setStats(7, **stats)
             self.attackProfile = attackProfile or "Singer"
             self.moveProfile = moveProfile or "Aggressive-Singer"
