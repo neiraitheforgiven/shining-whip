@@ -1672,6 +1672,7 @@ class battleField(object):
                     moved = self.doMonsterMove(monster, position)
                     return moved
             self.move(monster, moveTo)
+            return True
         elif monster.moveProfile == "Aggressive":
             # will not move if in melee range of enemies
             if any([
