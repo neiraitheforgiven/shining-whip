@@ -1669,8 +1669,8 @@ class battleField(object):
         vp = currentTile.voicePower
         voice = self.getStat(unit, "Voice")
         if ((
-                type(unit) == playerCharacter and (vp + voice > 0)) or (
-                type(unit) == monster and (vp - voice <= 0))):
+                type(unit) == playerCharacter and (vp > 0)) or (
+                type(unit) == monster and (vp < 0))):
             return any([
                     tileUnit for tileUnit in currentTile.units
                     if type(tileUnit) != type(unit)])
