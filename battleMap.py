@@ -852,7 +852,8 @@ class battle(object):
                 print("Type (A) to attack.")
                 allowedCommands.append("A")
                 allowedCommands.append("a")
-            if not unit.hasEquipped and not moved:
+            if not unit.hasEquipped and not moved and self.getPower(
+                    unit, "Equip"):
                 print("Type (E) to equip or unequip weapons.")
                 allowedCommands.append("E")
                 allowedCommands.append("e")
@@ -927,10 +928,10 @@ class battle(object):
                     unit.hasEquipped = True
                     print(f"{unit.name} put away their weapon.")
                     itemToEquip = None
-                    if unit.fp > self.getStat("Faith"):
-                        unit.fp = self.getStat("Faith")
-                    if unit.mp > self.getStat("Intelligence"):
-                        unit.mp = self.getStat("Intelligence")
+                    if unit.fp > self.getStat(unit, "Faith"):
+                        unit.fp = self.getStat(unit, "Faith")
+                    if unit.mp > self.getStat(unit, "Intelligence"):
+                        unit.mp = self.getStat(unit, "Intelligence")
                 elif itemToEquip == len(allowedEquipment) + 1:
                     pass
                 elif itemToEquip is not None:
@@ -938,12 +939,12 @@ class battle(object):
                             allowedEquipment[itemToEquip], unit)
                     itemToEquip = None
                     unit.hasEquipped = True
-                    if unit.fp > self.getStat("Faith") + unit.equipment.fp:
-                        unit.fp = self.getStat("Faith") + unit.equipment.fp
+                    if unit.fp > self.getStat(unit, "Faith") + unit.equipment.fp:
+                        unit.fp = self.getStat(unit, "Faith") + unit.equipment.fp
                     if unit.mp > (self.getStat(
-                            "Intelligence") + unit.equipment.mp):
+                            unit, "Intelligence") + unit.equipment.mp):
                         unit.mp = (self.getStat(
-                                "Intelligence") + unit.equipment.mp)
+                                unit, "Intelligence") + unit.equipment.mp)
                     print()
                 self.doTurn(unit, True)
             elif command in ("L", "l"):
