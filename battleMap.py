@@ -805,7 +805,9 @@ class battle(object):
                             tile.voicePower < tile.proposedVoicePower):
                         tile2.proposedVoicePower = tile.voicePower
         for tile in self.battleField.terrainArray:
-            tile.voicePower = tile.proposedVoicePower
+            if tile.proposedVoicePower != 0:
+                tile.voicePower = tile.proposedVoicePower
+                tile.proposedVoicePower = 0
             print(
                     f"debug: ({self.battleField.terrainArray.index(tile)}) "
                     f"resonance: {tile.voicePower} ({tile.ringing})")
