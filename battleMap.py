@@ -809,7 +809,7 @@ class battle(object):
                             tile.voicePower < tile2.voicePower)):
                         tile2.proposedVoicePower = tile.voicePower
         for tile in self.battleField.terrainArray:
-            if tile.proposedVoicePower != 0:
+            if tile.proposedVoicePower != 0 or tile.voicePower in (-1, 0, 1):
                 tile.voicePower = tile.proposedVoicePower
                 tile.proposedVoicePower = 0
             print(
