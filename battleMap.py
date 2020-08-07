@@ -784,19 +784,21 @@ class battle(object):
             endBattle = self.doTurn(unit[0])
             if endBattle:
                 return
-        for tileId, tile in self.battleField.terrainArray:
+        for tile in self.battleField.terrainArray:
             print(
                     f"debug: ({self.battleField.terrainArray.index(tile)}) "
                     f"resonance: {tile.voicePower} ({tile.ringing})")
             if not tile.ringing:
                 tile.voicePower = math.floor(tile.voicePower / 2)
             if tile.voicePower > 0:
+                tileId = self.battleField.terrainArray.index(tile)
                 if tileId + 1 < len(self.battleField.terrainArray):
                     tile2 = self.battleField.terrainArray[tileId + 1]
                     if tile2.proposedVoicePower >= 0 and (
                             tile.voicePower > tile2.proposedVoicePower):
                         tile2.proposedVoicePower = tile.voicePower
             elif tile.voicePower < 0:
+                tileId = self.battleField.terrainArray.index(tile)
                 if tileId - 1 >= 0:
                     tile2 = self.battleField.terrainArray[tileId - 1]
                     if tile2.proposedVoicePower <= 0 and (
