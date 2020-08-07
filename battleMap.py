@@ -794,17 +794,19 @@ class battle(object):
                 tileId = self.battleField.terrainArray.index(tile)
                 if tileId + 1 < len(self.battleField.terrainArray):
                     tile2 = self.battleField.terrainArray[tileId + 1]
-                    if tile2.proposedVoicePower >= 0 and (
+                    if tile2.voicePower >= 0 and (
+                            tile2.proposedVoicePower >= 0 and (
                             tile.voicePower > tile2.proposedVoicePower) and (
-                            tile.voicePower > tile2.voicePower):
+                            tile.voicePower > tile2.voicePower)):
                         tile2.proposedVoicePower = tile.voicePower
             elif tile.voicePower < 0:
                 tileId = self.battleField.terrainArray.index(tile)
                 if tileId - 1 >= 0:
                     tile2 = self.battleField.terrainArray[tileId - 1]
-                    if tile2.proposedVoicePower <= 0 and (
+                    if tile2.voicePower <= 0 and (
+                            tile2.proposedVoicePower <= 0 and (
                             tile.voicePower < tile2.proposedVoicePower) and (
-                            tile.voicePower < tile2.voicePower):
+                            tile.voicePower < tile2.voicePower)):
                         tile2.proposedVoicePower = tile.voicePower
         for tile in self.battleField.terrainArray:
             if tile.proposedVoicePower != 0:
