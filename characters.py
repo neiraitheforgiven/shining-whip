@@ -45,12 +45,16 @@ class monster(object):
             self.shortName = "D.Apprc"
         elif name == "Giant Bat":
             self.level = 5
-            stats = {"Voice": 11, "Stamina": 7, "Speed": 7, "Dexterity": 6}
+            stats = {
+                    "Voice": 11, "Stamina": 7, "Speed": 7, "Strength": 9,
+                    "Dexterity": 6}
             self.setStats(7, **stats)
             self.attackProfile = attackProfile or "Singer"
             self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
+            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
         elif name == "Goblin":
             self.level = 1
@@ -259,9 +263,9 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Equip: Dagger", "Heal I", "Equip: Bows",
                         "Luck: Counterattack", "Luck: Enable Triple Attack",
-                        "Command: Health Regeneration",
-                        "Vocal Attack: Increased Damage I",
-                        "Luck: Increased Dodge Chance"]
+                        "Command: Health Regeneration I",
+                        "Magic: Add Resonance",
+                        "Luck: Increased Dodge Chance I"]
             elif "Baron" in self.title:
                 listOfPowers = [
                         "Equip: Long Swords", "Command: Luck: Counterattack",
@@ -307,8 +311,8 @@ class playerCharacter(object):
                         "Rout: Add Effect: Fear"]
             elif "Chorister" in self.title:
                 listOfPowers = [
-                        "Vocal Attack: Increased Damage I", "Heal I",
-                        "Blast I", "Vocal Attack: Increased Damage II",
+                        "Vocal Attack: Sustain Effect", "Heal I",
+                        "Blast I", "Command: Vocal Attack: Increased Damage I",
                         "Blast II",
                         "Command: Vocal Attack: Increased Damage II",
                         "Vocal Attack: Increased Damage III", "Blast III"]
@@ -379,10 +383,10 @@ class playerCharacter(object):
                         "Heal IV", "Seal I", "Aura I"]
             elif "Orator" in self.title:
                 listOfPowers = [
-                        "Aura I", "Vocal Attack: Increased Damage I",
+                        "Aura I", "Vocal Attack: Increased Resonance I",
                         "Shield I", "Aura II", "Aura III",
-                        "Vocal Attack: Increased Damage II", "Aura IV",
-                        "Vocal Attack: Increased Range I"]
+                        "Vocal Attack: Increased Resonance II", "Aura IV",
+                        "Vocal Attack: Sustain Effect"]
             elif "Priest" in self.title:
                 listOfPowers = [
                         "Heal I", "Detox I", "Heal II",
@@ -859,10 +863,11 @@ class playerCharacter(object):
                 growthLevel += 1
         return growth
 
-    def levelUp(self, chatter):
+    def levelUp(self, chatter=True):
         if chatter:
             print('{} hit level {}!'.format(self.name, self.level + 1))
         preLevelStatIncreaseCount = self.statIncreaseCount
+        self.level += 1
         if self.statIncreaseCount != 0:
             bonus = self.level * 4 / self.statIncreaseCount
         else:
@@ -871,17 +876,15 @@ class playerCharacter(object):
             bonus = 0.55
         elif bonus > 2:
             bonus = 2
-
+        beforeDict = {}
+        afterDict = {}
         for statName, statValue in self.growth.items():
+            beforeDict[statName] = self.stats[statName]
             roll = random.randint(1, 10)
             result = math.floor(bonus * roll)
             if result >= statValue:
                 statIncrease = math.ceil(result / 10)
                 self.stats[statName] += statIncrease
-                if chatter:
-                    print("    {} became {}{}".format(
-                            statName, self.stats[statName],
-                            '!' * statIncrease))
                 self.statIncreaseCount += statIncrease
         while preLevelStatIncreaseCount == self.statIncreaseCount:
             for statName, statValue in self.growth.items():
@@ -889,25 +892,145 @@ class playerCharacter(object):
                 if result >= statValue:
                     statIncrease = math.ceil(result / 10)
                     self.stats[statName] += statIncrease
-                    if chatter:
-                        print("    {} became {}{}".format(
-                                statName, self.stats[statName],
-                                '!' * statIncrease))
                     self.statIncreaseCount += statIncrease
                     break
-        self.level += 1
         if chatter:
-            print("")
+            happy = False
+            if self.statIncreaseCount - preLevelStatIncreaseCount >= 4:
+                happy = True
+            for statName, statValue in self.growth.items():
+                afterDict[statName] = self.stats[statName]
+            fulfilled = 0
+            # Stamina
+            stamString = f"{'Stamina':<12} {beforeDict['Stamina']}"
+            stamString = f"{stamString:<16}"
+            if afterDict['Stamina'] > beforeDict['Stamina']:
+                if self.growth["Stamina"] == 5:
+                    fulfilled += 1
+                stamString += f" --> {afterDict['Stamina']}"
+            stamString = f"{stamString:<25}"
+            # Speed
+            spdString = f"{'Speed':<12} {beforeDict['Speed']}"
+            spdString = f"{spdString:<16}"
+            if afterDict['Speed'] > beforeDict['Speed']:
+                if self.growth["Speed"] == 5:
+                    fulfilled += 1
+                spdString += f" --> {afterDict['Speed']}"
+            spdString = f"{spdString:<25}"
+            # Strength
+            strString = f"{'Strength':<12} {beforeDict['Strength']}"
+            strString = f"{strString:<16}"
+            if afterDict['Strength'] > beforeDict['Strength']:
+                if self.growth["Strength"] == 5:
+                    fulfilled += 1
+                strString += f" --> {afterDict['Strength']}"
+            strString = f"{strString:<25}"
+            # Intelligence
+            intString = f"{'Intelligence':<12} {beforeDict['Intelligence']}"
+            intString = f"{intString:<16}"
+            if afterDict['Intelligence'] > beforeDict['Intelligence']:
+                if self.growth["Intelligence"] == 5:
+                    fulfilled += 1
+                intString += f" --> {afterDict['Intelligence']}"
+            intString = f"{intString:<25}"
+            # Dexterity
+            dexString = f"{'Dexterity':<12} {beforeDict['Dexterity']}"
+            dexString = f"{dexString:<16}"
+            if afterDict['Dexterity'] > beforeDict['Dexterity']:
+                if self.growth["Dexterity"] == 5:
+                    fulfilled += 1
+                dexString += f" --> {afterDict['Dexterity']}"
+            dexString = f"{dexString:<25}"
+            # Faith
+            faithString = f"{'Faith':<12} {beforeDict['Faith']}"
+            faithString = f"{faithString:<16}"
+            if afterDict['Faith'] > beforeDict['Faith']:
+                if self.growth["Faith"] == 5:
+                    fulfilled += 1
+                faithString += f" --> {afterDict['Faith']}"
+            faithString = f"{faithString:<25}"
+            # Charisma
+            chaString = f"{'Charisma':<12} {beforeDict['Charisma']}"
+            chaString = f"{chaString:<16}"
+            if afterDict['Charisma'] > beforeDict['Charisma']:
+                if self.growth["Charisma"] == 5:
+                    fulfilled += 1
+                chaString += f" --> {afterDict['Charisma']}"
+            chaString = f"{chaString:<25}"
+            # Voice
+            voiceString = f"{'Voice':<12} {beforeDict['Voice']}"
+            voiceString = f"{voiceString:<16}"
+            if afterDict['Voice'] > beforeDict['Voice']:
+                if self.growth["Voice"] == 5:
+                    fulfilled += 1
+                voiceString += f" --> {afterDict['Voice']}"
+            voiceString = f"{voiceString:<25}"
+            # Fame
+            fameString = f"{'Fame':<12} {beforeDict['Fame']}"
+            fameString = f"{fameString:<16}"
+            if afterDict['Fame'] > beforeDict['Fame']:
+                if self.growth["Fame"] == 5:
+                    fulfilled += 1
+                fameString += f" --> {afterDict['Fame']}"
+            fameString = f"{fameString:<25}"
+            # Luck
+            luckString = f"{'Luck':<12} {beforeDict['Luck']}"
+            luckString = f"{luckString:<16}"
+            if afterDict['Luck'] > beforeDict['Luck']:
+                if self.growth["Luck"] == 5:
+                    fulfilled += 1
+                luckString += f" --> {afterDict['Luck']}"
+            luckString = f"{luckString:<25}"
+            print(f"    {stamString}    {spdString}")
+            print(f"    {strString}    {intString}")
+            print(f"    {dexString}    {faithString}")
+            print(f"    {chaString}    {voiceString}")
+            print(f"    {fameString}    {luckString}")
+
         if self.level % 5 == 0:
-            if chatter:
-                print(f"It's time for {self.name}'s class review.")
+            beforeTitle = self.title
             self.assignTitle(chatter)
             self.assignPower()
             self.updateGrowth()
             if chatter:
-                for statName, statValue in self.stats.items():
-                    print("    {} of {}".format(statName, statValue))
-                input()
+                print("")
+                if self.title != beforeTitle:
+                    print(
+                            f"{self.name}: \"I am excited to begin my new life as "
+                            f"a {self.title}!\"")
+                else:
+                    print(
+                            f"{self.name}: \"Another step on my chosen path as a "
+                            f"{self.title}!\"")
+        else:
+            if chatter:
+                if fulfilled == 2:
+                    if happy:
+                        print(
+                                f"{self.name}: \"Yes! I am the epitome of a "
+                                f"{self.title}!\"")
+                    else:
+                        print(
+                                f"{self.name}: \"Being a {self.title} is harder "
+                                "than I expected.\"")
+                elif fulfilled == 1:
+                    if happy:
+                        print(
+                                f"{self.name}: \"This will make me a stronger "
+                                f"{self.title}!\"")
+                    else:
+                        print(
+                                f"{self.name}: \"Being a {self.title} is harder than "
+                                "I expected.\"")
+                else:
+                    if happy:
+                        print(
+                                f"{self.name}: \"Wow! That really opened up some new "
+                                "perspectives!\"")
+                    else:
+                        print(
+                                f"{self.name}: \"Aww, maybe I'm not cut out to be a "
+                                f"{self.title}.\"")
 
     def maxFP(self):
         if self.equipment:
