@@ -430,6 +430,8 @@ class battle(object):
             damage = min(6, target.hp)
             if self.getPower(target, "Defense: Magic"):
                 damage = min(4, target.hp)
+            elif self.getPower(target, "Defense: Fire Vulnerability"):
+                damage = min(7, target.hp)
             print(f"{unit.name} deals {damage} damage to {target.name}!")
             target.hp -= damage
             self.giveExperience(unit, target, damage)
@@ -446,6 +448,8 @@ class battle(object):
                     damage = min(9, target.hp)
                     if self.getPower(target, "Defense: Magic"):
                         damage = min(7, target.hp)
+                    elif self.getPower(target, "Defense: Fire Vulnerability"):
+                        damage = min(11, target.hp)
                     print(
                             f"{unit.name} deals {damage} damage to "
                             f"{target.name}!")
