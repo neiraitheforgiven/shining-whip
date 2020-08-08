@@ -1897,10 +1897,10 @@ class battleField(object):
             return 0
 
     def getPower(self, unit, name):
-        if name in unit.powers:
+        if any([name in power for power in unit.powers]):
             return True
         elif unit.equipment:
-            if name in unit.equipment.powers:
+            if any([name in power for power in unit.equipment.powers]):
                 return True
         else:
             commandName = "Command: " + name
@@ -1910,7 +1910,7 @@ class battleField(object):
             currentTile = self.terrainArray[position]
             for ally in currentTile.units:
                 if type(ally) == type(unit):
-                    if commandName in unit.powers:
+                    if any([commandName in power for power in unit.powers]):
                         return True
         return False
 
