@@ -521,6 +521,36 @@ class battle(object):
             target.status = None
             print(f"{target.name} recovers!")
             self.giveExperience(unit, target, 10)
+        elif spellName == "Drain I":
+            unit.mp -= self.mpCost(unit, 5)
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            damage = min(10, target.hp)
+            print(f"{unit.name} drains {damage} health from {target.name}!")
+            target.hp -= damage
+            unit.hp = min(unit.hp + damage, unit.maxHP())
+            self.giveExperience(unit, target, damage)
+            if target.hp <= 0:
+                self.kill(target)
+        elif spellName == "Drain II":
+            unit.mp -= self.mpCost(unit, 12)
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            damage = min(18, target.hp)
+            print(f"{unit.name} drains {damage} health from {target.name}!")
+            mdamage = min(6, target.mp)
+            if mdamage > 0:
+                print(f"{unit.name} drains {damage} magic from {target.name}!")
+                target.mp -= mdamage
+                maxMP = unit.stats["Intelligence"]
+                if unit.equipment:
+                    maxMP += unit.equipment.mp
+                unit.mp = min(unit.mp + mdamage, maxMP)
+            target.hp -= damage
+            unit.hp = min(unit.hp + damage, unit.maxHP())
+            self.giveExperience(unit, target, damage)
+            if target.hp <= 0:
+                self.kill(target)
         elif spellName == "Egress I":
             unit.mp -= self.mpCost(unit, 8)
             print(f"{unit.name} casts {spellName}!")
@@ -1556,6 +1586,19 @@ class battleField(object):
                     if type(target) == type(unit) and target.status]
             if any(targets):
                 unit.allowedSpells["Detox I"] = targets
+        if self.getPower(unit, "Drain I") and unit.mp >= self.mpCost(unit, 5):
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) != type(unit)]
+            if any(targets):
+                unit.allowedSpells["Drain I"] = targets
+        if self.getPower(
+                unit, "Drain II") and unit.mp >= self.mpCost(unit, 12):
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) != type(unit)]
+            if any(targets):
+                unit.allowedSpells["Drain II"] = targets
         if self.getPower(unit, "Egress I") and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = 'Self'
         if self.getPower(unit, "Freeze I") and unit.mp >= self.mpCost(unit, 3):
