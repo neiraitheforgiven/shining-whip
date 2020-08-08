@@ -45,12 +45,16 @@ class monster(object):
             self.shortName = "D.Apprc"
         elif name == "Giant Bat":
             self.level = 5
-            stats = {"Voice": 11, "Stamina": 7, "Speed": 7, "Dexterity": 6}
+            stats = {
+                    "Voice": 11, "Stamina": 7, "Speed": 7, "Strength": 9,
+                    "Dexterity": 6}
             self.setStats(7, **stats)
             self.attackProfile = attackProfile or "Singer"
             self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
+            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
         elif name == "Goblin":
             self.level = 1
@@ -256,9 +260,9 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Equip: Dagger", "Heal I", "Equip: Bows",
                         "Luck: Counterattack", "Luck: Enable Triple Attack",
-                        "Command: Health Regeneration",
-                        "Vocal Attack: Increased Damage I",
-                        "Luck: Increased Dodge Chance"]
+                        "Command: Health Regeneration I",
+                        "Magic: Add Resonance",
+                        "Luck: Increased Dodge Chance I"]
             elif "Baron" in self.title:
                 listOfPowers = [
                         "Equip: Long Swords", "Command: Luck: Counterattack",
@@ -304,8 +308,8 @@ class playerCharacter(object):
                         "Rout: Add Effect: Fear"]
             elif "Chorister" in self.title:
                 listOfPowers = [
-                        "Vocal Attack: Increased Damage I", "Heal I",
-                        "Blast I", "Vocal Attack: Increased Damage II",
+                        "Vocal Attack: Sustain Effect", "Heal I",
+                        "Blast I", "Command: Vocal Attack: Increased Damage I",
                         "Blast II",
                         "Command: Vocal Attack: Increased Damage II",
                         "Vocal Attack: Increased Damage III", "Blast III"]
@@ -376,10 +380,10 @@ class playerCharacter(object):
                         "Heal IV", "Seal I", "Aura I"]
             elif "Orator" in self.title:
                 listOfPowers = [
-                        "Aura I", "Vocal Attack: Increased Damage I",
+                        "Aura I", "Vocal Attack: Increased Resonance I",
                         "Shield I", "Aura II", "Aura III",
-                        "Vocal Attack: Increased Damage II", "Aura IV",
-                        "Vocal Attack: Increased Range I"]
+                        "Vocal Attack: Increased Resonance II", "Aura IV",
+                        "Vocal Attack: Sustain Effect"]
             elif "Priest" in self.title:
                 listOfPowers = [
                         "Heal I", "Detox I", "Heal II",
