@@ -69,6 +69,7 @@ class monster(object):
             self.equipment = equipment(
                     "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0)
             self.powers.append("Command: Luck: Counterattack")
+            self.powers.append("Defense: Fire Vulnerability")
         elif name == "Sniper":
             self.level = 4
             stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
