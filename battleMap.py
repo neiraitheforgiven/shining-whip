@@ -784,8 +784,8 @@ class battle(object):
             if endBattle:
                 return
 
-    def doTurn(self, unit, moved=False):
-        if unit.status in ("sleep", "poison"):
+    def doTurn(self, unit, moved=False, statusChecked=False):
+        if unit.status in ("sleep", "poison") and not statusChecked:
             luck = self.getStat(unit, "Luck")
             if self.getPower(unit, "Swords: Increased Luck I"):
                 if unit.equipment and unit.equipment.type == "Swords":
@@ -802,6 +802,10 @@ class battle(object):
                     self.getStat(unit, "Stamina")])
             resistChance = math.floor(
                     resistSkill + (resistSkill * (luck / 10)))
+            if self.getPower(unit, "Defense: Increased Resistance I"):
+                resistChance = math.ceil(resistChance * 1.3)
+            if self.getPower(unit, "Defense: Increased Resistance II"):
+                resistChance = math.ceil(resistChance * 1.3)
             resistArray = []
             resistArray.extend(['resist'] * resistChance)
             resistArray.extend(['fail'] * (50 - (luck)))
@@ -830,6 +834,7 @@ class battle(object):
                     del unit
                     time.sleep(7. / 10)
                     return
+            statusChecked = True
         position = self.battleField.getUnitPos(unit)
         tile = self.battleField.terrainArray[position]
         otherUnits = ", ".join([
@@ -882,7 +887,7 @@ class battle(object):
                     except ValueError:
                         moveTo = None
                 self.battleField.move(unit, moveTo)
-                self.doTurn(unit, True)
+                self.doTurn(unit, True, statusChecked)
             elif command in ("A", "a"):
                 attackTarget = None
                 while attackTarget not in [
@@ -898,7 +903,7 @@ class battle(object):
                 unit.printCharacterSheet()
                 print(f"Scroulings: {self.game.money}")
                 print()
-                self.doTurn(unit, moved)
+                self.doTurn(unit, moved, statusChecked)
             elif command in ("E", "e"):
                 allowedEquipment = [
                         item for item in self.game.inventory
@@ -946,7 +951,7 @@ class battle(object):
                         unit.mp = (self.getStat(
                                 unit, "Intelligence") + unit.equipment.mp)
                     print()
-                self.doTurn(unit, True)
+                self.doTurn(unit, True, statusChecked)
             elif command in ("L", "l"):
                 tileChoice = None
                 while tileChoice not in ([
@@ -958,7 +963,7 @@ class battle(object):
                     except ValueError:
                         tileChoice = None
                 self.battleField.viewMap(tileChoice)
-                self.doTurn(unit, moved)
+                self.doTurn(unit, moved, statusChecked)
             elif command in ("S", "s"):
                 spellChoice = None
                 spellTarget = None
