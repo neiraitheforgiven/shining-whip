@@ -60,10 +60,11 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment(
                     "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
-        elif name == "Skeleton":
+        elif name == "Skeleton Warrior":
             self.level = 9
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
             self.setStats(9, **stats)
+            self.shortName = "Skull W."
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "ChallengeAccepting"
             self.equipment = equipment(
