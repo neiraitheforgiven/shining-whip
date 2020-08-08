@@ -788,9 +788,6 @@ class battle(object):
             if endBattle:
                 return
         for tile in self.battleField.terrainArray:
-            print(
-                    f"debug: ({self.battleField.terrainArray.index(tile)}) "
-                    f"resonance: {tile.voicePower} ({tile.ringing})")
             if not tile.ringing:
                 tile.voicePower = math.floor(tile.voicePower / 2)
             if tile.voicePower > 0:
@@ -815,9 +812,6 @@ class battle(object):
             if tile.proposedVoicePower != 0 or tile.voicePower in (-1, 0, 1):
                 tile.voicePower = tile.proposedVoicePower
                 tile.proposedVoicePower = 0
-            print(
-                    f"debug: ({self.battleField.terrainArray.index(tile)}) "
-                    f"resonance: {tile.voicePower} ({tile.ringing})")
             tile.ringing = False
 
     def doTurn(self, unit, moved=False, statusChecked=False):
