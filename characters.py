@@ -864,6 +864,7 @@ class playerCharacter(object):
         if chatter:
             print('{} hit level {}!'.format(self.name, self.level + 1))
         preLevelStatIncreaseCount = self.statIncreaseCount
+        self.level += 1
         if self.statIncreaseCount != 0:
             bonus = self.level * 4 / self.statIncreaseCount
         else:
@@ -872,7 +873,6 @@ class playerCharacter(object):
             bonus = 0.55
         elif bonus > 2:
             bonus = 2
-
         beforeDict = {}
         afterDict = {}
         for statName, statValue in self.growth.items():
@@ -897,7 +897,6 @@ class playerCharacter(object):
                 happy = True
             for statName, statValue in self.growth.items():
                 afterDict[statName] = self.stats[statName]
-            self.level += 1
             fulfilled = 0
             # Stamina
             stamString = f"{'Stamina':<12} {beforeDict['Stamina']}"
