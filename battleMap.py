@@ -248,7 +248,7 @@ class battle(object):
                 attackTypeArray.extend(["dodge"] * dodgeSkill)
             if self.getPower(unit, "Luck: Counterattack"):
                 counterSkill = math.floor(
-                        self.getSkill(target, "Dexterity") * (
+                        self.getStat(target, "Dexterity") * (
                                 1 + targetLuck / 10))
                 attackTypeArray.extend(["counter"] * counterSkill)
             attackType = random.choice(attackTypeArray)
