@@ -100,6 +100,7 @@ class monster(object):
             self.powers.append("Unarmed Attack: Increased Damage")
             self.powers.append("Poisonous Attack")
             self.powers.append("Luck: Counterattack")
+            self.powers.append("Defense: Fire Vulnerability")
         else:
             self.level = level
             stats = {}
