@@ -2265,7 +2265,11 @@ class game(object):
                 "She turns white and orders you to take her back to Malanar "
                 "at once.")
         print(
-                "Once in Malanar, she informs you of her intent to join you "
+                "Once in Malanar, Anri mourns for half a day before gathering "
+                "her resolve and summoning you.")
+        self.reckoning(35, "Anri")
+        print(
+                "Anri he informs you of her intent to join you "
                 "and take the battle back to Darksol.")
         print("To do that, you will need to brave a dark cave under Malanar ")
         print("-- the very thing that Malanar was created to seal.")
@@ -2283,7 +2287,8 @@ class game(object):
         print(
                 "You head to the shopping district before descending into the "
                 "cavern.")
-        self.reckoning(35, 'the royal coffers')
+        shop2.goShopping(self)
+        print("With that out of the way, you descend into the dark cavern.")
         self.party = self.playerCharacters
         self.battleStatus = None
         while self.battleStatus != 'victory':
