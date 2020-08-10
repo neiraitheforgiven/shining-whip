@@ -280,7 +280,8 @@ class battle(object):
                 damage = math.ceil(damage)
                 if i == 0:
                     if self.getPower(unit, "Charge"):
-                        damage += (self.getStat("Speed") - unit.movementPoints)
+                        speed = self.getStat(unit, "Speed")
+                        damage += speed - unit.movementPoints
                 if self.getPower(target, "Defense: Melee Attacks I") and (
                         bf.getUnitPos(unit) == bf.getUnitPos(target)):
                     damage *= 0.7
