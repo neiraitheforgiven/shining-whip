@@ -347,7 +347,7 @@ class battle(object):
                                     print(f"{target.name} was routed!")
                                     self.battleField.move(target, moveTo)
                 if counterattack and ((i + 1) == attackCount):
-                    bf.checkAttack(target, bf.getunitPos(target))
+                    bf.checkAttack(target, bf.getUnitPos(target))
                     if unit in target.allowedAttacks:
                         self.attack(target, unit)
 
