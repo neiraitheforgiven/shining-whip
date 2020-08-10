@@ -2000,9 +2000,13 @@ class battleField(object):
         mapRow = ""
         for tile in tilesInRange:
             mapAdd = f"({self.terrainArray.index(tile)})"
+            if tile.voicePower > 0:
+                mapAdd += "(Shining)"
+            elif tile.voicePower < 0:
+                mapAdd += "(Unholy)"
             mapRow += f"{mapAdd:18}"
         print(mapRow)
-        for i in range(3, -1, -1):
+        for i in range(5, -1, -1):
             mapRow = ""
             for tile in tilesInRange:
                 try:
