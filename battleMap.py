@@ -824,29 +824,28 @@ class battle(object):
                 return
         for tile in self.battleField.terrainArray:
             if not tile.ringing:
-                tile.voicePower = math.floor(tile.voicePower / 2)
+                tile.voicePower = math.floor(float(tile.voicePower / 2))
             if tile.voicePower > 0:
                 tileId = self.battleField.terrainArray.index(tile)
                 if tileId + 1 < len(self.battleField.terrainArray):
                     tile2 = self.battleField.terrainArray[tileId + 1]
-                    if tile2.voicePower >= 0 and (
-                            tile2.proposedVoicePower >= 0 and (
-                            tile.voicePower > tile2.proposedVoicePower) and (
-                            tile.voicePower > tile2.voicePower)):
-                        tile2.proposedVoicePower = tile.voicePower
+                    if tile.voicePower > tile2.proposedGoodVoicePower and (
+                            tile.voicePower > tile2.voicePower):
+                        tile2.proposedGoodVoicePower = tile.voicePower
             elif tile.voicePower < 0:
                 tileId = self.battleField.terrainArray.index(tile)
                 if tileId - 1 >= 0:
                     tile2 = self.battleField.terrainArray[tileId - 1]
-                    if tile2.voicePower <= 0 and (
-                            tile2.proposedVoicePower <= 0 and (
-                            tile.voicePower < tile2.proposedVoicePower) and (
-                            tile.voicePower < tile2.voicePower)):
-                        tile2.proposedVoicePower = tile.voicePower
+                    if tile.voicePower < tile2.proposedEvilVoicePower and (
+                            tile.voicePower < tile2.voicePower):
+                        tile2.proposedEvilVoicePower = tile.voicePower
         for tile in self.battleField.terrainArray:
-            if tile.proposedVoicePower != 0 or tile.voicePower in (-1, 0, 1):
-                tile.voicePower = tile.proposedVoicePower
-                tile.proposedVoicePower = 0
+            proposedVoicePower = (
+                    tile.proposedGoodVoicePower + tile.proposedEvilVoicePower)
+            if proposedVoicePower != 0:
+                tile.voicePower = proposedVoicePower
+                tile.proposedGoodVoicePower = 0
+                tile.proposedEvilVoicePower = 0
             tile.ringing = False
 
     def doTurn(self, unit, moved=False, statusChecked=False):
@@ -1252,7 +1251,8 @@ class battleTile(object):
         self.name = terrain
         self.cost = 5
         self.ringing = False
-        self.proposedVoicePower = 0
+        self.proposedGoodVoicePower = 0
+        self.proposedEvilVoicePower = 0
         self.voicePower = 0
         # Assign cost
         if self.name in ("Bridge", "Path", "Tiled Floor"):
