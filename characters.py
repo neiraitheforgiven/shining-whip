@@ -537,7 +537,8 @@ class playerCharacter(object):
                             if 'Command:' in knownPower]):
                         nameOfPower = 'Command: ' + nameOfPower
                     self.powers.append(nameOfPower)
-                    print(f"{self.name} learned {nameOfPower}!")
+                    if chatter:
+                        print(f"{self.name} learned {nameOfPower}!")
                     return
 
     def assignRace(self, race=None):
