@@ -2119,12 +2119,14 @@ class game(object):
         print(
                 "You are the laughingstock of Yatahal's knights, but you "
                 "believe that you are destined for greatness.")
+        print("")
         print(
                 "One day, you go out to bring supplies to the knight that "
                 "guards the Ancient Sealed Door.")
         print(
                 "When you arrive, you find that he is consorting with Goblins "
                 "and plotting the downfall of Yatahal.")
+        print("")
         print("Swallowing your fear, you draw arms and challenge them!")
         recruit = playerCharacter(
                 "Max", "Human", "Hero", chatter, 0)
