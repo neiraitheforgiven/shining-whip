@@ -1690,7 +1690,7 @@ class battleField(object):
                     if len([
                             target for target in tile.units
                             if type(target) == type(unit)]) < 4:
-                        targets.extend(tile)
+                        targets.append(tile)
             if any(targets):
                 unit.allowedSpells["Teleport I"] = targets
         if self.getPower(unit, "Teleport II") and unit.mp >= 10:
@@ -1702,7 +1702,7 @@ class battleField(object):
                     if len([
                             target for target in tile.units
                             if type(target) == type(unit)]) < 4:
-                        targets.extend(tile)
+                        targets.append(tile)
             if any(targets):
                 unit.allowedSpells["Teleport II"] = targets
         if self.getPower(unit, "Teleport III") and unit.mp >= 6:
@@ -1714,7 +1714,7 @@ class battleField(object):
                     if len([
                             target for target in tile.units
                             if type(target) == type(unit)]) < 4:
-                        targets.extend(tile)
+                        targets.append(tile)
             if any(targets):
                 unit.allowedSpells["Teleport III"] = targets
         if any(unit.allowedSpells):
@@ -1726,7 +1726,6 @@ class battleField(object):
         position = self.getUnitPos(unit)
         currentTile = self.terrainArray[position]
         vp = currentTile.voicePower
-        voice = self.getStat(unit, "Voice")
         if ((
                 type(unit) == playerCharacter and (vp > 0)) or (
                 type(unit) == monster and (vp < 0))):
