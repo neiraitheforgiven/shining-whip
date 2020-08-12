@@ -2104,6 +2104,28 @@ class game(object):
         self.inventory = []
 
         chatter = False
+        print("You are the leader of a small part of misfits.")
+        print("You are from Yatahal, the Holy City.")
+        print(
+                "Yatahal is a bastion of goodness, but the centaur Knights of "
+                "Yatahal")
+        print(
+                "look down on all other people as unfit to participate in "
+                "combat.")
+        print(
+                "Therefore you mentor has assembled a small force of "
+                "untrained fighters that he believes have potential.")
+        print("Elves and Dwarves and the occaisional drummed-out Knight.")
+        print(
+                "You are the laughingstock of Yatahal's knights, but you "
+                "believe that you are destined for greatness.")
+        print(
+                "One day, you go out to bring supplies to the knight that "
+                "guards the Ancient Sealed Door.")
+        print(
+                "When you arrive, you find that he is consorting with Goblins "
+                "and plotting the downfall of Yatahal.")
+        print("Swallowing your fear, you draw arms and challenge them!")
         recruit = playerCharacter(
                 "Max", "Human", "Hero", chatter, 0)
         self.equipOnCharacter(
