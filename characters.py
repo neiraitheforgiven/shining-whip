@@ -231,15 +231,16 @@ class playerCharacter(object):
         self.career = ""
         self.race = self.assignRace(race)
         self.assignTitle(chatter)
-        print(f"{self.name} the {self.race} {self.title} created.")
-        self.assignPower()
+        if chatter:
+            print(f"{self.name} the {self.race} {self.title} created.")
+        self.assignPower(chatter)
         self.career = f"    Career Path: {self.title}"
         if chatter:
             for statName, statValue in self.stats.items():
                 print("    {} of {}".format(statName, statValue))
             print("")
 
-    def assignPower(self):
+    def assignPower(self, chatter=False):
         if "Mounted" in self.title and "Mounted Movement" not in self.powers:
             self.powers.append("Mounted Movement")
             return
@@ -1004,7 +1005,7 @@ class playerCharacter(object):
         if self.level % 5 == 0:
             beforeTitle = self.title
             self.assignTitle(chatter)
-            self.assignPower()
+            self.assignPower(chatter)
             self.updateGrowth()
             if chatter:
                 print("")

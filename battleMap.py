@@ -2175,7 +2175,7 @@ class game(object):
                 "A Half-Giant, turned from his life of butchery to that of a "
                 "holy monk,")
         print("has come to bring him his supplies.")
-        print("The monk, Gong, joins your cause.")
+        print("The monk, Gong, joins your cause!")
         print("")
         print("You spy a pillar of smoke rising from the direction of home.")
         print("That's not good....")
@@ -2205,20 +2205,20 @@ class game(object):
                 "your head.")
         print("")
         print("In the aftermath of the assassination, your mentor's daughter,")
-        print(" Mae, joins you. With her is a washed up former city guard, ")
-        print("drunk on wine and thirsty for vengence, Gort.")
+        print("Mae, joins you! With her is a washed up former city guard, ")
+        print("drunk on wine and thirsty for vengence, Gort!")
         print("")
         recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
         self.playerCharacters.append(recruit)
         self.equipOnCharacter(
                 equipment("Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
-                recruit)
+                recruit, False)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
         self.playerCharacters.append(recruit)
-        self.equipOnCharacter(
-                equipment("Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit)
+        self.equipOnCharacter(equipment(
+                "Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit, False)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         self.party = self.playerCharacters
@@ -2275,10 +2275,11 @@ class game(object):
                 "\"We have to go north to inform Her Majesty of her father's "
                 "death.\"")
         print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
+        print("Khris joins your force!")
         recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter, 4)
         self.equipOnCharacter(
                 equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
-                recruit)
+                recruit, False)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
@@ -2347,10 +2348,11 @@ class game(object):
         print("To do that, you will need to brave a dark cave under Malanar ")
         print("-- the very thing that Malanar was created to seal.")
         print("Within, she claims you will find a sacred sword.")
+        print("Anri joins your force!")
         recruit = playerCharacter("Anri", "Human", "Frost Mage", chatter, 6)
         self.equipOnCharacter(
                 equipment("Staffs", "Power Staff", 500, 0, 0, 8, 6, 6),
-                recruit)
+                recruit, False)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
@@ -2410,7 +2412,7 @@ class game(object):
             if command in [allowedUnits.index(unit) for unit in allowedUnits]:
                 self.equipOnCharacter(equipment, allowedUnits[command])
 
-    def equipOnCharacter(self, equipment, character):
+    def equipOnCharacter(self, equipment, character, chatter=True):
         if type(character) == str:
             pc = [
                     player for player in self.party
@@ -2428,7 +2430,8 @@ class game(object):
             pc.equipment = equipment
             if equipment not in self.inventory:
                 self.inventory.append(equipment)
-            print(f"{pc.name} equipped the {equipment.name}.")
+            if chatter:
+                print(f"{pc.name} equipped the {equipment.name}.")
 
     def getSellPrice(self, item):
         equipString = f"Equip: {item.type}"
