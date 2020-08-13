@@ -2380,7 +2380,7 @@ class game(object):
         print(
                 "Once in Malanar, Anri mourns for half a day before gathering "
                 "her resolve and summoning you.")
-        self.reckoning(35, "Anri")
+        self.reckoning(35, "new Queen")
         print(
                 "Anri he informs you of her intent to join you "
                 "and take the battle back to Darksol.")
