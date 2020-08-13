@@ -640,6 +640,22 @@ class battle(object):
             print(f"{unit.name} restores {healing} health to {target.name}!")
             target.hp += healing
             self.giveExperience(unit, target, healing)
+        elif spellName == "Heal III":
+            unit.fp -= 10
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            healing = min(30, (target.maxHP() - target.hp))
+            print(f"{unit.name} restores {healing} health to {target.name}!")
+            target.hp += healing
+            self.giveExperience(unit, target, healing)
+        elif spellName == "Heal IV":
+            unit.fp -= 20
+            target = unit.allowedSpells[spellName][targetId]
+            print(f"{unit.name} casts {spellName} on {target.name}!")
+            healing = min(60, (target.maxHP() - target.hp))
+            print(f"{unit.name} restores {healing} health to {target.name}!")
+            target.hp += healing
+            self.giveExperience(unit, target, healing)
         elif spellName == "Portal I":
             unit.mp -= self.mpCost(unit, 21)
             field = self.battleField
@@ -1664,6 +1680,26 @@ class battleField(object):
                     targets.extend(target for target in tileTargets)
             if any(targets):
                 unit.allowedSpells["Heal II"] = targets
+        if self.getPower(unit, "Heal II") and unit.fp >= 10:
+            targets = []
+            minRange = max(0, (position - 2))
+            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = [
+                    target for target in tile.units
+                    if type(target) == type(unit) and target.hp < (
+                            target.maxHP())]
+                if any(tileTargets):
+                    targets.extend(target for target in tileTargets)
+            if any(targets):
+                unit.allowedSpells["Heal III"] = targets
+        if self.getPower(unit, "Heal IV") and unit.fp >= 20:
+            targets = [
+                    target for target in currentTile.units
+                    if type(target) == type(unit) and target.hp < (
+                            target.maxHP())]
+            if any(targets):
+                unit.allowedSpells["Heal IV"] = targets
         if self.getPower(unit, "Portal I") and unit.mp >= 21:
             targets = []
             minRange = max(0, (position - 2))
