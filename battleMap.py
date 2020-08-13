@@ -246,7 +246,7 @@ class battle(object):
                         self.getStat(target, "Speed")) * (1 + (
                                 (targetLuck / 10))))
                 attackTypeArray.extend(["dodge"] * dodgeSkill)
-            if self.getPower(unit, "Luck: Counterattack"):
+            if self.getPower(target, "Luck: Counterattack"):
                 counterSkill = math.floor(
                         self.getStat(target, "Dexterity") * (
                                 1 + targetLuck / 10))
