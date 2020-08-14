@@ -104,11 +104,9 @@ class monster(object):
             self.powers.append("Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
         else:
-            self.level = level
-            stats = {}
-            self.setStats(5, **stats)
-            self.moveProfile = moveProfile or "Defensive"
-            self.attackProfile = attackProfile or "Random"
+            print(
+                    "Battle Setup Error! Attempted to create monster not in "
+                    "list!")
 
     def maxHP(self):
         return ((self.stats["Stamina"] * 2) + self.level)
