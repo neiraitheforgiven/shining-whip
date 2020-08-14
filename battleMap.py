@@ -180,7 +180,7 @@ class battle(object):
                                 (monster("Dark Apprentice"), 12),
                                 (monster("Dark Apprentice"), 12),
                                 (monster("Dark Apprentice"), 12),
-                                (monster("Skeleton"), 12)],
+                                (monster("Skeleton Warrior"), 12)],
                                 party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
