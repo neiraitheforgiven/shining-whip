@@ -147,6 +147,8 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.initiativePoints = 0
+        self.actedThisRound = False
         self.hasEquipped = False
         self.status = None
         self.trophies = []
