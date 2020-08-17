@@ -2028,11 +2028,16 @@ class battleField(object):
             if type(target) == str:
                 # spell is a placeholder for a spell with no target
                 return
-            targetHealth = target.maxHP()
-            targetStringAdds.append(
-                    f"({count}) {target.name} "
-                    f"(HP: {target.hp}/{targetHealth})")
-            count += 1
+            elif type(target) in (monster, playerCharacter):
+                targetHealth = target.maxHP()
+                targetStringAdds.append(
+                        f"({count}) {target.name} "
+                        f"(HP: {target.hp}/{targetHealth})")
+                count += 1
+            elif type(target) == battleTile:
+                targetStringAdds.append(
+                        f"({count}) {target.name} "
+                        f"({self.terrainArray.index(target)})")
         targetString += ", ".join(targetStringAdds)
         print(targetString + ".")
 
