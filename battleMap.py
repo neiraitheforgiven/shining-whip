@@ -1680,7 +1680,7 @@ class battleField(object):
                     targets.extend(target for target in tileTargets)
             if any(targets):
                 unit.allowedSpells["Heal II"] = targets
-        if self.getPower(unit, "Heal II") and unit.fp >= 10:
+        if self.getPower(unit, "Heal III") and unit.fp >= 10:
             targets = []
             minRange = max(0, (position - 2))
             maxRange = min((position + 2), len(self.terrainArray) - 1)
