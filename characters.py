@@ -18,6 +18,8 @@ class monster(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.initiativePoints = 0
+        self.actedThisRound = False
         self.powers = []
         self.moveProfile = moveProfile
         self.attackProfile = attackProfile
