@@ -709,6 +709,9 @@ class battle(object):
                 if not unit.actedThisRound:
                     luck = self.getStat(unit, "Luck")
                     initiativeOrder.append((unit, unit.initiativePoints, luck))
+                    unit.hasEquipped = False
+                    unit.movementPoints = self.getStat(unit, "Speed")
+                    unit.actedThisRound = True
         else:
             while not initiativeOrder:
                 random.shuffle(self.battleField.units)
@@ -733,10 +736,16 @@ class battle(object):
                     unit.initiativePoints += initiative
                 for unit in self.battleField.units:
                     if unit.initiativePoints > 15:
-                        unit.actedThisRound = True
+                        if not unit.actedThisRound:
+                            if type(unit) == playerCharacter:
+                                unit.hasEquipped = False
+                            unit.movementPoints = self.getStat(unit, "Speed")
+                        unit.hasEquipped = False
+                        unit.movementPoints = self.getStat(unit, "Speed")
                         initiativeOrder.append(
                                 (unit, unit.initiativePoints, luck))
                         unit.initiativePoints -= 15
+                        unit.actedThisRound = True
         initiativeOrder = sorted(
                 initiativeOrder, key=itemgetter(1, 2), reverse=True)
         print(f"debug: initiative {mercyRound} {initiativeOrder}")
@@ -814,8 +823,6 @@ class battle(object):
 
     def doRound(self):
         for unit in self.battleField.units:
-            unit.hasEquipped = False
-            unit.movementPoints = self.getStat(unit, "Speed")
             unit.actedThisRound = False
         numberOfActions = 0
         while numberOfActions < len(self.battleField.units):
