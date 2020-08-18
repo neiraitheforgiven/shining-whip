@@ -735,20 +735,23 @@ class battle(object):
                     initiative += luckBonus
                     unit.initiativePoints += initiative
                 for unit in self.battleField.units:
-                    if unit.initiativePoints > 15:
+                    if unit.initiativePoints > len(self.battleField.units):
                         if not unit.actedThisRound:
                             if type(unit) == playerCharacter:
                                 unit.hasEquipped = False
                             unit.movementPoints = self.getStat(unit, "Speed")
-                        unit.hasEquipped = False
-                        unit.movementPoints = self.getStat(unit, "Speed")
+                        else:
+                            if unit.movementPoints <= 0:
+                                continue
                         initiativeOrder.append(
                                 (unit, unit.initiativePoints, luck))
                         unit.initiativePoints -= 15
                         unit.actedThisRound = True
         initiativeOrder = sorted(
                 initiativeOrder, key=itemgetter(1, 2), reverse=True)
-        print(f"debug: initiative {mercyRound} {initiativeOrder}")
+        print(
+                f"debug: initiative {mercyRound} "
+                f"{[unit[0].name for unit in initiativeOrder]}")
         return initiativeOrder
 
     def doAttack(self, unit, targetId):
