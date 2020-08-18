@@ -820,6 +820,14 @@ class battle(object):
                 # unit may have died since this loop started.
                 if unit.hp <= 0:
                     continue
+                if not unit.actedThisRound:
+                    if type(unit) == playerCharacter:
+                        unit.hasEquipped = False
+                    unit.movementPoints = self.getStat(unit, "Speed")
+                else:
+                    if unit.movementPoints <= 0:
+                        print(f"debug: skipping {unit.name} (no Mv)")
+                        continue
                 if type(unit) == playerCharacter:
                     pc = unit
                     print("")
@@ -851,14 +859,6 @@ class battle(object):
                             f"{pc.name} is standing on ("
                             f"{self.battleField.terrainArray.index(tile)}) "
                             f"{tile.name}.")
-                if not unit.actedThisRound:
-                    if type(unit) == playerCharacter:
-                        unit.hasEquipped = False
-                    unit.movementPoints = self.getStat(unit, "Speed")
-                else:
-                    if unit.movementPoints <= 0:
-                        print(f"debug: skipping {unit.name} (no Mv)")
-                        continue
                 unit.actedThisRound = True
                 # push back the unit's initiative
                 setback = min(
