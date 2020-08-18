@@ -712,6 +712,9 @@ class battle(object):
                     unit.hasEquipped = False
                     unit.movementPoints = self.getStat(unit, "Speed")
                     unit.actedThisRound = True
+                    print(
+                            f"debug: Mercy adding {unit.name} "
+                            f"({unit.initiativePoints})")
         else:
             while not initiativeOrder:
                 random.shuffle(self.battleField.units)
@@ -742,9 +745,14 @@ class battle(object):
                             unit.movementPoints = self.getStat(unit, "Speed")
                         else:
                             if unit.movementPoints <= 0:
+                                print(f"debug: skipping {unit.name} (no Mv)")
                                 continue
                         initiativeOrder.append(
                                 (unit, unit.initiativePoints, luck))
+                        print(
+                                f"debug: adding {unit.name} "
+                                f"({unit.initiativePoints}, "
+                                f"{unit.actedThisRound}")
                         unit.initiativePoints -= 15
                         unit.actedThisRound = True
         initiativeOrder = sorted(
