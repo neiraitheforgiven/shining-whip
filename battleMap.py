@@ -739,6 +739,7 @@ class battle(object):
                             f"({initiative}/{unit.initiativePoints}, "
                             f"{unit.actedThisRound}")
                     unit.initiativePoints -= 15
+                    initiative -= 15
                     unit.actedThisRound = True
             if not initiativeOrder:
                 print(f"debug: No initiativeOrder")
