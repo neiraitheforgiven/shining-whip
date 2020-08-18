@@ -720,9 +720,7 @@ class battle(object):
                         self.getStat(unit, "Speed"),
                         self.getStat(unit, "Dexterity"))
                 # units with less than 15 points should act every round
-                initiative = max(15, initiative)
-                unit.initiativePoints += initiative
-            for unit in self.battleField.units:
+                unit.initiativePoints += max(15, initiative)
                 if unit.initiativePoints >= 15 and unit.hp > 0:
                     if not unit.actedThisRound:
                         if type(unit) == playerCharacter:
@@ -733,10 +731,10 @@ class battle(object):
                             print(f"debug: skipping {unit.name} (no Mv)")
                             continue
                     initiativeOrder.append(
-                            (unit, unit.initiativePoints, luck))
+                            (unit, initiative, luck))
                     print(
                             f"debug: adding {unit.name} "
-                            f"({unit.initiativePoints}, "
+                            f"({initiative}/{unit.initiativePoints}, "
                             f"{unit.actedThisRound}")
                     unit.initiativePoints -= 15
                     unit.actedThisRound = True
