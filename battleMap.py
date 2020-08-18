@@ -723,7 +723,7 @@ class battle(object):
                 initiative = max(15, initiative)
                 unit.initiativePoints += initiative
             for unit in self.battleField.units:
-                if unit.initiativePoints >= 15:
+                if unit.initiativePoints >= 15 and unit.hp > 0:
                     if not unit.actedThisRound:
                         if type(unit) == playerCharacter:
                             unit.hasEquipped = False
