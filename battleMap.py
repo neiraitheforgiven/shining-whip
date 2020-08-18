@@ -799,9 +799,11 @@ class battle(object):
             self.attack(monster, target)
 
     def doRound(self):
+        print("debug: THIS IS A NEW ROUND")
         idleUnits = [
                 unit for unit in self.battleField.units
                 if unit.hp > 0 and not unit.actedThisRound]
+        print(f"debug: there are {len(idleUnits)} idle units")
         while idleUnits:
             self.turnOrder = []
             nextInitiative = max([
@@ -810,6 +812,9 @@ class battle(object):
             nextUnits = [
                     unit for unit in self.battleField.units
                     if unit.initiativePoints == nextInitiative and unit.hp > 0]
+            print(
+                    f"debug: adding {len(nextUnits)} units with "
+                    f"{nextInitiative} points.")
             for unit in nextUnits:
                 self.turnOrder.append((
                         unit, unit.initiativePoints,
@@ -827,6 +832,7 @@ class battle(object):
                     unit.movementPoints = self.getStat(unit, "Speed")
                 else:
                     if unit.movementPoints <= 0:
+                        print(f"debug: skipping {unit.name} (no Mv)")
                         continue
                 if type(unit) == playerCharacter:
                     pc = unit
@@ -864,12 +870,16 @@ class battle(object):
                 setback = min(
                         15, math.ceil(225 / self.determineInitiative(unit)))
                 unit.initiativePoints -= setback
+                print(
+                        f"debug: {unit.name}'s new initiative is "
+                        f"{unit.initiativePoints}")
                 endBattle = self.doTurn(unit)
                 if endBattle:
                     return
             idleUnits = [
                     unit for unit in self.battleField.units
                     if unit.hp > 0 and not unit.actedThisRound]
+            print(f"debug: there are {len(idleUnits)} idle units")
         for unit in self.battleField.units:
             unit.actedThisRound = False
         for tile in self.battleField.terrainArray:
