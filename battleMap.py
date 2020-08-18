@@ -474,12 +474,12 @@ class battle(object):
                         self.kill(target)
         elif spellName == "Dao I":
             unit.mp -= self.mpCost(unit, 8)
-            position = unit.allowedSpells[spellName][targetId]
-            # target will be a position
+            tile = unit.allowedSpells[spellName][targetId]
+            # target will be a tile
             print(f"{unit.name} summons the genie Dao!")
             field = self.battleField
             targets = [
-                    target for target in field.terrainArray[position].units
+                    target for target in tile.units
                     if type(unit) != type(target)]
             for target in targets:
                 if type(target) != type(unit):
@@ -496,12 +496,12 @@ class battle(object):
                         self.kill(target)
         elif spellName == "Dao II":
             unit.mp -= self.mpCost(unit, 15)
-            position = unit.allowedSpells[spellName][targetId]
-            # target will be a position
+            tile = unit.allowedSpells[spellName][targetId]
+            # target will be a tile
             print(f"{unit.name} summons the genie Dao!")
             field = self.battleField
             targets = [
-                    target for target in field.terrainArray[position].units
+                    target for target in field.terrainArray[tile].units
                     if type(unit) != type(target)]
             for target in targets:
                 if type(target) != type(unit):
