@@ -699,67 +699,51 @@ class battle(object):
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
 
-    def determineInitiative(self, mercyRound):
-        """Mercy round means we add all the units that have not acted"""
+    def determineInitiative(self):
         initiativeOrder = []
-        if mercyRound:
+        while not initiativeOrder:
             random.shuffle(self.battleField.units)
             # increment each unit's initiative points by their initiative
             for unit in self.battleField.units:
-                if not unit.actedThisRound:
-                    luck = self.getStat(unit, "Luck")
-                    initiativeOrder.append((unit, unit.initiativePoints, luck))
-                    unit.hasEquipped = False
-                    unit.movementPoints = self.getStat(unit, "Speed")
-                    unit.actedThisRound = True
+                luck = self.getStat(unit, "Luck")
+                if self.getPower(unit, "Swords: Increased Luck I"):
+                    if unit.equipment and unit.equipment.type == "Swords":
+                        luck = math.ceil(luck * 1.3)
+                if self.getPower(unit, "Swords: Increased Luck II"):
+                    if unit.equipment and unit.equipment.type == "Swords":
+                        luck = math.ceil(luck * 1.3)
+                if self.getPower(unit, "Swords: Increased Luck III"):
+                    if unit.equipment and unit.equipment.type == "Swords":
+                        luck = math.ceil(luck * 1.3)
+                initiative = max(
+                        self.getStat(unit, "Charisma"),
+                        self.getStat(unit, "Speed"),
+                        self.getStat(unit, "Dexterity"))
+                # units with less than 15 points should act every round
+                initiative = max(15, initiative)
+                unit.initiativePoints += initiative
+            for unit in self.battleField.units:
+                if unit.initiativePoints >= 15:
+                    if not unit.actedThisRound:
+                        if type(unit) == playerCharacter:
+                            unit.hasEquipped = False
+                        unit.movementPoints = self.getStat(unit, "Speed")
+                    else:
+                        if unit.movementPoints <= 0:
+                            print(f"debug: skipping {unit.name} (no Mv)")
+                            continue
+                    initiativeOrder.append(
+                            (unit, unit.initiativePoints, luck))
                     print(
-                            f"debug: Mercy adding {unit.name} "
-                            f"({unit.initiativePoints})")
-        else:
-            while not initiativeOrder:
-                random.shuffle(self.battleField.units)
-                # increment each unit's initiative points by their initiative
-                for unit in self.battleField.units:
-                    luck = self.getStat(unit, "Luck")
-                    if self.getPower(unit, "Swords: Increased Luck I"):
-                        if unit.equipment and unit.equipment.type == "Swords":
-                            luck = math.ceil(luck * 1.3)
-                    if self.getPower(unit, "Swords: Increased Luck II"):
-                        if unit.equipment and unit.equipment.type == "Swords":
-                            luck = math.ceil(luck * 1.3)
-                    if self.getPower(unit, "Swords: Increased Luck III"):
-                        if unit.equipment and unit.equipment.type == "Swords":
-                            luck = math.ceil(luck * 1.3)
-                    initiative = max(
-                            self.getStat(unit, "Charisma"),
-                            self.getStat(unit, "Speed"),
-                            self.getStat(unit, "Dexterity"))
-                    luckBonus = random.choice(range(0, luck + 1))
-                    initiative += luckBonus
-                    unit.initiativePoints += initiative
-                for unit in self.battleField.units:
-                    if unit.initiativePoints > len(self.battleField.units):
-                        if not unit.actedThisRound:
-                            if type(unit) == playerCharacter:
-                                unit.hasEquipped = False
-                            unit.movementPoints = self.getStat(unit, "Speed")
-                        else:
-                            if unit.movementPoints <= 0:
-                                print(f"debug: skipping {unit.name} (no Mv)")
-                                continue
-                        initiativeOrder.append(
-                                (unit, unit.initiativePoints, luck))
-                        print(
-                                f"debug: adding {unit.name} "
-                                f"({unit.initiativePoints}, "
-                                f"{unit.actedThisRound}")
-                        unit.initiativePoints -= 15
-                        unit.actedThisRound = True
+                            f"debug: adding {unit.name} "
+                            f"({unit.initiativePoints}, "
+                            f"{unit.actedThisRound}")
+                    unit.initiativePoints -= 15
+                    unit.actedThisRound = True
+            if not initiativeOrder:
+                print(f"debug: No initiativeOrder")
         initiativeOrder = sorted(
                 initiativeOrder, key=itemgetter(1, 2), reverse=True)
-        print(
-                f"debug: initiative {mercyRound} "
-                f"{[unit[0].name for unit in initiativeOrder]}")
         return initiativeOrder
 
     def doAttack(self, unit, targetId):
@@ -835,62 +819,9 @@ class battle(object):
     def doRound(self):
         for unit in self.battleField.units:
             unit.actedThisRound = False
-        numberOfActions = 0
-        while numberOfActions < len(self.battleField.units):
-            print(
-                    f"debug: {numberOfActions} actions of "
-                    f"{len(self.battleField.units)} before mercy")
-            self.turnOrder = self.determineInitiative(False)
-            for unit in self.turnOrder:
-                # unit may have died since this loop started.
-                if unit[0].hp <= 0:
-                    continue
-                if type(unit[0]) == playerCharacter:
-                    pc = unit[0]
-                    print("")
-                    self.battleField.viewMapFromUnit(pc)
-                    print("")
-                    maxHP = pc.maxHP()
-                    maxFP = pc.stats["Faith"]
-                    maxMP = pc.stats["Intelligence"]
-                    maxMv = pc.stats["Speed"]
-                    fame = self.getFameBonus(pc)
-                    mvType = ""
-                    if self.getPower(pc, "Mounted Movement"):
-                        mvType = "M"
-                    if pc.equipment:
-                        maxFP += pc.equipment.fp
-                        maxMP += pc.equipment.mp
-                    print(
-                            f"It's {pc.name}'s turn! (Level {pc.level} "
-                            f"{pc.title})")
-                    print(
-                            f"  (HP: {pc.hp}/{maxHP} FP: {pc.fp}/{maxFP} "
-                            f"MP: {pc.mp}/{maxMP} "
-                            f"Move: {pc.movementPoints}/{maxMv}{mvType} "
-                            f"Fame Bonus: {fame}%)")
-                    time.sleep(2. / 10)
-                    position = self.battleField.getUnitPos(pc)
-                    tile = self.battleField.terrainArray[position]
-                    print(
-                            f"{pc.name} is standing on ("
-                            f"{self.battleField.terrainArray.index(tile)}) "
-                            f"{tile.name}.")
-                endBattle = self.doTurn(unit[0])
-                if endBattle:
-                    return
-                else:
-                    numberOfActions += 1
-            if numberOfActions + len([
-                    unit for unit in self.battleField.units
-                    if unit not in
-                    self.turnOrder and not unit.actedThisRound]) > len(
-                    self.battleField.units):
-                print("debug: It is time to show mercy.")
-                break
-        self.turnOrder = self.determineInitiative(True)
-        # unit may have died since this loop started.
+        self.turnOrder = self.determineInitiative()
         for unit in self.turnOrder:
+            # unit may have died since this loop started.
             if unit[0].hp <= 0:
                 continue
             if type(unit[0]) == playerCharacter:
@@ -927,8 +858,6 @@ class battle(object):
             endBattle = self.doTurn(unit[0])
             if endBattle:
                 return
-            else:
-                numberOfActions += 1
         for tile in self.battleField.terrainArray:
             if not tile.ringing:
                 tile.voicePower = math.floor(float(tile.voicePower / 2))
