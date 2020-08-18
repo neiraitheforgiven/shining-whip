@@ -241,6 +241,10 @@ class battle(object):
                     self.getStat(unit, "Charisma"),
                     self.getStat(unit, "Voice"))
             routChance = math.floor(routSkill + (routSkill * (luck / 10)))
+            if self.getPower(unit, "Luck: Increased Rout I"):
+                routChance = math.ceil(routChance * 1.3)
+            if self.getPower(unit, "Luck: Increased Rout II"):
+                routChance = math.ceil(routChance * 1.3)
             attackTypeArray.extend(["routing"] * routChance)
             if not self.getPower(unit, "Aimed Shot"):
                 dodgeSkill = math.floor(max(
