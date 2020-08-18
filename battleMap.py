@@ -873,6 +873,13 @@ class battle(object):
                     return
                 else:
                     numberOfActions += 1
+            if numberOfActions + len([
+                    unit for unit in self.battleField.units
+                    if unit not in
+                    self.turnOrder and not unit.actedThisRound]) > len(
+                    self.battleField.units):
+                print("debug: It is time to show mercy.")
+                break
         self.turnOrder = self.determineInitiative(True)
         # unit may have died since this loop started.
         for unit in self.turnOrder:
