@@ -186,6 +186,8 @@ class battle(object):
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
                 unit.mp = unit.stats["Intelligence"]
+                unit.initiativePoints = 0
+                unit.actedThisRound = False
                 unit.status = None
                 if unit.equipment:
                     unit.fp += unit.equipment.fp
@@ -721,7 +723,7 @@ class battle(object):
                         self.getStat(unit, "Dexterity"))
                 # units with less than 15 points should act every round
                 unit.initiativePoints += max(15, initiative)
-                if unit.initiativePoints >= 15 and unit.hp > 0:
+                while unit.initiativePoints >= 15 and unit.hp > 0:
                     if not unit.actedThisRound:
                         if type(unit) == playerCharacter:
                             unit.hasEquipped = False
