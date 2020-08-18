@@ -188,13 +188,13 @@ class battle(object):
                 unit.mp = unit.stats["Intelligence"]
                 unit.actedThisRound = False
                 unit.status = None
-                self.determineStartingInitiative()
                 if unit.equipment:
                     unit.fp += unit.equipment.fp
                     unit.mp += unit.equipment.mp
                 if self.getPower(unit, "Egress I") and unit.mp < self.mpCost(
                         unit, 8):
                     print(f"warning: {unit.name} has too few mp to Egress")
+            self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
                 self.doRound()
@@ -798,26 +798,30 @@ class battle(object):
         idleUnits = [
                 unit for unit in self.battleField.units
                 if unit.hp > 0 and not unit.actedThisRound]
+        print(f"debug: there are {len(idleUnits)} idle units")
         while idleUnits:
             self.turnOrder = []
             nextInitiative = max([
                     unit.initiativePoints for unit in self.battleField.units])
-            print(f"debug: adding units with {nextInitiative} points.")
             nextUnits = [
                     unit for unit in self.battleField.units
                     if unit.initiativePoints == nextInitiative]
+            print(
+                    f"debug: adding {len(nextUnits)} units with "
+                    f"{nextInitiative} points.")
             for unit in nextUnits:
-                self.turnOrder.append(
+                self.turnOrder.append((
                         unit, unit.initiativePoints,
-                        self.getStat(unit, "Luck"))
+                        self.getStat(unit, "Luck")))
             self.turnOrder = sorted(
                     self.turnOrder, key=itemgetter(1, 2), reverse=True)
-            for unit in self.turnOrder:
+            for entry in self.turnOrder:
+                unit = entry[0]
                 # unit may have died since this loop started.
-                if unit[0].hp <= 0:
+                if unit.hp <= 0:
                     continue
-                if type(unit[0]) == playerCharacter:
-                    pc = unit[0]
+                if type(unit) == playerCharacter:
+                    pc = unit
                     print("")
                     self.battleField.viewMapFromUnit(pc)
                     print("")
@@ -863,7 +867,7 @@ class battle(object):
                 print(
                         f"debug: {unit.name}'s new initiative is "
                         f"{unit.initiativePoints}")
-                endBattle = self.doTurn(unit[0])
+                endBattle = self.doTurn(unit)
                 if endBattle:
                     return
             idleUnits = [
@@ -1069,8 +1073,10 @@ class battle(object):
                             allowedEquipment[itemToEquip], unit)
                     itemToEquip = None
                     unit.hasEquipped = True
-                    if unit.fp > self.getStat(unit, "Faith") + unit.equipment.fp:
-                        unit.fp = self.getStat(unit, "Faith") + unit.equipment.fp
+                    if unit.fp > self.getStat(
+                            unit, "Faith") + unit.equipment.fp:
+                        unit.fp = self.getStat(
+                                unit, "Faith") + unit.equipment.fp
                     if unit.mp > (self.getStat(
                             unit, "Intelligence") + unit.equipment.mp):
                         unit.mp = (self.getStat(
