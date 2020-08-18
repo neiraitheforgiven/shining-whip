@@ -795,6 +795,7 @@ class battle(object):
             self.attack(monster, target)
 
     def doRound(self):
+        print("debug: THIS IS A NEW ROUND")
         idleUnits = [
                 unit for unit in self.battleField.units
                 if unit.hp > 0 and not unit.actedThisRound]
@@ -802,10 +803,11 @@ class battle(object):
         while idleUnits:
             self.turnOrder = []
             nextInitiative = max([
-                    unit.initiativePoints for unit in self.battleField.units])
+                    unit.initiativePoints for unit in self.battleField.units
+                    if unit.hp > 0])
             nextUnits = [
                     unit for unit in self.battleField.units
-                    if unit.initiativePoints == nextInitiative]
+                    if unit.initiativePoints == nextInitiative and unit.hp > 0]
             print(
                     f"debug: adding {len(nextUnits)} units with "
                     f"{nextInitiative} points.")
@@ -873,6 +875,7 @@ class battle(object):
             idleUnits = [
                     unit for unit in self.battleField.units
                     if unit.hp > 0 and not unit.actedThisRound]
+            print(f"debug: there are {len(idleUnits)} idle units")
         for unit in self.battleField.units:
             unit.actedThisRound = False
         for tile in self.battleField.terrainArray:
