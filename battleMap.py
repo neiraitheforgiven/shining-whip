@@ -2199,7 +2199,7 @@ class game(object):
                 "look down on all other people as unfit to participate in "
                 "combat.")
         print(
-                "Therefore you mentor has assembled a small force of "
+                "Despite this, your mentor has assembled a small force of "
                 "untrained fighters that he believes have potential.")
         print("Elves and Dwarves and the occaisional drummed-out Knight.")
         print(
