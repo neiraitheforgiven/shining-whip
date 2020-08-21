@@ -275,7 +275,7 @@ class playerCharacter(object):
                         "Command: Increased Luck I"]
             elif "Baron" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Command: Luck: Counterattack",
+                        "Equip: Swords", "Command: Luck: Counterattack",
                         "Luck: Reverse Death",
                         "Command: Allies Increase Defense",
                         "Luck: Critical Drain I",
@@ -430,7 +430,7 @@ class playerCharacter(object):
                         "Magic: Effects Always Hit"]
             elif "Sky Battler" in self.title:
                 listOfPowers = [
-                        "Flying Movement", "Equip: Long Swords",
+                        "Flying Movement", "Equip: Swords",
                         "Luck: Counterattack", "Luck: Increased Dodge I",
                         "Swords: Increased Luck II",
                         "Luck: Increased Dodge II", "Movement: Ignore Enemies",
