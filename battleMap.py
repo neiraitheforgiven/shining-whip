@@ -2138,6 +2138,7 @@ class battleField(object):
                 targetStringAdds.append(
                         f"({count}) {target.name} "
                         f"({self.terrainArray.index(target)})")
+                count += 1
         targetString += ", ".join(targetStringAdds)
         print(targetString + ".")
 
