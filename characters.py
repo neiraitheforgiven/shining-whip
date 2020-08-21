@@ -370,8 +370,8 @@ class playerCharacter(object):
             elif "Hero" in self.title:
                 listOfPowers = [
                         "Egress I", "Swords: Increased Luck I",
-                        "Equip: Long Swords", "Luck: Counterattack",
-                        "Bolt I", "Equip: Sacred Swords", "Bolt II",
+                        "Equip: Sacred Swords", "Luck: Counterattack",
+                        "Bolt I", "Magic: Cost Reduction I", "Bolt II",
                         "Swords: Increased Luck II"]
             elif ("Knight" in self.title and "Mage Knight" not in
                     self.title and "Steam Knight" not in self.title):
