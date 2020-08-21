@@ -1444,7 +1444,14 @@ class battleField(object):
                 unit.allowedMovement.append(position)
         if not self.getPower(unit, "Movement: Ignore Enemies"):
             # calculate if we are blocked
-            if len([
+            # flying units are easier to block but blocked by flying units only
+            if self.getPower(unit, "Flying Movment"):
+                if len([
+                    tileUnit for tileUnit in tile.units
+                    if type(tileUnit) != type(unit) and self.getPower(
+                            tileUnit, "Flying Movement")]) >= 1:
+                    blocked = True
+            elif len([
                     tileUnit for tileUnit in tile.units
                     if type(tileUnit) != type(unit)]) >= 2:
                 # Stealthy Movement prevents blocking for 2 tiles
@@ -1512,12 +1519,23 @@ class battleField(object):
             retreatBlocked = False
             advancingBlocked = False
         else:
-            retreatBlocked = len([
-                    tileUnit for tileUnit in currentTile.units
-                    if type(tileUnit) != type(unit)]) >= 3
-            advancingBlocked = len([
-                    tileUnit for tileUnit in currentTile.units
-                    if type(tileUnit) != type(unit)]) >= 2
+            # flyers are only blocked by other fliers but easier to block
+            if self.getPower(unit, "Flying Movement"):
+                retreatBlocked = len([
+                        tileUnit for tileUnit in currentTile.units
+                        if type(tileUnit) != type(unit) and self.getPower(
+                                tileUnit, "FlyingMovement")]) >= 2
+                advancingBlocked = len([
+                        tileUnit for tileUnit in currentTile.units
+                        if type(tileUnit) != type(unit) and self.getPower(
+                                tileUnit, "FlyingMovement")]) >= 1
+            else:
+                retreatBlocked = len([
+                        tileUnit for tileUnit in currentTile.units
+                        if type(tileUnit) != type(unit)]) >= 3
+                advancingBlocked = len([
+                        tileUnit for tileUnit in currentTile.units
+                        if type(tileUnit) != type(unit)]) >= 2
         if retreatBlocked and advancingBlocked:
             return False
         if (type(unit) == playerCharacter and not advancingBlocked) \
