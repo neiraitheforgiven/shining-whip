@@ -2572,7 +2572,7 @@ class game(object):
                 print(f"The {patron} awards you with {amount} scroulings!")
             self.money += amount
         elif amount < 0:
-            if amount >= self.money:
+            if abs(amount) >= self.money:
                 print(
                         f"The priests take all of your money to cover the "
                         f"cost of the prayers that saved you. Consider them "
