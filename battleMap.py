@@ -829,6 +829,15 @@ class battle(object):
                 else:
                     if unit.movementPoints <= 0:
                         print(f"debug: skipping {unit.name} (no Mv)")
+                        unit.actedThisRound = True
+                        # push back the unit's initiative
+                        setback = min(
+                                15, math.ceil(
+                                        225 / self.determineInitiative(unit)))
+                        unit.initiativePoints -= setback
+                        print(
+                                f"debug: {unit.name}'s new initiative is "
+                                f"{unit.initiativePoints}")
                         continue
                 if type(unit) == playerCharacter:
                     pc = unit
