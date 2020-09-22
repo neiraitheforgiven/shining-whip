@@ -336,7 +336,7 @@ class playerCharacter(object):
                         "Defense: Increased Resistance II", "Blast III"]
             elif "Duelist" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Luck: Counterattack",
+                        "Equip: Swords", "Luck: Counterattack",
                         "Defense: Swords I", "Swords: Increased Luck I",
                         "Swords: Increased Luck II",
                         "Luck: Dodge Grants Counterattack",
@@ -417,7 +417,7 @@ class playerCharacter(object):
                         "Aura II"]
             elif "Samurai" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Increased Damage I",
+                        "Equip: Swords", "Increased Damage I",
                         "Swords: Fire Element", "Defense: Melee I",
                         "Swords: Increased Damage II", "Equip: Katanas"
                         "Swords: Increased Damage III",
