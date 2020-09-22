@@ -1265,7 +1265,7 @@ class battle(object):
         numChunks = math.ceil(damage / (target.stats["Stamina"] * 0.2))
         if type(unit) == playerCharacter:
             unitLevel = unit.level
-            targetLevel = target.level + 6
+            targetLevel = target.level + 4
             # elif type(unit) == monster:
             #     unitLevel = unit.level + 6
             #     targetLevel = target.level
