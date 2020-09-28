@@ -283,7 +283,12 @@ class battle(object):
                     damage *= 1.3
                 if self.getPower(unit, damageString + "IV"):
                     damage *= 1.3
-                damage = math.ceil(damage)
+                strengthForDamage = strength
+                if self.getPower(unit, "Charge"):
+                    strengthForDamage += math.ceil((
+                            self.getStat(unit, "Speed"
+                            ) - unit.movementPoints) / 5)
+                damage = max(strengthForDamage, dex)
                 if i == 0:
                     if self.getPower(unit, "Charge"):
                         speed = self.getStat(unit, "Speed")
