@@ -12,7 +12,7 @@ class battle(object):
 
     def __init__(self, game, party, num=None):
         self.game = game
-        self.party = party
+        self.party = self.assembleParty(party, game.maxPartySize)
         if input("Type skip to skip this battle: ") == "skip":
             game.battleStatus = 'victory'
             for unit in party:
@@ -32,7 +32,7 @@ class battle(object):
                                 (monster("Crazed Dwarf"), 9),
                                 (monster("Goblin"), 10),
                                 (monster("Goblin"), 10)],
-                        party, game)
+                                self.party, game)
             elif num == 2:
                 self.battleField = battleField([
                         "Loose Rocks", "Loose Rocks", "Loose Rocks",
@@ -72,7 +72,7 @@ class battle(object):
                                 (monster(
                                         "Traitor Knight", "Advance-Defensive"),
                                         17)],
-                        party, game)
+                                self.party, game)
             elif num == 3:
                 self.battleField = battleField([
                         "Path", "Path", "Path", "Path", "Path", "Path", "Path",
@@ -102,7 +102,7 @@ class battle(object):
                                 (monster("Traitor Knight"), 11),
                                 (monster("Traitor Knight"), 11),
                                 (monster("Traitor Knight"), 12)],
-                        party, game)
+                                self.party, game)
             elif num == 4:
                 self.battleField = battleField([
                         "Path", "Path", "Path", "Bridge", "Bridge", "Path",
@@ -132,7 +132,7 @@ class battle(object):
                                 (monster("Sniper"), 19),
                                 (monster("Sniper"), 19),
                                 (monster("Dark Apprentice"), 19)],
-                        party, game)
+                                self.party, game)
             elif num == 5:
                 self.battleField = battleField([
                         "Grass", "Grass", "Grass", "Grass", "Grass", "Bridge",
@@ -159,7 +159,8 @@ class battle(object):
                                 (monster("Zombie"), 16),
                                 (monster("Zombie"), 16),
                                 (monster("Dark Apprentice"), 16),
-                                (monster("Dark Apprentice"), 16)], party, game)
+                                (monster("Dark Apprentice"), 16)], self.party,
+                                game)
             elif num == 6:
                 self.battleField = battleField([
                         "Cavern", "Cavern", "Cavern", "Cavern", "Cavern",
@@ -181,7 +182,7 @@ class battle(object):
                                 (monster("Dark Apprentice"), 12),
                                 (monster("Dark Apprentice"), 12),
                                 (monster("Skeleton Warrior"), 12)],
-                                party, game)
+                                self.party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
@@ -198,6 +199,106 @@ class battle(object):
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
                 self.doRound()
+
+    def assembleParty(self, party, maxPartySize):
+        if len(party) <= maxPartySize:
+            return party
+        else:
+            currentParty = []
+            leaders = [
+                    unit for unit in party if "Egress I" in unit.powers]
+            if len(leaders) == 1:
+                currentParty.append(leaders[0])
+                print(f"{leaders[0].name} leads the Force into battle!")
+            else:
+                leaderChoice = None
+                while leaderChoice not in ([
+                        leaders.index(leader) for leader in leaders], 'L',
+                        'l'):
+                    leaderString = ''
+                    leaderStringAdds = []
+                    count = 0
+                    for leader in leaders:
+                        leaderStringAdds.append(f"({count}) {leader.name}")
+                        count += 1
+                    leaderString += ", ".join(leaderStringAdds)
+                    print(leaderString)
+                    leaderChoice = input((
+                            "Type a number to choose a leader for the party. "
+                            "Press (L) to look more closely at a leader. "))
+                    if leaderChoice in ('L', 'l'):
+                        leaderChoice = None
+                        while leaderChoice not in ([
+                                leaders.index(leader) for leader in leaders]):
+                            try:
+                                leaderChoice = int(input((
+                                    "Type a number to choose which leader to "
+                                    "look at: ")))
+                            except ValueError:
+                                leaderChoice = None
+                            leaders(leaderChoice).printCharacterSheet()
+                            leaderChoice = None
+                    else:
+                        try:
+                            leaderChoice = int(leaderChoice)
+                            party.append(leaders[leaderChoice])
+                            print(
+                                    f"{leaders[leaderChoice].name} leads the "
+                                    "Force into battle!")
+                        except ValueError:
+                            leaderChoice = None
+            while len(currentParty) < maxPartySize:
+                unitChoice = None
+                partyOptions = [
+                        unit for unit in party if unit not in currentParty]
+                print(f"debug: party is {len(currentParty)} / {maxPartySize}")
+                while unitChoice not in ([
+                        partyOptions.index(option)
+                        for option in partyOptions], 'L', 'l'):
+
+                    optionString = ''
+                    optionStringAdds = []
+                    count = 0
+                    for unit in partyOptions:
+                        optionStringAdds.append(f"({count}) {unit.name}")
+                        count += 1
+                    optionString += ", ".join(optionStringAdds)
+                    print(optionString)
+                    unitChoice = input((
+                            "Type a number to choose a character to join "
+                            "the party. Press (L) to look more closely at a "
+                            "character. Press (S) to start the battle without "
+                            "adding any new characters. "))
+                    if unitChoice in ('L', 'l'):
+                        unitChoice = None
+                        while unitChoice not in ([
+                                partyOptions.index(option)
+                                for option in partyOptions]):
+                            try:
+                                unitChoice = int(input(
+                                    "Type a number to choose a character to "
+                                    "look at: "))
+                            except ValueError:
+                                unitChoice = None
+                            partyOptions[unitChoice].printCharacterSheet()
+                    elif unitChoice in ('S', 's'):
+                        return currentParty
+                    else:
+                        try:
+                            unitChoice = int(unitChoice)
+                        except ValueError:
+                            unitChoice = None
+                        if unitChoice is not None and (
+                                unitChoice <= len(partyOptions) - 1):
+                            currentParty.append(partyOptions[unitChoice])
+                            print((
+                                    f"{partyOptions[unitChoice].name} joins "
+                                    "the party!"))
+                            partyOptions = [
+                                unit for unit in party
+                                if unit not in currentParty]
+                            break
+            return currentParty
 
     def attack(self, unit, target):
         bf = self.battleField
@@ -2221,6 +2322,7 @@ class game(object):
         self.battleStatus = None
         self.money = 0
         self.inventory = []
+        self.maxPartySize = 12
 
         chatter = False
         print("You are the leader of a small part of misfits.")
