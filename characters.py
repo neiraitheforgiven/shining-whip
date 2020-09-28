@@ -89,7 +89,9 @@ class monster(object):
             self.shortName = "Knight"
         elif name == "Zombie":
             self.level = 5
-            stats = {"Strength": 17, "Dexterity": 7, "Speed": 5, "Stamina": 10}
+            stats = {
+                    "Strength": 15, "Dexterity": 7, "Speed": 5, "Stamina": 10,
+                    "Luck": 12}
             self.setStats(6, **stats)
             self.moveProfile = moveProfile or "SlowAdvance"
             self.attackProfile = attackProfile or "Random"
