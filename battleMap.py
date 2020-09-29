@@ -1393,7 +1393,6 @@ class battle(object):
         field.terrainArray[targetPosition].units.remove(target)
         if target in self.turnOrder:
             self.turnOrder.remove(target)
-        del target
         time.sleep(7. / 10)
         return
 
