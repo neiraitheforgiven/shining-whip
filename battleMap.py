@@ -400,6 +400,11 @@ class battle(object):
                     damage = math.floor(damage)
                 if unit.equipment:
                     damage += unit.equipment.damage
+                # elevation damage
+                unitHeight = bf.terrainArray[bf.getUnitPos(unit)].elevation
+                targetHeight = bf.terrainArray[bf.getUnitPos(target)].elevation
+                heightBonus = 1 + ((unitHeight - targetHeight) / 20)
+                damage = math.floor(damage * heightBonus)
                 if attackType != 'critical':
                     damage -= max(
                             self.getStat(target, "Strength"),
@@ -1410,7 +1415,7 @@ class battle(object):
 class battleTile(object):
     """docstring for BattleTile"""
 
-    def __init__(self, terrain):
+    def __init__(self, terrain, battleField):
         self.name = terrain
         self.cost = 5
         self.ringing = False
@@ -1429,6 +1434,19 @@ class battleTile(object):
             self.cost = 8
         elif self.name == "Forest":
             self.cost = 10
+        # Assign elevation
+        if self.name in ("Bridge", "Loose Rocks"):
+            self.elevation = battleField.elevation + 1
+        elif self.name == "Cavern":
+            self.elevation = battleField.elevation - 1
+        elif self.name == "Downward Stair":
+            self.elevation = battleField.elevation - 1
+            battleField.elevation -= 2
+        elif self.name == "Upward Stair":
+            self.elevation = battleField.elevation + 1
+            battleField.elevation += 2
+        else:
+            self.elevation = battleField.elevation
 
         # is it unstable?
         if self.name in ("Sand", "Loose Rocks"):
@@ -1440,11 +1458,12 @@ class battleTile(object):
 class battleField(object):
 
     def __init__(self, listOfTiles, listOfUnits, party, game):
+        self.elevation = 20
         self.game = game
         self.terrainArray = []
         self.units = []
         for tile in listOfTiles:
-            self.terrainArray.append(battleTile(tile))
+            self.terrainArray.append(battleTile(tile, self))
         for unit, position in listOfUnits:
             tile = self.terrainArray[position]
             tileUnits = tile.units
@@ -2254,8 +2273,8 @@ class battleField(object):
         print(moveString + ".")
 
     def viewMap(self, position):
-        minRange = max(0, position - 3)
-        maxRange = minRange + 6
+        minRange = max(0, position - 4)
+        maxRange = minRange + 7
         if maxRange > len(self.terrainArray) - 1:
             maxRange = len(self.terrainArray) - 1
             minRange = maxRange - 5
@@ -2263,11 +2282,16 @@ class battleField(object):
         mapRow = ""
         for tile in tilesInRange:
             mapAdd = f"({self.terrainArray.index(tile)})"
+            tileHeight = tile.elevation - 20
+            if tileHeight > 0:
+                mapAdd += f" +{tileHeight} "
+            elif tileHeight < 0:
+                mapAdd += f" {tileHeight} "
             if tile.voicePower > 0:
                 mapAdd += "(Shining)"
             elif tile.voicePower < 0:
                 mapAdd += "(Unholy)"
-            mapRow += f"{mapAdd:18}"
+            mapRow += f"{mapAdd:24}"
         print(mapRow)
         for i in range(5, -1, -1):
             mapRow = ""
@@ -2277,23 +2301,23 @@ class battleField(object):
                             unit for unit in tile.units
                             if type(unit) == playerCharacter]
                     goodUnits.sort(key=lambda x: x.shortName, reverse=True)
-                    mapRow += f"{goodUnits[i].shortName:7}  "
+                    mapRow += f"{goodUnits[i].shortName:9}   "
                 except IndexError:
-                    mapRow += (" " * 9)
+                    mapRow += (" " * 12)
                 try:
                     badUnits = [
                             unit for unit in tile.units
                             if type(unit) == monster]
                     badUnits.sort(key=lambda x: x.shortName, reverse=True)
-                    mapRow += f"{badUnits[i].shortName:7}  "
+                    mapRow += f"{badUnits[i].shortName:9}   "
                 except IndexError:
-                    mapRow += (" " * 9)
+                    mapRow += (" " * 12)
             if [letter for letter in mapRow if letter != " "]:
                 print(mapRow)
-        print("-" * 18 * len(tilesInRange))
+        print("-" * 24 * len(tilesInRange))
         mapRow = ""
         for tile in tilesInRange:
-            mapRow += f"{tile.name:18}"
+            mapRow += f"{tile.name:24}"
         print(mapRow)
 
     def viewMapFromUnit(self, unit):
