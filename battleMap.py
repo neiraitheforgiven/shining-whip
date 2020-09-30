@@ -299,6 +299,11 @@ class battle(object):
                     damage = math.floor(damage)
                 if unit.equipment:
                     damage += unit.equipment.damage
+                # elevation damage
+                unitHeight = bf.terrainArray[bf.getUnitPos(unit)].elevation
+                targetHeight = bf.terrainArray[bf.getUnitPos(target)].elevation
+                heightBonus = 1 + ((unitHeight - targetHeight) / 20)
+                damage = math.floor(damage * heightBonus)
                 if attackType != 'critical':
                     damage -= max(
                             self.getStat(target, "Strength"),
@@ -1310,7 +1315,7 @@ class battle(object):
 class battleTile(object):
     """docstring for BattleTile"""
 
-    def __init__(self, terrain):
+    def __init__(self, terrain, battleField):
         self.name = terrain
         self.cost = 5
         self.ringing = False
@@ -1329,6 +1334,19 @@ class battleTile(object):
             self.cost = 8
         elif self.name == "Forest":
             self.cost = 10
+        # Assign elevation
+        if self.name in ("Bridge", "Loose Rocks"):
+            self.elevation = battleField.elevation + 1
+        elif self.name == "Cavern":
+            self.elevation = battleField.elevation - 1
+        elif self.name == "Downward Stair":
+            self.elevation = battleField.elevation - 1
+            battleField.elevation -= 2
+        elif self.name == "Upward Stair":
+            self.elevation = battleField.elevation + 1
+            battleField.elevation += 2
+        else:
+            self.elevation = battleField.elevation
 
         # is it unstable?
         if self.name in ("Sand", "Loose Rocks"):
@@ -1340,11 +1358,12 @@ class battleTile(object):
 class battleField(object):
 
     def __init__(self, listOfTiles, listOfUnits, party, game):
+        self.elevation = 20
         self.game = game
         self.terrainArray = []
         self.units = []
         for tile in listOfTiles:
-            self.terrainArray.append(battleTile(tile))
+            self.terrainArray.append(battleTile(tile, self))
         for unit, position in listOfUnits:
             tile = self.terrainArray[position]
             tileUnits = tile.units
