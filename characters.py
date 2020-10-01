@@ -18,6 +18,8 @@ class monster(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.initiativePoints = 0
+        self.actedThisRound = False
         self.powers = []
         self.moveProfile = moveProfile
         self.attackProfile = attackProfile
@@ -45,12 +47,16 @@ class monster(object):
             self.shortName = "D.Apprc"
         elif name == "Giant Bat":
             self.level = 5
-            stats = {"Voice": 11, "Stamina": 7, "Speed": 7, "Dexterity": 6}
+            stats = {
+                    "Voice": 11, "Stamina": 7, "Speed": 7, "Strength": 9,
+                    "Dexterity": 6}
             self.setStats(7, **stats)
-            self.attackProfile = "Singer"
-            self.moveProfile = "Aggressive-Singer"
+            self.attackProfile = attackProfile or "Singer"
+            self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
+            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
         elif name == "Goblin":
             self.level = 1
@@ -60,6 +66,17 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment(
                     "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
+        elif name == "Skeleton Warrior":
+            self.level = 9
+            stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
+            self.setStats(9, **stats)
+            self.shortName = "Skull W."
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.equipment = equipment(
+                    "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0)
+            self.powers.append("Command: Luck: Counterattack")
+            self.powers.append("Defense: Fire Vulnerability")
         elif name == "Sniper":
             self.level = 4
             stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
@@ -76,14 +93,24 @@ class monster(object):
             self.attackProfile = attackProfile or "ChallengeAccepting"
             self.equipment = equipment(
                     "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0)
-            self.powers.append(["Mounted Movement"])
+            self.powers.append("Mounted Movement")
             self.shortName = "Knight"
-        else:
-            self.level = level
-            stats = {}
-            self.setStats(5, **stats)
-            self.moveProfile = moveProfile or "Defensive"
+        elif name == "Zombie":
+            self.level = 5
+            stats = {
+                    "Strength": 15, "Dexterity": 7, "Speed": 5, "Stamina": 10,
+                    "Luck": 12}
+            self.setStats(6, **stats)
+            self.moveProfile = moveProfile or "SlowAdvance"
             self.attackProfile = attackProfile or "Random"
+            self.powers.append("Unarmed Attack: Increased Damage")
+            self.powers.append("Poisonous Attack")
+            self.powers.append("Luck: Counterattack")
+            self.powers.append("Defense: Fire Vulnerability")
+        else:
+            print(
+                    "Battle Setup Error! Attempted to create monster not in "
+                    "list!")
 
     def maxHP(self):
         return ((self.stats["Stamina"] * 2) + self.level)
@@ -122,6 +149,8 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.initiativePoints = 0
+        self.actedThisRound = False
         self.hasEquipped = False
         self.status = None
         self.trophies = []
@@ -131,7 +160,7 @@ class playerCharacter(object):
                         "Strength", "Dexterity")
             elif playerClass == "Archer":
                 self.growth = self.initializeRandomStats(
-                        "Dexterity", "Stamina")
+                        "Dexterity", "Fame", "Strength")
             elif playerClass == "Baron":
                 self.growth = self.initializeRandomStats("Strength", "Fame")
             elif playerClass == "Bolt Mage":
@@ -148,6 +177,9 @@ class playerCharacter(object):
                         "Intelligence", "Stamina")
             elif playerClass == "Harbinger":
                 self.growth = self.initializeRandomStats("Speed", "Voice")
+            elif playerClass == "Hero":
+                self.growth = self.initializeRandomStats(
+                        "Strength", "Intelligence")
             elif playerClass == "Knight":
                 self.growth = self.initializeRandomStats("Strength", "Speed")
             elif playerClass == "Monk":
@@ -169,14 +201,11 @@ class playerCharacter(object):
             elif playerClass == "Steam Knight":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Intelligence", "Fame")
-            elif playerClass == "Hero":
-                self.growth = self.initializeRandomStats(
-                        "Strength", "Intelligence")
-            elif playerClass == "Survivor":
-                self.growth = self.initializeRandomStats("Voice", "Stamina")
-            elif playerClass == "Thief":
+            elif playerClass == "Ninja":
                 self.growth = self.initializeRandomStats(
                         "Dexterity", "Intelligence")
+            elif playerClass == "Survivor":
+                self.growth = self.initializeRandomStats("Voice", "Stamina")
             elif playerClass == "Titan":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Fame", "Speed")
@@ -206,15 +235,16 @@ class playerCharacter(object):
         self.career = ""
         self.race = self.assignRace(race)
         self.assignTitle(chatter)
-        print(f"{self.name} the {self.race} {self.title} created.")
-        self.assignPower()
+        if chatter:
+            print(f"{self.name} the {self.race} {self.title} created.")
+        self.assignPower(chatter)
         self.career = f"    Career Path: {self.title}"
         if chatter:
             for statName, statValue in self.stats.items():
                 print("    {} of {}".format(statName, statValue))
             print("")
 
-    def assignPower(self):
+    def assignPower(self, chatter=False):
         if "Mounted" in self.title and "Mounted Movement" not in self.powers:
             self.powers.append("Mounted Movement")
             return
@@ -226,74 +256,80 @@ class playerCharacter(object):
             if "Archer" in self.title:
                 listOfPowers = [
                         "Equip: Arrows", "Quick Shot", "Aimed Shot",
-                        "Arrows: Increased Damage I", "Poison Arrow",
-                        "Luck: Enable Triple Attack", "Arrows: Range + 1",
-                        "Point-Blank Shot"]
+                        "Arrows: Increased Damage I",
+                        "Increased Terrain Advantage I",
+                        "Arrows: Add Effect: Poison",
+                        "Luck: Enable Triple Attack",
+                        "Arrows: Range + 1"]
             elif "Assassin" in self.title:
                 listOfPowers = [
-                        "Stealthy Movement", "Sleep I", "Seal I", "Death I",
-                        "Shield I", "Death II", "Equip: Sacred Swords",
-                        "Luck: Critical Hit Adds Seal"]
+                        "Stealthy Movement", "Paralyze I",
+                        "Attack: Bonus Move", "Death I", "Shield I",
+                        "Death II", "Equip: Sacred Swords",
+                        "Luck: Critical Hit Adds Silence"]
             elif "Bard" in self.title:
                 listOfPowers = [
-                        "Equip: Dagger", "Heal I", "Equip: Bows",
-                        "Luck: Counterattack", "Luck: Enable Triple Attack",
-                        "Command: Health Regeneration",
-                        "Vocal Attack: Increased Damage I",
-                        "Luck: Increased Dodge Chance"]
+                        "Equip: Daggers", "Heal I", "Equip: Bows",
+                        "Luck: Counterattack",
+                        "Luck: Increased Dodge Chance I",
+                        "Command: Health Regeneration I",
+                        "Cast Spell: Add Resonance",
+                        "Command: Increased Luck I"]
             elif "Baron" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Command: Luck: Counterattack",
-                        "Luck: Reverse Death", "Command: Phalanx",
+                        "Equip: Swords", "Command: Luck: Counterattack",
+                        "Luck: Reverse Death",
+                        "Command: Allies Increase Defense",
                         "Luck: Critical Drain I",
                         "Swords: Increased Damage I",
                         "Death II", "Luck: Critical Drain II"]
             elif "Berserker" in self.title:
                 listOfPowers = [
-                        "Equip: Axes", "Unarmed Attack: Increased Damage I",
-                        "Unhindered Movement", "Axes: Armor Penetration I",
-                        "Unarmed Attack: Add Effect: Slow",
-                        "Low Health: Damage Increase I",
-                        "Unarmed Attack: Increased Damage II",
-                        "Unarmed Attack: Rout Deals Damage"]
+                        "Unarmed Attack: Increased Damage I",
+                        "Unhindered Movement",
+                        "Unarmed Attack: Rout Deals Damage", "Equip: Axes",
+                        "Axes: Lost Health Adds Damage I",
+                        "Axes: Bonus Unarmed Attack",
+                        "Axes: Increased Critical Chance I",
+                        "Axes: Increased Critical Chance II"]
             elif "Blood Mage" in self.title:
                 listOfPowers = [
                         "Drain I", "Poison I", "Drain II", "Equip: Daggers",
                         "Muddle I", "Death I",
-                        "Magic: Critical Chance I", "Poison II"]
+                        "Daggers: Cast Spell Adds Bonus Attack", "Poison II"]
             elif "Bolt Mage" in self.title:
                 listOfPowers = [
                         "Bolt I", "Blaze I", "Freeze I",
-                        "Magic: Increased Area I", "Bolt II", "Bolt III",
+                        "Teleport I", "Bolt II", "Bolt III",
                         "Death I", "Bolt IV"]
             elif "Brass Gunner" in self.title:
                 listOfPowers = [
                         "Equip: Brass Guns", "Unhindered Movement",
                         "Brass Guns: Critical Damage I",
-                        "Defense: Increased Armor I",
-                        "Movement: Range Increase I",
+                        "Defense: Physical I",
+                        "Mounted Movement",
                         "Brass Guns: Critical Damage II",
-                        "Defense: Increased Armor II",
-                        "Brass Guns: Attack Area Increased"]
+                        "Defense: Physical II",
+                        "Brass Guns: Minumum Range - 1"]
             elif "Cantor" in self.title:
                 listOfPowers = [
                         "Mounted Movement", "Luck: Increased Rout I",
-                        "Defense: Vocal Attack I",
+                        "Vocal Attack: Remove Enemy Resonance",
                         "Vocal Attack: Increased Damage I",
                         "Luck: Increased Rout II",
                         "Defense: Dark Magic I",
                         "Vocal Attack: Increased Damage II"
-                        "Rout: Add Effect: Fear"]
+                        "Rout: Add Effect: Paralyze"]
             elif "Chorister" in self.title:
                 listOfPowers = [
-                        "Vocal Attack: Increased Damage I", "Heal I",
-                        "Blast I", "Vocal Attack: Increased Damage II",
+                        "Vocal Attack: Sustain Effect", "Heal I",
+                        "Blast I", "Command: Vocal Attack: Increased Damage I",
                         "Blast II",
                         "Command: Vocal Attack: Increased Damage II",
                         "Vocal Attack: Increased Damage III", "Blast III"]
             elif "Dark Mage" in self.title:
                 listOfPowers = [
-                        "Blaze I", "Defense: Magic", "Freeze I", "Blaze II",
+                        "Blaze I", "Freeze I", "Defense: Magic", "Blaze II",
                         "Death I", "Freeze II", "Death II", "Bolt I"]
             elif "Druid" in self.title:
                 listOfPowers = [
@@ -302,93 +338,101 @@ class playerCharacter(object):
                         "Defense: Increased Resistance II", "Blast III"]
             elif "Duelist" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Luck: Counterattack",
+                        "Equip: Swords", "Luck: Counterattack",
                         "Defense: Swords I", "Swords: Increased Luck I",
                         "Swords: Increased Luck II",
                         "Luck: Dodge Grants Counterattack",
-                        "Swords: Increased Luck III", "First Strike"]
+                        "Swords: Increased Luck III",
+                        "Luck: Counterattack First"]
             elif "Fire Mage" in self.title:
                 listOfPowers = [
-                        "Blaze I", "Magic: Cost Reduction I", "Sleep I",
-                        "Blaze II", "Counterspell I", "Blaze III",
+                        "Blaze I", "Magic: Cost Reduction I", "Paralyze I",
+                        "Blaze II", "Defense: Counterspell I", "Blaze III",
                         "Magic: Increased Damage I", "Blaze IV"]
             elif "Frost Mage" in self.title:
                 listOfPowers = [
-                        "Freeze I", "Blaze I", "Blaze II", "Freeze II",
+                        "Freeze I", "Blaze I", "Freeze II", "Blaze II",
                         "Freeze III", "Bolt I", "Freeze IV", "Bolt II"]
             elif "Gambler" in self.title:
                 listOfPowers = [
                         "Equip: Axes", "Luck: Dodge Chance Increased I",
-                        "Improvised Attack",
-                        "Luck: Dodge Grants Luck: Counterattack",
+                        "Increased Luck When Outnumbered I",
+                        "Luck: Dodge Grants Counterattack",
                         "Luck: Reverse Death", "Axes: Range + 1",
-                        "Luck: Dodge Chance Increased I",
+                        "Increased Luck When Outnumbered II",
                         "Luck: Dodge Chance Increased II"]
             elif "Harbinger" in self.title:
                 listOfPowers = [
                         "Unarmed Attack: Damage I",
                         "Vocal Attack: Increased Luck I",
-                        "Attack: Use Voice", "Luck: Reverse Death",
-                        "Defense: Fire I", "Unarmed Attack: Wind",
-                        "Defense: Fire II", "Vocal Attack: Increase Luck II"
+                        "Teleport I", "Luck: Reverse Death",
+                        "Defense: Fire I", "Unarmed Attack: Gain Wind Element",
+                        "Defense: Fire II", "Vocal Attack: Increased Luck II"
                         ]
             elif "Hero" in self.title:
                 listOfPowers = [
-                        "Egress I", "Equip: Long Swords",
+                        "Egress I", "Swords: Increased Luck I",
                         "Equip: Sacred Swords", "Luck: Counterattack",
-                        "Swords: Increased Luck I", "Bolt I", "Bolt II",
+                        "Bolt I", "Magic: Cost Reduction I", "Bolt II",
                         "Swords: Increased Luck II"]
             elif ("Knight" in self.title and "Mage Knight" not in
                     self.title and "Steam Knight" not in self.title):
                 listOfPowers = [
                         "Mounted Movement", "Equip: Polearms", "Charge",
-                        "Spears: Increased Damage I", "Defense: Lance I",
-                        "Defense: Arrow I", "Equip: Holy Polearms",
+                        "Spears: Increased Damage I", "Defense: Lances I",
+                        "Defense: Arrows I",
+                        "Faith: Add Damage on Unholy Ground",
                         "Defense: Dark Magic I"]
             elif "Mage Knight" in self.title:
                 listOfPowers = [
-                        "Equip: Polearms", "Mounted Movement",
-                        "Defense: Dark Magic I", "Blaze I", "Freeze I",
-                        "Bolt I", "Equip: Holy Polearms",
+                        "Equip: Polearms", "Mounted Movement", "Blaze I",
+                        "Defense: Dark Magic I", "Freeze I", "Bolt I",
+                        "Faith: Add Damage on Unholy Ground",
                         "Defense: Dark Magic II"]
             elif "Monk" in self.title:
                 listOfPowers = [
                         "Heal I", "Unarmed Attack: Increased Damage I",
-                        "Heal II", "Heal III", "Unarmed Attack: Holy",
-                        "Heal IV", "Seal I", "Aura I"]
+                        "Heal II", "Heal III",
+                        "Faith: Add Damage on Holy Ground", "Heal IV",
+                        "Silence I", "Aura I"]
+            elif "Ninja" in self.title:
+                listOfPowers = [
+                        "Equip: Daggers", "Luck: Counterattack", "Luck: Steal",
+                        "Daggers: Range +1", "Stealthy Movement",
+                        "Ninja Fire I", "Ninja Bolt I", "Ninja Fire II"]
             elif "Orator" in self.title:
                 listOfPowers = [
-                        "Aura I", "Vocal Attack: Increased Damage I",
+                        "Aura I", "Vocal Attack: Increased Resonance I",
                         "Shield I", "Aura II", "Aura III",
-                        "Vocal Attack: Increased Damage II", "Aura IV",
-                        "Vocal Attack: Increased Range I"]
+                        "Vocal Attack: Increased Resonance II", "Aura IV",
+                        "Vocal Attack: Sustain Effect"]
             elif "Priest" in self.title:
                 listOfPowers = [
                         "Heal I", "Detox I", "Heal II",
                         "Healing Magic: Increased Range I", "Heal III",
                         "Healing Magic: Reduced Cost I", "Heal IV",
-                        "Healing Magic: Additional Effect: Haste"]
+                        "Healing Magic: Additional Effect: Bonus Turn"]
             elif "Prophet" in self.title:
                 listOfPowers = [
-                        "Heal I", "Heal II", "Slow I",
-                        "Healing Magic: Additional Effect: Cleanse",
-                        "Heal III", "Aura I", "Heal IV", "Aura II"]
+                        "Heal I", "Heal II", "Slow I", "Heal III", "Aura I",
+                        "Healing Magic: Additional Effect: Cleanse", "Heal IV",
+                        "Aura II"]
             elif "Samurai" in self.title:
                 listOfPowers = [
-                        "Equip: Long Swords", "Increased Damage I",
-                        "Swords: Added Effect: Fire", "Defense: Melee I",
+                        "Equip: Swords", "Increased Damage I",
+                        "Swords: Fire Element", "Defense: Melee I",
                         "Swords: Increased Damage II", "Equip: Katanas"
                         "Swords: Increased Damage III",
                         "Swords: Increased Damage IV"]
             elif "Scholar" in self.title:
                 listOfPowers = [
-                        "Sleep I", "Magic: Cost Reduction I", "Muddle I",
-                        "Seal I", "Magic: All Spells +1 Rank",
+                        "Paralyze I", "Magic: Cost Reduction I", "Muddle I",
+                        "Silence I", "Magic: All Spells +1 Rank",
                         "Magic: Cost Reduction II",
                         "Magic: Effects Always Hit"]
             elif "Sky Battler" in self.title:
                 listOfPowers = [
-                        "Flying Movement", "Equip: Long Swords",
+                        "Flying Movement", "Equip: Swords",
                         "Luck: Counterattack", "Luck: Increased Dodge I",
                         "Swords: Increased Luck II",
                         "Luck: Increased Dodge II", "Movement: Ignore Enemies",
@@ -399,13 +443,14 @@ class playerCharacter(object):
                         "Charge", "Lances: Increased Damage I",
                         "Luck: Increased Dodge I", "Lances: Increased Luck I"
                         "Luck: Increased Dodge II",
-                        "Dodge: Added Effect: Movement I"]
+                        "Dodge: Add Movement I"]
             elif "Soldier" in self.title:
                 listOfPowers = [
-                        "Unarmed Attack: Increased Damage I", "Ninja Bolt I",
+                        "Unarmed Attack: Increased Damage I",
+                        "Equip: Brass Guns",
                         "Unarmed Attack: Increased Damage II",
-                        "Increased Defense", "Whirlwind Attack",
-                        "Attack: Lightning", "Luck: Counterattack",
+                        "Defense: Physical I", "Whirlwind Attack",
+                        "Attack: Lightning Element", "Luck: Counterattack",
                         "Unarmed Attack: Increased Damage III"]
             elif "Sorceror" in self.title:
                 listOfPowers = [
@@ -419,8 +464,10 @@ class playerCharacter(object):
                         "Defense: Reduced Critical Damage I",
                         "Defense: Weapons I",
                         "Defense: Reduced Critical Damage II",
-                        "Lances: Armor Penetration I", "Unhindered Movement",
-                        "Lances: Armor Penetration II", "Defense: Weapons II"]
+                        "Lances: Increased Critical Chance I",
+                        "Unhindered Movement",
+                        "Lances: Increased Critical Chance II",
+                        "Defense: Weapons II"]
             elif "Student" in self.title:
                 listOfPowers = ["Blaze I"]
             elif "Survivor" in self.title:
@@ -428,55 +475,52 @@ class playerCharacter(object):
                         "Defense: Magic I",
                         "Unarmed Attack: Increased Damage I",
                         "Luck: Increased Dodge I", "Flying Movement",
-                        "Defense: Magic II", "Unarmed Attack: Fire",
+                        "Defense: Magic II", "Unarmed Attack: Fire Element",
                         "Defense: Weapons I",
-                        "Critical Attack: Bolt III"]
-            elif "Thief" in self.title:
-                listOfPowers = [
-                        "Equip: Daggers", "Luck: Counterattack", "Luck: Steal",
-                        "Daggers: Range +1", "Stealthy Movement",
-                        "Ninja Fire I", "Ninja Bolt I", "Ninja Fire II"]
+                        "Critical Attack: Bolt III"]  # ??? Really?
             elif "Titan" in self.title:
                 listOfPowers = [
                         "Defense: Weapons I", "Defense: Fire I",
                         "Unarmed Attack: Increased Damage I",
                         "Defense: Reduced Critical Damage I",
-                        "Stunning Attack",
                         "Unarmed Attack: Increased Damage II",
+                        "Attack: Remove Target From Initiative",
                         "Defense: Fire II", "Critical: Added Effect: Muddle"]
             elif "Trickster" in self.title:
                 listOfPowers = [
                         "Teleport I", "Ninja Fire I", "Teleport II",
-                        "Ninja Bolt I", "Initiative: First Strike",
+                        "Ninja Bolt I", "Initiative: First Move",
                         "Portal I", "Teleport III", "Teleport: Add Turn"]
             elif "Troubadour" in self.title:
                 listOfPowers = [
                         "Equip: Arrows", "Vocal Attack: Increased Damage I",
-                        "Vocal Attack: Ignore Movement",
-                        "Vocal Attack: Add Effect: Sleep",
-                        "Luck: Increased Rout I", "Luck: Increased Rout II",
+                        "Vocal Attack: Ignore Movement", "Sonorous Voice",
+                        "Luck: Counterattack",
+                        "Vocal Attack: Increased Damage II",
+                        "Arrows: Support Counterattack",
                         "Arrows: Add Effect: Muddle"]
             elif "Valkyrie" in self.title:
                 listOfPowers = [
                         "Equip: Lances", "Defense: Melee Attacks I",
-                        "Vocal Attack: Increased Damage I",
+                        "Vocal Attack: Lost Health Adds Damage II",
                         "Luck: Increased Rout I",
                         "Defense: Melee Attacks II", "Vocal Attack: Heal Self",
-                        "Vocal Attack: Lost Health Adds Damage",
+                        "Vocal Attack: Lost Health Adds Damage II",
                         "Flying Movement"]
             elif "Warrior" in self.title:
                 listOfPowers = [
                         "Equip: Axes", "Defense: Melee Attacks I",
                         "Axes: Increased Damage I",
                         "Swords: Increased Luck I", "Whirlwind Attack",
-                        "Defense: Melee Attacks II", "Leap",
+                        "Defense: Melee Attacks II", "Rout: Follow-up Attack",
                         "Axes: Increased Damage I"]
             elif "Werewolf" in self.title:
                 listOfPowers = [
                         "Unarmed Attack: Increased Damage I",
-                        "Unarmed Attack: Increased Damage II", "Leap",
+                        "Unarmed Attack: Increased Damage II",
+                        "Rout: Follow-up Attack",
                         "Unarmed Attack: Increased Damage III",
-                        "Unarmed Attack: Ice",
+                        "Unarmed Attack: Ice Element",
                         "Unarmed Attack: Added Effect: Curse",
                         "Unarmed Attack: Increased Damage IV",
                         "Stealthy Movement"]
@@ -497,7 +541,8 @@ class playerCharacter(object):
                             if 'Command:' in knownPower]):
                         nameOfPower = 'Command: ' + nameOfPower
                     self.powers.append(nameOfPower)
-                    print(f"{self.name} learned {nameOfPower}!")
+                    if chatter:
+                        print(f"{self.name} learned {nameOfPower}!")
                     return
 
     def assignRace(self, race=None):
@@ -571,7 +616,7 @@ class playerCharacter(object):
                 self.title = "Troubadour"
         elif primeStat == "Dexterity":
             if secondStat == "Charisma":
-                self.title = "Thief"
+                self.title = "Ninja"
             elif secondStat == "Faith":
                 self.title = "Druid"
             elif secondStat == "Fame":
@@ -580,7 +625,7 @@ class playerCharacter(object):
                 else:
                     self.title = "Archer"
             elif secondStat == "Intelligence":
-                self.title = "Thief"
+                self.title = "Ninja"
             elif secondStat == "Luck":
                 self.title = "Bard"
             elif secondStat == "Speed":
@@ -838,10 +883,11 @@ class playerCharacter(object):
                 growthLevel += 1
         return growth
 
-    def levelUp(self, chatter):
+    def levelUp(self, chatter=True):
         if chatter:
             print('{} hit level {}!'.format(self.name, self.level + 1))
         preLevelStatIncreaseCount = self.statIncreaseCount
+        self.level += 1
         if self.statIncreaseCount != 0:
             bonus = self.level * 4 / self.statIncreaseCount
         else:
@@ -850,17 +896,15 @@ class playerCharacter(object):
             bonus = 0.55
         elif bonus > 2:
             bonus = 2
-
+        beforeDict = {}
+        afterDict = {}
         for statName, statValue in self.growth.items():
+            beforeDict[statName] = self.stats[statName]
             roll = random.randint(1, 10)
             result = math.floor(bonus * roll)
             if result >= statValue:
                 statIncrease = math.ceil(result / 10)
                 self.stats[statName] += statIncrease
-                if chatter:
-                    print("    {} became {}{}".format(
-                            statName, self.stats[statName],
-                            '!' * statIncrease))
                 self.statIncreaseCount += statIncrease
         while preLevelStatIncreaseCount == self.statIncreaseCount:
             for statName, statValue in self.growth.items():
@@ -868,25 +912,145 @@ class playerCharacter(object):
                 if result >= statValue:
                     statIncrease = math.ceil(result / 10)
                     self.stats[statName] += statIncrease
-                    if chatter:
-                        print("    {} became {}{}".format(
-                                statName, self.stats[statName],
-                                '!' * statIncrease))
                     self.statIncreaseCount += statIncrease
                     break
-        self.level += 1
         if chatter:
-            print("")
+            happy = False
+            if self.statIncreaseCount - preLevelStatIncreaseCount >= 4:
+                happy = True
+            for statName, statValue in self.growth.items():
+                afterDict[statName] = self.stats[statName]
+            fulfilled = 0
+            # Stamina
+            stamString = f"{'Stamina':<12} {beforeDict['Stamina']}"
+            stamString = f"{stamString:<16}"
+            if afterDict['Stamina'] > beforeDict['Stamina']:
+                if self.growth["Stamina"] == 5:
+                    fulfilled += 1
+                stamString += f" --> {afterDict['Stamina']}"
+            stamString = f"{stamString:<25}"
+            # Speed
+            spdString = f"{'Speed':<12} {beforeDict['Speed']}"
+            spdString = f"{spdString:<16}"
+            if afterDict['Speed'] > beforeDict['Speed']:
+                if self.growth["Speed"] == 5:
+                    fulfilled += 1
+                spdString += f" --> {afterDict['Speed']}"
+            spdString = f"{spdString:<25}"
+            # Strength
+            strString = f"{'Strength':<12} {beforeDict['Strength']}"
+            strString = f"{strString:<16}"
+            if afterDict['Strength'] > beforeDict['Strength']:
+                if self.growth["Strength"] == 5:
+                    fulfilled += 1
+                strString += f" --> {afterDict['Strength']}"
+            strString = f"{strString:<25}"
+            # Intelligence
+            intString = f"{'Intelligence':<12} {beforeDict['Intelligence']}"
+            intString = f"{intString:<16}"
+            if afterDict['Intelligence'] > beforeDict['Intelligence']:
+                if self.growth["Intelligence"] == 5:
+                    fulfilled += 1
+                intString += f" --> {afterDict['Intelligence']}"
+            intString = f"{intString:<25}"
+            # Dexterity
+            dexString = f"{'Dexterity':<12} {beforeDict['Dexterity']}"
+            dexString = f"{dexString:<16}"
+            if afterDict['Dexterity'] > beforeDict['Dexterity']:
+                if self.growth["Dexterity"] == 5:
+                    fulfilled += 1
+                dexString += f" --> {afterDict['Dexterity']}"
+            dexString = f"{dexString:<25}"
+            # Faith
+            faithString = f"{'Faith':<12} {beforeDict['Faith']}"
+            faithString = f"{faithString:<16}"
+            if afterDict['Faith'] > beforeDict['Faith']:
+                if self.growth["Faith"] == 5:
+                    fulfilled += 1
+                faithString += f" --> {afterDict['Faith']}"
+            faithString = f"{faithString:<25}"
+            # Charisma
+            chaString = f"{'Charisma':<12} {beforeDict['Charisma']}"
+            chaString = f"{chaString:<16}"
+            if afterDict['Charisma'] > beforeDict['Charisma']:
+                if self.growth["Charisma"] == 5:
+                    fulfilled += 1
+                chaString += f" --> {afterDict['Charisma']}"
+            chaString = f"{chaString:<25}"
+            # Voice
+            voiceString = f"{'Voice':<12} {beforeDict['Voice']}"
+            voiceString = f"{voiceString:<16}"
+            if afterDict['Voice'] > beforeDict['Voice']:
+                if self.growth["Voice"] == 5:
+                    fulfilled += 1
+                voiceString += f" --> {afterDict['Voice']}"
+            voiceString = f"{voiceString:<25}"
+            # Fame
+            fameString = f"{'Fame':<12} {beforeDict['Fame']}"
+            fameString = f"{fameString:<16}"
+            if afterDict['Fame'] > beforeDict['Fame']:
+                if self.growth["Fame"] == 5:
+                    fulfilled += 1
+                fameString += f" --> {afterDict['Fame']}"
+            fameString = f"{fameString:<25}"
+            # Luck
+            luckString = f"{'Luck':<12} {beforeDict['Luck']}"
+            luckString = f"{luckString:<16}"
+            if afterDict['Luck'] > beforeDict['Luck']:
+                if self.growth["Luck"] == 5:
+                    fulfilled += 1
+                luckString += f" --> {afterDict['Luck']}"
+            luckString = f"{luckString:<25}"
+            print(f"    {stamString}    {spdString}")
+            print(f"    {strString}    {intString}")
+            print(f"    {dexString}    {faithString}")
+            print(f"    {chaString}    {voiceString}")
+            print(f"    {fameString}    {luckString}")
+
         if self.level % 5 == 0:
-            if chatter:
-                print(f"It's time for {self.name}'s class review.")
+            beforeTitle = self.title
             self.assignTitle(chatter)
-            self.assignPower()
+            self.assignPower(chatter)
             self.updateGrowth()
             if chatter:
-                for statName, statValue in self.stats.items():
-                    print("    {} of {}".format(statName, statValue))
-                input()
+                print("")
+                if self.title != beforeTitle:
+                    print(
+                            f"{self.name}: \"I am excited to begin my new life as "
+                            f"a {self.title}!\"")
+                else:
+                    print(
+                            f"{self.name}: \"Another step on my chosen path as a "
+                            f"{self.title}!\"")
+        else:
+            if chatter:
+                if fulfilled == 2:
+                    if happy:
+                        print(
+                                f"{self.name}: \"Yes! I am the epitome of a "
+                                f"{self.title}!\"")
+                    else:
+                        print(
+                                f"{self.name}: \"Being a {self.title} is harder "
+                                "than I expected.\"")
+                elif fulfilled == 1:
+                    if happy:
+                        print(
+                                f"{self.name}: \"This will make me a stronger "
+                                f"{self.title}!\"")
+                    else:
+                        print(
+                                f"{self.name}: \"Being a {self.title} is harder than "
+                                "I expected.\"")
+                else:
+                    if happy:
+                        print(
+                                f"{self.name}: \"Wow! That really opened up some new "
+                                "perspectives!\"")
+                    else:
+                        print(
+                                f"{self.name}: \"Aww, maybe I'm not cut out to be a "
+                                f"{self.title}.\"")
 
     def maxFP(self):
         if self.equipment:
@@ -1045,7 +1209,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Kazin", "Elf", "Bolt Mage", chatter)
         party.append(recruit)
-        recruit = playerCharacter("Slade", "Wererat", "Thief", chatter)
+        recruit = playerCharacter("Slade", "Wererat", "Ninja", chatter)
         party.append(recruit)
         recruit = playerCharacter("Kiwi", "Tortoise", "Survivor", chatter)
         party.append(recruit)
