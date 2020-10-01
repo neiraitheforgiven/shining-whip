@@ -2274,11 +2274,11 @@ class battleField(object):
         print(moveString + ".")
 
     def viewMap(self, position):
-        minRange = max(0, position - 4)
+        minRange = max(0, position - 3)
         maxRange = minRange + 7
         if maxRange > len(self.terrainArray) - 1:
             maxRange = len(self.terrainArray) - 1
-            minRange = maxRange - 5
+            minRange = maxRange - 7
         tilesInRange = self.terrainArray[minRange:maxRange + 1]
         mapRow = ""
         for tile in tilesInRange:
@@ -2294,7 +2294,7 @@ class battleField(object):
                 mapAdd += "(Unholy)"
             mapRow += f"{mapAdd:24}"
         print(mapRow)
-        for i in range(5, -1, -1):
+        for i in range(11, -1, -1):
             mapRow = ""
             for tile in tilesInRange:
                 try:
