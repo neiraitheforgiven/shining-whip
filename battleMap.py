@@ -573,7 +573,7 @@ class battle(object):
             # target will be a position
             print(f"{unit.name} casts {spellName}!")
             field = self.battleField
-            for target in field.terrainArray[position].units:
+            for target in list(field.terrainArray[position].units):
                 if type(target) != type(unit):
                     damage = min(9, target.hp)
                     if self.getPower(target, "Defense: Magic"):
@@ -596,7 +596,7 @@ class battle(object):
             targets = [
                     target for target in tile.units
                     if type(unit) != type(target)]
-            for target in targets:
+            for target in list(targets):
                 if type(target) != type(unit):
                     damage = math.ceil(18 / len(targets))
                     if self.getPower(target, "Defense: Magic"):
@@ -618,7 +618,7 @@ class battle(object):
             targets = [
                     target for target in field.terrainArray[tile].units
                     if type(unit) != type(target)]
-            for target in targets:
+            for target in list(targets):
                 if type(target) != type(unit):
                     damage = math.ceil(40 / len(targets))
                     if self.getPower(target, "Defense: Magic"):
@@ -700,7 +700,7 @@ class battle(object):
         elif spellName == "Freeze II":
             unit.mp -= self.mpCost(unit, 7)
             targetTile = self.battleField.getUnitPos(unit)
-            for target in targetTile.units:
+            for target in list(targetTile.units):
                 if type(unit) != type(target):
                     print(f"{unit.name} casts {spellName} on {target.name}!")
                     damage = min(14, target.hp)
@@ -716,7 +716,7 @@ class battle(object):
         elif spellName == "Frezze III":
             unit.mp -= self.mpCost(unit, 10)
             targetTile = unit.allowedSpells[spellName][targetId]
-            for target in targetTile.units:
+            for target in list(targetTile.units):
                 if type(unit) != type(target):
                     print(f"{unit.name} casts {spellName} on {target.name}!")
                     damage = min(20, target.hp)
@@ -1321,7 +1321,7 @@ class battle(object):
         amount = amount + abs(tile.voicePower)
         damage = math.ceil(amount / 12)
         damage = max(damage, 1)
-        for target in tile.units:
+        for target in list(tile.units):
             if type(target) != type(unit):
                 attackTypeArray = []
                 attackTypeArray.extend(["normal"] * (100 - (luck)))
@@ -1398,6 +1398,7 @@ class battle(object):
         field.terrainArray[targetPosition].units.remove(target)
         if target in self.turnOrder:
             self.turnOrder.remove(target)
+        del target
         time.sleep(7. / 10)
         return
 
