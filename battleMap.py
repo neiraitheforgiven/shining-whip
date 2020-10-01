@@ -2155,10 +2155,10 @@ class battleField(object):
 
     def viewMap(self, position):
         minRange = max(0, position - 3)
-        maxRange = minRange + 6
+        maxRange = minRange + 7
         if maxRange > len(self.terrainArray) - 1:
             maxRange = len(self.terrainArray) - 1
-            minRange = maxRange - 5
+            minRange = maxRange - 7
         tilesInRange = self.terrainArray[minRange:maxRange + 1]
         mapRow = ""
         for tile in tilesInRange:
