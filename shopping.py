@@ -155,13 +155,13 @@ class shop(object):
 
         # Swords
         elif name == "Broadsword":
-            return potentialItem("Long Swords", name, 4800, 0, 0, 14, 0, 0)
+            return potentialItem("Swords", name, 4800, 0, 0, 14, 0, 0)
         elif name == "Doom Blade":
             return potentialItem("Katanas", name, 5000, 0, 0, 17, 0, 0)
         elif name == "Katana":
             return potentialItem("Katanas", name, 6000, 0, 0, 20, 0, 0)
         elif name == "Long Sword":
-            return potentialItem("Long Swords", name, 750, 0, 0, 8, 0, 0)
+            return potentialItem("Swords", name, 750, 0, 0, 8, 0, 0)
         elif name == "Middle Sword":
             return potentialItem("Swords", name, 250, 0, 0, 5, 0, 0)
         elif name == "Short Sword":
