@@ -1065,27 +1065,31 @@ class battle(object):
         for tile in self.battleField.terrainArray:
             if not tile.ringing:
                 tile.voicePower = math.floor(float(tile.voicePower / 2))
-            if tile.voicePower > 0:
-                tileId = self.battleField.terrainArray.index(tile)
+            if tile.voicePower != 0:
+                tileId = self.battleOnField.terrainArray.index(tile)
                 if tileId + 1 < len(self.battleField.terrainArray):
                     tile2 = self.battleField.terrainArray[tileId + 1]
                     if tile.voicePower > tile2.proposedGoodVoicePower and (
                             tile.voicePower > tile2.voicePower):
                         tile2.proposedGoodVoicePower = tile.voicePower
-            elif tile.voicePower < 0:
-                tileId = self.battleField.terrainArray.index(tile)
+                    if tile.voicePower < tile2.proposedEvilVoicePower and (
+                            tile.voicePower < tile2.voicePower):
+                        tile2.proposedEvilVoicePower = tile.voicePower
                 if tileId - 1 >= 0:
-                    tile2 = self.battleField.terrainArray[tileId - 1]
+                    tile2 = self.battleField.terrainArray[tileId + 1]
+                    if tile.voicePower > tile2.proposedGoodVoicePower and (
+                            tile.voicePower > tile2.voicePower):
+                        tile2.proposedGoodVoicePower = tile.voicePower
                     if tile.voicePower < tile2.proposedEvilVoicePower and (
                             tile.voicePower < tile2.voicePower):
                         tile2.proposedEvilVoicePower = tile.voicePower
         for tile in self.battleField.terrainArray:
             proposedVoicePower = (
                     tile.proposedGoodVoicePower + tile.proposedEvilVoicePower)
-            if proposedVoicePower != 0:
+            if proposedVoicePower != tile.resonance:
                 tile.voicePower = proposedVoicePower
-                tile.proposedGoodVoicePower = 0
-                tile.proposedEvilVoicePower = 0
+                tile.proposedGoodVoicePower = tile.resonance
+                tile.proposedEvilVoicePower = tile.resonance
             tile.ringing = False
 
     def doTurn(self, unit, moved=False, statusChecked=False):
