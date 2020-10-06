@@ -182,7 +182,26 @@ class battle(object):
                                 (monster("Dark Apprentice"), 12),
                                 (monster("Dark Apprentice"), 12),
                                 (monster("Skeleton Warrior"), 12)],
-                                self.party, game)
+                                party, game)
+            elif num == 7:
+                self.battleField = battleField([
+                        "Sand", "Sand", "Sand", "Upward Stair", "Upward Stair",
+                        "Tiled Floor", "Tiled Floor", "Tiled Floor",
+                        "Tiled Floor", "Tiled Floor", "Tiled Floor"],
+                        [(monster(
+                                "Body Puppet"), 3),
+                                (monster("Body Puppet"), 4),
+                                (monster("Mannequin"), 4),
+                                (monster("Body Puppet"), 7),
+                                (monster("Mannequin"), 7),
+                                (monster("Mannequin"), 7),
+                                (monster("Giant Bat", "SlowAdvance"), 8),
+                                (monster("Giant Bat", "SlowAdvance"), 9),
+                                (monster("Giant Bat", "SlowAdvance"), 10),
+                                (monster("Deranged Clown"), 8),
+                                (monster("Deranged Clown"), 8),
+                                (monster("Marionette"), 10)],
+                                party, game, -10)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
@@ -413,6 +432,18 @@ class battle(object):
                 damage = max(damage, 1)
                 damage = min(damage, target.hp)
                 print(f"{unit.name} deals {damage} damage to {target.name}!")
+                if attackType == 'critical':
+                    if self.getPower(
+                            unit, "Luck: Critical Drain I") or (
+                            self.getPower(unit, "Luck: Critical Drain II")):
+                        if self.getPower(unit, "Luck: Critical Drain II"):
+                            heal = min(math.ceil(damage * 0.6), unit.maxHP())
+                        else:
+                            heal = min(math.ceil(damage * 0.3), unit.maxHP())
+                        print(
+                                f"{unit.name} drained {heal} health during "
+                                "the attack!")
+                        unit.hp += heal
                 target.hp -= damage
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
@@ -880,7 +911,49 @@ class battle(object):
         elif monster.attackProfile == "Spellcaster":
             canCast = False
             field = self.battleField
-            if self.getPower(monster, "Blaze II"):
+            if self.getPower(monster, "Freeze III"):
+                if monster.mp >= self.mpCost(monster, 10):
+                    canCast = True
+                    position = field.getUnitPos(monster)
+                    minRange = max(0, position - 1)
+                    maxRange = min(position + 1, len(field.terrainArray) - 1)
+                    targetTile = None
+                    numTargets = 0
+                    for tile in field.terrainArray[minRange:(maxRange + 1)]:
+                        targets = [
+                                unit for unit in tile.units
+                                if type(unit) != type(monster)]
+                        if len(targets) > numTargets:
+                            targetTile = tile
+                            numTargets = len(targets)
+                    if targetTile:
+                        targetPosition = field.terrainArray.index(targetTile)
+                        monster.allowedSpells["Freeze III"] = [targetPosition]
+                        self.castSpell(monster, "Freeze III", 0)
+            elif self.getPower(monster, "Freeze II"):
+                if monster.mp >= self.mpCost(monster, 7):
+                    canCast = True
+                    position = field.getUnitPos(monster)
+                    tile = field.terrainArray[position]
+                    numTargets = 0
+                    if any([unit for unit in tile.units
+                            if type(unit) != type(monster)]):
+                        monster.allowedSpells["Freeze II"] = [position]
+                        self.castSpell(monster, "Freeze II", 0)
+            elif self.getPower(monster, "Freeze I"):
+                if monster.mp >= self.mpCost(monster, 3):
+                    canCast = True
+                    position = field.getUnitPos(monster)
+                    tile = field.terrainArray[position]
+                    targets = [
+                            target for target in tile.units
+                            if type(target) != type(monster)]
+                    candidates = [
+                            target for target in targets
+                            if target.hp == min(unit.hp for unit in targets)]
+                    target = random.choice(candidates)
+                    self.castSpell(monster, "Freeze I", target)
+            elif self.getPower(monster, "Blaze II"):
                 if monster.mp >= self.mpCost(monster, 6):
                     canCast = True
                     position = field.getUnitPos(monster)
@@ -1423,6 +1496,7 @@ class battleTile(object):
         self.proposedGoodVoicePower = 0
         self.proposedEvilVoicePower = 0
         self.voicePower = 0
+
         # Assign cost
         if self.name in ("Bridge", "Path", "Tiled Floor"):
             self.cost = 5
@@ -1458,13 +1532,14 @@ class battleTile(object):
 
 class battleField(object):
 
-    def __init__(self, listOfTiles, listOfUnits, party, game):
-        self.elevation = 20
+    def __init__(self, listOfTiles, listOfUnits, party, game, resonance=0):
         self.game = game
         self.terrainArray = []
         self.units = []
         for tile in listOfTiles:
-            self.terrainArray.append(battleTile(tile, self))
+            self.terrainArray.append(battleTile(tile))
+        for tile in self.terrainArray:
+            tile.voicePower = resonance
         for unit, position in listOfUnits:
             tile = self.terrainArray[position]
             tileUnits = tile.units
@@ -2044,6 +2119,15 @@ class battleField(object):
                     return False
             self.move(monster, moveTo)
             return True
+        elif monster.moveProfile == "Random":
+            if monster.hp < monster.maxHP():
+                monster.moveProfile = "Aggressive"
+                moved = self.doMonsterMove(monster, position)
+                return moved
+            else:
+                moveTo = random.choice(monster.allowedMovement)
+                self.move(monster, moveTo)
+                return True
         elif monster.moveProfile == "Retreat-Defensive":
             if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
