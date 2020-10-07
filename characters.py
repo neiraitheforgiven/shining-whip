@@ -25,7 +25,20 @@ class monster(object):
         self.attackProfile = attackProfile
         self.equipment = None
         self.status = None
-        if name == "Crazed Dwarf":
+        if name == "Body Puppet":
+            self.level = 7
+            stats = {
+                    "Strength": 10, "Stamina": 7, "Dexterity": 7, "Speed": 5,
+                    "Intelligence": 15}
+            self.setStats(8, **stats)
+            self.moveProfile = moveProfile or "Random"
+            self.attackProfile = attackProfile or "Spellcaster"
+            self.powers.append("Poisonous Attack")
+            self.powers.append("Freeze I")
+            self.powers.append("Unarmed Attack: Increased Damage I")
+            self.powers.append("Luck: Critical Drain I")
+            self.powers.append("Luck: Counterattack")
+        elif name == "Crazed Dwarf":
             self.level = 3
             stats = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
             self.setStats(5, **stats)
@@ -45,6 +58,14 @@ class monster(object):
                     "Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Apprc"
+        elif name == "Deranged Clown":
+            self.level = 7
+            stats = {"Stamina": 8, "Strength": 11, "Dexterity": 11, "Luck": 10}
+            self.setStats(10, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Random"
+            self.equipment = equipment("Daggers", "Knife", 500, 0, 0, 8, 0, 0)
+            self.shortName = "Clown"
         elif name == "Giant Bat":
             self.level = 5
             stats = {
@@ -66,6 +87,26 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment(
                     "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
+        elif name == "Mannequin":
+            self.level = 6
+            stats = {"Strength": 10, "Stamina": 8, "Speed": 5}
+            self.setStats(7, **stats)
+            self.moveProfile = moveProfile or "SlowAdvance"
+            self.attackProfile = attackProfile or "Random"
+            self.powers.append("Poisonous Attack")
+            self.powers.append("Unarmed Attack: Increased Damage I")
+            self.powers.append("Unarmed Attack: Increased Damage II")
+        elif name == "Marionnette":
+            self.level = 10
+            stats = {
+                    "Stamina": 17, "Intelligence": 25, "Strength": 13,
+                    "Dexterity": 13, "Speed": 6}
+            self.setStats(12, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Spellcaster"
+            self.powers.append("Freeze III")
+            self.powers.append("Magic: Cost Reduction I")
+            self.shortName="Marion"
         elif name == "Skeleton Warrior":
             self.level = 9
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
@@ -103,7 +144,7 @@ class monster(object):
             self.setStats(6, **stats)
             self.moveProfile = moveProfile or "SlowAdvance"
             self.attackProfile = attackProfile or "Random"
-            self.powers.append("Unarmed Attack: Increased Damage")
+            self.powers.append("Unarmed Attack: Increased Damage I")
             self.powers.append("Poisonous Attack")
             self.powers.append("Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
