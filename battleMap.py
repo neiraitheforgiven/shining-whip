@@ -1064,7 +1064,8 @@ class battle(object):
             unit.actedThisRound = False
         for tile in self.battleField.terrainArray:
             if not tile.ringing:
-                tile.voicePower = math.floor(float(tile.voicePower / 2))
+                tile.voicePower = math.floor(
+                        float(tile.voicePower + tile.resonance / 2))
             if tile.voicePower != 0:
                 tileId = self.battleOnField.terrainArray.index(tile)
                 if tileId + 1 < len(self.battleField.terrainArray):
@@ -1541,7 +1542,7 @@ class battleField(object):
         self.terrainArray = []
         self.units = []
         for tile in listOfTiles:
-            self.terrainArray.append(battleTile(tile))
+            self.terrainArray.append(battleTile(tile, self))
         for tile in self.terrainArray:
             tile.voicePower = resonance
         for unit, position in listOfUnits:
