@@ -25,6 +25,7 @@ class monster(object):
         self.attackProfile = attackProfile
         self.equipment = None
         self.status = None
+        self.boss = False
         if name == "Body Puppet":
             self.level = 7
             stats = {
@@ -98,6 +99,7 @@ class monster(object):
             self.powers.append("Unarmed Attack: Increased Damage II")
         elif name == "Marionnette":
             self.level = 10
+            self.boss = True
             stats = {
                     "Stamina": 17, "Intelligence": 25, "Strength": 13,
                     "Dexterity": 13, "Speed": 6}
