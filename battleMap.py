@@ -1388,6 +1388,7 @@ class battle(object):
                 print("You are victorious!")
                 self.gameStatus = 'victory'
             else:
+                self.party[0].stats["Fame"] += 1
                 print(
                         f"The monstrous {target.name} finally falls. You are "
                         "victorious!")
