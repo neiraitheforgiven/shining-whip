@@ -38,6 +38,7 @@ class monster(object):
             self.powers.append("Poisonous Attack")
             self.powers.append("Freeze I")
             self.powers.append("Unarmed Attack: Increased Damage I")
+            self.powers.append("Unarmed Attack: Increased Damage II")
             self.powers.append("Luck: Critical Drain I")
             self.powers.append("Luck: Counterattack")
         elif name == "Crazed Dwarf":
@@ -109,7 +110,7 @@ class monster(object):
             self.attackProfile = attackProfile or "Spellcaster"
             self.powers.append("Freeze III")
             self.powers.append("Magic: Cost Reduction I")
-            self.shortName="Marion"
+            self.shortName = "Marion"
         elif name == "Skeleton Warrior":
             self.level = 9
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
