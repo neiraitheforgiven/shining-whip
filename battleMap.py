@@ -1066,7 +1066,7 @@ class battle(object):
             if not tile.ringing:
                 tile.voicePower = math.floor(
                         float(tile.voicePower + tile.resonance / 2))
-            if tile.voicePower != 0:
+            if tile.voicePower != tile.resonance:
                 tileId = self.battleOnField.terrainArray.index(tile)
                 if tileId + 1 < len(self.battleField.terrainArray):
                     tile2 = self.battleField.terrainArray[tileId + 1]
@@ -1089,8 +1089,8 @@ class battle(object):
                     tile.proposedGoodVoicePower + tile.proposedEvilVoicePower)
             if proposedVoicePower != tile.resonance:
                 tile.voicePower = proposedVoicePower
-                tile.proposedGoodVoicePower = tile.resonance
-                tile.proposedEvilVoicePower = tile.resonance
+                tile.proposedGoodVoicePower = 0
+                tile.proposedEvilVoicePower = 0
             tile.ringing = False
 
     def doTurn(self, unit, moved=False, statusChecked=False):
@@ -1501,6 +1501,7 @@ class battleTile(object):
         self.proposedGoodVoicePower = 0
         self.proposedEvilVoicePower = 0
         self.voicePower = 0
+        self.resonance = self.voicePower
 
         # Assign cost
         if self.name in ("Bridge", "Path", "Tiled Floor"):
