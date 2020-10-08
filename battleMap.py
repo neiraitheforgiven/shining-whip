@@ -1946,17 +1946,19 @@ class battleField(object):
                 return False
             # move as far forward as possible to tiles with enemies
             candidates = []
-            for position in monster.allowedMovement:
+            for candidate in monster.allowedMovement:
                 if any([
-                        unit for unit in self.terrainArray[position].units
+                        unit for unit in self.terrainArray[candidate].units
                         if type(unit) == playerCharacter]):
-                    candidates.append(position)
+                    candidates.append(candidate)
             if candidates:
                 moveTo = min(candidates)
                 monster.moveProfile == "Aggressive"
             else:
-                # move as far forward as possible
-                moveTo = min(monster.allowedMovement)
+                # move as little forward as possible
+                moveTo = max([
+                        candidate for candidate in monster.allowedMovement
+                        if candidate < position])
             self.move(monster, moveTo)
             return True
         elif monster.moveProfile == "Sniper":
