@@ -2709,8 +2709,35 @@ class game(object):
                 "You'd better remember to equip the Sword for battle, if you "
                 "can.")
         swordOfTruth = equipment(
-                "Sacred Swords", name, 7200, 0, 0, 10, 0, 8, ["Bolt I"])
-
+                "Sacred Swords", "Sword of Truth", 7200, 0, 0, 10, 0, 8,
+                ["Bolt I"])
+        self.inventory.append(swordOfTruth)
+        print(
+                "When you leave the cave, blinking in the sunlight over "
+                "you notice a sinister sight on the outskirts of Malanar.")
+        print(
+                "Where once stood a pavilion for a traveling circus, instead "
+                "stands a dark altar. Evil emanates from it, and lifeless "
+                "bodies shuffle around it.")
+        print(
+                'Anri gasps. "The power of the Sword! It has dispelled an '
+                "illusion! This must be Darksol\'s handiwork -- and here in "
+                'the Holy City!"')
+        print("You steel yourself for a grueling battle. By going shopping.")
+        shop2.goShopping(self)
+        print(
+                "Gritting your teeth, you rally the Force and head to the "
+                "altar. What dark trials await?")
+        self.party = self.playerCharacters
+        self.battleStatus = None
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(15, 'the royal coffers')
+                shop2.goShopping(self)
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'the royal coffers')
+                shop2.goShopping(self)
+            battle(self, self.party, 7)
 
     def equipItem(self, equipment):
         allowedUnits = [
