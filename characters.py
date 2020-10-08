@@ -32,6 +32,7 @@ class monster(object):
                     "Strength": 10, "Stamina": 7, "Dexterity": 7, "Speed": 5,
                     "Intelligence": 15}
             self.setStats(8, **stats)
+            self.shortName = "Puppet"
             self.moveProfile = moveProfile or "Random"
             self.attackProfile = attackProfile or "Spellcaster"
             self.powers.append("Poisonous Attack")
@@ -97,7 +98,7 @@ class monster(object):
             self.powers.append("Poisonous Attack")
             self.powers.append("Unarmed Attack: Increased Damage I")
             self.powers.append("Unarmed Attack: Increased Damage II")
-        elif name == "Marionnette":
+        elif name == "Marionette":
             self.level = 10
             self.boss = True
             stats = {
