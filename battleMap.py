@@ -447,15 +447,7 @@ class battle(object):
                 target.hp -= damage
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
-                    print(f"{target.name} dies!")
-                    field = self.battleField
-                    targetPosition = field.getUnitPos(target)
-                    field.terrainArray[targetPosition].units.remove(target)
-                    if target in self.turnOrder:
-                        self.turnOrder.remove(target)
-                    del target
-                    time.sleep(7. / 10)
-                    return
+                    self.kill(target, unit)
                 elif attackType == "counter":
                     counterattack = True
                 elif attackType == "poison":
@@ -597,7 +589,7 @@ class battle(object):
             target.hp -= damage
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
-                self.kill(target)
+                self.kill(target, unit)
         elif spellName == "Blaze II":
             unit.mp -= self.mpCost(unit, 6)
             position = unit.allowedSpells[spellName][targetId]
@@ -639,7 +631,7 @@ class battle(object):
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
-                        self.kill(target)
+                        self.kill(target, unit)
         elif spellName == "Dao II":
             unit.mp -= self.mpCost(unit, 15)
             tile = unit.allowedSpells[spellName][targetId]
@@ -661,7 +653,7 @@ class battle(object):
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
-                        self.kill(target)
+                        self.kill(target, unit)
             # remember that Defense: Dark Magic I and II are a thing.
         elif spellName == "Detox I":
             unit.mp -= self.mpCost(unit, 3)
@@ -680,7 +672,7 @@ class battle(object):
             unit.hp = min(unit.hp + damage, unit.maxHP())
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
-                self.kill(target)
+                self.kill(target, unit)
         elif spellName == "Drain II":
             unit.mp -= self.mpCost(unit, 12)
             target = unit.allowedSpells[spellName][targetId]
@@ -699,7 +691,7 @@ class battle(object):
             unit.hp = min(unit.hp + damage, unit.maxHP())
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
-                self.kill(target)
+                self.kill(target, unit)
         elif spellName == "Egress I":
             unit.mp -= self.mpCost(unit, 8)
             print(f"{unit.name} casts {spellName}!")
@@ -727,7 +719,7 @@ class battle(object):
             target.hp -= damage
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
-                self.kill(target)
+                self.kill(target, unit)
         elif spellName == "Freeze II":
             unit.mp -= self.mpCost(unit, 7)
             targetTile = self.battleField.getUnitPos(unit)
@@ -743,7 +735,7 @@ class battle(object):
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
-                        self.kill(target)
+                        self.kill(target, unit)
         elif spellName == "Frezze III":
             unit.mp -= self.mpCost(unit, 10)
             targetTile = unit.allowedSpells[spellName][targetId]
@@ -759,7 +751,7 @@ class battle(object):
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
-                        self.kill(target)
+                        self.kill(target, unit)
         elif spellName == "Freeze IV":
             unit.mp -= self.mpCost(unit, 12)
             target = unit.allowedSpells[spellName][targetId]
@@ -771,7 +763,7 @@ class battle(object):
             target.hp -= damage
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
-                self.kill(target)
+                self.kill(target, unit)
         elif spellName == "Heal I":
             unit.fp -= 3
             target = unit.allowedSpells[spellName][targetId]
@@ -1134,15 +1126,7 @@ class battle(object):
                 unit.hp -= damage
                 print(f"{unit.name} takes {damage} damage from the poison.")
                 if unit.hp <= 0:
-                    print(f"{unit.name} dies!")
-                    field = self.battleField
-                    unitPosition = field.getUnitPos(unit)
-                    field.terrainArray[unitPosition].units.remove(unit)
-                    if unit in self.turnOrder:
-                        self.turnOrder.remove(unit)
-                    del unit
-                    time.sleep(7. / 10)
-                    return
+                    self.kill(unit)
             statusChecked = True
         position = self.battleField.getUnitPos(unit)
         tile = self.battleField.terrainArray[position]
@@ -1415,13 +1399,7 @@ class battle(object):
                 target.hp -= damage
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
-                    print(f"{target.name} dies!")
-                    field = self.battleField
-                    targetPosition = field.getUnitPos(target)
-                    field.terrainArray[targetPosition].units.remove(target)
-                    if target in self.turnOrder:
-                        self.turnOrder.remove(target)
-                    time.sleep(7. / 10)
+                    self.kill(target, unit)
                 elif attackType == "routing":
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
