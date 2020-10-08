@@ -945,6 +945,7 @@ class battle(object):
                             target for target in targets
                             if target.hp == min(unit.hp for unit in targets)]
                     target = random.choice(candidates)
+                    monster.allowedSpells["Freeze I"] = [target]
                     self.castSpell(monster, "Freeze I", target)
             elif self.getPower(monster, "Blaze II"):
                 if monster.mp >= self.mpCost(monster, 6):

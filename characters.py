@@ -13,7 +13,7 @@ class monster(object):
         self.mp = 0
         self.movementPoints = 0
         self.name = name
-        self.shortName = name[:7]
+        self.shortName = name[:9]
         self.allowedMovement = []
         self.allowedAttacks = []
         self.allowedEquipment = []
