@@ -448,6 +448,7 @@ class battle(object):
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
                     self.kill(target, unit)
+                        break
                 elif attackType == "counter":
                     counterattack = True
                 elif attackType == "poison":
