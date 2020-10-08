@@ -2144,14 +2144,17 @@ class game(object):
     def getSellPrice(self, item):
         equipString = f"Equip: {item.type}"
         blame = None
-        fame = max([
-                pc.stats["Fame"] for pc in self.playerCharacters
-                if equipString in pc.powers])
-        if fame > 15:
-            blame = [
-                    pc.name for pc in self.playerCharacters
-                    if equipString in
-                    pc.powers and pc.stats["Fame"] == fame][0]
+        equipable = [
+                pc for pc in self.playerCharacters if equipString in pc.powers]
+        if equipable:
+            fame = max([pc.stats["Fame"] for pc in equipable])
+            if fame > 15:
+                blame = [
+                        pc.name for pc in self.playerCharacters
+                        if equipString in
+                        pc.powers and pc.stats["Fame"] == fame][0]
+        else:
+            fame = 0
         amount = math.floor(item.price * (0.1 + (fame / 100)))
         return amount, blame
 
