@@ -319,6 +319,7 @@ class battle(object):
                     del target
                     time.sleep(7. / 10)
                     return
+                    return
                 elif attackType == "counter":
                     counterattack = True
                 elif attackType == "poison":
