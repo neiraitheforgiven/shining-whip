@@ -1077,7 +1077,7 @@ class battle(object):
                             tile.voicePower < tile2.voicePower):
                         tile2.proposedEvilVoicePower = tile.voicePower
                 if tileId - 1 >= 0:
-                    tile2 = self.battleField.terrainArray[tileId + 1]
+                    tile2 = self.battleField.terrainArray[tileId - 1]
                     if tile.voicePower > tile2.proposedGoodVoicePower and (
                             tile.voicePower > tile2.voicePower):
                         tile2.proposedGoodVoicePower = tile.voicePower
