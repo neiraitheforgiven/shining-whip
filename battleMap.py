@@ -1371,13 +1371,27 @@ class battle(object):
             unit.xp -= 100
             unit.levelUp(True)
 
-    def kill(self, target):
+    def kill(self, target, killer=None):
         print(f"{target.name} dies!")
         field = self.battleField
         targetPosition = field.getUnitPos(target)
         field.terrainArray[targetPosition].units.remove(target)
         if target in self.turnOrder:
             self.turnOrder.remove(target)
+        if target.boss:
+            if killer:
+                killer.stats["Fame"] += 1
+                print(
+                        f"The wicked {target.name} finally falls, slain "
+                        f"by {killer.name}. {killer.name}'s name quickly "
+                        "becomes a favorite tale of skalds and minstrels. ")
+                print("You are victorious!")
+                self.gameStatus = 'victory'
+            else:
+                print(
+                        f"The monstrous {target.name} finally falls. You are "
+                        "victorious!")
+                self.gameStatus = 'victory'
         del target
         time.sleep(7. / 10)
         return
