@@ -1067,7 +1067,7 @@ class battle(object):
                 tile.voicePower = math.floor(
                         float(tile.voicePower + tile.resonance / 2))
             if tile.voicePower != tile.resonance:
-                tileId = self.battleOnField.terrainArray.index(tile)
+                tileId = self.battleField.terrainArray.index(tile)
                 if tileId + 1 < len(self.battleField.terrainArray):
                     tile2 = self.battleField.terrainArray[tileId + 1]
                     if tile.voicePower > tile2.proposedGoodVoicePower and (
