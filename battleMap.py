@@ -2575,6 +2575,21 @@ class game(object):
                 self.reckoning(0, 'the royal coffers')
                 shop2.goShopping(self)
             battle(self, self.party, 6)
+        print("")
+        print(
+                "After slaying the evil Skeleton, you find the sword buried "
+                "in a sacred stone altar.")
+        print('"It\'s the Sword of Truth." says Anri.')
+        print(
+                '"It\'s sacred because it give the wielder the power to see '
+                'through falsehoods and illusions."')
+        print("You nod, gripping the Sword as you head up to the surface.")
+        print(
+                "You'd better remember to equip the Sword for battle, if you "
+                "can.")
+        swordOfTruth = equipment(
+                "Sacred Swords", name, 7200, 0, 0, 10, 0, 8, ["Bolt I"])
+
 
     def equipItem(self, equipment):
         allowedUnits = [
