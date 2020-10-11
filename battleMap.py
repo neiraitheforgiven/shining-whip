@@ -1362,7 +1362,7 @@ class battle(object):
         field.terrainArray[targetPosition].units.remove(target)
         if target in self.turnOrder:
             self.turnOrder.remove(target)
-        if target.boss:
+        if type(target) == monster and target.boss:
             if killer:
                 killer.stats["Fame"] += 1
                 print(
