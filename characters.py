@@ -92,7 +92,7 @@ class monster(object):
                     "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
         elif name == "Mannequin":
             self.level = 6
-            stats = {"Strength": 10, "Stamina": 8, "Speed": 5}
+            stats = {"Strength": 14, "Stamina": 8, "Speed": 5}
             self.setStats(7, **stats)
             self.moveProfile = moveProfile or "SlowAdvance"
             self.attackProfile = attackProfile or "Random"

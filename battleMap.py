@@ -902,10 +902,13 @@ class battle(object):
                     target = random.choice(monster.allowedAttacks)
                     self.attack(monster, target)
         elif monster.attackProfile == "Spellcaster":
+            print(f"debug: checking spellcasting for {monster.name}")
             canCast = False
             field = self.battleField
             if self.getPower(monster, "Freeze III"):
+                print(f"debug: {monster.name} has Freeze III")
                 if monster.mp >= self.mpCost(monster, 10):
+                    print(f"debug: {monster.name} has the MP")
                     canCast = True
                     position = field.getUnitPos(monster)
                     minRange = max(0, position - 1)
@@ -919,6 +922,7 @@ class battle(object):
                         if len(targets) > numTargets:
                             targetTile = tile
                             numTargets = len(targets)
+                    print(f"debug: {len(targets)} targets")
                     if targetTile:
                         targetPosition = field.terrainArray.index(targetTile)
                         monster.allowedSpells["Freeze III"] = [targetPosition]
@@ -967,6 +971,7 @@ class battle(object):
                         monster.allowedSpells["Blaze II"] = [targetPosition]
                         self.castSpell(monster, "Blaze II", 0)
             if not canCast:
+                print(f"debug: {monster.name} has no MP")
                 monster.attackProfile = "Random"
         elif monster.attackProfile == "Weakest":
             candidates = [
@@ -2291,7 +2296,7 @@ class battleField(object):
             fromDamage *= 1.3
         if self.getPower(unit, f"{fromType}: Increased Damage III"):
             fromDamage *= 1.3
-        if self.getPower(unit, f"{fromType}: Increased Damage II"):
+        if self.getPower(unit, f"{fromType}: Increased Damage IV"):
             fromDamage *= 1.3
         if equipment:
             toDamage = equipment.damage + unitDamage
@@ -2309,7 +2314,7 @@ class battleField(object):
             toDamage *= 1.3
         if self.getPower(unit, f"{toType}: Increased Damage III"):
             toDamage *= 1.3
-        if self.getPower(unit, f"{toType}: Increased Damage II"):
+        if self.getPower(unit, f"{toType}: Increased Damage IV"):
             toDamage *= 1.3
         if fromDamage != toDamage:
             valueString += f"Damage: {fromDamage}-->{toDamage}  "
