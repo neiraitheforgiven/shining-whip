@@ -1162,18 +1162,18 @@ class battleField(object):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
         if self.getPower(unit, "Aura I") and unit.mp >= self.mpCost(unit, 7):
-            targets = []
-            minRange = max(0, (position - 2))
-            maxRange = min((position + 2), len(self.terrainArray) - 1)
+            targetTiles = []
+            minRange = max(0, (position - 1))
+            maxRange = min((position + 1), len(self.terrainArray) - 1)
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
                 tileTargets = [
                     target for target in tile.units
-                    if type(target) == type(unit) and target.hp < (
-                            target.maxHP())]
+                    if type(target) == type(unit) and (
+                            target.hp < target.maxHP())]
                 if any(tileTargets):
-                    targets.extend(tile)
-            if any(targets):
-                unit.allowedSpells["Aura I"] = targets
+                    targetTiles.append(tile)
+            if any(targetTiles):
+                unit.allowedSpells["Aura I"] = targetTiles
         if self.getPower(unit, "Aura II") and unit.mp >= self.mpCost(unit, 11):
             targets = []
             minRange = max(0, (position - 2))
