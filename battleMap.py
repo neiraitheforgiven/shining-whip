@@ -743,7 +743,7 @@ class battle(object):
             # target will be a position
             print(f"{unit.name} casts {spellName}!")
             field = self.battleField
-            for target in field.terrainArray[position].units:
+            for target in list(field.terrainArray[position].units):
                 if type(target) != type(unit):
                     damage = min(20, target.hp)
                     if self.getPower(target, "Defense: Magic") or (
