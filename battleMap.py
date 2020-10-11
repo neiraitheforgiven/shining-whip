@@ -746,10 +746,10 @@ class battle(object):
             for target in list(field.terrainArray[position].units):
                 if type(target) != type(unit):
                     damage = min(20, target.hp)
-                    if self.getPower(target, "Defense: Magic") or (
-                            self.getPower(
-                            target, "Defense: Ice Vulnerability")):
+                    if self.getPower(target, "Defense: Magic"):
                         damage = min(17, target.hp)
+                    elif self.getPower(target, "Defense: Ice Vulnerability"):
+                        damage = min(24, target.hp)
                     print(
                             f"{unit.name} deals {damage} damage to "
                             f"{target.name}!")
@@ -906,13 +906,10 @@ class battle(object):
                     target = random.choice(monster.allowedAttacks)
                     self.attack(monster, target)
         elif monster.attackProfile == "Spellcaster":
-            print(f"debug: checking spellcasting for {monster.name}")
             canCast = False
             field = self.battleField
             if self.getPower(monster, "Freeze III"):
-                print(f"debug: {monster.name} has Freeze III")
                 if monster.mp >= self.mpCost(monster, 10):
-                    print(f"debug: {monster.name} has the MP")
                     canCast = True
                     position = field.getUnitPos(monster)
                     minRange = max(0, position - 1)
@@ -920,16 +917,12 @@ class battle(object):
                     targetTile = None
                     numTargets = 0
                     for tile in field.terrainArray[minRange:(maxRange + 1)]:
-                        print(
-                                f"debug: evaluating tile "
-                                f"{field.terrainArray.index(tile)}")
                         targets = [
                                 unit for unit in tile.units
                                 if type(unit) != type(monster)]
                         if len(targets) > numTargets:
                             targetTile = tile
                             numTargets = len(targets)
-                    print(f"debug: {len(targets)} targets")
                     if targetTile:
                         targetPosition = field.terrainArray.index(targetTile)
                         monster.allowedSpells["Freeze III"] = [targetPosition]
@@ -978,7 +971,6 @@ class battle(object):
                         monster.allowedSpells["Blaze II"] = [targetPosition]
                         self.castSpell(monster, "Blaze II", 0)
             if not canCast:
-                print(f"debug: {monster.name} has no MP")
                 monster.attackProfile = "Random"
         elif monster.attackProfile == "Weakest":
             candidates = [
