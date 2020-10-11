@@ -1576,6 +1576,12 @@ class battleField(object):
         else:
             minRange = 0
             maxRange = 0
+        # we need to check for spells if the caster is a monster
+        if type(unit) == monster:
+            if self.getPower(unit, "Blaze II") or (
+                    self.getPower(unit, "Freeze III")):
+                minRange = 0
+                maxRange = 1
         if minRange == 0 and maxRange == 0:
             unit.allowedAttacks = [
                     target for target in currentTile.units
@@ -2005,7 +2011,6 @@ class battleField(object):
                     for unit in self.terrainArray[position].units:
                         if type(unit) == playerCharacter:
                             candidates.append(position)
-                            break
                 if candidates:
                     moveTo = max(candidates)
                 else:
