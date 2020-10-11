@@ -2175,11 +2175,16 @@ class battleField(object):
                 monster.moveProfile == "Aggressive"
             else:
                 # move as little forward as possible
-                moveTo = max([
+                candidates = [
                         candidate for candidate in monster.allowedMovement
-                        if candidate < position])
-            self.move(monster, moveTo)
-            return True
+                        if candidate < position]
+                if candidates:
+                    moveTo = max(candidates)
+            if moveTo:
+                self.move(monster, moveTo)
+                return True
+            else:
+                return False
         elif monster.moveProfile == "Sniper":
             candidates = [
                     target for target in self.game.party if target.hp > 0]
