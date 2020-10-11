@@ -2175,7 +2175,7 @@ class battleField(object):
             fromDamage *= 1.3
         if self.getPower(unit, f"{fromType}: Increased Damage III"):
             fromDamage *= 1.3
-        if self.getPower(unit, f"{fromType}: Increased Damage II"):
+        if self.getPower(unit, f"{fromType}: Increased Damage IV"):
             fromDamage *= 1.3
         if equipment:
             toDamage = equipment.damage + unitDamage
@@ -2193,7 +2193,7 @@ class battleField(object):
             toDamage *= 1.3
         if self.getPower(unit, f"{toType}: Increased Damage III"):
             toDamage *= 1.3
-        if self.getPower(unit, f"{toType}: Increased Damage II"):
+        if self.getPower(unit, f"{toType}: Increased Damage IV"):
             toDamage *= 1.3
         if fromDamage != toDamage:
             valueString += f"Damage: {fromDamage}-->{toDamage}  "
