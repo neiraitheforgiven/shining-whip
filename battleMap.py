@@ -631,7 +631,6 @@ class battle(object):
                     if target.hp <= 0:
                         self.kill(target, unit)
         elif spellName == "Freeze III":
-            print(f"{unit.name} casts {spellName}!")
             unit.mp -= self.mpCost(unit, 10)
             position = unit.allowedSpells[spellName][targetId]
             # target will be a position
