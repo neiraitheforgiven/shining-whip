@@ -809,6 +809,9 @@ class battle(object):
                     targetTile = None
                     numTargets = 0
                     for tile in field.terrainArray[minRange:(maxRange + 1)]:
+                        print(
+                                f"debug: evaluating tile "
+                                f"{field.terrainArray.index(tile)}")
                         targets = [
                                 unit for unit in tile.units
                                 if type(unit) != type(monster)]
