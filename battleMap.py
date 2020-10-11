@@ -737,14 +737,19 @@ class battle(object):
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
                         self.kill(target, unit)
-        elif spellName == "Frezze III":
+        elif spellName == "Freeze III":
+            print(f"{unit.name} casts {spellName}!")
             unit.mp -= self.mpCost(unit, 10)
-            targetTile = unit.allowedSpells[spellName][targetId]
-            for target in list(targetTile.units):
-                if type(unit) != type(target):
-                    print(f"{unit.name} casts {spellName} on {target.name}!")
+            position = unit.allowedSpells[spellName][targetId]
+            # target will be a position
+            print(f"{unit.name} casts {spellName}!")
+            field = self.battleField
+            for target in field.terrainArray[position].units:
+                if type(target) != type(unit):
                     damage = min(20, target.hp)
-                    if self.getPower(target, "Defense: Magic"):
+                    if self.getPower(target, "Defense: Magic") or (
+                            self.getPower(
+                            target, "Defense: Ice Vulnerability")):
                         damage = min(17, target.hp)
                     print(
                             f"{unit.name} deals {damage} damage to "
@@ -752,7 +757,7 @@ class battle(object):
                     target.hp -= damage
                     self.giveExperience(unit, target, damage)
                     if target.hp <= 0:
-                        self.kill(target, unit)
+                        self.kill(target)
         elif spellName == "Freeze IV":
             unit.mp -= self.mpCost(unit, 12)
             target = unit.allowedSpells[spellName][targetId]
