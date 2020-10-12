@@ -467,7 +467,7 @@ class battle(object):
                         if len([
                                 tileUnit for tileUnit
                                 in bf.terrainArray[moveTo].units
-                                if type(tileUnit) == type(tileUnit)]) < 4:
+                                if type(tileUnit) == type(target)]) < 4:
                             print(f"{target.name} was routed!")
                             self.battleField.move(target, moveTo)
                         else:
@@ -1408,7 +1408,7 @@ class battle(object):
                         if len([
                                 tileUnit for tileUnit
                                 in bf.terrainArray[moveTo].units
-                                if type(tileUnit) == type(tileUnit)]) < 4:
+                                if type(tileUnit) == type(target)]) < 4:
                             print(f"{target.name} was routed!")
                             self.battleField.move(target, moveTo)
                         else:
