@@ -467,7 +467,7 @@ class battle(object):
                         if len([
                                 tileUnit for tileUnit
                                 in bf.terrainArray[moveTo].units
-                                if type(tileUnit) == type(tileUnit)]) <= 4:
+                                if type(tileUnit) == type(tileUnit)]) < 4:
                             print(f"{target.name} was routed!")
                             self.battleField.move(target, moveTo)
                         else:
@@ -1402,14 +1402,25 @@ class battle(object):
                 elif attackType == "routing":
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
-                        if moveTo >= 0:
-                            print(f"{target.name} was routed!")
-                            self.battleField.move(target, moveTo)
                     elif type(target) == monster:
                         moveTo = self.battleField.getUnitPos(target) + 1
-                        if moveTo <= len(self.battleField.terrainArray) - 1:
+                    if 0 <= moveTo <= len(self.battleField.terrainArray) - 1:
+                        if len([
+                                tileUnit for tileUnit
+                                in bf.terrainArray[moveTo].units
+                                if type(tileUnit) == type(tileUnit)]) < 4:
                             print(f"{target.name} was routed!")
                             self.battleField.move(target, moveTo)
+                        else:
+                            print(f"{target.name} was stunned!")
+                            setback = min(15, math.ceil(
+                                    225 / self.determineInitiative(unit)))
+                            unit.initiativePoints -= setback
+                    else:
+                        print(f"{target.name} was stunned!")
+                        setback = min(15, math.ceil(
+                                225 / self.determineInitiative(unit)))
+                        unit.initiativePoints -= setback
                 elif attackType == "sleep":
                     target.status = "sleep"
                     print(f"{target.name} fell asleep!")
