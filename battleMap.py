@@ -621,6 +621,10 @@ class battle(object):
             self.castSingleSpell(unit, targetId, "Blaze I", 2, 6, "Fire")
         elif spellName == "Blaze II":
             self.castAreaSpell(unit, targetId, "Blaze II", 6, 9, 1, "Fire")
+        elif spellName == "Blaze III":
+            self.castAreaSpell(unit, targetId, "Blaze III", 8, 17, 1, "Fire")
+        elif spellName == "Blaze IV":
+            self.castSingleSpell(unit, targetId, "Blaze IV", 8, 40, "Fire")
         elif spellName == "Bolt I":
             self.castAreaSpell(unit, targetId, "Bolt I", 8, 13, 1, "Lightning")
         elif spellName == "Bolt II":
@@ -1756,6 +1760,11 @@ class battleField(object):
             self.checkSpell(unit, position, "Blaze I", False, 0, 0)
         if self.getPower(unit, "Blaze II") and unit.mp >= self.mpCost(unit, 6):
             self.checkSpell(unit, position, "Blaze II", False, 1, 1)
+        if self.getPower(
+                unit, "Blaze III") and unit.mp >= self.mpCost(unit, 8):
+            self.checkSpell(unit, position, "Blaze III", False, 1, 1)
+        if self.getPower(unit, "Blaze IV") and unit.mp >= self.mpCost(unit, 8):
+            self.checkSpell(unit, position, "Blaze IV", False, 1, 0)
         if self.getPower(unit, "Bolt I") and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Bolt I", False, 0, 1)
         if self.getPower(unit, "Bolt II") and unit.mp >= self.mpCost(unit, 15):
