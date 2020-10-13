@@ -511,9 +511,12 @@ class battle(object):
 
     def castAreaSpell(
             self, unit, targetId, spellName, cost, damage, area=1,
-            element=None, spread=False):
+            element=None, spread=False, faith=False):
         bf = self.battleField
-        unit.mp -= self.mpCost(unit, cost)
+        if faith:
+            unit.fp -= self.mpCost(unit, cost)
+        else:
+            unit.mp -= self.mpCost(unit, cost)
         position = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName}!")
         minRange = max(0, position - area)
@@ -563,8 +566,12 @@ class battle(object):
                             self.kill(target)
 
     def castSingleSpell(
-            self, unit, targetId, spellName, cost, damage, element=None):
-        unit.mp -= self.mpCost(unit, cost)
+            self, unit, targetId, spellName, cost, damage, element=None,
+            faith=False):
+        if faith:
+            unit.fp -= self.mpCost(unit, cost)
+        else:
+            unit.mp -= self.mpCost(unit, cost)
         target = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName} on {target.name}!")
         if damage < 0:
