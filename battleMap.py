@@ -509,57 +509,97 @@ class battle(object):
             print("")
             return False
 
+    def castAreaSpell(
+            self, unit, targetId, spellName, cost, damage, area=1,
+            element=None, spread=False):
+        bf = self.battleField
+        unit.mp -= self.mpCost(unit, cost)
+        position = unit.allowedSpells[spellName][targetId]
+        print(f"{unit.name} casts {spellName}!")
+        minRange = max(0, position - area)
+        maxRange = min(position + area, len(bf.terrainArray - 1))
+        if spread and damage > 0:
+            count = len(
+                    target for target
+                    in [
+                            tile for tile in
+                            bf.terrainArray[minRange:maxRange + 1]]
+                    if type(target) != type(unit))
+        for i in range(minRange, maxRange):
+            tile = bf.terrainArray[i]
+            for target in list(tile.units):
+                if damage < 0:
+                    # spell is a healing spell
+                    if type(target) == type(unit):
+                        healing = min(
+                                abs(damage), (target.maxHP() - target.hp))
+                        print(
+                                f"{unit.name} restores {healing} health to "
+                                f"{target.name}!")
+                        target.hp += healing
+                        self.giveExperience(unit, target, healing)
+                elif damage > 0:
+                    # spell is a damage spell
+                    if type(target) != type(unit):
+                        if spread:
+                            damage = math.ceil(damage / count)
+                        if self.getPower(target, "Defense: Magic"):
+                            damage = math.floor(damage / 1.3)
+                        if self.getPower(
+                                target, f"Defense: {element} Resistance"):
+                            damage = math.floor(damage / 1.3)
+                        if self.getPower(
+                                target, f"Defense: {element} Vulnerability"):
+                            damage = math.ceil(damage * 1.3)
+                        damage = min(damage, target.hp)
+                        if element:
+                            element += " "
+                        print(
+                                f"{unit.name} deals {damage} {element}damage "
+                                f"to {target.name}!")
+                        target.hp -= damage
+                        self.giveExperience(unit, target, damage)
+                        if target.hp <= 0:
+                            self.kill(target)
+
+    def castSingleSpell(
+            self, unit, targetId, spellName, cost, damage, element=None):
+        unit.mp -= self.mpCost(unit, cost)
+        target = unit.allowedSpells[spellName][targetId]
+        print(f"{unit.name} casts {spellName} on {target.name}!")
+        if damage < 0:
+            # spell is a healing spell
+            healing = min(abs(damage), (target.maxHP() - target.hp))
+            print(f"{unit.name} restores {healing} health to {target.name}!")
+            target.hp += healing
+            self.giveExperience(unit, target, healing)
+        elif damage > 0:
+            if self.getPower(target, "Defense: Magic"):
+                damage = math.floor(damage / 1.3)
+            if self.getPower(
+                    target, f"Defense: {element} Resistance"):
+                damage = math.floor(damage / 1.3)
+            if self.getPower(
+                    target, f"Defense: {element} Vulnerability"):
+                damage = math.ceil(damage * 1.3)
+            damage = min(damage, target.hp)
+            if element:
+                element += " "
+            print(
+                    f"{unit.name} deals {damage} {element}damage to "
+                    f"{target.name}!")
+            target.hp -= damage
+            self.giveExperience(unit, target, damage)
+            if target.hp <= 0:
+                self.kill(target)
+
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Aura I":
-            unit.mp -= self.mpCost(unit, 7)
-            position = unit.allowedSpells[spellName][targetId]
-            # target will be a position
-            print(f"{unit.name} casts {spellName}!")
-            field = self.battleField
-            for target in field.terrainArray[position].units:
-                if type(target) == type(unit):
-                    healing = min(15, (target.maxHP() - target.hp))
-                    print(
-                            f"{unit.name} restores {healing} health to "
-                            f"{target.name}!")
-                    target.hp += healing
-                    self.giveExperience(unit, target, healing)
+            self.castAreaSpell(unit, targetId, "Aura I", 7, -15)
         if spellName == "Aura II":
-            unit.mp -= self.mpCost(unit, 11)
-            position = unit.allowedSpells[spellName][targetId]
-            # target will be a position
-            print(f"{unit.name} casts {spellName}!")
-            field = self.battleField
-            minRange = max(0, position - 1)
-            maxRange = min(position + 1, len(field.terrainArray - 1))
-            for i in range(minRange, maxRange):
-                tile = field.terrainArray[i]
-                for target in tile.units:
-                    if type(target) == type(unit):
-                        healing = min(15, (target.maxHP() - target.hp))
-                        print(
-                                f"{unit.name} restores {healing} health to "
-                                f"{target.name}!")
-                        target.hp += healing
-                        self.giveExperience(unit, target, healing)
+            self.castAreaSpell(unit, targetId, "Aura II", 11, -15)
         if spellName == "Aura III":
-            unit.mp -= self.mpCost(unit, 15)
-            position = unit.allowedSpells[spellName][targetId]
-            # target will be a position
-            print(f"{unit.name} casts {spellName}!")
-            field = self.battleField
-            minRange = max(0, position - 1)
-            maxRange = min(position + 1, len(field.terrainArray - 1))
-            for i in range(minRange, maxRange):
-                tile = field.terrainArray[i]
-                for target in tile.units:
-                    if type(target) == type(unit):
-                        healing = min(30, (target.maxHP() - target.hp))
-                        print(
-                                f"{unit.name} restores {healing} health to "
-                                f"{target.name}!")
-                        target.hp += healing
-                        self.giveExperience(unit, target, healing)
+            self.castAreaSpell(unit, targetId, "Aura III", 15, -30, 2)
         if spellName == "Aura IV":
             unit.mp -= self.mpCost(unit, 20)
             print(f"{unit.name} casts {spellName}!")
@@ -571,84 +611,15 @@ class battle(object):
                 target.hp += healing
                 self.giveExperience(unit, target, healing)
         if spellName == "Blaze I":
-            unit.mp -= self.mpCost(unit, 2)
-            target = unit.allowedSpells[spellName][targetId]
-            print(f"{unit.name} casts {spellName} on {target.name}!")
-            damage = min(6, target.hp)
-            if self.getPower(target, "Defense: Magic"):
-                damage = min(4, target.hp)
-            elif self.getPower(target, "Defense: Fire Vulnerability"):
-                damage = min(7, target.hp)
-            print(f"{unit.name} deals {damage} damage to {target.name}!")
-            target.hp -= damage
-            self.giveExperience(unit, target, damage)
-            if target.hp <= 0:
-                self.kill(target, unit)
+            self.castSingleSpell(unit, targetId, "Blaze I", 2, 6, "Fire")
         elif spellName == "Blaze II":
-            unit.mp -= self.mpCost(unit, 6)
-            position = unit.allowedSpells[spellName][targetId]
-            # target will be a position
-            print(f"{unit.name} casts {spellName}!")
-            field = self.battleField
-            for target in list(field.terrainArray[position].units):
-                if type(target) != type(unit):
-                    damage = min(9, target.hp)
-                    if self.getPower(target, "Defense: Magic"):
-                        damage = min(7, target.hp)
-                    elif self.getPower(target, "Defense: Fire Vulnerability"):
-                        damage = min(11, target.hp)
-                    print(
-                            f"{unit.name} deals {damage} damage to "
-                            f"{target.name}!")
-                    target.hp -= damage
-                    self.giveExperience(unit, target, damage)
-                    if target.hp <= 0:
-                        self.kill(target)
+            self.castAreaSpell(unit, targetId, "Blaze II", 6, 9, 1, "Fire")
         elif spellName == "Dao I":
-            unit.mp -= self.mpCost(unit, 8)
-            tile = unit.allowedSpells[spellName][targetId]
-            # target will be a tile
-            print(f"{unit.name} summons the genie Dao!")
-            field = self.battleField
-            targets = [
-                    target for target in tile.units
-                    if type(unit) != type(target)]
-            for target in list(targets):
-                if type(target) != type(unit):
-                    damage = math.ceil(18 / len(targets))
-                    if self.getPower(target, "Defense: Magic"):
-                        damage = math.floor(damage * 0.8)
-                    damage = min(damage, target.hp)
-                    print(
-                            f"{unit.name} deals {damage} damage to "
-                            f"{target.name}!")
-                    target.hp -= damage
-                    self.giveExperience(unit, target, damage)
-                    if target.hp <= 0:
-                        self.kill(target, unit)
+            self.castAreaSpell(
+                    unit, targetId, "Dao I", 8, 18, 1, "Earth", True)
         elif spellName == "Dao II":
-            unit.mp -= self.mpCost(unit, 15)
-            tile = unit.allowedSpells[spellName][targetId]
-            # target will be a tile
-            print(f"{unit.name} summons the genie Dao!")
-            field = self.battleField
-            targets = [
-                    target for target in field.terrainArray[tile].units
-                    if type(unit) != type(target)]
-            for target in list(targets):
-                if type(target) != type(unit):
-                    damage = math.ceil(40 / len(targets))
-                    if self.getPower(target, "Defense: Magic"):
-                        damage = math.floor(damage * 0.8)
-                    damage = min(damage, target.hp)
-                    print(
-                            f"{unit.name} deals {damage} damage to "
-                            f"{target.name}!")
-                    target.hp -= damage
-                    self.giveExperience(unit, target, damage)
-                    if target.hp <= 0:
-                        self.kill(target, unit)
-            # remember that Defense: Dark Magic I and II are a thing.
+            self.castAreaSpell(
+                    unit, targetId, "Dao II", 15, 40, 1, "Earth", True)
         elif spellName == "Detox I":
             unit.mp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
@@ -703,97 +674,21 @@ class battle(object):
             print("")
             self.battleOn()
         elif spellName == "Freeze I":
-            unit.mp -= self.mpCost(unit, 3)
-            target = unit.allowedSpells[spellName][targetId]
-            print(f"{unit.name} casts {spellName} on {target.name}!")
-            damage = min(9, target.hp)
-            if self.getPower(target, "Defense: Magic"):
-                damage = min(7, target.hp)
-            print(f"{unit.name} deals {damage} damage to {target.name}!")
-            target.hp -= damage
-            self.giveExperience(unit, target, damage)
-            if target.hp <= 0:
-                self.kill(target, unit)
+            self.castSingleSpell(unit, targetId, "Freeze I", 3, 9, "Ice")
         elif spellName == "Freeze II":
-            unit.mp -= self.mpCost(unit, 7)
-            targetTile = self.battleField.getUnitPos(unit)
-            for target in list(targetTile.units):
-                if type(unit) != type(target):
-                    print(f"{unit.name} casts {spellName} on {target.name}!")
-                    damage = min(14, target.hp)
-                    if self.getPower(target, "Defense: Magic"):
-                        damage = min(10, target.hp)
-                    print(
-                            f"{unit.name} deals {damage} damage to "
-                            f"{target.name}!")
-                    target.hp -= damage
-                    self.giveExperience(unit, target, damage)
-                    if target.hp <= 0:
-                        self.kill(target, unit)
+            self.castAreaSpell(unit, targetId, "Freeze II", 7, 14, 1, "Ice")
         elif spellName == "Freeze III":
-            unit.mp -= self.mpCost(unit, 10)
-            position = unit.allowedSpells[spellName][targetId]
-            # target will be a position
-            print(f"{unit.name} casts {spellName}!")
-            field = self.battleField
-            for target in list(field.terrainArray[position].units):
-                if type(target) != type(unit):
-                    damage = min(20, target.hp)
-                    if self.getPower(target, "Defense: Magic"):
-                        damage = min(17, target.hp)
-                    elif self.getPower(target, "Defense: Ice Vulnerability"):
-                        damage = min(24, target.hp)
-                    print(
-                            f"{unit.name} deals {damage} damage to "
-                            f"{target.name}!")
-                    target.hp -= damage
-                    self.giveExperience(unit, target, damage)
-                    if target.hp <= 0:
-                        self.kill(target)
+            self.castAreaSpell(unit, targetId, "Freeze III", 10, 20, 1, "Ice")
         elif spellName == "Freeze IV":
-            unit.mp -= self.mpCost(unit, 12)
-            target = unit.allowedSpells[spellName][targetId]
-            print(f"{unit.name} casts {spellName} on {target.name}!")
-            damage = min(52, target.hp)
-            if self.getPower(target, "Defense: Magic"):
-                damage = min(45, target.hp)
-            print(f"{unit.name} deals {damage} damage to {target.name}!")
-            target.hp -= damage
-            self.giveExperience(unit, target, damage)
-            if target.hp <= 0:
-                self.kill(target, unit)
+            self.castSingleSpell(unit, targetId, "Freeze IV", 12, 45, "Ice")
         elif spellName == "Heal I":
-            unit.fp -= 3
-            target = unit.allowedSpells[spellName][targetId]
-            print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(15, (target.maxHP() - target.hp))
-            print(f"{unit.name} restores {healing} health to {target.name}!")
-            target.hp += healing
-            self.giveExperience(unit, target, healing)
+            self.castSingleSpell(unit, targetId, "Heal I", 3, -15)
         elif spellName == "Heal II":
-            unit.fp -= 6
-            target = unit.allowedSpells[spellName][targetId]
-            print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(15, (target.maxHP() - target.hp))
-            print(f"{unit.name} restores {healing} health to {target.name}!")
-            target.hp += healing
-            self.giveExperience(unit, target, healing)
+            self.castSingleSpell(unit, targetId, "Heal II", 6, -15)
         elif spellName == "Heal III":
-            unit.fp -= 10
-            target = unit.allowedSpells[spellName][targetId]
-            print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(30, (target.maxHP() - target.hp))
-            print(f"{unit.name} restores {healing} health to {target.name}!")
-            target.hp += healing
-            self.giveExperience(unit, target, healing)
+            self.castAreaSpell(unit, targetId, "Heal III", 10, -30, 1)
         elif spellName == "Heal IV":
-            unit.fp -= 20
-            target = unit.allowedSpells[spellName][targetId]
-            print(f"{unit.name} casts {spellName} on {target.name}!")
-            healing = min(60, (target.maxHP() - target.hp))
-            print(f"{unit.name} restores {healing} health to {target.name}!")
-            target.hp += healing
-            self.giveExperience(unit, target, healing)
+            self.castAreaSpell(unit, targetId, "Heal IV", 20, -60, 1)
         elif spellName == "Portal I":
             unit.mp -= self.mpCost(unit, 21)
             field = self.battleField
