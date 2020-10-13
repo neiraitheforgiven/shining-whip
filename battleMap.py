@@ -1769,62 +1769,70 @@ class battleField(object):
         else:
             return False
 
+    def checkSpell(self, unit, position, name, healing=False, range=0, area=0):
+        minRange = max(0, (position - range))
+        maxRange = min((position + range), len(self.terrainArray) - 1)
+        if area == 0:
+            targets = []
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = self.checkSpellTargets(unit, tile, healing)
+                if any(tileTargets):
+                    targets.extend(target for target in tileTargets)
+            if any(targets):
+                unit.allowedSpells[name] = targets
+        elif area == 1:
+            # area spells target tiles -- should they?
+            targetTiles = []
+            for tile in self.terrainArray[minRange:(maxRange + 1)]:
+                tileTargets = self.checkSpellTargets(unit, tile, healing)
+                if any(tileTargets):
+                    targetTiles.append(tile)
+            if any(targetTiles):
+                unit.allowedSpells[name] = targetTiles
+        elif area > 1:
+            targets = []
+            for i in range(minRange, (maxRange + 1)):
+                minFocusedRange = max(0, i - (area - 1))
+                maxFocusedRange = min(
+                        i + (area - 1), len(self.terrainArray - 1))
+                tileTargets = []
+                for tile in [
+                        self.terrainArray[minFocusedRange:(
+                        maxFocusedRange + 1)]]:
+                    tileTargets = self.checkSpellTargets(unit, tile, healing)
+                    if any(tileTargets):
+                        targets.extend(self.terrainArray[i])
+                        tileTargets = []
+                        continue
+            if any(targets):
+                unit.allowedSpells[name] = targets
+        if any(unit.allowedSpells):
+            return True
+        else:
+            return False
+
+    def checkSpellTargets(self, unit, tile, healing):
+        if healing:
+            return [
+                    target for target in tile.units
+                    if type(target) == type(unit) and target.hp < (
+                            target.maxHP())]
+        else:
+            return [
+                    target for target in tile.units
+                    if type(target) != type(unit)]
+
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
         if self.getPower(unit, "Aura I") and unit.mp >= self.mpCost(unit, 7):
-            targetTiles = []
-            minRange = max(0, (position - 1))
-            maxRange = min((position + 1), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = [
-                    target for target in tile.units
-                    if type(target) == type(unit) and (
-                            target.hp < target.maxHP())]
-                if any(tileTargets):
-                    targetTiles.append(tile)
-            if any(targetTiles):
-                unit.allowedSpells["Aura I"] = targetTiles
+            self.checkSpell(unit, position, "Aura I", True, 1, 1)
         if self.getPower(unit, "Aura II") and unit.mp >= self.mpCost(unit, 11):
-            targets = []
-            minRange = max(0, (position - 2))
-            maxRange = min((position + 2), len(self.terrainArray) - 1)
-            for i in range(minRange, (maxRange + 1)):
-                minFocusedRange = max(0, i - 1)
-                maxFocusedRange = min(i + 1, len(self.terrainArray - 1))
-                for tile in [
-                        self.terrainArray[minFocusedRange:(
-                        maxFocusedRange + 1)]]:
-                    tileTargets = [
-                        target for target in tile.units
-                        if type(target) == type(unit) and target.hp < (
-                                target.maxHP())]
-                    if any(tileTargets):
-                        targets.extend(self.terrainArray[i])
-                        continue
-            if any(targets):
-                unit.allowedSpells["Aura II"] = targets
+            self.checkSpell(unit, position, "Aura II", True, 2, 2)
         if (
                 self.getPower(unit, "Aura III") and (
                         unit.mp >= self.mpCost(unit, 15))):
-            targets = []
-            minRange = max(0, (position - 2))
-            maxRange = min((position + 2), len(self.terrainArray) - 1)
-            for i in range(minRange, (maxRange + 1)):
-                minFocusedRange = max(0, i - 1)
-                maxFocusedRange = min(i + 1, len(self.terrainArray - 1))
-                for tile in [
-                        self.terrainArray[minFocusedRange:(
-                        maxFocusedRange + 1)]]:
-                    tileTargets = [
-                        target for target in tile.units
-                        if type(target) == type(unit) and target.hp < (
-                                target.maxHP())]
-                    if any(tileTargets):
-                        targets.extend(self.terrainArray[i])
-                        continue
-            if any(targets):
-                unit.allowedSpells["Aura III"] = targets
+            self.checkSpell(unit, position, "Aura III", True, 2, 2)
         if self.getPower(unit, "Aura IV") and unit.mp >= self.mpCost(unit, 20):
             targets = [
                     target for target in self.party
@@ -1832,47 +1840,13 @@ class battleField(object):
             if any(targets):
                 unit.allowedSpells["Aura IV"] = "Self"
         if self.getPower(unit, "Blaze I") and unit.mp >= self.mpCost(unit, 2):
-            targets = [
-                    target for target in currentTile.units
-                    if type(target) != type(unit)]
-            if any(targets):
-                unit.allowedSpells["Blaze I"] = targets
+            self.checkSpell(unit, position, "Blaze I", False, 0, 0)
         if self.getPower(unit, "Blaze II") and unit.mp >= self.mpCost(unit, 6):
-            targetTiles = []
-            minRange = max(0, (position - 1))
-            maxRange = min((position + 1), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = [
-                    target for target in tile.units
-                    if type(target) != type(unit)]
-                if any(tileTargets):
-                    targetTiles.append(tile)
-            if any(targetTiles):
-                unit.allowedSpells["Blaze II"] = targetTiles
+            self.checkSpell(unit, position, "Blaze II", False, 1, 1)
         if self.getPower(unit, "Dao I") and unit.mp >= self.mpCost(unit, 8):
-            targetTiles = []
-            minRange = max(0, (position - 1))
-            maxRange = min((position + 1), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = [
-                    target for target in tile.units
-                    if type(target) != type(unit)]
-                if any(tileTargets):
-                    targetTiles.append(tile)
-            if any(targetTiles):
-                unit.allowedSpells["Dao I"] = targetTiles
+            self.checkSpell(unit, position, "Dao I", False, 1, 1)
         if self.getPower(unit, "Dao II") and unit.mp >= self.mpCost(unit, 15):
-            targetTiles = []
-            minRange = max(0, (position - 1))
-            maxRange = min((position + 1), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = [
-                    target for target in tile.units
-                    if type(target) != type(unit)]
-                if any(tileTargets):
-                    targetTiles.append(tile)
-            if any(targetTiles):
-                unit.allowedSpells["Dao II"] = targetTiles
+            self.checkSpell(unit, position, "Dao II", False, 1, 1)
         if self.getPower(unit, "Detox I") and unit.mp >= self.mpCost(unit, 3):
             targets = [
                     target for target in currentTile.units
@@ -1880,102 +1854,34 @@ class battleField(object):
             if any(targets):
                 unit.allowedSpells["Detox I"] = targets
         if self.getPower(unit, "Drain I") and unit.mp >= self.mpCost(unit, 5):
-            targets = [
-                    target for target in currentTile.units
-                    if type(target) != type(unit)]
-            if any(targets):
-                unit.allowedSpells["Drain I"] = targets
+            self.checkSpell(unit, position, "Drain I", False, 0, 0)
         if self.getPower(
                 unit, "Drain II") and unit.mp >= self.mpCost(unit, 12):
-            targets = [
-                    target for target in currentTile.units
-                    if type(target) != type(unit)]
-            if any(targets):
-                unit.allowedSpells["Drain II"] = targets
+            self.checkSpell(unit, position, "Drain II", False, 0, 0)
         if self.getPower(unit, "Egress I") and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = 'Self'
         if self.getPower(unit, "Freeze I") and unit.mp >= self.mpCost(unit, 3):
-            targets = [
-                    target for target in currentTile.units
-                    if type(target) != type(unit)]
-            if any(targets):
-                unit.allowedSpells["Freeze I"] = targets
+            self.checkSpell(unit, position, "Freeze I", False, 0, 0)
         if (
                 self.getPower(unit, "Freeze II") and (
                 unit.mp >= self.mpCost(unit, 7))):
-            targets = [
-                    target for target in currentTile.units
-                    if type(target) != type(unit)]
-            if any(targets):
-                unit.allowedSpells["Freeze II"] = currentTile
+            self.checkSpell(unit, position, "Freeze II", False, 0, 0)
         if (
                 self.getPower(unit, "Freeze III") and (
                 unit.mp >= self.mpCost(unit, 10))):
-            targetTiles = []
-            minRange = max(0, (position - 1))
-            maxRange = min((position + 1), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = [
-                    target for target in tile.units
-                    if type(target) != type(unit)]
-                if any(tileTargets):
-                    targetTiles.append(tile)
-            if any(targetTiles):
-                unit.allowedSpells["Freeze III"] = targetTiles
+            self.checkSpell(unit, position, "Freeze III", False, 1, 1)
         if (
                 self.getPower(unit, "Freeze IV") and (
                 unit.mp >= self.mpCost(unit, 12))):
-            targets = []
-            minRange = max(0, position - 2)
-            maxRange = min((position + 2), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = [
-                    target for target in tile.units
-                    if type(target) != type(unit)]
-                if any(tileTargets):
-                    targets.extend(target for target in tileTargets)
-            if any(targets):
-                unit.allowedSpells["Freeze IV"] = targets
+            self.checkSpell(unit, position, "Freeze IV", False, 2, 1)
         if self.getPower(unit, "Heal I") and unit.fp >= 3:
-            targets = [
-                    target for target in currentTile.units
-                    if type(target) == type(unit) and target.hp < (
-                            target.maxHP())]
-            if any(targets):
-                unit.allowedSpells["Heal I"] = targets
+            self.checkSpell(unit, position, "Heal I", True, 0, 0)
         if self.getPower(unit, "Heal II") and unit.fp >= 6:
-            targets = []
-            minRange = max(0, (position - 1))
-            maxRange = min((position + 1), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = [
-                    target for target in tile.units
-                    if type(target) == type(unit) and target.hp < (
-                            target.maxHP())]
-                if any(tileTargets):
-                    targets.extend(target for target in tileTargets)
-            if any(targets):
-                unit.allowedSpells["Heal II"] = targets
+            self.checkSpell(unit, position, "Heal II", True, 1, 0)
         if self.getPower(unit, "Heal III") and unit.fp >= 10:
-            targets = []
-            minRange = max(0, (position - 2))
-            maxRange = min((position + 2), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = [
-                    target for target in tile.units
-                    if type(target) == type(unit) and target.hp < (
-                            target.maxHP())]
-                if any(tileTargets):
-                    targets.extend(target for target in tileTargets)
-            if any(targets):
-                unit.allowedSpells["Heal III"] = targets
+            self.checkSpell(unit, position, "Heal III", True, 2, 1)
         if self.getPower(unit, "Heal IV") and unit.fp >= 20:
-            targets = [
-                    target for target in currentTile.units
-                    if type(target) == type(unit) and target.hp < (
-                            target.maxHP())]
-            if any(targets):
-                unit.allowedSpells["Heal IV"] = targets
+            self.checkSpell(unit, position, "Heal IV", True, 0, 0)
         if self.getPower(unit, "Portal I") and unit.mp >= 21:
             targets = []
             minRange = max(0, (position - 2))
