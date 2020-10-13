@@ -624,7 +624,7 @@ class battle(object):
                     unit, targetId, "Bolt III", 20, 25, 2, "Lightning")
         elif spellName == "Bolt IV":
             self.castSingleSpell(
-                    unit, targetId, "Bolt III", 20, 72, "Lightning")
+                    unit, targetId, "Bolt IV", 20, 72, "Lightning")
         elif spellName == "Dao I":
             self.castAreaSpell(
                     unit, targetId, "Dao I", 8, 18, 1, "Earth", True)
