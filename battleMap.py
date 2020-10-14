@@ -934,7 +934,6 @@ class battle(object):
                     maxHP = pc.maxHP()
                     maxFP = pc.stats["Faith"]
                     maxMP = pc.stats["Intelligence"]
-                    maxMv = pc.stats["Speed"]
                     fame = self.getFameBonus(pc)
                     mvType = ""
                     if self.getPower(pc, "Mounted Movement"):
@@ -948,7 +947,7 @@ class battle(object):
                     print(
                             f"  (HP: {pc.hp}/{maxHP} FP: {pc.fp}/{maxFP} "
                             f"MP: {pc.mp}/{maxMP} "
-                            f"Move: {pc.movementPoints}/{maxMv}{mvType} "
+                            f"Move: {pc.movementPoints}{mvType} "
                             f"Fame Bonus: {fame}%)")
                     time.sleep(2. / 10)
                     position = self.battleField.getUnitPos(pc)
