@@ -520,7 +520,7 @@ class battle(object):
         position = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName}!")
         minRange = max(0, position - area)
-        maxRange = min(position + area, len(bf.terrainArray - 1))
+        maxRange = min(position + area, len(bf.terrainArray) - 1)
         if spread and damage > 0:
             count = len(
                     target for target
