@@ -314,7 +314,7 @@ class playerCharacter(object):
                         "Luck: Critical Hit Adds Silence"]
             elif "Bard" in self.title:
                 listOfPowers = [
-                        "Equip: Daggers", "Heal I", "Equip: Bows",
+                        "Equip: Daggers", "Heal I", "Equip: Arrows",
                         "Luck: Counterattack",
                         "Luck: Increased Dodge Chance I",
                         "Command: Health Regeneration I",
@@ -609,7 +609,7 @@ class playerCharacter(object):
             if self.stats["Intelligence"] >= self.stats["Dexterity"]:
                 self.powers.append("Equip: Staffs")
             else:
-                self.powers.append("Equip: Bows")
+                self.powers.append("Equip: Arrows")
         elif race in ("Foxling", "Hobbit", "Kyantol"):
             self.powers.append("Equip: Staffs")
         elif race == "Human":
