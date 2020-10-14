@@ -602,13 +602,14 @@ class battle(object):
 
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Aura I":
-            self.castAreaSpell(unit, targetId, "Aura I", 7, -15)
-        if spellName == "Aura II":
-            self.castAreaSpell(unit, targetId, "Aura II", 11, -15)
-        if spellName == "Aura III":
-            self.castAreaSpell(unit, targetId, "Aura III", 15, -30, 2)
-        if spellName == "Aura IV":
-            unit.mp -= self.mpCost(unit, 20)
+            self.castAreaSpell(unit, targetId, "Aura I", 7, -15, faith=True)
+        elif spellName == "Aura II":
+            self.castAreaSpell(unit, targetId, "Aura II", 11, -15, faith=True)
+        elif spellName == "Aura III":
+            self.castAreaSpell(
+                    unit, targetId, "Aura III", 15, -30, 2, faith=True)
+        elif spellName == "Aura IV":
+            unit.fp -= self.mpCost(unit, 20)
             print(f"{unit.name} casts {spellName}!")
             for target in self.party:
                 healing = min(25, (target.maxHP() - target.hp))
@@ -617,18 +618,33 @@ class battle(object):
                         f"{target.name}!")
                 target.hp += healing
                 self.giveExperience(unit, target, healing)
-        if spellName == "Blaze I":
+        elif spellName == "Blaze I":
             self.castSingleSpell(unit, targetId, "Blaze I", 2, 6, "Fire")
         elif spellName == "Blaze II":
             self.castAreaSpell(unit, targetId, "Blaze II", 6, 9, 1, "Fire")
+        elif spellName == "Blaze III":
+            self.castAreaSpell(unit, targetId, "Blaze III", 8, 17, 1, "Fire")
+        elif spellName == "Blaze IV":
+            self.castSingleSpell(unit, targetId, "Blaze IV", 8, 40, "Fire")
+        elif spellName == "Bolt I":
+            self.castAreaSpell(unit, targetId, "Bolt I", 8, 13, 1, "Lightning")
+        elif spellName == "Bolt II":
+            self.castAreaSpell(
+                    unit, targetId, "Bolt II", 15, 16, 2, "Lightning")
+        elif spellName == "Bolt III":
+            self.castAreaSpell(
+                    unit, targetId, "Bolt III", 20, 25, 2, "Lightning")
+        elif spellName == "Bolt IV":
+            self.castSingleSpell(
+                    unit, targetId, "Bolt IV", 20, 72, "Lightning")
         elif spellName == "Dao I":
             self.castAreaSpell(
-                    unit, targetId, "Dao I", 8, 18, 1, "Earth", True)
+                    unit, targetId, "Dao I", 8, 18, 1, "Earth", spread=True)
         elif spellName == "Dao II":
             self.castAreaSpell(
-                    unit, targetId, "Dao II", 15, 40, 1, "Earth", True)
+                    unit, targetId, "Dao II", 15, 40, 1, "Earth", spread=True)
         elif spellName == "Detox I":
-            unit.mp -= self.mpCost(unit, 3)
+            unit.fp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
             target.status = None
@@ -689,13 +705,13 @@ class battle(object):
         elif spellName == "Freeze IV":
             self.castSingleSpell(unit, targetId, "Freeze IV", 12, 45, "Ice")
         elif spellName == "Heal I":
-            self.castSingleSpell(unit, targetId, "Heal I", 3, -15)
+            self.castSingleSpell(unit, targetId, "Heal I", 3, -15, faith=True)
         elif spellName == "Heal II":
-            self.castSingleSpell(unit, targetId, "Heal II", 6, -15)
+            self.castSingleSpell(unit, targetId, "Heal II", 6, -15, faith=True)
         elif spellName == "Heal III":
-            self.castAreaSpell(unit, targetId, "Heal III", 10, -30, 1)
+            self.castAreaSpell(unit, targetId, "Heal III", 10, -30, faith=True)
         elif spellName == "Heal IV":
-            self.castAreaSpell(unit, targetId, "Heal IV", 20, -60, 1)
+            self.castAreaSpell(unit, targetId, "Heal IV", 20, -60, faith=True)
         elif spellName == "Portal I":
             unit.mp -= self.mpCost(unit, 21)
             field = self.battleField
@@ -1727,15 +1743,15 @@ class battleField(object):
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
-        if self.getPower(unit, "Aura I") and unit.mp >= self.mpCost(unit, 7):
+        if self.getPower(unit, "Aura I") and unit.fp >= self.mpCost(unit, 7):
             self.checkSpell(unit, position, "Aura I", True, 1, 1)
-        if self.getPower(unit, "Aura II") and unit.mp >= self.mpCost(unit, 11):
+        if self.getPower(unit, "Aura II") and unit.fp >= self.mpCost(unit, 11):
             self.checkSpell(unit, position, "Aura II", True, 2, 2)
         if (
                 self.getPower(unit, "Aura III") and (
-                        unit.mp >= self.mpCost(unit, 15))):
+                        unit.mp >= self.fpCost(unit, 15))):
             self.checkSpell(unit, position, "Aura III", True, 2, 2)
-        if self.getPower(unit, "Aura IV") and unit.mp >= self.mpCost(unit, 20):
+        if self.getPower(unit, "Aura IV") and unit.fp >= self.mpCost(unit, 20):
             targets = [
                     target for target in self.party
                     if target.hp > 0 and target.hp < target.maxHP()]
@@ -1745,11 +1761,25 @@ class battleField(object):
             self.checkSpell(unit, position, "Blaze I", False, 0, 0)
         if self.getPower(unit, "Blaze II") and unit.mp >= self.mpCost(unit, 6):
             self.checkSpell(unit, position, "Blaze II", False, 1, 1)
+        if self.getPower(
+                unit, "Blaze III") and unit.mp >= self.mpCost(unit, 8):
+            self.checkSpell(unit, position, "Blaze III", False, 1, 1)
+        if self.getPower(unit, "Blaze IV") and unit.mp >= self.mpCost(unit, 8):
+            self.checkSpell(unit, position, "Blaze IV", False, 1, 0)
+        if self.getPower(unit, "Bolt I") and unit.mp >= self.mpCost(unit, 8):
+            self.checkSpell(unit, position, "Bolt I", False, 0, 1)
+        if self.getPower(unit, "Bolt II") and unit.mp >= self.mpCost(unit, 15):
+            self.checkSpell(unit, position, "Bolt II", False, 2, 2)
+        if self.getPower(
+                unit, "Bolt III") and unit.mp >= self.mpCost(unit, 20):
+            self.checkSpell(unit, position, "Bolt III", False, 2, 2)
+        if self.getPower(unit, "Bolt IV") and unit.mp >= self.mpCost(unit, 20):
+            self.checkSpell(unit, position, "Bolt IV", False, 2, 0)
         if self.getPower(unit, "Dao I") and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Dao I", False, 1, 1)
         if self.getPower(unit, "Dao II") and unit.mp >= self.mpCost(unit, 15):
             self.checkSpell(unit, position, "Dao II", False, 1, 1)
-        if self.getPower(unit, "Detox I") and unit.mp >= self.mpCost(unit, 3):
+        if self.getPower(unit, "Detox I") and unit.fp >= self.mpCost(unit, 3):
             targets = [
                     target for target in currentTile.units
                     if type(target) == type(unit) and target.status]
