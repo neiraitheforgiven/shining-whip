@@ -513,6 +513,10 @@ class battle(object):
             self, unit, targetId, spellName, cost, damage, area=1,
             element=None, spread=False, faith=False):
         bf = self.battleField
+        if element:
+            elementWithSpace = element + " "
+        else:
+            elementWithSpace = None
         if faith:
             unit.fp -= self.mpCost(unit, cost)
         else:
@@ -555,11 +559,10 @@ class battle(object):
                                 target, f"Defense: {element} Vulnerability"):
                             damage = math.ceil(damage * 1.3)
                         damage = min(damage, target.hp)
-                        if element:
-                            element += " "
+
                         print(
-                                f"{unit.name} deals {damage} {element}damage "
-                                f"to {target.name}!")
+                                f"{unit.name} deals {damage} "
+                                f"{elementWithSpace}damage to {target.name}!")
                         target.hp -= damage
                         self.giveExperience(unit, target, damage)
                         if target.hp <= 0:
