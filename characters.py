@@ -313,7 +313,8 @@ class playerCharacter(object):
             elif ("Knight" in self.title and "Mage Knight" not in
                     self.title and "Steam Knight" not in self.title):
                 listOfPowers = [
-                        "Mounted Movement", "Equip: Polearms", "Charge",
+                        "Mounted Movement", "Equip: Polearms",
+                        "Lances: Movement Increases Strength Damage I",
                         "Spears: Armor Penetration I", "Defense: Lance I",
                         "Defense: Arrow I", "Equip: Holy Polearms",
                         "Defense: Dark Magic I"]
@@ -377,7 +378,8 @@ class playerCharacter(object):
             elif "Sky Lord" in self.title:
                 listOfPowers = [
                         "Flying Movement", "Equip: Lances",
-                        "Charge", "Lances: Armor Penetration I",
+                        "Lances: Movement Increases Strength Damage I",
+                        "Lances: Armor Penetration I",
                         "Luck: Increased Dodge I", "Lances: Increased Luck I"
                         "Luck: Increased Dodge II",
                         "Dodge: Added Effect: Movement I"]

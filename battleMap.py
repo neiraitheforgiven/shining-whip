@@ -193,10 +193,11 @@ class battle(object):
                 if attackType == 'critical':
                     print("A Critical Attack!")
                 strengthForDamage = strength
-                if self.getPower(unit, "Charge"):
-                    strengthForDamage += math.ceil((
-                            self.getStat(unit, "Speed"
-                            ) - unit.movementPoints) / 5)
+                if self.getPower(unit, "Lances: Movement Increases Damage I"):
+                    if unit.equipment and unit.equipment.type == "Lances":
+                        strengthForDamage += math.ceil((
+                                self.getStat(unit, "Speed"
+                                ) - unit.movementPoints) / 5)
                 damage = max(strengthForDamage, dex)
                 if (self.getPower(
                         unit, "Unarmed Attack: Increased Damage I") and not (
