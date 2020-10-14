@@ -510,7 +510,7 @@ class battle(object):
             return False
 
     def castAreaSpell(
-            self, unit, targetId, spellName, cost, damage, area=1,
+            self, unit, targetId, spellName, cost, damage, area=0,
             element=None, spread=False, faith=False):
         bf = self.battleField
         if element:
@@ -610,7 +610,7 @@ class battle(object):
             self.castAreaSpell(unit, targetId, "Aura II", 11, -15, faith=True)
         elif spellName == "Aura III":
             self.castAreaSpell(
-                    unit, targetId, "Aura III", 15, -30, 2, faith=True)
+                    unit, targetId, "Aura III", 15, -30, 1, faith=True)
         elif spellName == "Aura IV":
             unit.fp -= self.mpCost(unit, 20)
             print(f"{unit.name} casts {spellName}!")
@@ -624,28 +624,28 @@ class battle(object):
         elif spellName == "Blaze I":
             self.castSingleSpell(unit, targetId, "Blaze I", 2, 6, "Fire")
         elif spellName == "Blaze II":
-            self.castAreaSpell(unit, targetId, "Blaze II", 6, 9, 1, "Fire")
+            self.castAreaSpell(unit, targetId, "Blaze II", 6, 9, 0, "Fire")
         elif spellName == "Blaze III":
-            self.castAreaSpell(unit, targetId, "Blaze III", 8, 17, 1, "Fire")
+            self.castAreaSpell(unit, targetId, "Blaze III", 8, 17, 0, "Fire")
         elif spellName == "Blaze IV":
             self.castSingleSpell(unit, targetId, "Blaze IV", 8, 40, "Fire")
         elif spellName == "Bolt I":
-            self.castAreaSpell(unit, targetId, "Bolt I", 8, 13, 1, "Lightning")
+            self.castAreaSpell(unit, targetId, "Bolt I", 8, 13, 0, "Lightning")
         elif spellName == "Bolt II":
             self.castAreaSpell(
-                    unit, targetId, "Bolt II", 15, 16, 2, "Lightning")
+                    unit, targetId, "Bolt II", 15, 16, 1, "Lightning")
         elif spellName == "Bolt III":
             self.castAreaSpell(
-                    unit, targetId, "Bolt III", 20, 25, 2, "Lightning")
+                    unit, targetId, "Bolt III", 20, 25, 1, "Lightning")
         elif spellName == "Bolt IV":
             self.castSingleSpell(
                     unit, targetId, "Bolt IV", 20, 72, "Lightning")
         elif spellName == "Dao I":
             self.castAreaSpell(
-                    unit, targetId, "Dao I", 8, 18, 1, "Earth", spread=True)
+                    unit, targetId, "Dao I", 8, 18, 0, "Earth", spread=True)
         elif spellName == "Dao II":
             self.castAreaSpell(
-                    unit, targetId, "Dao II", 15, 40, 1, "Earth", spread=True)
+                    unit, targetId, "Dao II", 15, 40, 0, "Earth", spread=True)
         elif spellName == "Detox I":
             unit.fp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
@@ -702,9 +702,9 @@ class battle(object):
         elif spellName == "Freeze I":
             self.castSingleSpell(unit, targetId, "Freeze I", 3, 9, "Ice")
         elif spellName == "Freeze II":
-            self.castAreaSpell(unit, targetId, "Freeze II", 7, 14, 1, "Ice")
+            self.castAreaSpell(unit, targetId, "Freeze II", 7, 14, 0, "Ice")
         elif spellName == "Freeze III":
-            self.castAreaSpell(unit, targetId, "Freeze III", 10, 20, 1, "Ice")
+            self.castAreaSpell(unit, targetId, "Freeze III", 10, 20, 0, "Ice")
         elif spellName == "Freeze IV":
             self.castSingleSpell(unit, targetId, "Freeze IV", 12, 45, "Ice")
         elif spellName == "Heal I":
