@@ -962,9 +962,9 @@ class playerCharacter(object):
                     self.statIncreaseCount += statIncrease
                     break
         if chatter:
-            happy = False
-            if self.statIncreaseCount - preLevelStatIncreaseCount >= 4:
-                happy = True
+            happy = self.statIncreaseCount > self.level * 4
+            breakthrough = (
+                    self.statIncreaseCount - preLevelStatIncreaseCount > 5)
             for statName, statValue in self.growth.items():
                 afterDict[statName] = self.stats[statName]
             fulfilled = 0
@@ -1063,41 +1063,76 @@ class playerCharacter(object):
                 print("")
                 if self.title != beforeTitle:
                     print(
-                            f"{self.name}: \"I am excited to begin my new life as "
-                            f"a {self.title}!\"")
+                            f"{self.name}: \"Today I will become a "
+                            f"{self.title}!\"")
                 else:
                     print(
-                            f"{self.name}: \"Another step on my chosen path as a "
-                            f"{self.title}!\"")
+                            f"{self.name}: \"Another step on my chosen path "
+                            f"as a {self.title}!\"")
         else:
             if chatter:
                 if fulfilled == 2:
                     if happy:
-                        print(
-                                f"{self.name}: \"Yes! I am the epitome of a "
-                                f"{self.title}!\"")
+                        if breakthrough:
+                            print(
+                                    f"{self.name}: \"These are the moments "
+                                    f"that define the {self.name} legends!\"")
+                        else:
+                            print(
+                                    f"{self.name}: \"Yes! I am the epitome "
+                                    f"of a {self.title}!\"")
                     else:
-                        print(
-                                f"{self.name}: \"Being a {self.title} is harder "
-                                "than I expected.\"")
+                        if breakthrough:
+                            print(
+                                    f"{self.name}: \"What is this? This "
+                                    "power! It seems like so much more than a "
+                                    f"mere {self.title}!\"")
+                        else:
+                            print(
+                                    f"{self.name}: \"At least I know this is "
+                                    f"the path a {self.title} should be "
+                                    "taking.\"")
                 elif fulfilled == 1:
                     if happy:
-                        print(
-                                f"{self.name}: \"This will make me a stronger "
-                                f"{self.title}!\"")
+                        if breakthrough:
+                            print(
+                                    f"{self.name}: \"Wow! That really opened "
+                                    "up some new perspectives!\"")
+                        else:
+                            print(
+                                    f"{self.name}: \"This will make me a "
+                                    f"stronger {self.title}!\"")
                     else:
-                        print(
-                                f"{self.name}: \"Being a {self.title} is harder than "
-                                "I expected.\"")
+                        if breakthrough:
+                            print(
+                                    f"{self.name}: \"Finally, something "
+                                    f"about being a {self.title} is making "
+                                    "sense.\"")
+                        else:
+                            print(
+                                    f"{self.name}: \"Being a {self.title} is "
+                                    "a lot harder than I expected.\"")
                 else:
                     if happy:
-                        print(
-                                f"{self.name}: \"Wow! That really opened up some new "
-                                "perspectives!\"")
+                        if breakthrough:
+                            print(
+                                    f"{self.name}: \"I... I've had a vision. "
+                                    "I've never seen myself in that light "
+                                    "before...\"")
+                        else:
+                            print(
+                                    f"{self.name}: \"Well, that is a "
+                                    "disappointment, to say the least.\"")
                     else:
-                        print(
-                                f"{self.name}: \"Aww, maybe I'm not cut out to be a "
-                                f"{self.title}.\"")
+                        if breakthrough:
+                            print(
+                                f"{self.name}: \"Maybe I'll never be a great "
+                                f"{self.title}, but perhaps there are other "
+                                "options opening up!\"")
+                        else:
+                            print(
+                                    f"{self.name}: \"Aww, maybe I'm not cut "
+                                    f"out to be a {self.title}.\"")
 
     def maxFP(self):
         if self.equipment:
