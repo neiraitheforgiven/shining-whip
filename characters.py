@@ -1076,7 +1076,8 @@ class playerCharacter(object):
                         if breakthrough:
                             print(
                                     f"{self.name}: \"These are the moments "
-                                    f"that define the {self.name} legends!\"")
+                                    "that define the legends of the "
+                                    f"{self.title}!\"")
                         else:
                             print(
                                     f"{self.name}: \"Yes! I am the epitome "
