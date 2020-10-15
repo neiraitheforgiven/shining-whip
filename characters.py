@@ -205,7 +205,7 @@ class playerCharacter(object):
                         "Strength", "Dexterity")
             elif playerClass == "Archer":
                 self.growth = self.initializeRandomStats(
-                        "Dexterity", "Fame", "Strength")
+                        "Dexterity", "Speed", "Strength")
             elif playerClass == "Baron":
                 self.growth = self.initializeRandomStats("Strength", "Fame")
             elif playerClass == "Bolt Mage":
