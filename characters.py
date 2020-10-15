@@ -962,7 +962,7 @@ class playerCharacter(object):
                     self.statIncreaseCount += statIncrease
                     break
         if chatter:
-            happy = self.statIncreaseCount > self.level * 4
+            happy = self.statIncreaseCount >= (self.level * 4 - 1)
             breakthrough = (
                     self.statIncreaseCount - preLevelStatIncreaseCount > 5)
             for statName, statValue in self.growth.items():
