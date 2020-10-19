@@ -1545,21 +1545,16 @@ class battleField(object):
                     if directionIsHigher:
                         if position == self.getUnitPos(unit) + 1:
                             bonusSpent = True
-                            candidate = True
                         else:
                             return  # you forfeit your final movement
                     else:
                         if position == self.getUnitPos(unit) - 1:
                             bonusSpent = True
-                            candidate = True
                         else:
                             return  # you forfeit your final movement
                 else:
-                    if not bonusSpent and len([
-                            tileUnit for tileUnit in tile.units
-                            if type(tileUnit) == type(unit)]) < 4:
+                    if not bonusSpent:
                         bonusSpent = True  # You get one more movement
-                        candidate = True
                         movementPoints = 1
             if candidate:
                 unit.allowedMovement.append(position)
