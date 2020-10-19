@@ -921,7 +921,8 @@ class battle(object):
                 if not unit.actedThisRound:
                     if type(unit) == playerCharacter:
                         unit.hasEquipped = False
-                    unit.movementPoints = self.getStat(unit, "Speed")
+                    unit.movementPoints = 3 + math.ceil(
+                            self.getStat(unit, "Speed") / 2)
                 else:
                     if unit.movementPoints <= 0:
                         unit.actedThisRound = True
