@@ -1930,6 +1930,7 @@ class battleField(object):
             return False
 
     def doMonsterMove(self, monster, position):
+        moveTo = None
         if monster.moveProfile == "Advance-Defensive":
             if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
