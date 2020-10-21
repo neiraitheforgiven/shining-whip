@@ -1289,7 +1289,9 @@ class battle(object):
         criticalChance = math.floor(voice + (voice * (luck / 10)))
         attackTypeArray.extend(["critical"] * criticalChance)
         friendSound = sum([
-                self.getStat(tileUnit, "Voice") for tileUnit in
+                max(self.getStat(tileUnit, "Faith"), self.getStat(
+                        tileUnit, "Voice"))
+                for tileUnit in
                 bf.terrainArray[position].units
                 if type(tileUnit) == type(unit)])
         attackType = random.choice(attackTypeArray)
@@ -1297,12 +1299,14 @@ class battle(object):
             print("A Thunderous Attack!")
             friendSound *= 2
         enemySound = sum([
-                self.getStat(tileUnit, "Voice") for tileUnit in
+                max(self.getStat(tileUnit, "Faith"), self.getStat(
+                        tileUnit, "Voice"))
+                for tileUnit in
                 bf.terrainArray[position].units
                 if type(tileUnit) != type(unit)])
         amount = max(1, friendSound - enemySound)
         amount = amount + abs(tile.voicePower)
-        damage = math.ceil(amount / 12)
+        damage = math.ceil(amount / 16)
         damage = max(damage, 1)
         for target in list(tile.units):
             if type(target) != type(unit):
