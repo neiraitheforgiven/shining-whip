@@ -1320,10 +1320,13 @@ class battle(object):
                 routChance = math.floor(routSkill + (routSkill * (luck / 10)))
                 attackTypeArray.extend(["routing"] * routChance)
                 attackType = random.choice(attackTypeArray)
-                damage = min(damage, target.hp)
-                print(f"The note deals {damage} damage to {target.name}!")
-                target.hp -= damage
-                self.giveExperience(unit, target, damage)
+                targetDamage = damage
+                targetDamage = min(targetDamage, target.hp)
+                print(
+                        f"The note deals {targetDamage} damage to "
+                        f"{target.name}!")
+                target.hp -= targetDamage
+                self.giveExperience(unit, target, targetDamage)
                 if target.hp <= 0:
                     self.kill(target, unit)
                 elif attackType == "routing":
