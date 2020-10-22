@@ -1132,7 +1132,7 @@ class battle(object):
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                         if type(unit) == playerCharacter:
                             tile.goodRinging = True
-                        else
+                        else:
                             tile.evilRinging = True
             elif command in ("C", "c"):
                 print()
@@ -1239,7 +1239,7 @@ class battle(object):
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                         if type(unit) == playerCharacter:
                             tile.goodRinging = True
-                        else
+                        else:
                             tile.evilRinging = True
                 return
         elif type(unit) == monster:
@@ -1277,7 +1277,7 @@ class battle(object):
                 if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                     if type(unit) == playerCharacter:
                         tile.goodRinging = True
-                    else
+                    else:
                         tile.evilRinging = True
         time.sleep(6. / 10)
         endBattle = not self.battleOn()
