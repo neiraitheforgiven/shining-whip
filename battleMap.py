@@ -548,24 +548,25 @@ class battle(object):
                         self.giveExperience(unit, target, healing)
                 elif damage > 0:
                     # spell is a damage spell
+                    targetDamage = damage
                     if type(target) != type(unit):
                         if spread:
-                            damage = math.ceil(damage / count)
+                            targetDamage = math.ceil(targetDamage / count)
                         if self.getPower(target, "Defense: Magic"):
-                            damage = math.floor(damage / 1.3)
+                            targetDamage = math.floor(targetDamage / 1.3)
                         if self.getPower(
                                 target, f"Defense: {element} Resistance"):
-                            damage = math.floor(damage / 1.3)
+                            targetDamage = math.floor(targetDamage / 1.3)
                         if self.getPower(
                                 target, f"Defense: {element} Vulnerability"):
-                            damage = math.ceil(damage * 1.3)
-                        damage = min(damage, target.hp)
+                            targetDamage = math.ceil(targetDamage * 1.3)
+                        targetDamage = min(targetDamage, target.hp)
 
                         print(
-                                f"{unit.name} deals {damage} "
+                                f"{unit.name} deals {targetDamage} "
                                 f"{elementWithSpace}damage to {target.name}!")
-                        target.hp -= damage
-                        self.giveExperience(unit, target, damage)
+                        target.hp -= targetDamage
+                        self.giveExperience(unit, target, targetDamage)
                         if target.hp <= 0:
                             self.kill(target)
 
