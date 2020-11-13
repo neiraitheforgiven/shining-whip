@@ -2299,143 +2299,191 @@ class battleField(object):
 class game(object):
 
     def __init__(self):
-        self.playerCharacters = []
+        print("Welcome to The Sword of Truth and the Holy Song of the Force!")
+        saveName = None
+        while saveName is None:
+            saveName = input(
+                    "Enter a name for a save file or enter New for a new "
+                    "game: ")
+            if saveName.lower() in ("n", "new"):
+                saveName = input(
+                        "Enter a name for your new save file. If a file with "
+                        "that name already exists, you will overwrite it: ")
+                file = open(f"TSOTHASOTF-{saveName.lower()}.txt", "w")
+                self.playerCharacters = []
+                self.money = 0
+                self.inventory = []
+                self.maxPartySize = 12
+                self.battleNum = 1
+                file.write(self.playerCharacters)
+                file.write(self.inventory)
+                file.write(self.money)
+                file.write(self.maxPartySize)
+                file.write(1)
+            else:
+                try:
+                    file = open(f"TSOTHASOTF-{saveName.lower()}.txt", "r")
+                except FileExistsError:
+                    saveName = None
+                    print(
+                            "A save file with that name was not found. Try "
+                            "again.")
+                    continue
+                saveInfo = file.readlines()
+                self.playerCharacters = saveInfo(0)
+                self.inventory = saveInfo(1)
+                self.money = saveInfo(2)
+                self.maxPartySize = saveInfo(3)
+                self.battleNum = saveInfo(4)
         self.battleStatus = None
-        self.money = 0
-        self.inventory = []
-        self.maxPartySize = 12
+        while self.battleNum < 33:
+            self.doBattle(self.battleNum)
 
-        chatter = False
-        print("You are the leader of a small part of misfits.")
-        print("You are from Yatahal, the Holy City.")
-        print(
-                "Yatahal is a bastion of goodness, but the centaur Knights of "
-                "Yatahal")
-        print(
-                "look down on all other people as unfit to participate in "
-                "combat.")
-        print(
-                "Despite this, your mentor has assembled a small force of "
-                "untrained fighters that he believes have potential.")
-        print("Elves and Dwarves and the occaisional drummed-out Knight.")
-        print(
-                "You are the laughingstock of Yatahal's knights, but you "
-                "believe that you are destined for greatness.")
-        print("")
-        print(
-                "One day, you go out to bring supplies to the knight that "
-                "guards the Ancient Sealed Door.")
-        print(
-                "When you arrive, you find that he is consorting with Goblins "
-                "and plotting the downfall of Yatahal.")
-        print("")
-        print("Swallowing your fear, you draw arms and challenge them!")
-        recruit = playerCharacter(
-                "Max", "Human", "Hero", chatter, 0)
-        self.equipOnCharacter(
-                equipment("Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
-                recruit, False)
-        self.playerCharacters.append(recruit)
-        recruit = playerCharacter(
-                "Lowe", "Hobbit", "Priest", chatter, 0)
-        self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
-                recruit, False)
-        self.playerCharacters.append(recruit)
-        recruit = playerCharacter(
-                "Tao", "Elf", "Fire Mage", chatter, 0)
-        self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
-                recruit, False)
-        self.playerCharacters.append(recruit)
-        recruit = playerCharacter(
-                "Luke", "Dwarf", "Warrior", chatter, 0)
-        self.equipOnCharacter(
-                equipment("Axes", "Short Axe", 120, 0, 0, 3, 0, 0), recruit,
-                False)
-        self.playerCharacters.append(recruit)
-        recruit = playerCharacter(
-                "Ken", "Centaur", "Knight", chatter, 0)
-        self.equipOnCharacter(
-                equipment("Spears", "Wooden Spear", 100, 0, 1, 3, 0, 0),
-                recruit, False)
-        self.playerCharacters.append(recruit)
-        recruit = playerCharacter(
-                "Hans", "Elf", "Archer", chatter, 0)
-        self.equipOnCharacter(
-                equipment("Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0),
-                recruit, False)
-        self.playerCharacters.append(recruit)
+    def doBattle(self, battleNum):
+        if battleNum == 1:
+            chatter = False
+            print("You are the leader of a small part of misfits.")
+            print("You are from Yatahal, the Holy City.")
+            print(
+                    "Yatahal is a bastion of goodness, but the centaur "
+                    "Knights of Yatahal")
+            print(
+                    "look down on all other people as unfit to participate in "
+                    "combat.")
+            print(
+                    "Despite this, your mentor has assembled a small force of "
+                    "untrained fighters that he believes have potential.")
+            print("Elves and Dwarves and the occaisional drummed-out Knight.")
+            print(
+                    "You are the laughingstock of Yatahal's knights, but you "
+                    "believe that you are destined for greatness.")
+            print("")
+            print(
+                    "One day, you go out to bring supplies to the knight that "
+                    "guards the Ancient Sealed Door.")
+            print(
+                    "When you arrive, you find that he is consorting with "
+                    "Goblins and plotting the downfall of Yatahal.")
+            print("")
+            print("Swallowing your fear, you draw arms and challenge them!")
+            recruit = playerCharacter(
+                    "Max", "Human", "Hero", chatter, 0)
+            self.equipOnCharacter(
+                    equipment("Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                    recruit, False)
+            self.playerCharacters.append(recruit)
+            recruit = playerCharacter(
+                    "Lowe", "Hobbit", "Priest", chatter, 0)
+            self.equipOnCharacter(
+                    equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                    recruit, False)
+            self.playerCharacters.append(recruit)
+            recruit = playerCharacter(
+                    "Tao", "Elf", "Fire Mage", chatter, 0)
+            self.equipOnCharacter(
+                    equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                    recruit, False)
+            self.playerCharacters.append(recruit)
+            recruit = playerCharacter(
+                    "Luke", "Dwarf", "Warrior", chatter, 0)
+            self.equipOnCharacter(
+                    equipment("Axes", "Short Axe", 120, 0, 0, 3, 0, 0),
+                    recruit, False)
+            self.playerCharacters.append(recruit)
+            recruit = playerCharacter(
+                    "Ken", "Centaur", "Knight", chatter, 0)
+            self.equipOnCharacter(
+                    equipment("Spears", "Wooden Spear", 100, 0, 1, 3, 0, 0),
+                    recruit, False)
+            self.playerCharacters.append(recruit)
+            recruit = playerCharacter(
+                    "Hans", "Elf", "Archer", chatter, 0)
+            self.equipOnCharacter(
+                    equipment("Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0),
+                    recruit, False)
+            self.playerCharacters.append(recruit)
 
-        self.party = self.playerCharacters
-        while self.battleStatus != 'victory':
-            if self.battleStatus == 'egress':
-                self.reckoning(8, 'king')
-            elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'king')
-            battle(self, self.party, 1)
-        print("")
-        print("The party arrives at a small hut overlooking the water.")
-        print("There, a lonely priest lives in solitude, a penance.")
-        print(
-                "A Half-Giant, turned from his life of butchery to that of a "
-                "holy monk,")
-        print("has come to bring him his supplies.")
-        print("The monk, Gong, joins your cause!")
-        print("")
-        print("You spy a pillar of smoke rising from the direction of home.")
-        print("That's not good....")
-        print("")
-        recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
-        recruit.levelUp(chatter)
-        self.playerCharacters.append(recruit)
-        self.party = self.playerCharacters
-        self.reckoning(25, 'lonely priest')
-        self.battleStatus = None
-        while self.battleStatus != 'victory':
-            if self.battleStatus == 'egress':
-                self.reckoning(8, 'lonely priest')
-            elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'lonely priest')
-            battle(self, self.party, 2)
-        print("")
-        print("The party arrives at the Holy City of Yatahal. It is burning.")
-        print("Too late to intervene, you watch in horror as your mentor ")
-        print("and your king are slain by a dark swordsman who looks exactly ")
-        print("like you. The swordsman disappears into a black void")
-        print(
-                "If you weren't in the room with them when this happened, "
-                "you're sure ")
-        print(
-                "that the Knights of Yatahal would have posted a bounty on "
-                "your head.")
-        print("")
-        print("In the aftermath of the assassination, your mentor's daughter,")
-        print("Mae, joins you! With her is a washed up former city guard, ")
-        print("drunk on wine and thirsty for vengence, Gort!")
-        print("")
-        recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
-        self.playerCharacters.append(recruit)
-        self.equipOnCharacter(
-                equipment("Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
-                recruit, False)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
-        self.playerCharacters.append(recruit)
-        self.equipOnCharacter(equipment(
-                "Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit, False)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        self.party = self.playerCharacters
-        self.reckoning(25, 'widow of your mentor')
-        self.battleStatus = None
-        while self.battleStatus != 'victory':
-            if self.battleStatus == 'egress':
-                self.reckoning(8, 'widow of your mentor')
-            elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'widow of your mentor')
-            battle(self, self.party, 3)
+            self.party = self.playerCharacters
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(8, 'king')
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'king')
+                battle(self, self.party, 1)
+        elif battleNum == 2:
+            print("")
+            print("The party arrives at a small hut overlooking the water.")
+            print("There, a lonely priest lives in solitude, a penance.")
+            print(
+                    "A Half-Giant, turned from his life of butchery to that "
+                    "of a holy monk,")
+            print("has come to bring him his supplies.")
+            print("The monk, Gong, joins your cause!")
+            print("")
+            print(
+                    "You spy a pillar of smoke rising from the direction of "
+                    "home.")
+            print("That's not good....")
+            print("")
+            recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
+            recruit.levelUp(chatter)
+            self.playerCharacters.append(recruit)
+            self.party = self.playerCharacters
+            self.reckoning(25, 'lonely priest')
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(8, 'lonely priest')
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'lonely priest')
+                battle(self, self.party, 2)
+        elif battleNum == 3:
+            print("")
+            print(
+                    "The party arrives at the Holy City of Yatahal. It is "
+                    "burning.")
+            print("Too late to intervene, you watch in horror as your mentor ")
+            print("and your king are slain by a dark swordsman who looks ")
+            print(
+                    "exactly ;ike you. The swordsman disappears into a black "
+                    "void")
+            print(
+                    "If you weren't in the room with them when this happened, "
+                    "you're sure ")
+            print(
+                    "that the Knights of Yatahal would have posted a bounty "
+                    "on your head.")
+            print("")
+            print(
+                    "In the aftermath of the assassination, your mentor's "
+                    "daughter, ")
+            print(
+                    "Mae, joins you! With her is a washed up former city "
+                    "guard, ")
+            print("drunk on wine and thirsty for vengence, Gort!")
+            print("")
+            recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
+            self.playerCharacters.append(recruit)
+            self.equipOnCharacter(
+                    equipment("Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
+                    recruit, False)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
+            self.playerCharacters.append(recruit)
+            self.equipOnCharacter(equipment(
+                    "Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit, False)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            self.party = self.playerCharacters
+            self.reckoning(25, 'widow of your mentor')
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(8, 'widow of your mentor')
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'widow of your mentor')
+                battle(self, self.party, 3)
         print("")
         print("You arrive in Ulmara, a small merchant city bordering Yatahal.")
         print("The King of Ulmara greets you warmly, bestowing lavish gifts.")
