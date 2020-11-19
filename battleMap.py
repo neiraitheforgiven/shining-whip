@@ -982,11 +982,18 @@ class battle(object):
             print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
             self.currentInitiative = nextInitiative
             for tile in self.battleField.terrainArray:
-                voicePowerLost = math.ceil(
-                        float(tile.voicePower + tile.resonance * (
+                print(f'debug: voicePower is {tile.voicePower}')
+                print(f'debug: resonance is {tile.resonance}')
+                print(
+                        'debug: timePassed penalty is '
+                        f'{float(timePassed * 4 / 100)}')
+                voicePowerLost = round(float((
+                        tile.voicePower + tile.resonance) * float(
                                 timePassed * 4 / 100)))
+                print(f'debug: {voicePowerLost} power lost from {tile}')
                 tile.voicePower = math.floor(float(
                         tile.voicePower - voicePowerLost))
+                print(f'debug: {tile.voicePower} power remaining on {tile}')
                 if tile.voicePower > 0:
                     if not tile.goodRinging:
                         tile.voicePower = math.floor(
