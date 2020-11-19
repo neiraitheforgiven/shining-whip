@@ -978,7 +978,9 @@ class battle(object):
         for unit in self.battleField.units:
             unit.actedThisRound = False
         timePassed = self.currentInitiative - nextInitiative
+        print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
         print(f'debug: timePassed is {timePassed}')
+        print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
         self.currentInitiative = nextInitiative
         for tile in self.battleField.terrainArray:
             voicePowerLost = math.ceil(
