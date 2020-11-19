@@ -2323,8 +2323,8 @@ class battleField(object):
             toDamage *= 1.3
         if fromDamage != toDamage:
             valueString += (
-                    f"Damage: {math.round(fromDamage)}-->"
-                    f"{math.round(toDamage)}  ")
+                    f"Damage: {round(fromDamage)}-->"
+                    f"{round(toDamage)}  ")
         if fromFaith != toFaith:
             valueString += f"FP: {fromFaith}-->{toFaith}  "
         if fromMagic != toMagic:
