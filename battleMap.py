@@ -975,54 +975,56 @@ class battle(object):
             idleUnits = [
                     unit for unit in self.battleField.units
                     if unit.hp > 0 and not unit.actedThisRound]
+            #  degrade the tiles now
+            timePassed = self.currentInitiative - nextInitiative
+            print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+            print(f'debug: timePassed is {timePassed}')
+            print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+            self.currentInitiative = nextInitiative
+            for tile in self.battleField.terrainArray:
+                voicePowerLost = math.ceil(
+                        float(tile.voicePower + tile.resonance * (
+                                timePassed * 4 / 100)))
+                tile.voicePower = math.floor(float(
+                        tile.voicePower - voicePowerLost))
+                if tile.voicePower > 0:
+                    if not tile.goodRinging:
+                        tile.voicePower = math.floor(
+                                float(tile.voicePower + tile.resonance / 2))
+                elif tile.voicePower < 0:
+                    if not tile.evilRinging:
+                        tile.voicePower = math.floor(
+                                float(tile.voicePower + tile.resonance / 2))
+                if tile.voicePower != tile.resonance:
+                    tileId = self.battleField.terrainArray.index(tile)
+                    if tileId + 1 < len(self.battleField.terrainArray):
+                        tile2 = self.battleField.terrainArray[tileId + 1]
+                        if tile.voicePower > tile2.proposedGoodVoicePower and (
+                                tile.voicePower > tile2.voicePower):
+                            tile2.proposedGoodVoicePower = tile.voicePower
+                        if tile.voicePower < tile2.proposedEvilVoicePower and (
+                                tile.voicePower < tile2.voicePower):
+                            tile2.proposedEvilVoicePower = tile.voicePower
+                    if tileId - 1 >= 0:
+                        tile2 = self.battleField.terrainArray[tileId - 1]
+                        if tile.voicePower > tile2.proposedGoodVoicePower and (
+                                tile.voicePower > tile2.voicePower):
+                            tile2.proposedGoodVoicePower = tile.voicePower
+                        if tile.voicePower < tile2.proposedEvilVoicePower and (
+                                tile.voicePower < tile2.voicePower):
+                            tile2.proposedEvilVoicePower = tile.voicePower
+            for tile in self.battleField.terrainArray:
+                proposedVoicePower = (
+                        tile.proposedGoodVoicePower + (
+                                tile.proposedEvilVoicePower))
+                if proposedVoicePower != tile.resonance:
+                    tile.voicePower = proposedVoicePower
+                    tile.proposedGoodVoicePower = 0
+                    tile.proposedEvilVoicePower = 0
+                tile.goodRinging = max(0, tile.goodRinging - timePassed)
+                tile.evilRinging = max(0, tile.evilRinging - timePassed)
         for unit in self.battleField.units:
             unit.actedThisRound = False
-        timePassed = self.currentInitiative - nextInitiative
-        print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        print(f'debug: timePassed is {timePassed}')
-        print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        self.currentInitiative = nextInitiative
-        for tile in self.battleField.terrainArray:
-            voicePowerLost = math.ceil(
-                    float(tile.voicePower + tile.resonance * (
-                            timePassed * 4 / 100)))
-            tile.voicePower = math.floor(float(
-                    tile.voicePower - voicePowerLost))
-            if tile.voicePower > 0:
-                if not tile.goodRinging:
-                    tile.voicePower = math.floor(
-                            float(tile.voicePower + tile.resonance / 2))
-            elif tile.voicePower < 0:
-                if not tile.evilRinging:
-                    tile.voicePower = math.floor(
-                            float(tile.voicePower + tile.resonance / 2))
-            if tile.voicePower != tile.resonance:
-                tileId = self.battleField.terrainArray.index(tile)
-                if tileId + 1 < len(self.battleField.terrainArray):
-                    tile2 = self.battleField.terrainArray[tileId + 1]
-                    if tile.voicePower > tile2.proposedGoodVoicePower and (
-                            tile.voicePower > tile2.voicePower):
-                        tile2.proposedGoodVoicePower = tile.voicePower
-                    if tile.voicePower < tile2.proposedEvilVoicePower and (
-                            tile.voicePower < tile2.voicePower):
-                        tile2.proposedEvilVoicePower = tile.voicePower
-                if tileId - 1 >= 0:
-                    tile2 = self.battleField.terrainArray[tileId - 1]
-                    if tile.voicePower > tile2.proposedGoodVoicePower and (
-                            tile.voicePower > tile2.voicePower):
-                        tile2.proposedGoodVoicePower = tile.voicePower
-                    if tile.voicePower < tile2.proposedEvilVoicePower and (
-                            tile.voicePower < tile2.voicePower):
-                        tile2.proposedEvilVoicePower = tile.voicePower
-        for tile in self.battleField.terrainArray:
-            proposedVoicePower = (
-                    tile.proposedGoodVoicePower + tile.proposedEvilVoicePower)
-            if proposedVoicePower != tile.resonance:
-                tile.voicePower = proposedVoicePower
-                tile.proposedGoodVoicePower = 0
-                tile.proposedEvilVoicePower = 0
-            tile.goodRinging = max(0, tile.goodRinging - timePassed)
-            tile.evilRinging = max(0, tile.evilRinging - timePassed)
 
     def doTurn(self, unit, moved=False, statusChecked=False):
         if unit.status in ("sleep", "poison") and not statusChecked:
