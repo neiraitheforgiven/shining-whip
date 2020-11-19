@@ -977,7 +977,7 @@ class battle(object):
                     if unit.hp > 0 and not unit.actedThisRound]
         for unit in self.battleField.units:
             unit.actedThisRound = False
-        timePassed = nextInitiative - self.currentInitiative
+        timePassed = self.currentInitiative - nextInitiative
         print(f'debug: timePassed is {timePassed}')
         self.currentInitiative = nextInitiative
         for tile in self.battleField.terrainArray:
