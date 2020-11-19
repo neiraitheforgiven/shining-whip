@@ -13,6 +13,7 @@ class battle(object):
     def __init__(self, game, party, num=None):
         self.game = game
         self.party = self.assembleParty(party, game.maxPartySize)
+        self.currentInitiative = 0
         if input("Type skip to skip this battle: ") == "skip":
             game.battleStatus = 'victory'
             for unit in party:
@@ -1062,10 +1063,17 @@ class battle(object):
                     if unit.hp > 0 and not unit.actedThisRound]
         for unit in self.battleField.units:
             unit.actedThisRound = False
+        timePassed = nextInitiative - self.currentInitiative
+        print(f'debug: timePassed is {timePassed}')
+        self.currentInitiative = nextInitiative
         for tile in self.battleField.terrainArray:
+            #  degrade resonance based on amount of initiative that has passed.
             if not tile.ringing:
-                tile.voicePower = math.floor(
-                        float(tile.voicePower + tile.resonance / 2))
+                voicePowerLost = math.ceil(
+                        float(tile.voicePower + tile.resonance * (
+                                timePassed * 4 / 100)))
+                tile.voicePower = math.floor(float(
+                        tile.voicePower - voicePowerLost))
             if tile.voicePower != tile.resonance:
                 tileId = self.battleField.terrainArray.index(tile)
                 if tileId + 1 < len(self.battleField.terrainArray):
@@ -1091,7 +1099,7 @@ class battle(object):
                 tile.voicePower = proposedVoicePower
                 tile.proposedGoodVoicePower = 0
                 tile.proposedEvilVoicePower = 0
-            tile.ringing = False
+            tile.ringing = max(0, tile.ringing - timePassed)
 
     def doTurn(self, unit, moved=False, statusChecked=False):
         if unit.status in ("sleep", "poison") and not statusChecked:
@@ -1218,7 +1226,7 @@ class battle(object):
                         vp = math.ceil(vp * 1.3)
                     tile.voicePower += vp
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                        tile.ringing = True
+                        tile.ringing += self.getStat(unit, "Voice")
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
@@ -1322,7 +1330,7 @@ class battle(object):
                         vp = math.ceil(vp * 1.3)
                     tile.voicePower += vp
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                        tile.ringing = True
+                        tile.ringing += self.getStat(unit, "Voice")
                 return
         elif type(unit) == monster:
             print("")
@@ -1357,7 +1365,7 @@ class battle(object):
                     vp = math.ceil(vp * 1.3)
                 tile.voicePower -= vp
                 if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                    tile.ringing = True
+                    tile.ringing += self.getStat(unit, "Voice")
         time.sleep(6. / 10)
         endBattle = not self.battleOn()
         return endBattle
@@ -1504,7 +1512,7 @@ class battleTile(object):
     def __init__(self, terrain, battleField):
         self.name = terrain
         self.cost = 5
-        self.ringing = False
+        self.ringing = 0
         self.proposedGoodVoicePower = 0
         self.proposedEvilVoicePower = 0
         self.voicePower = 0
