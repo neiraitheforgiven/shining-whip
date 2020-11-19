@@ -13,6 +13,7 @@ class battle(object):
     def __init__(self, game, party, num=None):
         self.game = game
         self.party = self.assembleParty(party, game.maxPartySize)
+        self.currentInitiative = 0
         if input("Type skip to skip this battle: ") == "skip":
             game.battleStatus = 'victory'
             for unit in party:
@@ -976,7 +977,15 @@ class battle(object):
                     if unit.hp > 0 and not unit.actedThisRound]
         for unit in self.battleField.units:
             unit.actedThisRound = False
+        timePassed = nextInitiative - self.currentInitiative
+        print(f'debug: timePassed is {timePassed}')
+        self.currentInitiative = nextInitiative
         for tile in self.battleField.terrainArray:
+            voicePowerLost = math.ceil(
+                    float(tile.voicePower + tile.resonance * (
+                            timePassed * 4 / 100)))
+            tile.voicePower = math.floor(float(
+                    tile.voicePower - voicePowerLost))
             if tile.voicePower > 0:
                 if not tile.goodRinging:
                     tile.voicePower = math.floor(
@@ -1010,8 +1019,8 @@ class battle(object):
                 tile.voicePower = proposedVoicePower
                 tile.proposedGoodVoicePower = 0
                 tile.proposedEvilVoicePower = 0
-            tile.goodRinging = False
-            tile.evilRinging = False
+            tile.goodRinging = max(0, tile.goodRinging - timePassed)
+            tile.evilRinging = max(0, tile.evilRinging - timePassed)
 
     def doTurn(self, unit, moved=False, statusChecked=False):
         if unit.status in ("sleep", "poison") and not statusChecked:
