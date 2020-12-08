@@ -999,6 +999,8 @@ class battle(object):
                         print(
                                 f'debug: {voicePowerLost} power lost from '
                                 f'{tile}')
+                    else:
+                        print(f'debug: tile is good of {tile.goodRinging}')
                 elif tile.voicePower < 0:
                     if not tile.evilRinging:
                         voicePowerLost = math.ceil(
@@ -1009,6 +1011,8 @@ class battle(object):
                         print(
                                 f'debug: {voicePowerLost} power lost from '
                                 f'{tile}')
+                    else:
+                        print(f'debug: tile is evil of {tile.evilRinging}')
                 print(f'debug: {tile.voicePower} power remaining on {tile}')
                 if tile.voicePower != tile.resonance:
                     tileId = self.battleField.terrainArray.index(tile)
@@ -1179,9 +1183,13 @@ class battle(object):
                     tile.voicePower += vp
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                         if type(unit) == playerCharacter:
-                            tile.goodRinging = True
+                            tile.goodRinging = max(
+                                    15, tile.goodRinging + self.getStat(
+                                            unit, "Voice"))
                         else:
-                            tile.evilRinging = True
+                            tile.evilRinging = max(
+                                    15, tile.evilRinging + self.getStat(
+                                            unit, "Voice"))
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
@@ -1286,9 +1294,13 @@ class battle(object):
                     tile.voicePower += vp
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                         if type(unit) == playerCharacter:
-                            tile.goodRinging = True
+                            tile.goodRinging = max(
+                                    15, tile.goodRinging + self.getStat(
+                                            unit, "Voice"))
                         else:
-                            tile.evilRinging = True
+                            tile.evilRinging = max(
+                                    15, tile.evilRinging + self.getStat(
+                                            unit, "Voice"))
                 return
         elif type(unit) == monster:
             print("")
@@ -1324,9 +1336,13 @@ class battle(object):
                 tile.voicePower -= vp
                 if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                     if type(unit) == playerCharacter:
-                        tile.goodRinging = True
+                        tile.goodRinging = max(
+                                15, tile.goodRinging + self.getStat(
+                                        unit, "Voice"))
                     else:
-                        tile.evilRinging = True
+                        tile.evilRinging = max(
+                                15, tile.evilRinging + self.getStat(
+                                        unit, "Voice"))
         time.sleep(6. / 10)
         endBattle = not self.battleOn()
         return endBattle
@@ -1493,8 +1509,8 @@ class battleTile(object):
     def __init__(self, terrain, battleField):
         self.name = terrain
         self.cost = 5
-        self.goodRinging = False
-        self.evilRinging = False
+        self.goodRinging = 0
+        self.evilRinging = 0
         self.proposedGoodVoicePower = 0
         self.proposedEvilVoicePower = 0
         self.voicePower = 0
