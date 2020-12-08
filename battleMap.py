@@ -1040,12 +1040,16 @@ class battle(object):
                             tile2.proposedEvilVoicePower = tile.voicePower / 2
             for tile in self.battleField.terrainArray:
                 goodPowerSoaked = math.ceil(
-                        tile.proposedGoodVoicePower * 2 / 100)
+                        float(tile.proposedGoodVoicePower + tile.resonance * (
+                                timePassed * 2 / 100)))
                 if not tile.goodRinging:
                     tile.proposedGoodVoicePower = max(
                             0, tile.proposedGoodVoicePower - goodPowerSoaked)
                 evilPowerSoaked = math.ceil(
-                        abs(tile.proposedEvilVoicePower * 2 / 100))
+                        abs(float(
+                                tile.proposedEvilVoicePower + (
+                                        tile.resonance * timePassed * (
+                                                2 / 100)))))
                 if not tile.evilRinging:
                     tile.proposedEvilVoicePower = min(
                             0, tile.proposedEvilVoicePower + evilPowerSoaked)
