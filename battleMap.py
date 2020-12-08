@@ -976,7 +976,7 @@ class battle(object):
                     unit for unit in self.battleField.units
                     if unit.hp > 0 and not unit.actedThisRound]
             #  degrade the tiles now
-            timePassed = self.currentInitiative - nextInitiative
+            timePassed = abs(self.currentInitiative - nextInitiative)
             print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
             print(f'debug: timePassed is {timePassed}')
             print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
@@ -989,6 +989,7 @@ class battle(object):
             for tile in self.battleField.terrainArray:
                 print(f'debug: voicePower is {tile.voicePower}')
                 print(f'debug: resonance is {tile.resonance}')
+                print(f'debug: good {tile.goodRinging}, evil {tile.evilRinging}')
                 if tile.voicePower > 0:
                     if not tile.goodRinging:
                         voicePowerLost = math.ceil(
