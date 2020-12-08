@@ -989,29 +989,28 @@ class battle(object):
             for tile in self.battleField.terrainArray:
                 print(f'debug: voicePower is {tile.voicePower}')
                 print(f'debug: resonance is {tile.resonance}')
-                print(f'debug: good {tile.goodRinging}, evil {tile.evilRinging}')
                 if tile.voicePower > 0:
                     if not tile.goodRinging:
-                        voicePowerLost = math.ceil(
-                                float(tile.voicePower + tile.resonance * (
-                                        timePassed * 4 / 100)))
-                        tile.voicePower = math.floor(float(
-                                tile.voicePower - voicePowerLost))
+                        voicePowerLost = float(
+                                (tile.voicePower + tile.resonance) * (
+                                        timePassed * 4 / 100))
                         print(
                                 f'debug: {voicePowerLost} power lost from '
                                 f'{tile}')
+                        tile.voicePower = math.floor(float(
+                                tile.voicePower - voicePowerLost))
                     else:
                         print(f'debug: tile is good of {tile.goodRinging}')
                 elif tile.voicePower < 0:
                     if not tile.evilRinging:
-                        voicePowerLost = math.ceil(
-                                float(tile.voicePower + tile.resonance * (
-                                        timePassed * 4 / 100)))
-                        tile.voicePower = math.floor(float(
-                                tile.voicePower - voicePowerLost))
+                        voicePowerLost = float(
+                                (tile.voicePower + tile.resonance) * (
+                                        timePassed * 4 / 100))
                         print(
                                 f'debug: {voicePowerLost} power lost from '
                                 f'{tile}')
+                        tile.voicePower = math.ceil(float(
+                                tile.voicePower - voicePowerLost))
                     else:
                         print(f'debug: tile is evil of {tile.evilRinging}')
                 print(f'debug: {tile.voicePower} power remaining on {tile}')
@@ -1044,17 +1043,15 @@ class battle(object):
                                 tile.voicePower < tile2.voicePower):
                             tile2.proposedEvilVoicePower = tile.voicePower / 2
             for tile in self.battleField.terrainArray:
-                goodPowerSoaked = math.ceil(
-                        float(tile.proposedGoodVoicePower + tile.resonance * (
+                goodPowerSoaked = math.ceil(float((
+                        tile.proposedGoodVoicePower + tile.resonance) * (
                                 timePassed * 2 / 100)))
                 if not tile.goodRinging:
                     tile.proposedGoodVoicePower = max(
                             0, tile.proposedGoodVoicePower - goodPowerSoaked)
-                evilPowerSoaked = math.ceil(
-                        abs(float(
-                                tile.proposedEvilVoicePower + (
-                                        tile.resonance * timePassed * (
-                                                2 / 100)))))
+                evilPowerSoaked = math.ceil(abs(float(
+                        tile.proposedEvilVoicePower + tile.resonance) * (
+                                timePassed * 2 / 100)))
                 if not tile.evilRinging:
                     tile.proposedEvilVoicePower = min(
                             0, tile.proposedEvilVoicePower + evilPowerSoaked)
