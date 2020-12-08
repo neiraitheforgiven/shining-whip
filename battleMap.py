@@ -997,8 +997,8 @@ class battle(object):
                         print(
                                 f'debug: {voicePowerLost} power lost from '
                                 f'{tile}')
-                        tile.voicePower = math.floor(float(
-                                tile.voicePower - voicePowerLost))
+                        tile.voicePower = float(
+                                tile.voicePower - voicePowerLost)
                     else:
                         print(f'debug: tile is good of {tile.goodRinging}')
                 elif tile.voicePower < 0:
@@ -1009,8 +1009,8 @@ class battle(object):
                         print(
                                 f'debug: {voicePowerLost} power lost from '
                                 f'{tile}')
-                        tile.voicePower = math.ceil(float(
-                                tile.voicePower - voicePowerLost))
+                        tile.voicePower = float(
+                                tile.voicePower - voicePowerLost)
                     else:
                         print(f'debug: tile is evil of {tile.evilRinging}')
                 print(f'debug: {tile.voicePower} power remaining on {tile}')
@@ -1043,15 +1043,15 @@ class battle(object):
                                 tile.voicePower < tile2.voicePower):
                             tile2.proposedEvilVoicePower = tile.voicePower / 2
             for tile in self.battleField.terrainArray:
-                goodPowerSoaked = math.ceil(float((
+                goodPowerSoaked = float((
                         tile.proposedGoodVoicePower + tile.resonance) * (
-                                timePassed * 2 / 100)))
+                                timePassed * 2 / 100))
                 if not tile.goodRinging:
                     tile.proposedGoodVoicePower = max(
                             0, tile.proposedGoodVoicePower - goodPowerSoaked)
-                evilPowerSoaked = math.ceil(abs(float(
+                evilPowerSoaked = abs(float(
                         tile.proposedEvilVoicePower + tile.resonance) * (
-                                timePassed * 2 / 100)))
+                                timePassed * 2 / 100))
                 if not tile.evilRinging:
                     tile.proposedEvilVoicePower = min(
                             0, tile.proposedEvilVoicePower + evilPowerSoaked)
