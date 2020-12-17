@@ -220,6 +220,36 @@ class battle(object):
             while self.battleOn():
                 self.doRound()
 
+    def addVocalPower(self, tile, amount):
+        tileId = self.battleField.terrainArray.index(tile)
+        tile.voicePower += amount
+        if tileId + 1 < len(self.battleField.terrainArray):
+            tile2 = self.battleField.terrainArray[tileId + 1]
+            # set proposed voice power for each side = 1/2 current
+            # voice power
+            if (
+                    tile.voicePower / 2) > (
+                    tile2.proposedGoodVoicePower) and (
+                    tile.voicePower > tile2.voicePower):
+                tile2.proposedGoodVoicePower = tile.voicePower / 2
+            if (
+                    tile.voicePower / 2) < (
+                    tile2.proposedEvilVoicePower) and (
+                    tile.voicePower < tile2.voicePower):
+                tile2.proposedEvilVoicePower = tile.voicePower / 2
+        if tileId - 1 >= 0:
+            tile2 = self.battleField.terrainArray[tileId - 1]
+            if (
+                    tile.voicePower / 2) > (
+                    tile2.proposedGoodVoicePower) and (
+                    tile.voicePower > tile2.voicePower):
+                tile2.proposedGoodVoicePower = tile.voicePower / 2
+            if (
+                    tile.voicePower / 2) < (
+                    tile2.proposedEvilVoicePower) and (
+                    tile.voicePower < tile2.voicePower):
+                tile2.proposedEvilVoicePower = tile.voicePower / 2
+
     def assembleParty(self, party, maxPartySize):
         if len(party) <= maxPartySize:
             return party
@@ -271,7 +301,6 @@ class battle(object):
                 unitChoice = None
                 partyOptions = [
                         unit for unit in party if unit not in currentParty]
-                print(f"debug: party is {len(currentParty)} / {maxPartySize}")
                 while unitChoice not in ([
                         partyOptions.index(option)
                         for option in partyOptions], 'L', 'l'):
@@ -976,10 +1005,12 @@ class battle(object):
                     unit for unit in self.battleField.units
                     if unit.hp > 0 and not unit.actedThisRound]
             #  degrade the tiles now
-            timePassed = self.currentInitiative - nextInitiative
-            print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-            print(f'debug: timePassed is {timePassed}')
-            print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+            timePassed = abs(self.currentInitiative - nextInitiative)
+            """New model design:
+            Potential Spread should be added whenever resonance is added to a
+            tile. Whenever time passes, 4xTime% points (rounded up) should be
+            degraded from each tile, and then 2xTime% points (rounded up)
+            should bleed from potential into the real resonance."""
             self.currentInitiative = nextInitiative
             for tile in self.battleField.terrainArray:
                 print(f'debug: voicePower is {tile.voicePower}')
@@ -996,38 +1027,34 @@ class battle(object):
                 print(f'debug: {tile.voicePower} power remaining on {tile}')
                 if tile.voicePower > 0:
                     if not tile.goodRinging:
-                        tile.voicePower = math.floor(
-                                float(tile.voicePower + tile.resonance / 2))
+                        voicePowerLost = float(
+                                (tile.voicePower + tile.resonance) * (
+                                        timePassed * 4 / 100))
+                        tile.voicePower = float(
+                                tile.voicePower - voicePowerLost)
                 elif tile.voicePower < 0:
                     if not tile.evilRinging:
-                        tile.voicePower = math.floor(
-                                float(tile.voicePower + tile.resonance / 2))
-                if tile.voicePower != tile.resonance:
-                    tileId = self.battleField.terrainArray.index(tile)
-                    if tileId + 1 < len(self.battleField.terrainArray):
-                        tile2 = self.battleField.terrainArray[tileId + 1]
-                        if tile.voicePower > tile2.proposedGoodVoicePower and (
-                                tile.voicePower > tile2.voicePower):
-                            tile2.proposedGoodVoicePower = tile.voicePower
-                        if tile.voicePower < tile2.proposedEvilVoicePower and (
-                                tile.voicePower < tile2.voicePower):
-                            tile2.proposedEvilVoicePower = tile.voicePower
-                    if tileId - 1 >= 0:
-                        tile2 = self.battleField.terrainArray[tileId - 1]
-                        if tile.voicePower > tile2.proposedGoodVoicePower and (
-                                tile.voicePower > tile2.voicePower):
-                            tile2.proposedGoodVoicePower = tile.voicePower
-                        if tile.voicePower < tile2.proposedEvilVoicePower and (
-                                tile.voicePower < tile2.voicePower):
-                            tile2.proposedEvilVoicePower = tile.voicePower
+                        voicePowerLost = float(
+                                (tile.voicePower + tile.resonance) * (
+                                        timePassed * 4 / 100))
+                        tile.voicePower = float(
+                                tile.voicePower - voicePowerLost)
             for tile in self.battleField.terrainArray:
-                proposedVoicePower = (
-                        tile.proposedGoodVoicePower + (
-                                tile.proposedEvilVoicePower))
-                if proposedVoicePower != tile.resonance:
-                    tile.voicePower = proposedVoicePower
-                    tile.proposedGoodVoicePower = 0
-                    tile.proposedEvilVoicePower = 0
+                goodPowerSoaked = float((
+                        tile.proposedGoodVoicePower + tile.resonance) * (
+                                timePassed * 4 / 100))
+                if not tile.goodRinging:
+                    tile.proposedGoodVoicePower = max(
+                            0, tile.proposedGoodVoicePower - goodPowerSoaked)
+                evilPowerSoaked = abs(float(
+                        tile.proposedEvilVoicePower + tile.resonance) * (
+                                timePassed * 4 / 100))
+                if not tile.evilRinging:
+                    tile.proposedEvilVoicePower = min(
+                            0, tile.proposedEvilVoicePower + evilPowerSoaked)
+                proposedVoiceChange = goodPowerSoaked - evilPowerSoaked
+                if tile.voicePower + proposedVoiceChange != tile.resonance:
+                    self.addVocalPower(tile, proposedVoiceChange)
                 tile.goodRinging = max(0, tile.goodRinging - timePassed)
                 tile.evilRinging = max(0, tile.evilRinging - timePassed)
         for unit in self.battleField.units:
@@ -1148,12 +1175,16 @@ class battle(object):
                     if self.getPower(
                             unit, "Vocal Attack: Increased Resonance II"):
                         vp = math.ceil(vp * 1.3)
-                    tile.voicePower += vp
+                    self.addVocalPower(tile, vp)
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                         if type(unit) == playerCharacter:
-                            tile.goodRinging = True
+                            tile.goodRinging = max(
+                                    15, tile.goodRinging + self.getStat(
+                                            unit, "Voice"))
                         else:
-                            tile.evilRinging = True
+                            tile.evilRinging = max(
+                                    15, tile.evilRinging + self.getStat(
+                                            unit, "Voice"))
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
@@ -1249,18 +1280,40 @@ class battle(object):
                 if not moved or self.getPower(
                         unit, "Vocal Attack: Ignore Movement"):
                     vp = self.getStat(unit, "Voice")
+                    darkTile = tile.voicePower < -1
+                    if darkTile:
+                        print(
+                                f'{unit.name} shouts a few lines from the '
+                                'holy song, hoping to be heard over the '
+                                'unholy din.')
+                    elif tile.voicePower > 1:
+                        print(
+                                f'{unit.name} sings along with the holy song '
+                                'of the Force.')
+                    else:
+                        print(
+                                f'{unit.name} sings out a stanza from the '
+                                'holy song.')
                     if self.getPower(
                             unit, "Vocal Attack: Increased Resonance I"):
                         vp = math.ceil(vp * 1.3)
                     if self.getPower(
                             unit, "Vocal Attack: Increased Resonance II"):
                         vp = math.ceil(vp * 1.3)
-                    tile.voicePower += vp
+                    self.addVocalPower(tile, vp)
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                         if type(unit) == playerCharacter:
-                            tile.goodRinging = True
+                            tile.goodRinging = max(
+                                    15, tile.goodRinging + self.getStat(
+                                            unit, "Voice"))
                         else:
-                            tile.evilRinging = True
+                            tile.evilRinging = max(
+                                    15, tile.evilRinging + self.getStat(
+                                            unit, "Voice"))
+                    if darkTile and tile.voicePower > -1:
+                        print(f"{unit.name}'s voice overcame the darkness!")
+                else:
+                    print(f'{unit.name} waited.')
                 return
         elif type(unit) == monster:
             print("")
@@ -1293,12 +1346,16 @@ class battle(object):
                 if self.getPower(
                         unit, "Vocal Attack: Increased Resonance II"):
                     vp = math.ceil(vp * 1.3)
-                tile.voicePower -= vp
+                self.addVocalPower(tile, -vp)
                 if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                     if type(unit) == playerCharacter:
-                        tile.goodRinging = True
+                        tile.goodRinging = max(
+                                15, tile.goodRinging + self.getStat(
+                                        unit, "Voice"))
                     else:
-                        tile.evilRinging = True
+                        tile.evilRinging = max(
+                                15, tile.evilRinging + self.getStat(
+                                        unit, "Voice"))
         time.sleep(6. / 10)
         endBattle = not self.battleOn()
         return endBattle
@@ -1465,8 +1522,8 @@ class battleTile(object):
     def __init__(self, terrain, battleField):
         self.name = terrain
         self.cost = 5
-        self.goodRinging = False
-        self.evilRinging = False
+        self.goodRinging = 0
+        self.evilRinging = 0
         self.proposedGoodVoicePower = 0
         self.proposedEvilVoicePower = 0
         self.voicePower = 0
@@ -2278,9 +2335,9 @@ class battleField(object):
                 mapAdd += f" +{tileHeight} "
             elif tileHeight < 0:
                 mapAdd += f" {tileHeight} "
-            if tile.voicePower > 0:
+            if round(tile.voicePower) > 0:
                 mapAdd += "(Shining)"
-            elif tile.voicePower < 0:
+            elif round(tile.voicePower) < 0:
                 mapAdd += "(Unholy)"
             mapRow += f"{mapAdd:24}"
         print(mapRow)
