@@ -732,9 +732,7 @@ class battle(object):
             unit.mp -= self.mpCost(unit, 5)
             field = self.battleField
             moveFromTile = field.terrainArray[field.getUnitPos(unit)]
-            position = unit.allowedSpells[spellName][targetId]
-            # target is a position
-            moveToTile = field.terrainArray[position]
+            moveToTile = unit.allowedSpells[spellName][targetId]
             moveFromTile.units.remove(unit)
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 5)
@@ -742,9 +740,7 @@ class battle(object):
             unit.mp -= self.mpCost(unit, 10)
             field = self.battleField
             moveFromTile = field.terrainArray[field.getUnitPos(unit)]
-            position = unit.allowedSpells[spellName][targetId]
-            # target is a position
-            moveToTile = field.terrainArray[position]
+            moveToTile = unit.allowedSpells[spellName][targetId]
             moveFromTile.units.remove(unit)
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
@@ -752,9 +748,7 @@ class battle(object):
             unit.mp -= self.mpCost(unit, 6)
             field = self.battleField
             moveFromTile = field.terrainArray[field.getUnitPos(unit)]
-            position = unit.allowedSpells[spellName][targetId]
-            # target is a position
-            moveToTile = field.terrainArray[position]
+            moveToTile = unit.allowedSpells[spellName][targetId]
             moveFromTile.units.remove(unit)
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
