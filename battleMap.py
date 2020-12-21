@@ -1172,6 +1172,41 @@ class battle(object):
                             tile.evilRinging = max(
                                     15, tile.evilRinging + self.getStat(
                                             unit, "Voice"))
+                if not moved or self.getPower(
+                        unit, "Vocal Attack: Ignore Movement"):
+                    vp = self.getStat(unit, "Voice")
+                    darkTile = tile.voicePower < -1
+                    if darkTile:
+                        print(
+                                f'{unit.name} shouts a few lines from the '
+                                'holy song, hoping to be heard over the '
+                                'unholy din.')
+                    elif tile.voicePower > 1:
+                        print(
+                                f'{unit.name} sings along with the holy song '
+                                'of the Force.')
+                    else:
+                        print(
+                                f'{unit.name} sings out a stanza from the '
+                                'holy song.')
+                    if self.getPower(
+                            unit, "Vocal Attack: Increased Resonance I"):
+                        vp = math.ceil(vp * 1.3)
+                    if self.getPower(
+                            unit, "Vocal Attack: Increased Resonance II"):
+                        vp = math.ceil(vp * 1.3)
+                    self.addVocalPower(tile, vp)
+                    if self.getPower(unit, "Vocal Attack: Sustain Effect"):
+                        if type(unit) == playerCharacter:
+                            tile.goodRinging = max(
+                                    15, tile.goodRinging + self.getStat(
+                                            unit, "Voice"))
+                        else:
+                            tile.evilRinging = max(
+                                    15, tile.evilRinging + self.getStat(
+                                            unit, "Voice"))
+                    if darkTile and tile.voicePower > -1:
+                        print(f"{unit.name}'s voice overcame the darkness!")
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
