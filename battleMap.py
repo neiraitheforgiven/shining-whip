@@ -1156,25 +1156,6 @@ class battle(object):
                 if not moved or self.getPower(
                         unit, "Vocal Attack: Ignore Movement"):
                     vp = self.getStat(unit, "Voice")
-                    if self.getPower(
-                            unit, "Vocal Attack: Increased Resonance I"):
-                        vp = math.ceil(vp * 1.3)
-                    if self.getPower(
-                            unit, "Vocal Attack: Increased Resonance II"):
-                        vp = math.ceil(vp * 1.3)
-                    self.addVocalPower(tile, vp)
-                    if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                        if type(unit) == playerCharacter:
-                            tile.goodRinging = max(
-                                    15, tile.goodRinging + self.getStat(
-                                            unit, "Voice"))
-                        else:
-                            tile.evilRinging = max(
-                                    15, tile.evilRinging + self.getStat(
-                                            unit, "Voice"))
-                if not moved or self.getPower(
-                        unit, "Vocal Attack: Ignore Movement"):
-                    vp = self.getStat(unit, "Voice")
                     darkTile = tile.voicePower < -1
                     if darkTile:
                         print(
