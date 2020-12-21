@@ -2167,7 +2167,7 @@ class battleField(object):
 
     def getName(self, unit, target):
         if type(unit) == playerCharacter:
-            if typr(target) == monster and target.name not in unit.trophies:
+            if type(target) == monster and target.name not in unit.trophies:
                 return f'{target.name}*'
         return target.name
 
