@@ -2184,6 +2184,12 @@ class battleField(object):
         else:
             return 0
 
+    def getName(self, unit, target):
+        if type(unit) == playerCharacter:
+            if target.name not in unit.trophies:
+                return f'{target.name}*'
+        return target.name
+
     def getPower(self, unit, name):
         if any([name in power for power in unit.powers]):
             return True
@@ -2243,7 +2249,8 @@ class battleField(object):
         for target in unit.allowedAttacks:
             targetHealth = target.maxHP()
             attackStringAdds.append(
-                    f"({unit.allowedAttacks.index(target)}) {target.name} "
+                    f"({unit.allowedAttacks.index(target)}) "
+                    f"{self.getName(unit, target)} "
                     f"(HP: {target.hp}/{targetHealth})")
         attackString += ", ".join(attackStringAdds)
         print(attackString + ".")
@@ -2321,7 +2328,7 @@ class battleField(object):
             elif type(target) in (monster, playerCharacter):
                 targetHealth = target.maxHP()
                 targetStringAdds.append(
-                        f"({count}) {target.name} "
+                        f"({count}) {self.getName(unit, target)} "
                         f"(HP: {target.hp}/{targetHealth})")
                 count += 1
             elif type(target) == battleTile:
