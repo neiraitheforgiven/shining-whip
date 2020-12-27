@@ -1095,6 +1095,12 @@ class battle(object):
         otherUnits = ", ".join([
                 tileUnit.name for tileUnit in tile.units if tileUnit != unit])
         if type(unit) == playerCharacter:
+            if self.getPower(unit, 'Random Additional Spell I') and not (
+                    unit.extraPowerSlot):
+                unit.extraPowerSlot = self.getExtraSpell(unit, 1)
+            if self.getPower(unit, 'Random Additional Spell II') and not (
+                    unit.extraPowerSlot2):
+                unit.extraPowerSlot2 = self.getExtraSpell(unit, 2)
             allowedCommands = ["C", "c", "L", "l", "W", "w"]
             if not moved:
                 if type(unit) == playerCharacter:
@@ -1449,6 +1455,74 @@ class battle(object):
                 elif attackType == "sleep":
                     target.status = "sleep"
                     print(f"{target.name} fell asleep!")
+
+    def getExtraSpell(self, unit, slot):
+        possibleSpells = []
+        #  Faith Spells
+        if unit.fp >= self.mpCost(unit, 3):
+            possibleSpells.append("Detox I")
+            possibleSpells.append("Heal I")
+        if unit.fp >= self.mpCost(unit, 6):
+            possibleSpells.append("Heal II")
+        if unit.fp >= self.mpCost(unit, 7):
+            possibleSpells.append("Aura I")
+        if unit.fp >= self.mpCost(unit, 10):
+            possibleSpells.append("Heal III")
+        if unit.fp >= self.mpCost(unit, 11):
+            possibleSpells.append("Aura II")
+        if unit.fp >= self.mpCost(unit, 13):
+            possibleSpells.append("Afflict I")
+        if unit.fp >= self.mpCost(unit, 15):
+            possibleSpells.append("Aura III")
+        if unit.fp >= self.mpCost(unit, 20):
+            possibleSpells.append("Aura IV")
+            possibleSpells.append("Heal IV")
+        #  MP spells
+        if unit.mp >= self.mpCost(unit, 2):
+            possibleSpells.append("Blaze I")
+        if unit.mp >= self.mpCost(unit, 3):
+            possibleSpells.append("Freeze I")
+        if unit.mp >= self.mpCost(unit, 5):
+            possibleSpells.append("Drain I")
+            possibleSpells.append("Teleport I")
+        if unit.mp >= self.mpCost(unit, 6):
+            possibleSpells.append("Blaze II")
+            possibleSpells.append("Teleport III")
+        if unit.mp >= self.mpCost(unit, 7):
+            possibleSpells.append("Freeze II")
+        if unit.mp >= self.mpCost(unit, 8):
+            possibleSpells.append("Blaze III")
+            possibleSpells.append("Blaze IV")
+            possibleSpells.append("Bolt I")
+            possibleSpells.append("Dao I")
+            possibleSpells.append("Egress I")
+            possibleSpells.append("Midas I")
+        if unit.mp >= self.mpCost(unit, 10):
+            possibleSpells.append("Freeze III")
+            possibleSpells.append("Teleport II")
+        if unit.mp >= self.mpCost(unit, 12):
+            possibleSpells.append("Drain II")
+            possibleSpells.append("Freeze IV")
+        if unit.mp >= self.mpCost(unit, 15):
+            possibleSpells.append("Bolt II")
+            possibleSpells.append("Dao II")
+        if unit.mp >= self.mpCost(unit, 20):
+            possibleSpells.append("Bolt III")
+            possibleSpells.append("Bolt IV")
+        if unit.mp >= self.mpCost(unit, 21):
+            possibleSpells.append("Portal I")
+
+        possibleSpells = [
+                spell for spell in possibleSpells if spell not in unit.powers]
+        if slot == 1:
+            possibleSpells = [
+                spell for spell in possibleSpells
+                if spell not in unit.extraPowerSlot2]
+        elif slot == 2:
+            possibleSpells = [
+                spell for spell in possibleSpells
+                if spell not in unit.extraPowerSlot]
+        return random.choice(possibleSpells)
 
     def getFameBonus(self, unit):
         return self.battleField.getFameBonus(unit)
@@ -2174,19 +2248,24 @@ class battleField(object):
     def getPower(self, unit, name):
         if any([name in power for power in unit.powers]):
             return True
-        elif unit.equipment:
+        if unit.equipment:
             if any([name in power for power in unit.equipment.powers]):
                 return True
-        else:
-            commandName = "Command: " + name
-            position = self.getUnitPos(unit)
-            if not position:
-                return False
-            currentTile = self.terrainArray[position]
-            for ally in currentTile.units:
-                if type(ally) == type(unit):
-                    if any([commandName in power for power in unit.powers]):
-                        return True
+        if self.getPower(unit, 'Random Additional Spell I'):
+            if any([name in power for power in unit.extraPowerSlot]):
+                return True
+        if self.getPower(unit, 'Random Additional Spell II'):
+            if any([name in power for power in unit.extraPowerSlot2]):
+                return True
+        commandName = "Command: " + name
+        position = self.getUnitPos(unit)
+        if not position:
+            return False
+        currentTile = self.terrainArray[position]
+        for ally in currentTile.units:
+            if type(ally) == type(unit):
+                if any([commandName in power for power in unit.powers]):
+                    return True
         return False
 
     def getStat(self, unit, statName):

@@ -26,6 +26,8 @@ class monster(object):
         self.equipment = None
         self.status = None
         self.boss = False
+        self.extraPowerSlot = []
+        self.extraPowerSlot2 = []
         if name == "Body Puppet":
             self.level = 7
             stats = {
