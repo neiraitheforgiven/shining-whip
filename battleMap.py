@@ -635,6 +635,44 @@ class battle(object):
             if target.hp <= 0:
                 self.kill(target)
 
+    def castStatusSpell(
+            self, unit, targetId, spellName, cost, statusName, range=0,
+            area=0, faith=False, gold=False, stats=[],
+            counterStats=["Stamina", "Faith"]):
+        if faith:
+            unit.fp -= self.mpCost(unit, cost)
+        else:
+            unit.mp -= self.mpCOst(unit, cost)
+        target = unit.allowedSpells[spellName][targetId]
+        print(f"{unit.name} casts {spellName} on {target.name}!")
+        # assemble chance array
+        chanceArray = []
+        chanceArray.extend(['fail'] * (50 - self.getStat(unit, "Luck")))
+        successChance = sum(self.getStat(unit, stat) for stat in stats)
+        chanceArray.extend(['success'] * successChance)
+        resistChance = 0
+        if "Life" in counterStats:
+            resistChance += target.hp
+            counterStats.remove("Life")
+        resistChance += math.floor(sum((
+                self.getStat(target, stat) * (
+                        self.getStat(target, "Luck") * 0.1))
+                        for stat in counterStats))
+        chanceArray.extend(['fail'] * resistChance)
+        result = random.choice(chanceArray)
+        if result == "success":
+            print(f"{target.name} is {statusName}!")
+            target.status = statusName
+            if gold and type(unit) == playerCharacter:
+                print(
+                        f"{unit.name} discovered a statue worth {target.hp} "
+                        "scroulings!")
+                self.game.money += target.hp
+            self.giveExperience(unit, target, math.ceil(target.hp / 3))
+        else:
+            print(f"By sheer will, {target.name} was not {statusName}!")
+            self.giveExperience(unit, target, math.ceil(target.hp / 10))
+
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Aura I":
             self.castAreaSpell(unit, targetId, "Aura I", 7, -15, faith=True)
@@ -682,6 +720,8 @@ class battle(object):
             unit.fp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
+            if "Petrified" in target.status:
+                target.initiativePoints = unit.initiativePoints - 15
             target.status = None
             print(f"{target.name} recovers!")
             self.giveExperience(unit, target, 10)
@@ -747,6 +787,10 @@ class battle(object):
             self.castAreaSpell(unit, targetId, "Heal III", 10, -30, faith=True)
         elif spellName == "Heal IV":
             self.castAreaSpell(unit, targetId, "Heal IV", 20, -60, faith=True)
+        elif spellName == "Midas I":
+            self.castStatusSpell(
+                    unit, targetId, "Midas I", 8, "Petrified", gold=True,
+                    stats=["Intelligence", "Faith", "Luck"])
         elif spellName == "Portal I":
             unit.mp -= self.mpCost(unit, 21)
             field = self.battleField
@@ -928,7 +972,7 @@ class battle(object):
             self.turnOrder = []
             nextInitiative = max([
                     unit.initiativePoints for unit in self.battleField.units
-                    if unit.hp > 0])
+                    if (unit.hp > 0 and "Petrified" not in unit.status)])
             nextUnits = [
                     unit for unit in self.battleField.units
                     if unit.initiativePoints == nextInitiative and unit.hp > 0]
@@ -1048,6 +1092,8 @@ class battle(object):
             unit.actedThisRound = False
 
     def doTurn(self, unit, moved=False, statusChecked=False):
+        if "Petrified" in unit.status:
+            return
         if unit.status in ("sleep", "poison") and not statusChecked:
             luck = self.getStat(unit, "Luck")
             if self.getPower(unit, "Swords: Increased Luck I"):
@@ -1983,15 +2029,21 @@ class battleField(object):
                 self.getPower(unit, "Freeze IV") and (
                 unit.mp >= self.mpCost(unit, 12))):
             self.checkSpell(unit, position, "Freeze IV", False, 2, 1)
-        if self.getPower(unit, "Heal I") and unit.fp >= 3:
+        if self.getPower(unit, "Heal I") and unit.fp >= self.mpCost(unit, 3):
             self.checkSpell(unit, position, "Heal I", True, 0, 0)
-        if self.getPower(unit, "Heal II") and unit.fp >= 6:
+        if self.getPower(unit, "Heal II") and unit.fp >= self.mpCost(unit, 6):
             self.checkSpell(unit, position, "Heal II", True, 1, 0)
-        if self.getPower(unit, "Heal III") and unit.fp >= 10:
+        if (
+                self.getPower(unit, "Heal III") and (
+                unit.fp >= self.mpCost(unit, 10))):
             self.checkSpell(unit, position, "Heal III", True, 2, 1)
-        if self.getPower(unit, "Heal IV") and unit.fp >= 20:
+        if self.getPower(unit, "Heal IV") and unit.fp >= self.mpCost(unit, 20):
             self.checkSpell(unit, position, "Heal IV", True, 0, 0)
-        if self.getPower(unit, "Portal I") and unit.mp >= 21:
+        if self.getPower(unit, "Midas I") and unit.mp >= self.mpCost(unit, 8):
+            self.checkSpell(unit, position, "Midas I", False, 0, 0)
+        if (
+                self.getPower(unit, "Portal I") and (
+                unit.mp >= self.mpCost(unit, 21))):
             targets = []
             minRange = max(0, (position - 2))
             maxRange = min((position + 2), len(self.terrainArray) - 1)
@@ -2008,7 +2060,9 @@ class battleField(object):
                         targets.extend(tile)
             if any(targets):
                 unit.allowedSpells["Portal I"] = targets
-        if self.getPower(unit, "Teleport I") and unit.mp >= 5:
+        if (
+                self.getPower(unit, "Teleport I") and (
+                unit.mp >= self.mpCost(unit, 5))):
             targets = []
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
@@ -2020,7 +2074,9 @@ class battleField(object):
                         targets.append(tile)
             if any(targets):
                 unit.allowedSpells["Teleport I"] = targets
-        if self.getPower(unit, "Teleport II") and unit.mp >= 10:
+        if (
+                self.getPower(unit, "Teleport II") and (
+                unit.mp >= self.mpCost(unit, 10))):
             targets = []
             minRange = max(0, (position - 2))
             maxRange = min((position + 2), len(self.terrainArray) - 1)
@@ -2032,7 +2088,9 @@ class battleField(object):
                         targets.append(tile)
             if any(targets):
                 unit.allowedSpells["Teleport II"] = targets
-        if self.getPower(unit, "Teleport III") and unit.mp >= 6:
+        if (
+                self.getPower(unit, "Teleport III") and (
+                unit.mp >= self.mpCost(unit, 6))):
             targets = []
             minRange = max(0, (position - 3))
             maxRange = min((position + 3), len(self.terrainArray) - 1)
