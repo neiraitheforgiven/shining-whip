@@ -523,10 +523,12 @@ class battle(object):
         if any([
                 unit for unit in self.battleField.units
                 if type(unit) == playerCharacter and self.getPower(
-                        unit, "Egress I") and unit.hp > 0]):
+                        unit, "Egress I") and unit.hp > 0 and not (
+                        unit.status and "Petrified" in unit.status)]):
             if any([
                     unit for unit in self.battleField.units
-                    if type(unit) == monster and unit.hp > 0]):
+                    if type(unit) == monster and unit.hp > 0 and not (
+                    unit.status and "Petrified" in unit.status)]):
                 return True
             else:
                 print("You are victorious!")
@@ -565,40 +567,43 @@ class battle(object):
                     if type(target) != type(unit))
         for i in range(minRange, maxRange + 1):
             tile = bf.terrainArray[i]
-            for target in list(tile.units):
-                if damage < 0:
-                    # spell is a healing spell
-                    if type(target) == type(unit):
-                        healing = min(
-                                abs(damage), (target.maxHP() - target.hp))
-                        print(
-                                f"{unit.name} restores {healing} health to "
-                                f"{target.name}!")
-                        target.hp += healing
-                        self.giveExperience(unit, target, healing)
-                elif damage > 0:
-                    # spell is a damage spell
-                    targetDamage = damage
-                    if type(target) != type(unit):
-                        if spread:
-                            targetDamage = math.ceil(targetDamage / count)
-                        if self.getPower(target, "Defense: Magic"):
-                            targetDamage = math.floor(targetDamage / 1.3)
-                        if self.getPower(
-                                target, f"Defense: {element} Resistance"):
-                            targetDamage = math.floor(targetDamage / 1.3)
-                        if self.getPower(
-                                target, f"Defense: {element} Vulnerability"):
-                            targetDamage = math.ceil(targetDamage * 1.3)
-                        targetDamage = min(targetDamage, target.hp)
+            for target in tile.units:
+                if not (target.status and "Petrified" in target.status):
+                    if damage < 0:
+                        # spell is a healing spell
+                        if type(target) == type(unit):
+                            healing = min(
+                                    abs(damage), (target.maxHP() - target.hp))
+                            print(
+                                    f"{unit.name} restores {healing} health "
+                                    f"to {target.name}!")
+                            target.hp += healing
+                            self.giveExperience(unit, target, healing)
+                    elif damage > 0:
+                        # spell is a damage spell
+                        targetDamage = damage
+                        if type(target) != type(unit):
+                            if spread:
+                                targetDamage = math.ceil(targetDamage / count)
+                            if self.getPower(target, "Defense: Magic"):
+                                targetDamage = math.floor(targetDamage / 1.3)
+                            if self.getPower(
+                                    target, f"Defense: {element} Resistance"):
+                                targetDamage = math.floor(targetDamage / 1.3)
+                            if self.getPower(
+                                    target,
+                                    f"Defense: {element} Vulnerability"):
+                                targetDamage = math.ceil(targetDamage * 1.3)
+                            targetDamage = min(targetDamage, target.hp)
 
-                        print(
-                                f"{unit.name} deals {targetDamage} "
-                                f"{elementWithSpace}damage to {target.name}!")
-                        target.hp -= targetDamage
-                        self.giveExperience(unit, target, targetDamage)
-                        if target.hp <= 0:
-                            self.kill(target)
+                            print(
+                                    f"{unit.name} deals {targetDamage} "
+                                    f"{elementWithSpace}damage to "
+                                    f"{target.name}!")
+                            target.hp -= targetDamage
+                            self.giveExperience(unit, target, targetDamage)
+                            if target.hp <= 0:
+                                self.kill(target)
 
     def castSingleSpell(
             self, unit, targetId, spellName, cost, damage, element=None,
@@ -972,7 +977,8 @@ class battle(object):
             self.turnOrder = []
             nextInitiative = max([
                     unit.initiativePoints for unit in self.battleField.units
-                    if (unit.hp > 0 and "Petrified" not in unit.status)])
+                    if (unit.hp > 0 and not (
+                            unit.status and "Petrified" in unit.status))])
             nextUnits = [
                     unit for unit in self.battleField.units
                     if unit.initiativePoints == nextInitiative and unit.hp > 0]
