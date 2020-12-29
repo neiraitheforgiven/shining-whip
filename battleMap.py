@@ -1739,6 +1739,12 @@ class battleField(object):
             for pc, _, _ in initiativeOrder[characterBuffer - 4:]:
                 self.terrainArray[2].units.append(pc)
 
+    def alliesAtPosition(self, me, position):
+        return [
+                unit for unit in self.terrainArray[position].units
+                if type(unit) != type(me) and self.canBeTarget(unit) and (
+                        unit != me)]
+
     def calculatePossibleMovement(
             self, unit, movementPoints, position, directionIsHigher,
             unstable, bonusSpent=False):
@@ -1757,9 +1763,7 @@ class battleField(object):
             else:
                 return
         candidate = False
-        if len([
-                tileUnit for tileUnit in tile.units
-                if type(tileUnit) == type(unit)]) < 4:
+        if len(self.friendsAtPosition(unit, position, False)) < 4:
             candidate = True
         # remove movementPoints
         if self.getPower(unit, "Flying Movement") or (
@@ -1844,9 +1848,9 @@ class battleField(object):
         if unit.status and "Petrified" in unit.status:
             return False
         return True
+
     def checkAttack(self, unit, position):
         unit.allowedAttacks = []
-        currentTile = self.terrainArray[position]
         if unit.equipment:
             minRange = unit.equipment.minRange
             maxRange = unit.equipment.maxRange
@@ -1860,9 +1864,7 @@ class battleField(object):
                 minRange = 0
                 maxRange = 1
         if minRange == 0 and maxRange == 0:
-            unit.allowedAttacks = [
-                    target for target in currentTile.units
-                    if type(unit) != type(target)]
+            unit.allowedAttacks = self.enemiesAtPosition(unit, position)
             return bool(unit.allowedAttacks)
         else:
             lowRangeBottom = position - maxRange
@@ -1877,9 +1879,9 @@ class battleField(object):
                 tilesInRange.append(tile) \
                         if tile not in tilesInRange else tilesInRange
             for tile in tilesInRange:
-                for tileUnit in tile.units:
-                    if type(tileUnit) != type(unit):
-                        unit.allowedAttacks.append(tileUnit)
+                tilePos = self.terrainArray.index(tile)
+                for tileUnit in self.enemiesAtPosition(unit, tilePos):
+                    unit.allowedAttacks.append(tileUnit)
             return bool(unit.allowedAttacks)
 
     def checkMove(self, unit, position):
@@ -1976,15 +1978,12 @@ class battleField(object):
             return False
 
     def checkSpellTargets(self, unit, tile, healing):
+        position = self.terrainArray.index(tile)
         if healing:
-            return [
-                    target for target in tile.units
-                    if type(target) == type(unit) and target.hp < (
-                            target.maxHP())]
+            friends = self.friendsAtPosition(position)
+            return [friend for friend in friends if friend.hp < friend.maxHP()]
         else:
-            return [
-                    target for target in tile.units
-                    if type(target) != type(unit)]
+            return self.enemiesAtPosition(position)
 
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
@@ -2000,7 +1999,8 @@ class battleField(object):
         if self.getPower(unit, "Aura IV") and unit.fp >= self.mpCost(unit, 20):
             targets = [
                     target for target in self.party
-                    if target.hp > 0 and target.hp < target.maxHP()]
+                    if target.hp > 0 and target.hp < target.maxHP() and (
+                            self.canBeTarget(target))]
             if any(targets):
                 unit.allowedSpells["Aura IV"] = "Self"
         if self.getPower(unit, "Blaze I") and unit.mp >= self.mpCost(unit, 2):
@@ -2071,16 +2071,12 @@ class battleField(object):
             minRange = max(0, (position - 2))
             maxRange = min((position + 2), len(self.terrainArray) - 1)
             currentTile = self.terrainArray[self.getUnitPos(unit)]
-            passengers = [
-                    tileUnit for tileUnit in currentTile.units
-                    if type(tileUnit) == type(unit)]
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                if self.terrainArray.index(tile) != position:
-                    if len([
-                            target for target in tile.units
-                            if type(target) == type(unit)]) <= (
+            passengers = self.friendsAtPosition(position)
+            for tilePos in range(minRange, (maxRange + 1)):
+                if tilePos != position:
+                    if len(self.friendsAtPosition(tilePos, False)) <= (
                             4 - len(passengers)):
-                        targets.extend(tile)
+                        targets.extend(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Portal I"] = targets
         if (
@@ -2089,12 +2085,10 @@ class battleField(object):
             targets = []
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                if self.terrainArray.index(tile) != position:
-                    if len([
-                            target for target in tile.units
-                            if type(target) == type(unit)]) < 4:
-                        targets.append(tile)
+            for tilePos in range(minRange, (maxRange + 1)):
+                if tilePos != position:
+                    if len(self.friendsAtPosition(tilePos, False)) < 4:
+                        targets.append(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Teleport I"] = targets
         if (
@@ -2103,12 +2097,10 @@ class battleField(object):
             targets = []
             minRange = max(0, (position - 2))
             maxRange = min((position + 2), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                if self.terrainArray.index(tile) != position:
-                    if len([
-                            target for target in tile.units
-                            if type(target) == type(unit)]) < 4:
-                        targets.append(tile)
+            for tilePos in range(minRange, (maxRange + 1)):
+                if tilePos != position:
+                    if len(self.friendsAtPosition(position, False)) < 4:
+                        targets.append(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Teleport II"] = targets
         if (
@@ -2117,12 +2109,10 @@ class battleField(object):
             targets = []
             minRange = max(0, (position - 3))
             maxRange = min((position + 3), len(self.terrainArray) - 1)
-            for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                if self.terrainArray.index(tile) != position:
-                    if len([
-                            target for target in tile.units
-                            if type(target) == type(unit)]) < 4:
-                        targets.append(tile)
+            for tilePos in range(minRange, (maxRange + 1)):
+                if tilePos != position:
+                    if len(self.friendsAtPosition(position, False)) < 4:
+                        targets.append(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Teleport III"] = targets
         if any(unit.allowedSpells):
@@ -2135,11 +2125,9 @@ class battleField(object):
         currentTile = self.terrainArray[position]
         vp = currentTile.voicePower
         if ((
-                type(unit) == playerCharacter and (vp > 0)) or (
-                type(unit) == monster and (vp < 0))):
-            return any([
-                    tileUnit for tileUnit in currentTile.units
-                    if type(tileUnit) != type(unit)])
+                type(unit) == playerCharacter and (vp > 1)) or (
+                type(unit) == monster and (vp < -1))):
+            return any(self.enemiesAtPosition(unit, position))
         else:
             return False
 
@@ -2160,16 +2148,12 @@ class battleField(object):
             return True
         elif monster.moveProfile == "Aggressive":
             # will not move if in melee range of enemies
-            if any([
-                    unit for unit in self.terrainArray[position].units
-                    if type(unit) == playerCharacter]):
+            if any(self.playersAtPosition(position)):
                 return False
             # move as far forward as possible to tiles with enemies
             candidates = []
             for position in monster.allowedMovement:
-                if any([
-                        unit for unit in self.terrainArray[position].units
-                        if type(unit) == playerCharacter]):
+                if any(self.playersAtPosition(position)):
                     candidates.append(position)
             if candidates:
                 moveTo = min(candidates)
@@ -2182,27 +2166,22 @@ class battleField(object):
             # just like aggressive but prefers to move to places with larger
             # concentration of enemies and friends
             candidates = []
-            maxPCs = max([len([
-                    unit for unit in self.terrainArray[position].units
-                    if type(unit) == playerCharacter])
+            maxPCs = max([
+                    len(self.playersAtPosition(position))
                     for position in monster.allowedMovement])
             if maxPCs > 0:
                 for position in monster.allowedMovement:
-                    if len([
-                            unit for unit in self.terrainArray[position].units
-                            if type(unit) == playerCharacter]) == maxPCs:
+                    if len(self.playersAtPosition(position)) == maxPCs:
                         candidates.append(position)
                 if any(candidates):
                     candidates2 = []
-                    maxMonsters = max([len([
-                            unit for unit in self.terrainArray[position].units
-                            if type(unit) == monster])
+                    maxMonsters = max([
+                            len(self.monstersAtPosition(position))
                             for position in candidates])
                     for position in candidates:
-                        if len([
-                                unit for unit in
-                                self.terrainArray[position].units
-                                if type(unit) == monster]) == maxMonsters:
+                        if len(
+                                self.monstersAtPosition(position)) == (
+                                maxMonsters):
                             candidates2.append(position)
                     if any(candidates2):
                         moveTo = random.choice(candidates2)
@@ -2222,9 +2201,8 @@ class battleField(object):
             else:
                 candidates = []
                 for position in monster.allowedMovement:
-                    for unit in self.terrainArray[position].units:
-                        if type(unit) == playerCharacter:
-                            candidates.append(position)
+                    if self.playersAtPosition(position):
+                        candidates.append(position)
                 if candidates:
                     moveTo = max(candidates)
                 else:
@@ -2255,17 +2233,13 @@ class battleField(object):
             return True
         elif monster.moveProfile == "SlowAdvance":
             # will not move if in melee range of enemies
-            if any([
-                    unit for unit in self.terrainArray[position].units
-                    if type(unit) == playerCharacter]):
+            if any([self.playersAtPosition(position)]):
                 monster.moveProfile == "Aggressive"
                 return False
             # move as far forward as possible to tiles with enemies
             candidates = []
             for candidate in monster.allowedMovement:
-                if any([
-                        unit for unit in self.terrainArray[candidate].units
-                        if type(unit) == playerCharacter]):
+                if any([self.playersAtPosition(position)]):
                     candidates.append(candidate)
             if candidates:
                 moveTo = min(candidates)
@@ -2308,14 +2282,28 @@ class battleField(object):
             self.move(monster, moveTo)
             return True
 
+    def enemiesAtPosition(self, me, position):
+        return [
+                unit for unit in self.terrainArray[position].units
+                if type(unit) != type(me) and self.canBeTarget(unit)]
+
+    def friendsAtPosition(self, me, position, filterTargets=True):
+        if filterTargets:
+            return [
+                    unit for unit in self.terrainArray[position].units
+                    if type(unit) == type(me) and self.canBeTarget(unit)]
+        else:
+            return [
+                    unit for unit in self.terrainArray[position].units
+                    if type(unit) == type(me)]
+
     def getFameBonus(self, unit):
         position = self.getUnitPos(unit)
         if not position:
             return 0
-        currentTile = self.terrainArray[position]
         allyFame = [
-                ally.stats["Fame"] for ally in currentTile.units
-                if type(ally) == type(unit) and ally != unit]
+                ally.stats["Fame"]
+                for ally in self.alliesAtPosition(unit, position)]
         if any(allyFame):
             return max(allyFame)
         else:
@@ -2345,11 +2333,9 @@ class battleField(object):
         position = self.getUnitPos(unit)
         if not position:
             return False
-        currentTile = self.terrainArray[position]
-        for ally in currentTile.units:
-            if type(ally) == type(unit):
-                if any([commandName in power for power in unit.powers]):
-                    return True
+        for ally in self.alliesAtPosition(unit, position):
+            if any([commandName in power for power in unit.powers]):
+                return True
         return False
 
     def getStat(self, unit, statName):
@@ -2364,6 +2350,11 @@ class battleField(object):
         for tile in self.terrainArray:
             if unit in tile.units:
                 return self.terrainArray.index(tile)
+
+    def monstersAtPosition(self, position):
+        return [
+                unit for unit in self.terrainArray[position].units
+                if type(unit) == monster and self.canBeTarget(unit)]
 
     def move(self, unit, moveTo):
         fromPosition = self.getUnitPos(unit)
@@ -2386,6 +2377,11 @@ class battleField(object):
         if self.getPower(unit, "Magic: Cost Reduction I"):
             cost = math.ceil(cost * 0.75)
         return cost
+
+    def playersAtPosition(self, position):
+        return [
+                unit for unit in self.terrainArray[position].units
+                if type(unit) == playerCharacter and self.canBeTarget(unit)]
 
     def printAttackString(self, unit):
         attackString = f"{unit.name} can attack "
