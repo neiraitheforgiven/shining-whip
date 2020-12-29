@@ -1980,10 +1980,10 @@ class battleField(object):
     def checkSpellTargets(self, unit, tile, healing):
         position = self.terrainArray.index(tile)
         if healing:
-            friends = self.friendsAtPosition(position)
+            friends = self.friendsAtPosition(unit, position)
             return [friend for friend in friends if friend.hp < friend.maxHP()]
         else:
-            return self.enemiesAtPosition(position)
+            return self.enemiesAtPosition(unit, position)
 
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
