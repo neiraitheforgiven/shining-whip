@@ -1840,8 +1840,11 @@ class battleField(object):
                             unstable, bonusSpent)
 
     def canBlock(self, unit):
-        if unit.status and "Petrified" or "Sleep" in unit.status:
-            return False
+        if unit.status:
+            if "Petrified" in unit.status:
+                return False
+            if "Sleep" in unit.status:
+                return False
         return True
 
     def canBeTarget(self, unit):
