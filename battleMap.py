@@ -1831,6 +1831,15 @@ class battleField(object):
                             unit, movementPoints, position, directionIsHigher,
                             unstable, bonusSpent)
 
+    def canBlock(self, unit):
+        if unit.status and "Petrified" or "Sleep" in unit.status:
+            return False
+        return True
+
+    def canBeTarget(self, unit):
+        if unit.status and "Petrified" in unit.status:
+            return False
+        return True
     def checkAttack(self, unit, position):
         unit.allowedAttacks = []
         currentTile = self.terrainArray[position]
