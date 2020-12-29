@@ -208,7 +208,7 @@ class battle(object):
                 unit.fp = unit.stats["Faith"]
                 unit.mp = unit.stats["Intelligence"]
                 unit.actedThisRound = False
-                unit.status = None
+                unit.status = []
                 if unit.equipment:
                     unit.fp += unit.equipment.fp
                     unit.mp += unit.equipment.mp

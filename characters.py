@@ -24,7 +24,7 @@ class monster(object):
         self.moveProfile = moveProfile
         self.attackProfile = attackProfile
         self.equipment = None
-        self.status = None
+        self.status = []
         self.boss = False
         self.extraPowerSlot = []
         self.extraPowerSlot2 = []
@@ -199,7 +199,7 @@ class playerCharacter(object):
         self.initiativePoints = 0
         self.actedThisRound = False
         self.hasEquipped = False
-        self.status = None
+        self.status = []
         self.trophies = []
         if playerClass:
             if playerClass == "Assassin":
