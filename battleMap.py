@@ -568,42 +568,42 @@ class battle(object):
         for i in range(minRange, maxRange + 1):
             tile = bf.terrainArray[i]
             for target in tile.units:
-                if not (target.status and "Petrified" in target.status):
-                    if damage < 0:
-                        # spell is a healing spell
-                        if type(target) == type(unit):
-                            healing = min(
-                                    abs(damage), (target.maxHP() - target.hp))
-                            print(
-                                    f"{unit.name} restores {healing} health "
-                                    f"to {target.name}!")
-                            target.hp += healing
-                            self.giveExperience(unit, target, healing)
-                    elif damage > 0:
-                        # spell is a damage spell
-                        targetDamage = damage
-                        if type(target) != type(unit):
-                            if spread:
-                                targetDamage = math.ceil(targetDamage / count)
-                            if self.getPower(target, "Defense: Magic"):
-                                targetDamage = math.floor(targetDamage / 1.3)
-                            if self.getPower(
-                                    target, f"Defense: {element} Resistance"):
-                                targetDamage = math.floor(targetDamage / 1.3)
-                            if self.getPower(
-                                    target,
-                                    f"Defense: {element} Vulnerability"):
-                                targetDamage = math.ceil(targetDamage * 1.3)
-                            targetDamage = min(targetDamage, target.hp)
-
-                            print(
-                                    f"{unit.name} deals {targetDamage} "
-                                    f"{elementWithSpace}damage to "
-                                    f"{target.name}!")
-                            target.hp -= targetDamage
-                            self.giveExperience(unit, target, targetDamage)
-                            if target.hp <= 0:
-                                self.kill(target)
+                if not self.battleField.canBeTarget(unit):
+                    continue
+                if damage < 0:
+                    # spell is a healing spell
+                    if type(target) == type(unit):
+                        healing = min(
+                                abs(damage), (target.maxHP() - target.hp))
+                        print(
+                                f"{unit.name} restores {healing} health "
+                                f"to {target.name}!")
+                        target.hp += healing
+                        self.giveExperience(unit, target, healing)
+                elif damage > 0:
+                    # spell is a damage spell
+                    targetDamage = damage
+                    if type(target) != type(unit):
+                        if spread:
+                            targetDamage = math.ceil(targetDamage / count)
+                        if self.getPower(target, "Defense: Magic"):
+                            targetDamage = math.floor(targetDamage / 1.3)
+                        if self.getPower(
+                                target, f"Defense: {element} Resistance"):
+                            targetDamage = math.floor(targetDamage / 1.3)
+                        if self.getPower(
+                                target,
+                                f"Defense: {element} Vulnerability"):
+                            targetDamage = math.ceil(targetDamage * 1.3)
+                        targetDamage = min(targetDamage, target.hp)
+                        print(
+                                f"{unit.name} deals {targetDamage} "
+                                f"{elementWithSpace}damage to "
+                                f"{target.name}!")
+                        target.hp -= targetDamage
+                        self.giveExperience(unit, target, targetDamage)
+                        if target.hp <= 0:
+                            self.kill(target)
 
     def castSingleSpell(
             self, unit, targetId, spellName, cost, damage, element=None,
