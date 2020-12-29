@@ -488,7 +488,7 @@ class battle(object):
                     routEnemy = True
                 if poisonEnemy and ((i + 1) == attackCount):
                     print(f"{target.name} is poisoned!.")
-                    target.status = 'poison'
+                    target.status.append['Poisoned']
                 if routEnemy and ((i + 1) == attackCount):
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
@@ -667,7 +667,7 @@ class battle(object):
         result = random.choice(chanceArray)
         if result == "success":
             print(f"{target.name} is {statusName}!")
-            target.status = statusName
+            target.status.append(statusName)
             if gold and type(unit) == playerCharacter:
                 print(
                         f"{unit.name} discovered a statue worth {target.hp} "
@@ -727,7 +727,7 @@ class battle(object):
             print(f"{unit.name} casts {spellName} on {target.name}!")
             if "Petrified" in target.status:
                 target.initiativePoints = unit.initiativePoints - 15
-            target.status = None
+            target.status = []
             print(f"{target.name} recovers!")
             self.giveExperience(unit, target, 10)
         elif spellName == "Drain I":
@@ -1100,7 +1100,9 @@ class battle(object):
     def doTurn(self, unit, moved=False, statusChecked=False):
         if unit.status and "Petrified" in unit.status:
             return
-        if unit.status in ("sleep", "poison") and not statusChecked:
+        for state in unit.status:
+            if statusChecked:
+                continue
             luck = self.getStat(unit, "Luck")
             if self.getPower(unit, "Swords: Increased Luck I"):
                 if unit.equipment and unit.equipment.type == "Swords":
@@ -1126,16 +1128,16 @@ class battle(object):
             resistArray.extend(['fail'] * (50 - (luck)))
             result = random.choice(resistArray)
             if result == 'resist':
-                unit.status = None
-                if unit.status == "poison":
-                    print(f"{unit.name} recovered from the {unit.status}!")
-                elif unit.stats == "sleep":
+                if state == "Lulled to Sleep":
                     print(f"{unit.name} woke up!")
-            elif unit.status == 'sleep':
+                else:
+                    print(f"{unit.name} recovered from being {state}!")
+                unit.status.remove(state)
+            elif state == 'Lulled to Sleep':
                 print(f"{unit.name} is asleep.")
                 return
-            elif unit.stats == 'poison':
-                print(f"{unit.name} is poisoned!")
+            elif state == 'Poisoned':
+                print(f"{unit.name} is Poisoned!")
                 damage = math.floor(self.getStat(unit, "Stamina") * 1.5)
                 unit.hp -= damage
                 print(f"{unit.name} takes {damage} damage from the poison.")
@@ -1507,7 +1509,7 @@ class battle(object):
                                 225 / self.determineInitiative(unit)))
                         unit.initiativePoints -= setback
                 elif attackType == "sleep":
-                    target.status = "sleep"
+                    target.status.append("Lulled to Sleep")
                     print(f"{target.name} fell asleep!")
 
     def getExtraSpell(self, unit, slot):
@@ -1843,7 +1845,7 @@ class battleField(object):
         if unit.status:
             if "Petrified" in unit.status:
                 return False
-            if "Sleep" in unit.status:
+            if "Lulled to Sleep" in unit.status:
                 return False
         return True
 
