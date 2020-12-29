@@ -1098,7 +1098,7 @@ class battle(object):
             unit.actedThisRound = False
 
     def doTurn(self, unit, moved=False, statusChecked=False):
-        if "Petrified" in unit.status:
+        if unit.status and "Petrified" in unit.status:
             return
         if unit.status in ("sleep", "poison") and not statusChecked:
             luck = self.getStat(unit, "Luck")
