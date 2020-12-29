@@ -799,6 +799,7 @@ class battle(object):
                 self.getStat(unit, "Charisma"),
                 self.getStat(unit, "Speed"),
                 self.getStat(unit, "Dexterity"))
+        initiative += random.randint(0, luck)
         return initiative
 
     def determineStartingInitiative(self):
