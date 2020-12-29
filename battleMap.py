@@ -1463,6 +1463,8 @@ class battle(object):
         damage = math.ceil(amount / 16)
         damage = max(damage, 1)
         for target in list(tile.units):
+            if not self.battleField.canBeTarget(target):
+                continue
             if type(target) != type(unit):
                 attackTypeArray = []
                 attackTypeArray.extend(["normal"] * (100 - (luck)))
@@ -1802,11 +1804,13 @@ class battleField(object):
                 if len([
                     tileUnit for tileUnit in tile.units
                     if type(tileUnit) != type(unit) and self.getPower(
-                            tileUnit, "Flying Movement")]) >= 1:
+                            tileUnit, "Flying Movement") and (
+                            self.canBlock(tileUnit))]) >= 1:
                     blocked = True
             elif len([
                     tileUnit for tileUnit in tile.units
-                    if type(tileUnit) != type(unit)]) >= 2:
+                    if type(tileUnit) != type(unit) and (
+                    self.canBlock(tileUnit))]) >= 2:
                 # Stealthy Movement prevents blocking for 2 tiles
                 if self.getPower(unit, "Stealthy Movement") and (
                         abs(position - self.getUnitPos(unit)) <= 2):
@@ -1892,18 +1896,22 @@ class battleField(object):
                 retreatBlocked = len([
                         tileUnit for tileUnit in currentTile.units
                         if type(tileUnit) != type(unit) and self.getPower(
-                                tileUnit, "FlyingMovement")]) >= 2
+                                tileUnit, "FlyingMovement") and (
+                                self.canBlock(tileUnit))]) >= 2
                 advancingBlocked = len([
                         tileUnit for tileUnit in currentTile.units
                         if type(tileUnit) != type(unit) and self.getPower(
-                                tileUnit, "FlyingMovement")]) >= 1
+                                tileUnit, "FlyingMovement") and (
+                                self.canBlock(tileUnit))]) >= 1
             else:
                 retreatBlocked = len([
                         tileUnit for tileUnit in currentTile.units
-                        if type(tileUnit) != type(unit)]) >= 3
+                        if type(tileUnit) != type(unit) and (
+                                self.canBlock(tileUnit))]) >= 3
                 advancingBlocked = len([
                         tileUnit for tileUnit in currentTile.units
-                        if type(tileUnit) != type(unit)]) >= 2
+                        if type(tileUnit) != type(unit) and (
+                                self.canBlock(tileUnit))]) >= 2
         if retreatBlocked and advancingBlocked:
             return False
         if (type(unit) == playerCharacter and not advancingBlocked) \
@@ -2276,7 +2284,8 @@ class battleField(object):
                 return False
         elif monster.moveProfile == "Sniper":
             candidates = [
-                    target for target in self.game.party if target.hp > 0]
+                    target for target in self.game.party if target.hp > 0 and (
+                            self.canBeTarget(target))]
             candidates = [
                     target for target in candidates
                     if target.stats["Fame"] == max(
