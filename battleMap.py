@@ -641,8 +641,8 @@ class battle(object):
                 self.kill(target)
 
     def castStatusSpell(
-            self, unit, targetId, spellName, cost, statusName, range=0,
-            area=0, faith=False, gold=False, stats=[],
+            self, unit, targetId, spellName, cost, statusName, faith=False,
+            gold=False, stats=[],
             counterStats=["Stamina", "Faith"]):
         if faith:
             unit.fp -= self.mpCost(unit, cost)
@@ -679,7 +679,22 @@ class battle(object):
             self.giveExperience(unit, target, math.ceil(target.hp / 10))
 
     def castSpell(self, unit, spellName, targetId):
-        if spellName == "Aura I":
+        if spellName == "Afflict I":
+            unit.mp -= self.mpCost(unit, 13)
+            print(f"{unit.name} casts Afflict I!")
+            self.castStatusSpell(
+                    unit, targetId, "Sleep", 0, "Lulled to Sleep",
+                    stats=["Luck", "Intelligence"],
+                    counterStats=["Stamina", "Faith"])
+            self.castStatusSpell(
+                    unit, targetId, "Poison", 0, "Poisoned",
+                    stats=["Luck", "Intelligence"],
+                    counterStats=["Stamina", "Faith"])
+            self.castStatusSpell(
+                    unit, targetId, "Petrify", 0, "Petrified",
+                    stats=["Luck", "Intelligence"],
+                    counterStats=["Stamina", "Faith"])
+        elif spellName == "Aura I":
             self.castAreaSpell(unit, targetId, "Aura I", 7, -15, faith=True)
         elif spellName == "Aura II":
             self.castAreaSpell(unit, targetId, "Aura II", 11, -15, faith=True)
@@ -795,7 +810,8 @@ class battle(object):
         elif spellName == "Midas I":
             self.castStatusSpell(
                     unit, targetId, "Midas I", 8, "Petrified", gold=True,
-                    stats=["Intelligence", "Faith", "Luck"])
+                    stats=["Intelligence", "Dexterity", "Luck"],
+                    counterStats=["Stamina", "Dexterity"])
         elif spellName == "Portal I":
             unit.mp -= self.mpCost(unit, 21)
             field = self.battleField
@@ -1993,6 +2009,10 @@ class battleField(object):
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
+        if (
+                self.getPower(unit, "Afflict I") and (
+                        unit.mp >= self.mpCost(unit, 13))):
+            self.checkSpell(unit, position, "Afflict I", False, 0, 0)
         if self.getPower(unit, "Aura I") and unit.fp >= self.mpCost(unit, 7):
             self.checkSpell(unit, position, "Aura I", True, 1, 1)
         if self.getPower(unit, "Aura II") and unit.fp >= self.mpCost(unit, 11):
