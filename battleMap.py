@@ -504,13 +504,13 @@ class battle(object):
                         else:
                             print(f"{target.name} was stunned!")
                             setback = min(15, math.ceil(
-                                    225 / self.determineInitiative(unit)))
-                            unit.initiativePoints -= setback
+                                    225 / self.determineInitiative(target)))
+                            target.initiativePoints -= setback
                     else:
                         print(f"{target.name} was stunned!")
                         setback = min(15, math.ceil(
-                                225 / self.determineInitiative(unit)))
-                        unit.initiativePoints -= setback
+                                225 / self.determineInitiative(target)))
+                        target.initiativePoints -= setback
                 if counterattack and ((i + 1) == attackCount):
                     bf.checkAttack(target, bf.getUnitPos(target))
                     if unit in target.allowedAttacks:
@@ -1517,13 +1517,13 @@ class battle(object):
                         else:
                             print(f"{target.name} was stunned!")
                             setback = min(15, math.ceil(
-                                    225 / self.determineInitiative(unit)))
-                            unit.initiativePoints -= setback
+                                    225 / self.determineInitiative(target)))
+                            target.initiativePoints -= setback
                     else:
                         print(f"{target.name} was stunned!")
                         setback = min(15, math.ceil(
-                                225 / self.determineInitiative(unit)))
-                        unit.initiativePoints -= setback
+                                225 / self.determineInitiative(target)))
+                        target.initiativePoints -= setback
                 elif attackType == "sleep":
                     target.status.append("Lulled to Sleep")
                     print(f"{target.name} fell asleep!")
