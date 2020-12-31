@@ -51,13 +51,13 @@ class shop(object):
             return potentialItem("Arrows", name, 2300, 1, 2, 12, 0, 0)
         elif name == "Faerie Arrow":
             return potentialItem(
-                    "Arrows", name, 9000, 1, 2, 20, 0, 0, ["Quick Shot"])
+                    "Arrows", name, 9000, 1, 2, 20, 1, 2, ["Quick Shot"])
         elif name == "Hyperial Arrow":
             return potentialItem("Arrows", name, 17000, 1, 3, 27, 0, 0)
         elif name == "Robin's Arrow":
             return potentialItem("Arrows", name, 1480, 1, 1, 11, 0, 0)
         elif name == "Steel Arrow":
-            return potentialItem("Arrows", name, 1200, 0, 0, 9, 0, 0)
+            return potentialItem("Arrows", name, 1200, 1, 1, 9, 0, 0)
         elif name == "Wooden Arrow":
             return potentialItem("Arrows", name, 150, 1, 1, 5, 0, 0)
 
