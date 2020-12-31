@@ -426,13 +426,13 @@ class battle(object):
                 else:
                     damageString = "Unarmed Attack: Increased Damage "
                 if self.getPower(unit, damageString + "I"):
-                    damage *= 1.3
+                    damage *= 1.5
                 if self.getPower(unit, damageString + "II"):
-                    damage *= 1.3
+                    damage *= 1.5
                 if self.getPower(unit, damageString + "III"):
-                    damage *= 1.3
+                    damage *= 1.5
                 if self.getPower(unit, damageString + "IV"):
-                    damage *= 1.3
+                    damage *= 1.5
                 strengthForDamage = strength
                 if self.getPower(unit, "Lances: Movement Increases Damage I"):
                     if unit.equipment and unit.equipment.type == "Lances":
