@@ -2829,7 +2829,7 @@ class game(object):
         print("Anri joins your force!")
         recruit = playerCharacter("Anri", "Human", "Frost Mage", chatter, 6)
         self.equipOnCharacter(
-                equipment("Staffs", "Power Staff", 500, 0, 0, 8, 6, 6),
+                equipment("Staffs", "Power Staff", 500, 0, 0, 4, 6, 6),
                 recruit, False)
         recruit.levelUp(chatter)
         recruit.levelUp(chatter)
