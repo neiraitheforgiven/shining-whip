@@ -149,7 +149,7 @@ class shop(object):
             return potentialItem(
                     "Staffs", name, 8000, 0, 0, 17, 24, 24, ["Blast II"])
         elif name == "Power Staff":
-            return potentialItem("Staffs", name, 500, 0, 0, 8, 6, 6)
+            return potentialItem("Staffs", name, 500, 0, 0, 4, 6, 6)
         elif name == "Wooden Staff":
             return potentialItem("Staffs", name, 80, 0, 0, 1, 3, 3)
 
