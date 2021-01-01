@@ -427,15 +427,11 @@ class battle(object):
                     damageString = "Unarmed Attack: Increased Damage "
                 if self.getPower(unit, damageString + "I"):
                     damage *= 1.3
-                    damage *= 1.3
                 if self.getPower(unit, damageString + "II"):
-                    damage *= 1.3
                     damage *= 1.3
                 if self.getPower(unit, damageString + "III"):
                     damage *= 1.3
-                    damage *= 1.3
                 if self.getPower(unit, damageString + "IV"):
-                    damage *= 1.3
                     damage *= 1.3
                 strengthForDamage = strength
                 if self.getPower(unit, "Lances: Movement Increases Damage I"):
@@ -443,7 +439,7 @@ class battle(object):
                         strengthForDamage += math.ceil((
                                 self.getStat(unit, "Speed"
                                 ) - unit.movementPoints) / 5)
-                damage = max(strengthForDamage, dex)
+                damage = max(strengthForDamage, damage)
                 if i == 0:
                     if self.getPower(unit, "Charge"):
                         speed = self.getStat(unit, "Speed")
@@ -2435,61 +2431,37 @@ class battleField(object):
             fromFaith = incumbent.fp + self.getStat(unit, "Faith")
             fromMagic = incumbent.mp + self.getStat(unit, "Intelligence")
             fromType = incumbent.type
-            if self.getPower(unit, f"{fromType}: Increased Damage I"):
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage II"):
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage III"):
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage IV"):
-                fromDamage *= 1.3
         else:
             fromDamage = unitDamage
             fromFaith = self.getStat(unit, "Faith")
             fromMagic = self.getStat(unit, "Intelligence")
             fromType = "Unarmed Attack"
-            if self.getPower(unit, f"{fromType}: Increased Damage I"):
-                fromDamage *= 1.3
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage II"):
-                fromDamage *= 1.3
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage III"):
-                fromDamage *= 1.3
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage IV"):
-                fromDamage *= 1.3
-                fromDamage *= 1.3
+        if self.getPower(unit, f"{fromType}: Increased Damage I"):
+            fromDamage *= 1.3
+        if self.getPower(unit, f"{fromType}: Increased Damage II"):
+            fromDamage *= 1.3
+        if self.getPower(unit, f"{fromType}: Increased Damage III"):
+            fromDamage *= 1.3
+        if self.getPower(unit, f"{fromType}: Increased Damage IV"):
+            fromDamage *= 1.3
         if equipment:
             toDamage = equipment.damage + unitDamage
             toFaith = equipment.fp + self.getStat(unit, "Faith")
             toMagic = equipment.mp + self.getStat(unit, "Intelligence")
             toType = equipment.type
-            if self.getPower(unit, f"{toType}: Increased Damage I"):
-                toDamage *= 1.3
-            if self.getPower(unit, f"{toType}: Increased Damage II"):
-                toDamage *= 1.3
-            if self.getPower(unit, f"{toType}: Increased Damage III"):
-                toDamage *= 1.3
-            if self.getPower(unit, f"{toType}: Increased Damage IV"):
-                toDamage *= 1.3
         else:
             toDamage = unitDamage
             toFaith = self.getStat(unit, "Faith")
             toMagic = self.getStat(unit, "Intelligence")
             toType = "Unarmed Attack"
-            if self.getPower(unit, f"{fromType}: Increased Damage I"):
-                fromDamage *= 1.3
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage II"):
-                fromDamage *= 1.3
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage III"):
-                fromDamage *= 1.3
-                fromDamage *= 1.3
-            if self.getPower(unit, f"{fromType}: Increased Damage IV"):
-                fromDamage *= 1.3
-                fromDamage *= 1.3
+        if self.getPower(unit, f"{toType}: Increased Damage I"):
+            toDamage *= 1.3
+        if self.getPower(unit, f"{toType}: Increased Damage II"):
+            toDamage *= 1.3
+        if self.getPower(unit, f"{toType}: Increased Damage III"):
+            toDamage *= 1.3
+        if self.getPower(unit, f"{toType}: Increased Damage IV"):
+            toDamage *= 1.3
         if fromDamage != toDamage:
             valueString += (
                     f"Damage: {round(fromDamage)}-->"
