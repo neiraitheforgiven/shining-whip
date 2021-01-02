@@ -2515,7 +2515,7 @@ class battleField(object):
         print(moveString + ".")
 
     def viewMap(self, position):
-        minRange = max(0, position - 4)
+        minRange = max(0, position - 3)
         maxRange = minRange + 7
         if maxRange > len(self.terrainArray) - 1:
             maxRange = len(self.terrainArray) - 1
