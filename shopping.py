@@ -13,13 +13,6 @@ class shop(object):
         if self.deal.name in [good.name for good in self.goods]:
             self.deal.price = math.ceil(self.deal.price / 2)
         self.goods.insert(0, self.deal)
-                    "Today as special, I've got a one-time discount on a "
-                    f"{self.deal.name}!")
-        else:
-            print(
-                    f"Feast yer eyes on this {self.deal.name} -- She's the "
-                    "only one of 'er kind in town!")
-        self.goods.append(self.deal)
         self.goShopping(game)
 
     def buyGood(self, game, itemToBuy):
@@ -178,6 +171,14 @@ class shop(object):
     def goShopping(self, game):
         print("You enter a shop.")
         print("The shopkeeper looks up. \"You here to buy, or just look?\"")
+        if self.deal and self.deal.name in [good.name for good in self.goods]:
+            print(
+                    "Today as special, I've got a one-time discount on a "
+                    f"{self.deal.name}!")
+        else:
+            print(
+                    f"Feast yer eyes on this {self.deal.name} -- She's the "
+                    "only one of 'er kind in town!")
         command = None
         while command not in ("L", "l"):
             allowedCommands = ["B", "b", "E", "e", "L", "l"]
