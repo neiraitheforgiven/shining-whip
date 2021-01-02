@@ -9,9 +9,17 @@ class shop(object):
         self.goods = []
         for goodName in listOfGoods:
             self.goods.append(self.createGood(goodName))
-        self.deal = None
-        self.dealBought = False
-        self.dealNameList = listOfDealGoods
+        self.deal = self.createGood(random.choice(listOfDealGoods))
+        if self.deal.name in [good.name for good in self.goods]:
+            self.deal.price = math.ceil(self.deal.price / 2)
+            print(
+                    "Today as special, I've got a one-time discount on a "
+                    f"{self.deal.name}!")
+        else:
+            print(
+                    f"Feast yer eyes on this {self.deal.name} -- She's the "
+                    "only one of 'er kind in town!")
+        self.goods.append(self.deal)
         self.goShopping(game)
 
     def buyGood(self, game, itemToBuy):
@@ -28,22 +36,7 @@ class shop(object):
             print("Would you like to equip it right away?")
             game.equipItem(equip)
             if item == self.deal:
-                self.dealBought = True
                 self.goods.remove(item)
-            if not self.dealBought and not self.deal:
-                dealGood = self.createGood(random.choice(self.dealNameList))
-                if dealGood.name in [good.name for good in self.goods]:
-                    dealGood.price = math.ceil(dealGood.price / 2)
-                    print(
-                            "I toldja I kept something for payin' folks: "
-                            f"it's a one-time discount on a {dealGood.name}!")
-                else:
-                    print("I toldja I kept something for payin' folks!")
-                    print(
-                            f"Now feast yer eyes on this {dealGood.name}. "
-                            "It's the only one of 'er kind in town!")
-                self.deal = dealGood
-                self.goods.append(dealGood)
 
     def createGood(self, name):
         # Arrows
@@ -185,9 +178,6 @@ class shop(object):
     def goShopping(self, game):
         print("You enter a shop.")
         print("The shopkeeper looks up. \"You here to buy, or just look?\"")
-        print(
-                "\"If you buy something, I'll show you a little something "
-                "extra I keep on hand for payin' folk.\"")
         command = None
         while command not in ("L", "l"):
             allowedCommands = ["B", "b", "E", "e", "L", "l"]
@@ -278,7 +268,7 @@ class shop(object):
                                 if not item.equippedBy]
                         if not any(allowedItems):
                             break
-        print("\"Thanks for coming, kid.\"")
+        print("\"Thanks for coming in, kid.\"")
 
     def printShopItems(self, game):
         for item in self.goods:
