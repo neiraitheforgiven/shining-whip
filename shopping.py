@@ -12,7 +12,7 @@ class shop(object):
         self.deal = self.createGood(random.choice(listOfDealGoods))
         if self.deal.name in [good.name for good in self.goods]:
             self.deal.price = math.ceil(self.deal.price / 2)
-            print(
+        self.goods.insert(0, self.deal)
                     "Today as special, I've got a one-time discount on a "
                     f"{self.deal.name}!")
         else:
