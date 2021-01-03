@@ -897,8 +897,14 @@ class playerCharacter(object):
                     f"Stats are {self.stats}")
             if self.stats["Intelligence"] < self.stats["Strength"]:
                 self.title = "Squire"
+                print(
+                    f"Squire found. Let Neirai the Forgiven know."
+                    f"Stats are {self.stats}")
             else:
                 self.title = "Student"
+                print(
+                    f"Student found. Let Neirai the Forgiven know."
+                    f"Stats are {self.stats}")
         if self.stats["Fame"] >= 25 and "Captain" not in self.title:
             self.title = self.title + " Captain"
         if self.stats["Speed"] > 25 <= 40 and (
