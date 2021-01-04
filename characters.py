@@ -1096,12 +1096,13 @@ class playerCharacter(object):
                     if afterDecorated != beforeTitle:
                         print(
                                 f"{self.name}: \"I'm starting to feel as if "
-                                f"being a {self.title} isn't working out. "
-                                f"Perhaps I should become a {afterDecorated} "
-                                f"and study the art of {newProposedPower} "
-                                f"instead of sticking with {beforeTitle} and "
-                                f"learning {oldProposedPower}. What do you "
-                                "think?\"")
+                                f"being a {self.title} isn't working out.\"")
+                        print(
+                                f"{self.name}: \"Perhaps I should become a "
+                                f"{afterDecorated} and study "
+                                f"{newProposedPower} instead of sticking with "
+                                f"{beforeTitle} and learning "
+                                f"{oldProposedPower}. What do you think?\"")
                         print(
                                 f"{self.name} can choose (0) {beforeTitle} or "
                                 f"(1) {afterTitle}.")
