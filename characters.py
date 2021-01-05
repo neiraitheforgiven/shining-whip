@@ -1096,29 +1096,28 @@ class playerCharacter(object):
                     if afterDecorated != beforeTitle:
                         print(
                                 f"{self.name}: \"I'm starting to feel as if "
-                                f"being a {self.title} isn't working out.\"")
-                        print(
-                                f"{self.name}: \"Perhaps I should become a "
-                                f"{afterDecorated} and study "
-                                f"{newProposedPower} instead of sticking with "
-                                f"{beforeTitle} and learning "
-                                f"{oldProposedPower}. What do you think?\"")
+                                f"being a {self.title} isn't working out. "
+                                f"Perhaps I should become a {afterDecorated} "
+                                f"and study the art of {newProposedPower} "
+                                f"instead of sticking with {beforeTitle} and "
+                                f"learning {oldProposedPower}. What do you "
+                                "think?\"")
                         print(
                                 f"{self.name} can choose (0) {beforeTitle} or "
                                 f"(1) {afterTitle}.")
                         choice = None
                         while choice not in (0, 1):
-                            choice = int(input(
-                                    "Type the number to make your choice: "))
+                            choice = input(
+                                    "Type the number to make your choice: ")
                         if choice == 0:
                             print(f"")
-                            self.assignTitle(chatter, beforeTitle)
+                            self.assignTitle(beforeTitle, chatter)
                             print(
                                     f"{self.name}: \"If you insist, I will do "
                                     "my best to prove your judgement right!\"")
                             self.assignPower(oldProposedPower, chatter)
                         if choice == 1:
-                            self.assignTitle(chatter, afterTitle)
+                            self.assignTitle(afterTitle, chatter)
                             print(
                                     f"{self.name}: \"That's settled, then! "
                                     f"Today I will become a {self.title}!\"")
@@ -1162,8 +1161,8 @@ class playerCharacter(object):
                                     "up some new perspectives!\"")
                         else:
                             print(
-                                    f"{self.name}: \"This will make me a "
-                                    f"stronger {self.title}!\"")
+                                    f"{self.name}: \"It's not much, but this "
+                                    f"will make me a better {self.title}.\"")
                     else:
                         if breakthrough:
                             print(
