@@ -1107,8 +1107,11 @@ class playerCharacter(object):
                                 f"(1) {afterTitle}.")
                         choice = None
                         while choice not in (0, 1):
-                            choice = input(
-                                    "Type the number to make your choice: ")
+                            try:
+                                choice = int(input(
+                                    "Type the number to make your choice: "))
+                            except ValueError:
+                                choice = None
                         if choice == 0:
                             print(f"")
                             self.assignTitle(beforeTitle, chatter)
