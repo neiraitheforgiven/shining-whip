@@ -212,9 +212,13 @@ class shop(object):
                     if itemToBuy == len(self.goods):
                         break
                     if itemToBuy is not None:
-                        self.buyGood(game, itemToBuy)
-                        itemToBuy = None
-                        print()
+                        if itemToBuy in [
+                                self.goods.index(item) for item in self.goods]:
+                            self.buyGood(game, itemToBuy)
+                            itemToBuy = None
+                            print()
+                        else:
+                            itemToBuy = None
             elif command in ("E", "e"):
                 command = None
                 itemToEquip = None
