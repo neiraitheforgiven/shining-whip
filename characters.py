@@ -414,10 +414,10 @@ class playerCharacter(object):
                         "Death I", "Bolt IV"]
             elif "Brass Gunner" in title:
                 listOfPowers = [
+                        "Heavy Attack Instead of Normal For Ranged Tile",
                         "Equip: Brass Guns", "Unhindered Movement",
                         "Brass Guns: Critical Damage I",
                         "Defense: Physical I",
-                        "Mounted Movement",
                         "Brass Guns: Critical Damage II",
                         "Defense: Physical II",
                         "Brass Guns: Minumum Range - 1"]

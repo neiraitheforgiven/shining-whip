@@ -425,6 +425,14 @@ class battle(object):
             else:
                 if attackType == 'critical':
                     print("A Critical Attack!")
+                elif attackType == 'normal':
+                    if self.getPower(
+                            unit,
+                            "Heavy Attack Instead of Normal For Ranged Tile"):
+                        unitPos = self.battleField.getUnitPos(unit)
+                        targetPos = self.battleField.getUnitPos(target)
+                        if unitPos != targetPos:
+                            attackType = 'heavy'
                 damage = max(strength, dex)
                 if attackType == 'heavy':
                     print("A Heavy Attack!")
