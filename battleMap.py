@@ -397,11 +397,12 @@ class battle(object):
                 routChance = math.ceil(routChance * 1.3)
             attackTypeArray.extend(["routing"] * routChance)
             if not self.getPower(unit, "Aimed Shot"):
-                dodgeSkill = math.floor(max(
-                        self.getStat(target, "Intelligence"), targetLuck,
-                        self.getStat(target, "Speed")) * (1 + (
-                                (targetLuck / 10))))
-                attackTypeArray.extend(["dodge"] * dodgeSkill)
+                if not self.battlefield.canMove(target):
+                    dodgeSkill = math.floor(max(
+                            self.getStat(target, "Intelligence"), targetLuck,
+                            self.getStat(target, "Speed")) * (1 + (
+                                    (targetLuck / 10))))
+                    attackTypeArray.extend(["dodge"] * dodgeSkill)
             if self.getPower(target, "Luck: Counterattack"):
                 counterSkill = math.floor(
                         self.getStat(target, "Dexterity") * (
@@ -1868,6 +1869,14 @@ class battleField(object):
     def canBeTarget(self, unit):
         if unit.status and "Petrified" in unit.status:
             return False
+        return True
+
+    def canMove(self, unit):
+        if unit.status:
+            if "Petrified" in unit.status:
+                return False
+            if "Lulled to Sleep" in unit.status:
+                return False
         return True
 
     def checkAttack(self, unit, position):
