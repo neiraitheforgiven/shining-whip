@@ -396,6 +396,10 @@ class battle(object):
             if self.getPower(unit, "Luck: Increased Rout II"):
                 routChance = math.ceil(routChance * 1.3)
             attackTypeArray.extend(["routing"] * routChance)
+            if i == attackCount:
+                stamina = self.getStat(unit, "Stamina")
+                heavyChance = math.floor(stamina + (stamina * (luck / 10)))
+                attackTypeArray.extend(["heavy"] * heavyChance)
             if not self.getPower(unit, "Aimed Shot"):
                 if not self.battlefield.canMove(target):
                     dodgeSkill = math.floor(max(
@@ -422,6 +426,9 @@ class battle(object):
                 if attackType == 'critical':
                     print("A Critical Attack!")
                 damage = max(strength, dex)
+                if attackType == 'heavy':
+                    print("A Heavy Attack!")
+                    damage *= 1.3
                 if unit.equipment:
                     damageString = f"{unit.equipment.type}: Increased Damage "
                 else:
@@ -512,6 +519,10 @@ class battle(object):
                         setback = min(15, math.ceil(
                                 225 / self.determineInitiative(target)))
                         target.initiativePoints -= setback
+                if attackType == 'heavy':
+                    target.initiativePoints -= stamina
+                    if target in self.turnOrder:
+                        self.turnOrder.remove(target)
                 if counterattack and ((i + 1) == attackCount):
                     bf.checkAttack(target, bf.getUnitPos(target))
                     if unit in target.allowedAttacks:
