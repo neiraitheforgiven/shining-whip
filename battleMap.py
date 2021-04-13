@@ -566,6 +566,7 @@ class battle(object):
             unit.fp -= self.mpCost(unit, cost)
         else:
             unit.mp -= self.mpCost(unit, cost)
+        targetTile = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName}!")
         position = bf.terrainArray.index(targetTile)
         minRange = max(0, position - area)
