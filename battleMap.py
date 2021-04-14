@@ -396,7 +396,7 @@ class battle(object):
             if self.getPower(unit, "Luck: Increased Rout II"):
                 routChance = math.ceil(routChance * 1.3)
             attackTypeArray.extend(["routing"] * routChance)
-            if i == attackCount:
+            if i + 1 == attackCount:
                 stamina = self.getStat(unit, "Stamina")
                 heavyChance = math.floor(stamina + (stamina * (luck / 10)))
                 attackTypeArray.extend(["heavy"] * heavyChance)
