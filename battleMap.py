@@ -401,7 +401,7 @@ class battle(object):
                 heavyChance = math.floor(stamina + (stamina * (luck / 10)))
                 attackTypeArray.extend(["heavy"] * heavyChance)
             if not self.getPower(unit, "Aimed Shot"):
-                if not self.battlefield.canMove(target):
+                if not self.battleField.canMove(target):
                     dodgeSkill = math.floor(max(
                             self.getStat(target, "Intelligence"), targetLuck,
                             self.getStat(target, "Speed")) * (1 + (
