@@ -377,10 +377,10 @@ class battle(object):
         for i in range(0, attackCount):
             if i == 0:
                 print(f"{unit.name} attacks!")
-                time.sleep(2. / 10)
+                time.sleep(4. / 10)
             elif i > 0:
                 print(f"{unit.name} attacks again!")
-                time.sleep(2. / 10)
+                time.sleep(4. / 10)
             attackTypeArray = []
             targetLuck = self.getStat(target, "Luck")
             attackTypeArray.extend(["normal"] * (100 - (luck - targetLuck)))
@@ -420,11 +420,14 @@ class battle(object):
                 if poisonChance > 0:
                     attackTypeArray.extend(["poison"] * poisonChance)
             if attackType == 'dodge':
+                time.sleep(1. / 10)
                 print(f"{target.name} dodges the attack!")
                 self.giveExperience(unit, target, 1)
             else:
                 if attackType == 'critical':
+                    time.sleep(2. / 10)
                     print("A Critical Attack!")
+                    time.sleep(3. / 10)
                 elif attackType == 'normal':
                     if self.getPower(
                             unit,
@@ -435,8 +438,10 @@ class battle(object):
                             attackType = 'heavy'
                 damage = max(strength, dex)
                 if attackType == 'heavy':
+                    time.sleep(2. / 10)
                     print("A heavy attack!")
                     damage *= 1.15
+                    time.sleep(1. / 10)
                 if unit.equipment:
                     damageString = f"{unit.equipment.type}: Increased Damage "
                 else:
@@ -519,6 +524,7 @@ class battle(object):
                             self.battleField.move(target, moveTo)
                         else:
                             print(f"{target.name} was stunned!")
+                            time.sleep(4. / 10)
                             setback = min(15, math.ceil(
                                     225 / self.determineInitiative(target)))
                             if target.initiativePoints < (
@@ -532,6 +538,7 @@ class battle(object):
                                 self.turnOrder.remove(target)
                     else:
                         print(f"{target.name} was stunned!")
+                        time.sleep(4. / 10)
                         setback = min(15, math.ceil(
                                 225 / self.determineInitiative(target)))
                         target.initiativePoints -= setback
