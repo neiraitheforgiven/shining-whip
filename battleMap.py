@@ -2991,6 +2991,56 @@ class game(object):
                 self.reckoning(0, 'the royal coffers')
                 shop2.goShopping(self)
             battle(self, self.party, 7)
+        print("")
+        print(
+                "Anri lets out a shuttering sigh, wiping the blood from her "
+                "face.")
+        print(
+                "Once she catches her breath, she turns to you with a "
+                "startling look.")
+        print(
+                '"That thing -- it was a dark creation." She says, "They '
+                'should be held at bay by the words of the Holy Songs."')
+        print(
+                '"But people have stopped singing the songs or teaching them '
+                'to their children."')
+        print(
+                '"The words of the Holy Songs are kept in a chapel to the '
+                'North." She turns and points North.')
+        print(
+                '"We need to retrieve them, now! If evil has come this '
+                'close, the Holy Songs will be threatened!"')
+        print(
+                "With that, she gathers herself and heads North.")
+        print(
+                "Unsure of what she is talking about, you follow.")
+        print("")
+        print(
+                "When you arrive at the chapel, you are met by a group of "
+                "priests, led by a tall Vicar.")
+        print(
+                'The vicar welcomes you, "The Words are kept in a warded '
+                'room, that can only be opened by the Keepers, Angelic '
+                'bird-men who are devoted to Heaven."')
+        print(
+                "You watch as the Keepers remove the wards. But as soon as "
+                "they do, the Vicar removes his hood and reveals himself to "
+                "be Darksol!")
+        print(
+                "He casts a dark spell, turning the Keepers to stone, then "
+                "grabs the scrolls containing the words. They burst into "
+                "dark blue flames as he laughs. As they burn, he disappears.")
+        print(
+                "What remains of his delegation lurches forward. The priests "
+                "are dead, transformed to Zombies and Skeletons!")
+        self.party = self.playerCharacters
+        self.battleStatus = None
+        while self.battleStatus != 'victory':
+            if self.battleStatus == 'egress':
+                self.reckoning(15, 'Anri')
+            elif self.battleStatus == 'defeat':
+                self.reckoning(0, 'Anri')
+            battle(self, self.party, 8)
 
     def equipItem(self, equipment):
         allowedUnits = [
