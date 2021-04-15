@@ -354,6 +354,7 @@ class battle(object):
         counterattack = False
         poisonEnemy = False
         routEnemy = False
+        targetStunned = False
         doubleChanceArray = []
         dex = self.getStat(unit, "Dexterity")
         luck = self.getStat(unit, "Luck")
@@ -528,6 +529,7 @@ class battle(object):
                             self.battleField.move(target, moveTo)
                         else:
                             print(f"{target.name} was stunned!")
+                            targetStunned = True
                             time.sleep(4. / 10)
                             setback = min(15, math.ceil(
                                     225 / self.determineInitiative(target)))
@@ -542,6 +544,7 @@ class battle(object):
                                 self.turnOrder.remove(target)
                     else:
                         print(f"{target.name} was stunned!")
+                        targetStunned = True
                         time.sleep(4. / 10)
                         setback = min(15, math.ceil(
                                 225 / self.determineInitiative(target)))
@@ -558,11 +561,12 @@ class battle(object):
                         setback = math.floor(setback / 2)
                     target.initiativePoints -= setback
                     if target in self.turnOrder:
-                        self.turnOrder.remove(target)
+                        setbacklf.turnOrder.remove(target)
                 if counterattack and ((i + 1) == attackCount):
-                    bf.checkAttack(target, bf.getUnitPos(target))
-                    if unit in target.allowedAttacks:
-                        self.attack(target, unit)
+                    if bf.canAttack(target) and not targetStunned:
+                        bf.checkAttack(target, bf.getUnitPos(target))
+                        if unit in target.allowedAttacks:
+                            self.attack(target, unit)
 
     def battleOn(self):
         if self.egressing:
@@ -1920,6 +1924,14 @@ class battleField(object):
                     self.calculatePossibleMovement(
                             unit, movementPoints, position, directionIsHigher,
                             unstable, bonusSpent)
+
+    def canAttack(self, unit):
+        if unit.status:
+            if "Petrified" in unit.status:
+                return False
+            if "Lulled to Sleep" in unit.status:
+                return False
+        return True
 
     def canBlock(self, unit):
         if unit.status:
