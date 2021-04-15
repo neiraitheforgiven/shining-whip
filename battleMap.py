@@ -435,8 +435,8 @@ class battle(object):
                             attackType = 'heavy'
                 damage = max(strength, dex)
                 if attackType == 'heavy':
-                    print("A Heavy Attack!")
-                    damage *= 1.3
+                    print("A heavy attack!")
+                    damage *= 1.15
                 if unit.equipment:
                     damageString = f"{unit.equipment.type}: Increased Damage "
                 else:
@@ -521,14 +521,31 @@ class battle(object):
                             print(f"{target.name} was stunned!")
                             setback = min(15, math.ceil(
                                     225 / self.determineInitiative(target)))
+                            if target.initiativePoints < (
+                                    self.currentInitiative - setback):
+                                setback = math.ceil(setback / 2)
+                            if target.initiativePoints < (
+                                    self.currentInitiative - 3 * setback):
+                                setback = math.floor(setback / 2)
                             target.initiativePoints -= setback
+                            if target in self.turnOrder:
+                                self.turnOrder.remove(target)
                     else:
                         print(f"{target.name} was stunned!")
                         setback = min(15, math.ceil(
                                 225 / self.determineInitiative(target)))
                         target.initiativePoints -= setback
+                        if target in self.turnOrder:
+                            self.turnOrder.remove(target)
                 if attackType == 'heavy':
-                    target.initiativePoints -= stamina
+                    setback = math.ceil(stamina / 2)
+                    if target.initiativePoints < (
+                            self.currentInitiative - setback):
+                        setback = math.ceil(setback / 2)
+                    if target.initiativePoints < (
+                            self.currentInitiative - 3 * setback):
+                        setback = math.floor(setback / 2)
+                    target.initiativePoints -= setback
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
                 if counterattack and ((i + 1) == attackCount):
@@ -1539,11 +1556,23 @@ class battle(object):
                             print(f"{target.name} was stunned!")
                             setback = min(15, math.ceil(
                                     225 / self.determineInitiative(target)))
+                            if target.initiativePoints < (
+                                    self.currentInitiative - setback):
+                                setback = math.ceil(setback / 2)
+                            if target.initiativePoints < (
+                                    self.currentInitiative - 3 * setback):
+                                setback = math.floor(setback / 2)
                             target.initiativePoints -= setback
                     else:
                         print(f"{target.name} was stunned!")
                         setback = min(15, math.ceil(
                                 225 / self.determineInitiative(target)))
+                        if target.initiativePoints < (
+                                    self.currentInitiative - setback):
+                            setback = math.ceil(setback / 2)
+                        if target.initiativePoints < (
+                                self.currentInitiative - 3 * setback):
+                            setback = math.floor(setback / 2)
                         target.initiativePoints -= setback
                 elif attackType == "sleep":
                     target.status.append("Lulled to Sleep")
