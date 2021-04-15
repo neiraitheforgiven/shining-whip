@@ -517,7 +517,7 @@ class battle(object):
                                 setback = math.ceil(setback / 2)
                             if target.initiativePoints < (
                                     self.currentInitiative - 3 * setback):
-                                setback = math.ceil(setback / 2)
+                                setback = math.floor(setback / 2)
                             target.initiativePoints -= setback
                             if target in self.turnOrder:
                                 self.turnOrder.remove(target)
@@ -535,7 +535,7 @@ class battle(object):
                         setback = math.ceil(setback / 2)
                     if target.initiativePoints < (
                             self.currentInitiative - 3 * setback):
-                        setback = math.ceil(setback / 2)
+                        setback = math.floor(setback / 2)
                     target.initiativePoints -= setback
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
@@ -1551,7 +1551,7 @@ class battle(object):
                                 setback = math.ceil(setback / 2)
                             if target.initiativePoints < (
                                     self.currentInitiative - 3 * setback):
-                                setback = math.ceil(setback / 2)
+                                setback = math.floor(setback / 2)
                             target.initiativePoints -= setback
                     else:
                         print(f"{target.name} was stunned!")
@@ -1562,7 +1562,7 @@ class battle(object):
                             setback = math.ceil(setback / 2)
                         if target.initiativePoints < (
                                 self.currentInitiative - 3 * setback):
-                            setback = math.ceil(setback / 2)
+                            setback = math.floor(setback / 2)
                         target.initiativePoints -= setback
                 elif attackType == "sleep":
                     target.status.append("Lulled to Sleep")
