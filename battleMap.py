@@ -203,6 +203,32 @@ class battle(object):
                                 (monster("Deranged Clown"), 8),
                                 (monster("Marionette"), 10)],
                                 party, game, -10)
+            elif num == 8:
+                self.battleField = battleField([
+                        "Tiled Floor", "Tiled Floor", "Tiled Floor",
+                        "Downward Stair", "Tiled Floor", "Tiled Floor",
+                        "Tiled Floor", "Tiled Floor"],
+                        [(
+                                monster(
+                                        "Skeleton Warrior",
+                                        "Advance-Defensive",
+                                        "ChallengeAccepting"), 3),
+                                (monster("Zombie"), 4),
+                                (monster("Zombie"), 4),
+                                (monster(
+                                        "Skeleton Warrior",
+                                        "Advance-Defensive",
+                                        "ChallengeAccepting"), 4),
+                                (monster("Zombie"), 5),
+                                (monster("Zombie"), 5),
+                                (monster(
+                                        "Skeleton Warrior",
+                                        "Advance-Defensive",
+                                        "ChallengeAccepting"), 5),
+                                (monster("Ghoul"), 5),
+                                (monster("Zombie"), 7),
+                                (monster("Zombie"), 7)],
+                                party, game, 10)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
