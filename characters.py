@@ -85,7 +85,7 @@ class monster(object):
             self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
         elif name == "Ghoul":
-            self.level == 10
+            self.level = 10
             stats = {
                     "Stamina": 10, "Speed": 6, "Strength": 19, "Dexteriy": 14}
             self.setStats(11, **stats)
