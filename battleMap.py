@@ -529,7 +529,7 @@ class battle(object):
                         if target in self.turnOrder:
                             self.turnOrder.remove(target)
                 if attackType == 'heavy':
-                    setback = stamina
+                    setback = math.ceil(stamina / 2)
                     if target.initiativePoints < (
                             self.currentInitiative - setback):
                         setback = math.ceil(setback / 2)
