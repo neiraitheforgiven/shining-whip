@@ -84,6 +84,17 @@ class monster(object):
             self.powers.append("Vocal Attack: Increased Resonance I")
             self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
+        elif name == "Ghoul":
+            self.level = 10
+            stats = {
+                    "Stamina": 10, "Speed": 6, "Strength": 19, "Dexteriy": 14}
+            self.setStats(11, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Random"
+            self.powers.append("Poisonous Attack")
+            self.powers.append("Unarmed Attack: Increased Damage I")
+            self.powers.append("Unarmed Attack: Increased Damage II")
+            self.powers.append("Defense: Magic")
         elif name == "Goblin":
             self.level = 1
             stats = {"Dexterity": 6, "Stamina": 5, "Speed": 5}
