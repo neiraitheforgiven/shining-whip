@@ -397,7 +397,7 @@ class battle(object):
                 routChance = math.ceil(routChance * 1.3)
             attackTypeArray.extend(["routing"] * routChance)
             if not self.getPower(unit, "Aimed Shot"):
-                if not self.battleField.canMove(target):
+                if self.battleField.canMove(target):
                     dodgeSkill = math.floor(max(
                             self.getStat(target, "Intelligence"), targetLuck,
                             self.getStat(target, "Speed")) * (1 + (
