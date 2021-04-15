@@ -426,8 +426,10 @@ class battle(object):
             else:
                 if attackType == 'critical':
                     time.sleep(2. / 10)
+                    print("")
                     print("A Critical Attack!")
-                    time.sleep(3. / 10)
+                    print("")
+                    time.sleep(4. / 10)
                 elif attackType == 'normal':
                     if self.getPower(
                             unit,
@@ -439,7 +441,9 @@ class battle(object):
                 damage = max(strength, dex)
                 if attackType == 'heavy':
                     time.sleep(2. / 10)
+                    print("")
                     print("A heavy attack!")
+                    print("")
                     damage *= 1.15
                     time.sleep(1. / 10)
                 if unit.equipment:
@@ -1513,7 +1517,10 @@ class battle(object):
                 if type(tileUnit) == type(unit)])
         attackType = random.choice(attackTypeArray)
         if attackType == "critical":
+            print("")
+            time.sleep(4. / 10)
             print("A Thunderous Attack!")
+            print("")
             friendSound *= 2
         enemySound = sum([
                 max(self.getStat(tileUnit, "Faith"), self.getStat(
