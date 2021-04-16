@@ -2792,7 +2792,9 @@ class game(object):
                     self.reckoning(8, 'king')
                 elif self.battleStatus == 'defeat':
                     self.reckoning(0, 'king')
-                battle(self, self.party, 1)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
         elif battleNum == 2:
             print("")
             print("The party arrives at a small hut overlooking the water.")
@@ -2819,7 +2821,9 @@ class game(object):
                     self.reckoning(8, 'lonely priest')
                 elif self.battleStatus == 'defeat':
                     self.reckoning(0, 'lonely priest')
-                battle(self, self.party, 2)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
         elif battleNum == 3:
             print("")
             print(
@@ -2866,7 +2870,9 @@ class game(object):
                     self.reckoning(8, 'widow of your mentor')
                 elif self.battleStatus == 'defeat':
                     self.reckoning(0, 'widow of your mentor')
-                battle(self, self.party, 3)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
         print("")
         print("You arrive in Ulmara, a small merchant city bordering Yatahal.")
         print("The King of Ulmara greets you warmly, bestowing lavish gifts.")
@@ -2877,7 +2883,6 @@ class game(object):
         print(
                 "On your way to the shops, you notice a young Kyantol woman "
                 "following you.")
-        shelf.open()
         shop(self, [
                 "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
                 "Wooden Staff", "Middle Sword"], [
@@ -2930,7 +2935,9 @@ class game(object):
                 self.reckoning(15, 'priests')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'priests')
-            battle(self, self.party, 4)
+            battle(self, self.party, self.battleNum)
+        else:
+            self.battleNum += 1
         print("")
         print("You arrive at Malanar, the Cathedral of magic.")
         print(
@@ -2967,7 +2974,9 @@ class game(object):
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'the courtiers')
                 shop2.goShopping(self)
-            battle(self, self.party, 5)
+            battle(self, self.party, self.battleNum)
+        else:
+            self.battleNum += 1
         print("")
         print("You enter the chapel and immediately find the princess.")
         print(
@@ -3011,7 +3020,9 @@ class game(object):
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'the royal coffers')
                 shop2.goShopping(self)
-            battle(self, self.party, 6)
+            battle(self, self.party, self.battleNum)
+        else:
+            self.battleNum += 1
         print("")
         print(
                 "After slaying the evil Skeleton, you find the sword buried "
@@ -3053,7 +3064,9 @@ class game(object):
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'the royal coffers')
                 shop2.goShopping(self)
-            battle(self, self.party, 7)
+            battle(self, self.party, self.battleNum)
+        else:
+            self.battleNum += 1
         print("")
         print(
                 "Anri lets out a shuttering sigh, wiping the blood from her "
@@ -3103,7 +3116,9 @@ class game(object):
                 self.reckoning(15, 'Anri')
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'Anri')
-            battle(self, self.party, 8)
+            battle(self, self.party, self.battleNum)
+        else:
+            self.battleNum += 1
 
     def equipItem(self, equipment):
         allowedUnits = [
@@ -3205,6 +3220,14 @@ class game(object):
                 print(
                         f"The priests request {-amount} scroulings for the "
                         f"prayers that recalled the souls of your party.")
+
+    def save(self):
+        self.shelf.open()
+        self.shelf["playerCharacters"] = self.playerCharacters
+        self.shelf["money"] = self.money
+        self.shelf["inventory"] = self.inventory
+        self.shelf["battleNum"] = self.battleNum
+        self.shelf.close()
 
 
 game = game()
