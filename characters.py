@@ -89,7 +89,7 @@ class monster(object):
             stats = {
                     "Stamina": 10, "Speed": 6, "Strength": 19, "Dexteriy": 14}
             self.setStats(11, **stats)
-            self.moveProfile = moveProfile or "Defensive"
+            self.moveProfile = moveProfile or "Retreat-Defensive"
             self.attackProfile = attackProfile or "Random"
             self.powers.append("Poisonous Attack")
             self.powers.append("Unarmed Attack: Increased Damage I")
