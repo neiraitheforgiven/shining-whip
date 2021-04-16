@@ -5,6 +5,7 @@ from operator import itemgetter
 from shopping import shop
 import math
 import random
+import shelve
 import time
 
 
@@ -2309,32 +2310,33 @@ class game(object):
                 saveName = input(
                         "Enter a name for your new save file. If a file with "
                         "that name already exists, you will overwrite it: ")
-                file = open(f"TSOTHASOTF-{saveName.lower()}.txt", "w")
+                self.shelf = shelve.open(f'TSOTHASOTF-{saveName.lower()}')
                 self.playerCharacters = []
+                self.shelf["playerCharacters"] = self.playerCharacters
                 self.money = 0
+                self.shelf["money"] = self.money
                 self.inventory = []
+                self.shelf["inventory"] = self.inventory
                 self.maxPartySize = 12
+                self.shelf["maxPartySize"] = self.maxPartySize
                 self.battleNum = 1
-                file.write(self.playerCharacters)
-                file.write(self.inventory)
-                file.write(self.money)
-                file.write(self.maxPartySize)
-                file.write(1)
+                self.shelf["battleNum"] = self.battleNum
+                self.shelf["Initialized"] = True
+                self.shelf.close()
             else:
-                try:
-                    file = open(f"TSOTHASOTF-{saveName.lower()}.txt", "r")
-                except FileExistsError:
+                self.shelf = shelve.open(f"TSOTHASOTF-{saveName.lower()}")
+                if not self.shelf["Initialized"]:
                     saveName = None
                     print(
                             "A save file with that name was not found. Try "
                             "again.")
                     continue
-                saveInfo = file.readlines()
-                self.playerCharacters = saveInfo(0)
-                self.inventory = saveInfo(1)
-                self.money = saveInfo(2)
-                self.maxPartySize = saveInfo(3)
-                self.battleNum = saveInfo(4)
+                self.playerCharacters = self.shelf["playerCharacters"]
+                self.inventory = self.shelf["inventory"]
+                self.money = self.shelf["money"]
+                self.maxPartySize = self.shelf["maxPartySize"]
+                self.battleNum = self.shelf["battleNum"]
+                self.shelf.close()
         self.battleStatus = None
         while self.battleNum < 33:
             self.doBattle(self.battleNum)
@@ -2494,6 +2496,7 @@ class game(object):
         print(
                 "On your way to the shops, you notice a young Kyantol woman "
                 "following you.")
+        shelf.open()
         shop(self, [
                 "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
                 "Wooden Staff", "Middle Sword"], [
