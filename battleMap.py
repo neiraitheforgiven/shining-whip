@@ -2683,16 +2683,16 @@ class game(object):
 
     def __init__(self):
         print("Welcome to The Sword of Truth and the Holy Song of the Force!")
-        saveName = None
-        while saveName is None:
-            saveName = input(
+        self.saveName = None
+        while self.saveName is None:
+            self.saveName = input(
                     "Enter a name for a save file or enter New for a new "
                     "game: ")
-            if saveName.lower() in ("n", "new"):
-                saveName = input(
+            if self.saveName.lower() in ("n", "new"):
+                self.saveName = input(
                         "Enter a name for your new save file. If a file with "
                         "that name already exists, you will overwrite it: ")
-                self.shelf = shelve.open(f'TSOTHASOTF-{saveName.lower()}')
+                self.shelf = shelve.open(f'TSOTHASOTF-{self.saveName.lower()}')
                 self.playerCharacters = []
                 self.shelf["playerCharacters"] = self.playerCharacters
                 self.money = 0
@@ -2708,17 +2708,17 @@ class game(object):
                 self.shelf["shop"] = self.shop
                 self.shelf.close()
             else:
-                self.shelf = shelve.open(f"TSOTHASOTF-{saveName.lower()}")
+                self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
                 if "Initialized" not in self.shelf:
                     print(
                             "A save file with that name was not found. Try "
                             "again.")
                     self.shelf.close()
                     #  delete files
-                    os.remove(f'TSOTHASOTF-{saveName.lower()}.dat')
-                    os.remove(f'TSOTHASOTF-{saveName.lower()}.bak')
-                    os.remove(f'TSOTHASOTF-{saveName.lower()}.dir')
-                    saveName = None
+                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dat')
+                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.bak')
+                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dir')
+                    self.saveName = None
                     continue
                 self.playerCharacters = self.shelf["playerCharacters"]
                 self.inventory = self.shelf["inventory"]
@@ -3259,7 +3259,7 @@ class game(object):
 
     def save(self):
         print("DEBUG: We just saved the game!")
-        self.shelf.open()
+        self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
         self.shelf["playerCharacters"] = self.playerCharacters
         self.shelf["money"] = self.money
         self.shelf["inventory"] = self.inventory
