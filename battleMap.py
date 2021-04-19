@@ -4,6 +4,7 @@ from characters import monster
 from operator import itemgetter
 from shopping import shop
 import math
+import os
 import random
 import shelve
 import time
@@ -2709,10 +2710,15 @@ class game(object):
             else:
                 self.shelf = shelve.open(f"TSOTHASOTF-{saveName.lower()}")
                 if "Initialized" not in self.shelf:
-                    saveName = None
                     print(
                             "A save file with that name was not found. Try "
                             "again.")
+                    self.shelf.close()
+                    #  delete files
+                    os.remove(f'TSOTHASOTF-{saveName.lower()}.dat')
+                    os.remove(f'TSOTHASOTF-{saveName.lower()}.bak')
+                    os.remove(f'TSOTHASOTF-{saveName.lower()}.dir')
+                    saveName = None
                     continue
                 self.playerCharacters = self.shelf["playerCharacters"]
                 self.inventory = self.shelf["inventory"]
