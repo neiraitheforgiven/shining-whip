@@ -2883,252 +2883,277 @@ class game(object):
                 battle(self, self.party, self.battleNum)
             else:
                 self.battleNum += 1
-        print("")
-        print("You arrive in Ulmara, a small merchant city bordering Yatahal.")
-        print("The King of Ulmara greets you warmly, bestowing lavish gifts.")
-        self.reckoning(40, "King of Ulmara")
-        print(
-                "The King gestures to the shopping district: \"Go visit a "
-                "smith!\"")
-        print(
-                "On your way to the shops, you notice a young Kyantol woman "
-                "following you.")
-        self.shop = shop(self, [
-                "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
-                "Wooden Staff", "Middle Sword"], [
-                "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
-                "Wooden Staff", "Middle Sword", "Middle Axe", "Iron Shot",
-                "Bronze Lance"])
-        print("")
-        print(
-                "As you leave the shop, the young Kyantol woman appears at "
-                "your side.")
-        print("\"Don't trust the king!\", she hisses, then spirits away.")
-        print("She looked a bit wild, like a prophet.")
-        print(
-            "Before you can decide what to do, the king summons you to the "
-            "castle.")
-        print("There, the king reveals that he has made a deal with Darksol,")
-        print("the dark wizard behind the army that destroyed Yatahal.")
-        print(
-                "In exchange for keeping Ulmara safe, he is now supplying "
-                "Darksol.")
-        print("You are now to be sent to Darksol as more recruits.")
-        print("")
-        print("You refuse, so the king throws you into prison.")
-        print("")
-        print("")
-        print("")
-        print(
-                "That night, a door opens in the wall of your cell and the "
-                "Kyantol woman enters.")
-        print("\"My people built this palace and the prison.\" She smirks.")
-        print("\"Come with me -- we'll have to fight our way out of town.\"")
-        print(
-                "\"We have to go north to inform Her Majesty of her father's "
-                "death.\"")
-        print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
-        print("Khris joins your force!")
-        recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter, 4)
-        self.equipOnCharacter(
-                equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
-                recruit, False)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        self.playerCharacters.append(recruit)
-        self.party = self.playerCharacters
-        self.battleStatus = None
-        while self.battleStatus != 'victory':
-            if self.battleStatus == 'egress':
-                self.reckoning(15, 'priests')
-            elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'priests')
-            battle(self, self.party, self.battleNum)
-        else:
-            self.battleNum += 1
-        print("")
-        print("You arrive at Malanar, the Cathedral of magic.")
-        print(
-                "Malanar is the heart of magical and divine research and "
-                "training in Yatahal, and ")
-        print("still stands against the enemy forces.")
-        print(
-                "You ask to see the Princess, now the queen of Malanar and "
-                "Yatahal.")
-        print(
-                "You are ushered into the court of the Ice Rose, retainers "
-                "for the princess.")
-        self.reckoning(30, 'the courtiers')
-        print(
-                "A worried courtier directs you north, across the desert of "
-                "Penance.")
-        print(
-                "She says that the princess is at the Chapel of Penance "
-                "learning the secrets of the Songs of the Creator.")
-        print(
-                "Before you venture north, you establish a base of operations "
-                "in Malanar and go shopping.")
-        self.shop = shop(self, [
-                "Middle Sword", "Spear", "Bronze Lance", "Wooden Staff",
-                "Power Staff", "Iron Shot"], [
-                "Steel Arrow", "Middle Axe", "Knife", "Power Staff",
-                "Power Spear"])
-        self.party = self.playerCharacters
-        self.battleStatus = None
-        while self.battleStatus != 'victory':
-            if self.battleStatus == 'egress':
-                self.reckoning(15, 'the courtiers')
-                self.shop.goShopping(self)
-            elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'the courtiers')
-                self.shop.goShopping(self)
-            battle(self, self.party, self.battleNum)
-        else:
-            self.battleNum += 1
-        print("")
-        print("You enter the chapel and immediately find the princess.")
-        print(
-                "You inform her that her father is dead and that she is now "
-                "the Queen.")
-        print(
-                "She turns white and orders you to take her back to Malanar "
-                "at once.")
-        print(
-                "Once in Malanar, Anri mourns for half a day before gathering "
-                "her resolve and summoning you.")
-        self.reckoning(35, "new Queen")
-        print(
-                "Anri he informs you of her intent to join you "
-                "and take the battle back to Darksol.")
-        print("To do that, you will need to brave a dark cave under Malanar ")
-        print("-- the very thing that Malanar was created to seal.")
-        print("Within, she claims you will find a sacred sword.")
-        print("Anri joins your force!")
-        recruit = playerCharacter("Anri", "Human", "Frost Mage", chatter, 6)
-        self.equipOnCharacter(
-                equipment("Staffs", "Power Staff", 500, 0, 0, 4, 6, 6),
-                recruit, False)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        recruit.levelUp(chatter)
-        print(
-                "You head to the shopping district before descending into the "
-                "cavern.")
-        self.shop.goShopping(self)
-        print("With that out of the way, you descend into the dark cavern.")
-        self.party = self.playerCharacters
-        self.battleStatus = None
-        while self.battleStatus != 'victory':
-            if self.battleStatus == 'egress':
-                self.reckoning(15, 'the royal coffers')
-                self.shop.goShopping(self)
-            elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'the royal coffers')
-                self.shop.goShopping(self)
-            battle(self, self.party, self.battleNum)
-        else:
-            self.battleNum += 1
-        print("")
-        print(
-                "After slaying the evil Skeleton, you find the sword buried "
-                "in a sacred stone altar.")
-        print('"It\'s the Sword of Truth." says Anri.')
-        print(
-                '"It\'s sacred because it give the wielder the power to see '
-                'through falsehoods and illusions."')
-        print("You nod, gripping the Sword as you head up to the surface.")
-        print(
-                "You'd better remember to equip the Sword for battle, if you "
-                "can.")
-        swordOfTruth = equipment(
-                "Sacred Swords", "Sword of Truth", 7200, 0, 0, 10, 0, 8,
-                ["Bolt I"])
-        self.inventory.append(swordOfTruth)
-        print(
-                "When you leave the cave, blinking in the sunlight over "
-                "you notice a sinister sight on the outskirts of Malanar.")
-        print(
-                "Where once stood a pavilion for a traveling circus, instead "
-                "stands a dark altar. Evil emanates from it, and lifeless "
-                "bodies shuffle around it.")
-        print(
-                'Anri gasps. "The power of the Sword! It has dispelled an '
-                "illusion! This must be Darksol\'s handiwork -- and here in "
-                'the Holy City!"')
-        print("You steel yourself for a grueling battle. By going shopping.")
-        self.shop.goShopping(self)
-        print(
-                "Gritting your teeth, you rally the Force and head to the "
-                "altar. What dark trials await?")
-        self.party = self.playerCharacters
-        self.battleStatus = None
-        while self.battleStatus != 'victory':
-            if self.battleStatus == 'egress':
-                self.reckoning(15, 'the royal coffers')
-                self.shop.goShopping(self)
-            elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'the royal coffers')
-                self.shop.goShopping(self)
-            battle(self, self.party, self.battleNum)
-        else:
-            self.battleNum += 1
-        print("")
-        print(
-                "Anri lets out a shuttering sigh, wiping the blood from her "
-                "face.")
-        print(
-                "Once she catches her breath, she turns to you with a "
-                "startling look.")
-        print(
-                '"That thing -- it was a dark creation." She says, "They '
-                'should be held at bay by the words of the Holy Songs."')
-        print(
-                '"But people have stopped singing the songs or teaching them '
-                'to their children."')
-        print(
-                '"The words of the Holy Songs are kept in a chapel to the '
-                'North." She turns and points North.')
-        print(
-                '"We need to retrieve them, now! If evil has come this '
-                'close, the Holy Songs will be threatened!"')
-        print(
-                "With that, she gathers herself and heads North.")
-        print(
-                "Unsure of what she is talking about, you follow.")
-        print("")
-        print(
-                "When you arrive at the chapel, you are met by a group of "
-                "priests, led by a tall Vicar.")
-        print(
-                'The vicar welcomes you, "The Words are kept in a warded '
-                'room, that can only be opened by the Keepers, Angelic '
-                'bird-men who are devoted to Heaven."')
-        print(
-                "You watch as the Keepers remove the wards. But as soon as "
-                "they do, the Vicar removes his hood and reveals himself to "
-                "be Darksol!")
-        print(
-                "He casts a dark spell, turning the Keepers to stone, then "
-                "grabs the scrolls containing the words. They burst into "
-                "dark blue flames as he laughs. As they burn, he disappears.")
-        print(
-                "What remains of his delegation lurches forward. The priests "
-                "are dead, transformed to Zombies and Skeletons!")
-        self.party = self.playerCharacters
-        self.battleStatus = None
-        while self.battleStatus != 'victory':
-            if self.battleStatus == 'egress':
-                self.reckoning(15, 'Anri')
-            elif self.battleStatus == 'defeat':
-                self.reckoning(0, 'Anri')
-            battle(self, self.party, self.battleNum)
-        else:
-            self.battleNum += 1
+        elif battleNum == 4:
+            print("")
+            print(
+                    "You arrive in Ulmara, a small merchant city bordering "
+                    "Yatahal.")
+            print(
+                    "The King of Ulmara greets you warmly, bestowing lavish "
+                    "gifts.")
+            self.reckoning(40, "King of Ulmara")
+            print(
+                    "The King gestures to the shopping district: \"Go visit a "
+                    "smith!\"")
+            print(
+                    "On your way to the shops, you notice a young Kyantol "
+                    "woman following you.")
+            self.shop = shop(self, [
+                    "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
+                    "Wooden Staff", "Middle Sword"], [
+                    "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
+                    "Wooden Staff", "Middle Sword", "Middle Axe", "Iron Shot",
+                    "Bronze Lance"])
+            print("")
+            print(
+                    "As you leave the shop, the young Kyantol woman appears "
+                    "at your side.")
+            print("\"Don't trust the king!\", she hisses, then spirits away.")
+            print("She looked a bit wild, like a prophet.")
+            print(
+                    "Before you can decide what to do, the king summons you "
+                    "to the castle.")
+            print(
+                    "There, the king reveals that he has made a deal with "
+                    "Darksol,")
+            print("the dark wizard behind the army that destroyed Yatahal.")
+            print(
+                    "In exchange for keeping Ulmara safe, he is now supplying "
+                    "Darksol.")
+            print("You are now to be sent to Darksol as more recruits.")
+            print("")
+            print("You refuse, so the king throws you into prison.")
+            print("")
+            print("")
+            print("")
+            print(
+                    "That night, a door opens in the wall of your cell and "
+                    "the Kyantol woman enters.")
+            print(
+                    "\"My people built this palace and the prison.\" She "
+                    "smirks.")
+            print(
+                    "\"Come with me -- we'll have to fight our way out of "
+                    "town.\"")
+            print(
+                    "\"We have to go north to inform Her Majesty of her "
+                    "father's death.\"")
+            print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
+            print("Khris joins your force!")
+            recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter, 4)
+            self.equipOnCharacter(
+                    equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                    recruit, False)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            self.playerCharacters.append(recruit)
+            self.party = self.playerCharacters
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(15, 'priests')
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'priests')
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
+        elif battleNum == 5:
+            print("")
+            print("You arrive at Malanar, the Cathedral of magic.")
+            print(
+                    "Malanar is the heart of magical and divine research and "
+                    "training in Yatahal, and ")
+            print("still stands against the enemy forces.")
+            print(
+                    "You ask to see Anri, the Princess and now the queen of "
+                    "Malanar and Yatahal.")
+            print(
+                    "You are ushered into the court of the Ice Rose, "
+                    "retainers for the princess.")
+            self.reckoning(30, 'the courtiers')
+            print(
+                    "A worried courtier directs you north, across the desert "
+                    "of Penance.")
+            print(
+                    "She says that the princess is at the Chapel of Penance "
+                    "learning the secrets of the Songs of the Creator.")
+            print(
+                    "Before you venture north, you establish a base of "
+                    "operations in Malanar and go shopping.")
+            self.shop = shop(self, [
+                    "Middle Sword", "Spear", "Bronze Lance", "Wooden Staff",
+                    "Power Staff", "Iron Shot"], [
+                    "Steel Arrow", "Middle Axe", "Knife", "Power Staff",
+                    "Power Spear"])
+            self.party = self.playerCharacters
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(15, 'the courtiers')
+                    self.shop.goShopping(self)
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'the courtiers')
+                    self.shop.goShopping(self)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
+        elif battleNum == 6:
+            print("")
+            print("You enter the chapel and immediately find the princess.")
+            print(
+                    "You inform her that her father is dead and that she is "
+                    "now the Queen.")
+            print(
+                    "She turns white and orders you to take her back to "
+                    "Malanar at once.")
+            print(
+                    "Once in Malanar, Anri mourns for half a day before "
+                    "gathering her resolve and summoning you.")
+            self.reckoning(35, "new Queen")
+            print(
+                    "Anri he informs you of her intent to join you "
+                    "and take the battle back to Darksol.")
+            print(
+                    "To do that, you will need to brave a dark cave under "
+                    "Malanar ")
+            print("-- the very thing that Malanar was created to seal.")
+            print("Within, she claims you will find a sacred sword.")
+            print("Anri joins your force!")
+            recruit = playerCharacter(
+                    "Anri", "Human", "Frost Mage", chatter, 6)
+            self.equipOnCharacter(
+                    equipment("Staffs", "Power Staff", 500, 0, 0, 4, 6, 6),
+                    recruit, False)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            recruit.levelUp(chatter)
+            print(
+                    "You head to the shopping district before descending into "
+                    "the cavern.")
+            self.shop.goShopping(self)
+            print(
+                    "With that out of the way, you descend into the dark "
+                    "cavern.")
+            self.party = self.playerCharacters
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(15, 'the royal coffers')
+                    self.shop.goShopping(self)
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'the royal coffers')
+                    self.shop.goShopping(self)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
+        elif battleNum == 7:
+            print("")
+            print(
+                    "After slaying the evil Skeleton, you find the sword "
+                    "buried in a sacred stone altar.")
+            print('"It\'s the Sword of Truth." says Anri.')
+            print(
+                    '"It\'s sacred because it give the wielder the power to '
+                    'see through falsehoods and illusions."')
+            print("You nod, gripping the Sword as you head up to the surface.")
+            print(
+                    "You'd better remember to equip the Sword for battle, if "
+                    "you can.")
+            swordOfTruth = equipment(
+                    "Sacred Swords", "Sword of Truth", 7200, 0, 0, 10, 0, 8,
+                    ["Bolt I"])
+            self.inventory.append(swordOfTruth)
+            print(
+                    "When you leave the cave, blinking in the sunlight over "
+                    "you notice a sinister sight on the outskirts of Malanar.")
+            print(
+                    "Where once stood a pavilion for a traveling circus, "
+                    "instead stands a dark altar. Evil emanates from it, and "
+                    "lifeless bodies shuffle around it.")
+            print(
+                    'Anri gasps. "The power of the Sword! It has dispelled an '
+                    "illusion! This must be Darksol\'s handiwork -- and here "
+                    'in the Holy City!"')
+            print(
+                    "You steel yourself for a grueling battle. By going "
+                    "shopping.")
+            self.shop.goShopping(self)
+            print(
+                    "Gritting your teeth, you rally the Force and head to the "
+                    "altar. What dark trials await?")
+            self.party = self.playerCharacters
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(15, 'the royal coffers')
+                    self.shop.goShopping(self)
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'the royal coffers')
+                    self.shop.goShopping(self)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
+        elif battleNum == 8:
+            print("")
+            print(
+                    "Anri lets out a shuttering sigh, wiping the blood from "
+                    "her face.")
+            print(
+                    "Once she catches her breath, she turns to you with a "
+                    "startling look.")
+            print(
+                    '"That thing -- it was a dark creation." She says, "They '
+                    'should be held at bay by the words of the Holy Songs."')
+            print(
+                    '"But people have stopped singing the songs or teaching '
+                    'them to their children."')
+            print(
+                    '"The words of the Holy Songs are kept in a chapel to the '
+                    'North." She turns and points North.')
+            print(
+                    '"We need to retrieve them, now! If evil has come this '
+                    'close, the Holy Songs will be threatened!"')
+            print(
+                    "With that, she gathers herself and heads North.")
+            print(
+                    "Unsure of what she is talking about, you follow.")
+            print("")
+            print(
+                    "When you arrive at the chapel, you are met by a group of "
+                    "priests, led by a tall Vicar.")
+            print(
+                    'The vicar welcomes you, "The Words are kept in a warded '
+                    'room, that can only be opened by the Keepers, Angelic '
+                    'bird-men who are devoted to Heaven."')
+            print(
+                    "You watch as the Keepers remove the wards. But as soon "
+                    "as they do, the Vicar removes his hood and reveals "
+                    "himself to be Darksol!")
+            print(
+                    "He casts a dark spell, turning the Keepers to stone, "
+                    "then grabs the scrolls containing the words to the Songs "
+                    "of the Creator.")
+            print(
+                    "They burst into dark blue flames as he laughs. As they "
+                    "burn, he disappears.")
+            print(
+                    "What remains of his delegation lurches forward. The "
+                    "priests are dead, transformed to Zombies and Skeletons!")
+            self.party = self.playerCharacters
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(15, 'Anri')
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'Anri')
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
 
     def equipItem(self, equipment):
         allowedUnits = [
