@@ -2706,6 +2706,8 @@ class game(object):
                 self.shelf["Initialized"] = True
                 self.shop = None
                 self.shelf["shop"] = self.shop
+                self.battleStarted = 0
+                self.shelf["battleStarted"] = self.battleStarted
                 self.shelf.close()
             else:
                 self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
@@ -2726,6 +2728,7 @@ class game(object):
                 self.maxPartySize = self.shelf["maxPartySize"]
                 self.battleNum = self.shelf["battleNum"]
                 self.shop = self.shelf["shop"]
+                self.battleStarted = self.shelf["battleStarted"]
                 self.shelf.close()
         self.battleStatus = None
         while self.battleNum < 33:
@@ -2759,43 +2762,47 @@ class game(object):
                     "Goblins and plotting the downfall of Yatahal.")
             print("")
             print("Swallowing your fear, you draw arms and challenge them!")
-            recruit = playerCharacter(
-                    "Max", "Human", "Hero", chatter, 0)
-            self.equipOnCharacter(
-                    equipment("Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
-                    recruit, False)
-            self.playerCharacters.append(recruit)
-            recruit = playerCharacter(
-                    "Lowe", "Hobbit", "Priest", chatter, 0)
-            self.equipOnCharacter(
-                    equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
-                    recruit, False)
-            self.playerCharacters.append(recruit)
-            recruit = playerCharacter(
-                    "Tao", "Elf", "Fire Mage", chatter, 0)
-            self.equipOnCharacter(
-                    equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
-                    recruit, False)
-            self.playerCharacters.append(recruit)
-            recruit = playerCharacter(
-                    "Luke", "Dwarf", "Warrior", chatter, 0)
-            self.equipOnCharacter(
-                    equipment("Axes", "Short Axe", 120, 0, 0, 3, 0, 0),
-                    recruit, False)
-            self.playerCharacters.append(recruit)
-            recruit = playerCharacter(
-                    "Ken", "Centaur", "Knight", chatter, 0)
-            self.equipOnCharacter(
-                    equipment("Spears", "Wooden Spear", 100, 0, 1, 3, 0, 0),
-                    recruit, False)
-            self.playerCharacters.append(recruit)
-            recruit = playerCharacter(
-                    "Hans", "Elf", "Archer", chatter, 0)
-            self.equipOnCharacter(
-                    equipment("Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0),
-                    recruit, False)
-            self.playerCharacters.append(recruit)
-
+            if self.battleStarted < 1:
+                recruit = playerCharacter(
+                        "Max", "Human", "Hero", chatter, 0)
+                self.equipOnCharacter(
+                        equipment(
+                                "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                        recruit, False)
+                self.playerCharacters.append(recruit)
+                recruit = playerCharacter(
+                        "Lowe", "Hobbit", "Priest", chatter, 0)
+                self.equipOnCharacter(
+                        equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                        recruit, False)
+                self.playerCharacters.append(recruit)
+                recruit = playerCharacter(
+                        "Tao", "Elf", "Fire Mage", chatter, 0)
+                self.equipOnCharacter(
+                        equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                        recruit, False)
+                self.playerCharacters.append(recruit)
+                recruit = playerCharacter(
+                        "Luke", "Dwarf", "Warrior", chatter, 0)
+                self.equipOnCharacter(
+                        equipment("Axes", "Short Axe", 120, 0, 0, 3, 0, 0),
+                        recruit, False)
+                self.playerCharacters.append(recruit)
+                recruit = playerCharacter(
+                        "Ken", "Centaur", "Knight", chatter, 0)
+                self.equipOnCharacter(
+                        equipment(
+                                "Spears", "Wooden Spear", 100, 0, 1, 3, 0, 0),
+                        recruit, False)
+                self.playerCharacters.append(recruit)
+                recruit = playerCharacter(
+                        "Hans", "Elf", "Archer", chatter, 0)
+                self.equipOnCharacter(
+                        equipment(
+                                "Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0),
+                        recruit, False)
+                self.playerCharacters.append(recruit)
+                self.battleStarted = 1
             self.party = self.playerCharacters
             while self.battleStatus != 'victory':
                 if self.battleStatus == 'egress':
@@ -2820,11 +2827,14 @@ class game(object):
                     "home.")
             print("That's not good....")
             print("")
-            recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
-            recruit.levelUp(chatter)
-            self.playerCharacters.append(recruit)
+            if self.battleStarted < 2:
+                recruit = playerCharacter(
+                        "Gong", "Half-Giant", "Monk", chatter, 1)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+                self.reckoning(25, 'lonely priest')
+                self.battleStarted = 2
             self.party = self.playerCharacters
-            self.reckoning(25, 'lonely priest')
             self.battleStatus = None
             while self.battleStatus != 'victory':
                 if self.battleStatus == 'egress':
@@ -2859,21 +2869,28 @@ class game(object):
                     "guard, ")
             print("drunk on wine and thirsty for vengence, Gort!")
             print("")
-            recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
-            self.playerCharacters.append(recruit)
-            self.equipOnCharacter(
-                    equipment("Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
-                    recruit, False)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
-            recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
-            self.playerCharacters.append(recruit)
-            self.equipOnCharacter(equipment(
-                    "Axes", "Hand Axe", 200, 0, 0, 4, 0, 0), recruit, False)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
+            if self.battleStarted < 3:
+                recruit = playerCharacter(
+                        "Mae", "Centaur", "Knight", chatter, 2)
+                self.playerCharacters.append(recruit)
+                self.equipOnCharacter(
+                        equipment(
+                                "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit = playerCharacter(
+                        "Gort", "Dwarf", "Warrior", chatter, 2)
+                self.playerCharacters.append(recruit)
+                self.equipOnCharacter(
+                        equipment(
+                                "Axes", "Hand Axe", 200, 0, 0, 4, 0, 0),
+                                recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.reckoning(25, 'widow of your mentor')
+                self.battleStarted = 3
             self.party = self.playerCharacters
-            self.reckoning(25, 'widow of your mentor')
             self.battleStatus = None
             while self.battleStatus != 'victory':
                 if self.battleStatus == 'egress':
@@ -2891,7 +2908,8 @@ class game(object):
             print(
                     "The King of Ulmara greets you warmly, bestowing lavish "
                     "gifts.")
-            self.reckoning(40, "King of Ulmara")
+            if self.battleStarted < 4:
+                self.reckoning(40, "King of Ulmara")
             print(
                     "The King gestures to the shopping district: \"Go visit a "
                     "smith!\"")
@@ -2940,14 +2958,17 @@ class game(object):
                     "father's death.\"")
             print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
             print("Khris joins your force!")
-            recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter, 4)
-            self.equipOnCharacter(
-                    equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
-                    recruit, False)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
+            if self.battleStarted < 4:
+                recruit = playerCharacter(
+                        "Khris", "Kyantol", "Priest", chatter, 4)
+                self.equipOnCharacter(
+                        equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.battleStarted = 4
             self.playerCharacters.append(recruit)
             self.party = self.playerCharacters
             self.battleStatus = None
@@ -2972,7 +2993,9 @@ class game(object):
             print(
                     "You are ushered into the court of the Ice Rose, "
                     "retainers for the princess.")
-            self.reckoning(30, 'the courtiers')
+            if self.battleStarted < 5:
+                self.reckoning(30, 'the courtiers')
+                self.battleStarted = 5
             print(
                     "A worried courtier directs you north, across the desert "
                     "of Penance.")
@@ -3011,7 +3034,8 @@ class game(object):
             print(
                     "Once in Malanar, Anri mourns for half a day before "
                     "gathering her resolve and summoning you.")
-            self.reckoning(35, "new Queen")
+            if self.battleStarted < 6:
+                self.reckoning(35, "new Queen")
             print(
                     "Anri he informs you of her intent to join you "
                     "and take the battle back to Darksol.")
@@ -3020,18 +3044,20 @@ class game(object):
                     "Malanar ")
             print("-- the very thing that Malanar was created to seal.")
             print("Within, she claims you will find a sacred sword.")
-            print("Anri joins your force!")
-            recruit = playerCharacter(
-                    "Anri", "Human", "Frost Mage", chatter, 6)
-            self.equipOnCharacter(
-                    equipment("Staffs", "Power Staff", 500, 0, 0, 4, 6, 6),
-                    recruit, False)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
-            recruit.levelUp(chatter)
+            if self.battleStarted < 6:
+                print("Anri joins your force!")
+                recruit = playerCharacter(
+                        "Anri", "Human", "Frost Mage", chatter, 6)
+                self.equipOnCharacter(
+                        equipment("Staffs", "Power Staff", 500, 0, 0, 4, 6, 6),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.battleStarted = 6
             print(
                     "You head to the shopping district before descending into "
                     "the cavern.")
@@ -3064,10 +3090,12 @@ class game(object):
             print(
                     "You'd better remember to equip the Sword for battle, if "
                     "you can.")
-            swordOfTruth = equipment(
-                    "Sacred Swords", "Sword of Truth", 7200, 0, 0, 10, 0, 8,
-                    ["Bolt I"])
-            self.inventory.append(swordOfTruth)
+            if self.battleStarted < 7:
+                swordOfTruth = equipment(
+                        "Sacred Swords", "Sword of Truth", 7200, 0, 0, 10, 0,
+                        8, ["Bolt I"])
+                self.inventory.append(swordOfTruth)
+                self.battleStarted = 7
             print(
                     "When you leave the cave, blinking in the sunlight over "
                     "you notice a sinister sight on the outskirts of Malanar.")
@@ -3144,6 +3172,8 @@ class game(object):
             print(
                     "What remains of his delegation lurches forward. The "
                     "priests are dead, transformed to Zombies and Skeletons!")
+            if self.battleStarted < 8:
+                self.battleStarted = 8
             self.party = self.playerCharacters
             self.battleStatus = None
             while self.battleStatus != 'victory':
@@ -3265,6 +3295,7 @@ class game(object):
         self.shelf["inventory"] = self.inventory
         self.shelf["battleNum"] = self.battleNum
         self.shelf["shop"] = self.shop
+        self.shelf["battleStarted"] = self.battleStarted
         self.shelf.close()
 
 
