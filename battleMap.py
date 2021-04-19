@@ -2708,7 +2708,7 @@ class game(object):
                 self.shelf.close()
             else:
                 self.shelf = shelve.open(f"TSOTHASOTF-{saveName.lower()}")
-                if not self.shelf["Initialized"]:
+                if "Initialized" not in self.shelf:
                     saveName = None
                     print(
                             "A save file with that name was not found. Try "
