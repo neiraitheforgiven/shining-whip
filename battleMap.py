@@ -3258,6 +3258,7 @@ class game(object):
         self.save
 
     def save(self):
+        print("DEBUG: We just saved the game!")
         self.shelf.open()
         self.shelf["playerCharacters"] = self.playerCharacters
         self.shelf["money"] = self.money
