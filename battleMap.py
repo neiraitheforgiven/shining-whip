@@ -2703,6 +2703,8 @@ class game(object):
                 self.battleNum = 1
                 self.shelf["battleNum"] = self.battleNum
                 self.shelf["Initialized"] = True
+                self.shop = None
+                self.shelf["shop"] = self.shop
                 self.shelf.close()
             else:
                 self.shelf = shelve.open(f"TSOTHASOTF-{saveName.lower()}")
@@ -2717,6 +2719,7 @@ class game(object):
                 self.money = self.shelf["money"]
                 self.maxPartySize = self.shelf["maxPartySize"]
                 self.battleNum = self.shelf["battleNum"]
+                self.shop = self.shelf["shop"]
                 self.shelf.close()
         self.battleStatus = None
         while self.battleNum < 33:
@@ -2883,7 +2886,7 @@ class game(object):
         print(
                 "On your way to the shops, you notice a young Kyantol woman "
                 "following you.")
-        shop(self, [
+        self.shop = shop(self, [
                 "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
                 "Wooden Staff", "Middle Sword"], [
                 "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
@@ -2960,7 +2963,7 @@ class game(object):
         print(
                 "Before you venture north, you establish a base of operations "
                 "in Malanar and go shopping.")
-        shop2 = shop(self, [
+        self.shop = shop(self, [
                 "Middle Sword", "Spear", "Bronze Lance", "Wooden Staff",
                 "Power Staff", "Iron Shot"], [
                 "Steel Arrow", "Middle Axe", "Knife", "Power Staff",
@@ -2970,10 +2973,10 @@ class game(object):
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
                 self.reckoning(15, 'the courtiers')
-                shop2.goShopping(self)
+                self.shop.goShopping(self)
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'the courtiers')
-                shop2.goShopping(self)
+                self.shop.goShopping(self)
             battle(self, self.party, self.battleNum)
         else:
             self.battleNum += 1
@@ -3009,17 +3012,17 @@ class game(object):
         print(
                 "You head to the shopping district before descending into the "
                 "cavern.")
-        shop2.goShopping(self)
+        self.shop.goShopping(self)
         print("With that out of the way, you descend into the dark cavern.")
         self.party = self.playerCharacters
         self.battleStatus = None
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
                 self.reckoning(15, 'the royal coffers')
-                shop2.goShopping(self)
+                self.shop.goShopping(self)
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'the royal coffers')
-                shop2.goShopping(self)
+                self.shop.goShopping(self)
             battle(self, self.party, self.battleNum)
         else:
             self.battleNum += 1
@@ -3051,7 +3054,7 @@ class game(object):
                 "illusion! This must be Darksol\'s handiwork -- and here in "
                 'the Holy City!"')
         print("You steel yourself for a grueling battle. By going shopping.")
-        shop2.goShopping(self)
+        self.shop.goShopping(self)
         print(
                 "Gritting your teeth, you rally the Force and head to the "
                 "altar. What dark trials await?")
@@ -3060,10 +3063,10 @@ class game(object):
         while self.battleStatus != 'victory':
             if self.battleStatus == 'egress':
                 self.reckoning(15, 'the royal coffers')
-                shop2.goShopping(self)
+                self.shop.goShopping(self)
             elif self.battleStatus == 'defeat':
                 self.reckoning(0, 'the royal coffers')
-                shop2.goShopping(self)
+                self.shop.goShopping(self)
             battle(self, self.party, self.battleNum)
         else:
             self.battleNum += 1
@@ -3227,6 +3230,7 @@ class game(object):
         self.shelf["money"] = self.money
         self.shelf["inventory"] = self.inventory
         self.shelf["battleNum"] = self.battleNum
+        self.shelf["shop"] = self.shop
         self.shelf.close()
 
 
