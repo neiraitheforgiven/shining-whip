@@ -2733,8 +2733,8 @@ class game(object):
             self.doBattle(self.battleNum)
 
     def doBattle(self, battleNum):
+        chatter = False
         if battleNum == 1:
-            chatter = False
             print("You are the leader of a small part of misfits.")
             print("You are from Yatahal, the Holy City.")
             print(
