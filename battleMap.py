@@ -3200,6 +3200,9 @@ class game(object):
                 battle(self, self.party, self.battleNum)
             else:
                 self.battleNum += 1
+        else:
+            print("You have won the game... for now.")
+            self.battleNum = 40
 
     def equipItem(self, equipment):
         allowedUnits = [
@@ -3304,7 +3307,9 @@ class game(object):
         self.save()
 
     def save(self):
-        print("DEBUG: We just saved the game!")
+        print(
+                f"DEBUG: We just saved the game! Battle #{self.battleNum}, "
+                f"BattleStarted {self.battleStarted}")
         self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
         self.shelf["playerCharacters"] = self.playerCharacters
         self.shelf["money"] = self.money
