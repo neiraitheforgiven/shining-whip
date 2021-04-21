@@ -2966,8 +2966,8 @@ class game(object):
                     "\"We have to go north to inform Her Majesty of her "
                     "father's death.\"")
             print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
-            print("Khris joins your force!")
             if self.battleStarted < 4:
+                print("Khris joins your force!")
                 recruit = playerCharacter(
                         "Khris", "Kyantol", "Priest", chatter, 4)
                 self.equipOnCharacter(
@@ -2977,9 +2977,9 @@ class game(object):
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
                 self.battleStarted = 4
                 self.save()
-            self.playerCharacters.append(recruit)
             self.party = self.playerCharacters
             self.battleStatus = None
             while self.battleStatus != 'victory':
