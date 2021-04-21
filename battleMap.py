@@ -1200,6 +1200,8 @@ class battle(object):
     def doTurn(self, unit, moved=False, statusChecked=False):
         if unit.status and "Petrified" in unit.status:
             return
+        position = self.battleField.getUnitPos(unit)
+        tile = self.battleField.terrainArray[position]
         for state in unit.status:
             if statusChecked:
                 continue
@@ -1223,6 +1225,9 @@ class battle(object):
                 resistChance = math.ceil(resistChance * 1.3)
             if self.getPower(unit, "Defense: Increased Resistance II"):
                 resistChance = math.ceil(resistChance * 1.3)
+            if self.getPower(unit, "Unholy: Increased Resistance I"):
+                if tile.voicePower < 0:
+                    resistChance = math.ceil(resistChance * 1.66)
             resistArray = []
             resistArray.extend(['resist'] * resistChance)
             resistArray.extend(['fail'] * (50 - (luck)))
@@ -1244,8 +1249,6 @@ class battle(object):
                 if unit.hp <= 0:
                     self.kill(unit)
             statusChecked = True
-        position = self.battleField.getUnitPos(unit)
-        tile = self.battleField.terrainArray[position]
         otherUnits = ", ".join([
                 tileUnit.name for tileUnit in tile.units if tileUnit != unit])
         if type(unit) == playerCharacter:
