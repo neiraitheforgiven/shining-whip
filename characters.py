@@ -212,6 +212,8 @@ class playerCharacter(object):
         self.hasEquipped = False
         self.status = []
         self.trophies = []
+        self.extraPowerSlot = []
+        self.extraPowerSlot2 = []
         if playerClass:
             if playerClass == "Assassin":
                 self.growth = self.initializeRandomStats(
