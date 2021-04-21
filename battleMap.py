@@ -563,12 +563,12 @@ class battle(object):
         minRange = max(0, position - area)
         maxRange = min(position + area, len(bf.terrainArray) - 1)
         if spread and damage > 0:
-            count = len(
+            count = len([
                     target for target
                     in [
                             tile for tile in
                             bf.terrainArray[minRange:maxRange + 1]]
-                    if type(target) != type(unit))
+                    if type(target) != type(unit)])
         for i in range(minRange, maxRange + 1):
             tile = bf.terrainArray[i]
             for target in tile.units:
