@@ -438,7 +438,7 @@ class playerCharacter(object):
                         "Vocal Attack: Remove Enemy Resonance",
                         "Vocal Attack: Increased Damage I",
                         "Luck: Increased Rout II",
-                        "Unholy: Gain Resistance I",
+                        "Unholy: Increased Resistance I",
                         "Vocal Attack: Increased Damage II"
                         "Rout: Add Effect: Paralyze"]
             elif "Chorister" in title:
@@ -504,11 +504,11 @@ class playerCharacter(object):
                         "Spears: Increased Damage I", "Defense: Lance I",
                         "Defense: Arrow I",
                         "Faith: Add Damage on Unholy Ground",
-                        "Unholy: Gain Resistance I"]
+                        "Unholy: Increased Resistance I"]
             elif "Mage Knight" in title:
                 listOfPowers = [
                         "Equip: Polearms", "Mounted Movement", "Blaze I",
-                        "Unholy: Gain Resistance I", "Freeze I", "Bolt I",
+                        "Unholy: Increased Resistance I", "Freeze I", "Bolt I",
                         "Faith: Add Damage on Unholy Ground",
                         "Defense: Dark Magic II"]
             elif "Monk" in title:
