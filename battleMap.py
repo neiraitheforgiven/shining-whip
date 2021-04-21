@@ -2923,12 +2923,14 @@ class game(object):
             print(
                     "On your way to the shops, you notice a young Kyantol "
                     "woman following you.")
-            self.shop = shop(self, [
-                    "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
-                    "Wooden Staff", "Middle Sword"], [
-                    "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
-                    "Wooden Staff", "Middle Sword", "Middle Axe", "Iron Shot",
-                    "Bronze Lance"])
+            if self.battleStarted < 4:
+                self.shop = shop(self, [
+                        "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
+                        "Wooden Staff", "Middle Sword"], [
+                        "Wooden Arrow", "Hand Axe", "Short Knife", "Spear",
+                        "Wooden Staff", "Middle Sword", "Middle Axe",
+                        "Iron Shot", "Bronze Lance"])
+            self.shop.goShopping(self)
             print("")
             print(
                     "As you leave the shop, the young Kyantol woman appears "
@@ -3003,8 +3005,6 @@ class game(object):
                     "retainers for the princess.")
             if self.battleStarted < 5:
                 self.reckoning(30, 'the courtiers')
-                self.battleStarted = 5
-                self.save()
             print(
                     "A worried courtier directs you north, across the desert "
                     "of Penance.")
@@ -3014,11 +3014,15 @@ class game(object):
             print(
                     "Before you venture north, you establish a base of "
                     "operations in Malanar and go shopping.")
-            self.shop = shop(self, [
-                    "Middle Sword", "Spear", "Bronze Lance", "Wooden Staff",
-                    "Power Staff", "Iron Shot"], [
-                    "Steel Arrow", "Middle Axe", "Knife", "Power Staff",
-                    "Power Spear"])
+            if self.battleStarted < 5:
+                self.shop = shop(self, [
+                        "Middle Sword", "Spear", "Bronze Lance",
+                        "Wooden Staff", "Power Staff", "Iron Shot"], [
+                        "Steel Arrow", "Middle Axe", "Knife", "Power Staff",
+                        "Power Spear"])
+                self.battleStarted = 5
+                self.save()
+            self.shop.goShopping(self)
             self.party = self.playerCharacters
             self.battleStatus = None
             while self.battleStatus != 'victory':
