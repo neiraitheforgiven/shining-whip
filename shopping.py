@@ -13,7 +13,6 @@ class shop(object):
         if self.deal.name in [good.name for good in self.goods]:
             self.deal.price = math.ceil(self.deal.price / 2)
         self.goods.insert(0, self.deal)
-        self.goShopping(game)
 
     def buyGood(self, game, itemToBuy):
         item = self.goods[itemToBuy]
