@@ -554,9 +554,12 @@ class battle(object):
             unit.fp -= self.mpCost(unit, cost)
         else:
             unit.mp -= self.mpCost(unit, cost)
-        targetTile = unit.allowedSpells[spellName][targetId]
+        spellTarget = unit.allowedSpells[spellName][targetId]
+        if type(spellTarget) == int:
+            position = spellTarget
+        else:
+            position = bf.terrainArray.index(spellTarget)
         print(f"{unit.name} casts {spellName}!")
-        position = bf.terrainArray.index(targetTile)
         minRange = max(0, position - area)
         maxRange = min(position + area, len(bf.terrainArray) - 1)
         if spread and damage > 0:
