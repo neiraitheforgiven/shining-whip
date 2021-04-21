@@ -2735,8 +2735,6 @@ class game(object):
                 self.shelf.close()
         self.battleStatus = None
         while self.battleNum < 33:
-            print(f"Debug: Battle Number {self.battleNum}")
-            print(f"Debug: Battle {self.battleStarted} Started")
             self.doBattle(self.battleNum)
 
     def doBattle(self, battleNum):
@@ -3070,6 +3068,7 @@ class game(object):
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
                 self.battleStarted = 6
                 self.save()
             print(
