@@ -231,6 +231,34 @@ class battle(object):
                                 (monster("Zombie"), 7),
                                 (monster("Zombie"), 7)],
                                 party, game, 10)
+            elif num == 9:
+                self.battleField = battleField([
+                        "Grass", "Grass", "Downward Stair", "Downward Stair",
+                        "Grass", "Grass", "Loose Rock", "Cavern", "Cavern",
+                        "Cavern", "Loose Rock", "Loose Rock", "Cavern",
+                        "Downward Stair", "Downward Stair", "Cavern", "Cavern",
+                        "Cavern", "Downward Stair", "Downward Stair",
+                        "Loose Rock", "Loose Rock", "Loose Rock",
+                        "Upward Stair", "Upward Stair", "Upward Stair",
+                        "Cavern", "Cavern"],
+                        [(
+                                monster("Skeleton Warrior"), 5),
+                                (monster("Skeleton Warrior"), 7),
+                                (monster("Dark Magi"), 12),
+                                (monster("Vile Chanter"), 13),
+                                (monster("Skeleton Warrior"), 15),
+                                (monster("Vile Chanter"), 16),
+                                (monster("Vile Chanter"), 16),
+                                (monster("Skeleton Warrior"), 17),
+                                (monster("Skeleton Warrior"), 17),
+                                (monster("Dark Elf Sniper"), 17),
+                                (monster("Dark Elf Sniper"), 18),
+                                (monster("Dark Magi"), 18),
+                                (monster("Skeleton Warrior"), 22),
+                                (monster("Lizardman"), 22),
+                                (monster("Vile Chanter"), 27),
+                                (monster("Dark Magi"), 27)],
+                                party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
