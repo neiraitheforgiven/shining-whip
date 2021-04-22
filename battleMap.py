@@ -320,9 +320,9 @@ class battle(object):
             else:
                 print("Who will lead the Force?")
                 leaderChoice = None
-                while leaderChoice not in ([
-                        leaders.index(leader) for leader in leaders], 'L',
-                        'l'):
+                while leaderChoice not in [
+                        leaders.index(leader) for leader in leaders] or (
+                        leaderChoice not in ('L', 'l')):
                     leaderString = ''
                     leaderStringAdds = []
                     count = 0
@@ -354,11 +354,14 @@ class battle(object):
                     else:
                         try:
                             leaderChoice = int(leaderChoice)
-                            party.append(leaders[leaderChoice])
+                            currentParty.append(leaders[leaderChoice])
                             print(
                                     f"{leaders[leaderChoice].name} leads the "
                                     "Force into battle!")
+                            break
                         except ValueError:
+                            leaderChoice = None
+                        except IndexError:
                             leaderChoice = None
             while len(currentParty) < maxPartySize:
                 unitChoice = None
