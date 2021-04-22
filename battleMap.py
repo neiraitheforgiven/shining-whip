@@ -3412,7 +3412,7 @@ class game(object):
             print(
                     "Approaching the quarries, you hear the roar of voices "
                     "chanting an evil incantation. What lies ahead?")
-            self.party = self.assembleParty(self.playerCharacters, 12)
+            self.party = self.playerCharacters
             self.battleStatus = None
             while self.battleStatus != 'victory':
                 if self.battleStatus == 'egress':
