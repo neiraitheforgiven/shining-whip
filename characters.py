@@ -156,6 +156,18 @@ class monster(object):
             self.powers.append("Freeze III")
             self.powers.append("Magic: Cost Reduction I")
             self.shortName = "Marion"
+        elif name == "Master Mage":
+            self.level = 14
+            stats = {
+                    "Stamina": 9, "Intelligence": 20, "Strength": 16,
+                    "Faith": 13, "Speed": 5, "Dexterity": 20}
+            self.setStats(8, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Spellcaster"
+            self.equipment = equipment(
+                    "Staffs", "Guardian Staff", 3200, 0, 0, 12, 12, 12)
+            self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
+            self.shortName = "Master"
         elif name == "Skeleton Warrior":
             self.level = 9
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}

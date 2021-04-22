@@ -257,7 +257,7 @@ class battle(object):
                                 (monster("Skeleton Warrior"), 22),
                                 (monster("Lizardman"), 22),
                                 (monster("Vile Chanter"), 27),
-                                (monster("Dark Magi"), 27)],
+                                (monster("Master Mage"), 27)],
                                 party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
@@ -751,6 +751,16 @@ class battle(object):
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
                 self.kill(target)
+        if self.getPower(unit, "Sonorous Spells"):
+            attackTypeArray = []
+            luck = self.getStat(unit, "Luck")
+            attackTypeArray.extend(["normal"] * (100 - (luck)))
+            sleepChance = luck
+            attackTypeArray.extend(["sleep"] * sleepChance)
+            result = random.choice(attackTypeArray)
+            if result == "sleep":
+                target.status.append("Lulled to Sleep")
+                print(f"{target.name} fell asleep!")
 
     def castStatusSpell(
             self, unit, targetId, spellName, cost, statusName, faith=False,
