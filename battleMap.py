@@ -231,6 +231,34 @@ class battle(object):
                                 (monster("Zombie"), 7),
                                 (monster("Zombie"), 7)],
                                 party, game, 10)
+            elif num == 9:
+                self.battleField = battleField([
+                        "Grass", "Grass", "Downward Stair", "Downward Stair",
+                        "Grass", "Grass", "Loose Rock", "Cavern", "Cavern",
+                        "Cavern", "Loose Rock", "Loose Rock", "Cavern",
+                        "Downward Stair", "Downward Stair", "Cavern", "Cavern",
+                        "Cavern", "Downward Stair", "Downward Stair",
+                        "Loose Rock", "Loose Rock", "Loose Rock",
+                        "Upward Stair", "Upward Stair", "Upward Stair",
+                        "Cavern", "Cavern"],
+                        [(
+                                monster("Skeleton Warrior"), 5),
+                                (monster("Skeleton Warrior"), 7),
+                                (monster("Dark Magi"), 12),
+                                (monster("Vile Chanter"), 13),
+                                (monster("Skeleton Warrior"), 15),
+                                (monster("Vile Chanter"), 16),
+                                (monster("Vile Chanter"), 16),
+                                (monster("Skeleton Warrior"), 17),
+                                (monster("Skeleton Warrior"), 17),
+                                (monster("Dark Elf Sniper"), 17),
+                                (monster("Dark Elf Sniper"), 18),
+                                (monster("Dark Magi"), 18),
+                                (monster("Skeleton Warrior"), 22),
+                                (monster("Lizardman"), 22),
+                                (monster("Vile Chanter"), 27),
+                                (monster("Master Mage"), 27)],
+                                party, game)
             for unit in self.battleField.units:
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
@@ -723,6 +751,16 @@ class battle(object):
             self.giveExperience(unit, target, damage)
             if target.hp <= 0:
                 self.kill(target)
+        if self.getPower(unit, "Sonorous Spells"):
+            attackTypeArray = []
+            luck = self.getStat(unit, "Luck")
+            attackTypeArray.extend(["normal"] * (100 - (luck)))
+            sleepChance = luck
+            attackTypeArray.extend(["sleep"] * sleepChance)
+            result = random.choice(attackTypeArray)
+            if result == "sleep":
+                target.status.append("Lulled to Sleep")
+                print(f"{target.name} fell asleep!")
 
     def castStatusSpell(
             self, unit, targetId, spellName, cost, statusName, faith=False,
@@ -984,6 +1022,30 @@ class battle(object):
                             for unit in candidates)]
             target = random.choice(candidates)
             self.attack(monster, target)
+        elif monster.attackProfile == "Healer-Singer":
+            # if there are targets that can be healed, heal the most damaged on
+            mostDamaged = []
+            mostDamage = 0
+            position = field.getUnitPos(monster)
+            for friend in field.playersAtPosition(position):
+                if type(friend) == type(monster):
+                    friendDamage = friend.maxHP() - friend.hp
+                    if friendDamage > 0:
+                        if friendDamage > mostDamage:
+                            mostDamaged = [friend]
+                        elif friendDamage == mostDamage:
+                            mostDamaged.append(friend)
+            if mostDamaged:
+                healTarget = random.choice(mostDamaged)
+                monster.allowedSpells["Heal I"] = [healTarget]
+                self.castSpell(monster, "Heal I", 0)
+            else:
+                if monster.allowedAttacks:
+                    if field.checkVocal(monster):
+                        self.doVocalAttack(monster)
+                    else:
+                        target = random.choice(monster.allowedAttacks)
+                        self.attack(monster, target)
         elif monster.attackProfile == "Random":
             target = random.choice(monster.allowedAttacks)
             self.attack(monster, target)
@@ -2336,6 +2398,46 @@ class battleField(object):
                 moveTo = min(monster.allowedMovement)
             self.move(monster, moveTo)
             return True
+        elif monster.moveProfile == "Companion-Healer":
+            # tends to be defensive but will move forward or back if there
+            # are friendly units in those tiles
+            moveTo = None
+            if self.getPower(monster, "Heal I") and (
+                    monster.fp > self.mpCost(monster, 3)):
+                # set yourself up to heal, don't move if monsters hurt
+                if any([
+                        friend for friend in self.playersAtPosition(position)
+                        if type(friend) == type(monster) and (
+                        friend.hp < friend.maxHP())]):
+                    return False
+                # otherwise look for friends nearby that are hurt
+                candidates = []
+                for tileIndex in monster.allowedMovement:
+                    if any(
+                            friend
+                            for friend in self.playersAtPosition(tileIndex)
+                            if type(friend) == type(monster) and (
+                            friend.hp < friend.maxHP())):
+                        candidates.append(position)
+                if any(candidates):
+                    moveTo = random.choice(candidates)
+                else:
+                    for tileIndex in monster.allowedMovement:
+                        if any(
+                                friend
+                                for friend in self.playersAtPosition(tileIndex)
+                                if type(friend) == type(monster)):
+                            candidates.append(position)
+                    if any(candidates):
+                        moveTo = random.choice(candidates)
+                if moveTo:
+                    self.move(monster, moveTo)
+                else:
+                    return False
+            else:
+                monster.moveProfile == "Aggressive-Singer"
+                moved = self.doMonsterMove(monster, position)
+                return moved
         elif monster.moveProfile == "Defensive":
             if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"
@@ -3215,6 +3317,110 @@ class game(object):
                     self.reckoning(15, 'Anri')
                 elif self.battleStatus == 'defeat':
                     self.reckoning(0, 'Anri')
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
+        elif battleNum == 9:
+            print("")
+            print(
+                    "After the battle, Khris and Lowe pray for the Keepers, "
+                    "who are released from the stone.")
+            print("Two of the Keepers, Amon and Balbaroy, approach you.")
+            print(
+                    "With the scrolls containing the words to the Songs of "
+                    "the Creator destroyed, you need to find another source ")
+            print("for the words.")
+            print(
+                    "The Keepers tell you of a fortress, not build by mortal "
+                    "hands, which is etched with the words of the songs.")
+            print(
+                    "The Fortess in indestructable, but it is also in "
+                    "Runefaust, far to the North, and under the sway of "
+                    "Darksol.")
+            print(
+                    "The Keepers join you as guides and point you to the "
+                    "north, to the mountain land of Jaspet.")
+            if self.battleStarted < 9:
+                self.reckoning(40, 'the Keepers')
+                print("Amon joins your force!")
+                recruit = playerCharacter(
+                        "Amon", "Birdman", "Sky Battler", chatter, 8)
+                self.equipOnCharacter(
+                        equipment(
+                                "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+                print("Balbaroy joins your force!")
+                recruit = playerCharacter(
+                        "Balbaroy", "Birdman", "Sky Battler", chatter, 8)
+                self.equipOnCharacter(
+                        equipment(
+                                "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+            print(
+                    "You head north to Jaspet, where you find that all of the "
+                    "men have been conscripted by Darksol!")
+            print(
+                    "An elf woman, Diane, asks you to go to the quarries "
+                    "the conscripts are being forced to work.")
+            if self.battleStarted < 9:
+                print("Diane joins your force!")
+                recruit = playerCharacter(
+                        "Diane", "Elf", "Archer", chatter, 8)
+                self.equipOnCharacter(
+                        equipment(
+                                "Arrows", "Steel Arrow", 1200, 1, 1, 9, 0, 0),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+                self.shop = shop(self, [
+                        "Middle Sword", "Power Spear", "Bronze Lance",
+                        "Middle Axe", "Power Staff", "Iron Shot",
+                        "Steel Arrow"], [
+                        "Thief's Dagger", "Power Axe", "Power Spear",
+                        "Middle Axe"])
+                self.battleStarted = 9
+                self.save()
+            print(
+                    "Before embarking on the rescue mission, you visit the "
+                    "local shop.")
+            self.shop.goShopping(self)
+            print(
+                    "Approaching the quarries, you hear the roar of voices "
+                    "chanting an evil incantation. What lies ahead?")
+            self.party = self.assembleParty(self.playerCharacters, 12)
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(15, 'the townsfolk')
+                    self.shop.goShopping(self)
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'the townsfolk')
+                    self.shop.goShopping(self)
                 battle(self, self.party, self.battleNum)
             else:
                 self.battleNum += 1

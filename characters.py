@@ -63,6 +63,27 @@ class monster(object):
                     "Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Apprc"
+        elif name == "Dark Elf Sniper":
+            self.level = 12
+            stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
+            self.setStats(5, **stats)
+            self.moveProfile = moveProfile or "Sniper"
+            self.attackProfile = attackProfile or "Weakest"
+            self.equipment = equipment(
+                    "Arrows", "Wooden Arrow", 150, 1, 1, 9, 0, 0)
+            self.shortName = "Dark Elf"
+        elif name == "Dark Magi":
+            self.level = 14
+            stats = {
+                    "Stamina": 9, "Intelligence": 15, "Strength": 9,
+                    "Speed": 9}
+            self.setStats(8, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Spellcaster"
+            self.equipment = equipment(
+                    "Staffs", "Power Staff", 500, 0, 0, 4, 6, 6)
+            self.powers = ["Blaze II", "Defense: Magic"]
+            self.shortName = "D.Magi"
         elif name == "Deranged Clown":
             self.level = 7
             stats = {"Stamina": 8, "Strength": 11, "Dexterity": 11, "Luck": 10}
@@ -103,6 +124,17 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment(
                     "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
+        elif name == "Lizardman":
+            self.level = 16
+            stats = {
+                    "Strength": 17, "Stamina": 12, "Speed": 6,
+                    "Dexterity": 12, "Intelligence": 8}
+            self.setStats(12, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Random"
+            self.equipment = equipment(
+                    "Axes", "Middle Axe", 300, 0, 0, 7, 0, 0)
+            self.shortName = "Lizard"
         elif name == "Mannequin":
             self.level = 6
             stats = {"Strength": 14, "Stamina": 8, "Speed": 5}
@@ -124,6 +156,18 @@ class monster(object):
             self.powers.append("Freeze III")
             self.powers.append("Magic: Cost Reduction I")
             self.shortName = "Marion"
+        elif name == "Master Mage":
+            self.level = 14
+            stats = {
+                    "Stamina": 9, "Intelligence": 20, "Strength": 16,
+                    "Faith": 13, "Speed": 5, "Dexterity": 20}
+            self.setStats(8, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Spellcaster"
+            self.equipment = equipment(
+                    "Staffs", "Guardian Staff", 3200, 0, 0, 12, 12, 12)
+            self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
+            self.shortName = "Master"
         elif name == "Skeleton Warrior":
             self.level = 9
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
@@ -153,6 +197,18 @@ class monster(object):
                     "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0)
             self.powers.append("Mounted Movement")
             self.shortName = "Knight"
+        elif name == "Vile Chanter":
+            self.level = 15
+            stats = {
+                    "Voice": 13, "Speed": 5, "Stamina": 9, "Faith": 12,
+                    "Dexterity": 10}
+            self.setStats(11, **stats)
+            self.moveProfile = moveProfile or "Companion-Healer"
+            self.attackProfile = attackProfile or "Singer"
+            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Heal I")
+            self.powers.append("Vocal Attack: Sustain Effect")
+            self.shortName = "Chanter"
         elif name == "Zombie":
             self.level = 5
             stats = {
