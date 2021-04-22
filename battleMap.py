@@ -2513,9 +2513,10 @@ class battleField(object):
                     target for target in candidates
                     if target.hp == min(
                             unit.hp for unit in candidates)]
-            targetPos = max([
-                    self.getUnitPos(target) for target in candidates]) + 1
-            if targetPos in monster.allowedMovement:
+            if candidates:
+                targetPos = max([
+                        self.getUnitPos(target) for target in candidates]) + 1
+            if candidates and (targetPos in monster.allowedMovement):
                 moveTo = targetPos
             else:
                 if targetPos < min(monster.allowedMovement):
