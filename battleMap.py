@@ -310,6 +310,7 @@ class battle(object):
         if len(party) <= maxPartySize:
             return party
         else:
+            print("It's time to assemble your party!")
             currentParty = []
             leaders = [
                     unit for unit in party if "Egress I" in unit.powers]
@@ -317,6 +318,7 @@ class battle(object):
                 currentParty.append(leaders[0])
                 print(f"{leaders[0].name} leads the Force into battle!")
             else:
+                print("Who will lead the Force?")
                 leaderChoice = None
                 while leaderChoice not in ([
                         leaders.index(leader) for leader in leaders], 'L',
@@ -337,12 +339,17 @@ class battle(object):
                         while leaderChoice not in ([
                                 leaders.index(leader) for leader in leaders]):
                             try:
-                                leaderChoice = int(input((
+                                leaderChoice = int(input(
                                     "Type a number to choose which leader to "
-                                    "look at: ")))
+                                    f"look at or press {count} to go "
+                                    "back: "))
+                                leaders[leaderChoice].printCharacterSheet()
                             except ValueError:
                                 leaderChoice = None
-                            leaders(leaderChoice).printCharacterSheet()
+                            except IndexError:
+                                if leaderChoice == count:
+                                    break
+                                leaderChoice = None
                             leaderChoice = None
                     else:
                         try:
