@@ -279,7 +279,7 @@ class playerCharacter(object):
                         "Dexterity", "Speed", "Strength")
             elif playerClass == "Baron":
                 self.growth = self.initializeRandomStats("Strength", "Fame")
-            elif playerClass == "Bolt Mage":
+            elif playerClass == "Archmage":
                 self.growth = self.initializeRandomStats(
                     "Intelligence", "Luck")
             elif playerClass == "Brass Gunner":
@@ -288,7 +288,7 @@ class playerCharacter(object):
             elif playerClass == "Fire Mage":
                 self.growth = self.initializeRandomStats(
                         "Intelligence", "Charisma")
-            elif playerClass == "Frost Mage":
+            elif playerClass == "Wizard":
                 self.growth = self.initializeRandomStats(
                         "Intelligence", "Stamina")
             elif playerClass == "Harbinger":
@@ -476,7 +476,7 @@ class playerCharacter(object):
                         "Drain I", "Poison I", "Drain II", "Equip: Daggers",
                         "Muddle I", "Death I",
                         "Daggers: Cast Spell Adds Bonus Attack", "Poison II"]
-            elif "Bolt Mage" in title:
+            elif "Archmage" in title:
                 listOfPowers = [
                         "Bolt I", "Blaze I", "Freeze I",
                         "Teleport I", "Bolt II", "Bolt III",
@@ -528,7 +528,7 @@ class playerCharacter(object):
                         "Blaze I", "Magic: Cost Reduction I", "Paralyze I",
                         "Blaze II", "Defense: Counterspell I", "Blaze III",
                         "Magic: Increased Damage I", "Blaze IV"]
-            elif "Frost Mage" in title:
+            elif "Wizard" in title:
                 listOfPowers = [
                         "Freeze I", "Blaze I", "Freeze II", "Blaze II",
                         "Freeze III", "Bolt I", "Freeze IV", "Bolt II"]
@@ -806,11 +806,11 @@ class playerCharacter(object):
             elif secondStat == "Fame":
                 title = "Scholar"
             elif secondStat == "Luck":
-                title = "Bolt Mage"
+                title = "Archmage"
             elif secondStat == "Speed":
                 title = "Trickster"
             elif secondStat == "Stamina":
-                title = "Frost Mage"
+                title = "Wizard"
             elif secondStat == "Strength":
                 title = "Hero"
             elif secondStat == "Voice":
@@ -1372,7 +1372,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter, 3)
         party.append(recruit)
-        recruit = playerCharacter("Anri", "Human", "Frost Mage", chatter, 5)
+        recruit = playerCharacter("Anri", "Human", "Wizard", chatter, 5)
         party.append(recruit)
         recruit = playerCharacter("Arthur", "Centaur", "Knight", chatter, 6)
         party.append(recruit)
@@ -1392,7 +1392,7 @@ if stop == "debug":
         recruit = playerCharacter("Vankar", "Centaur", "Knight", chatter, 11)
         party.append(recruit)
         recruit = playerCharacter(
-                "Domingo", "Magical Creature", "Frost Mage", chatter, 12)
+                "Domingo", "Magical Creature", "Wizard", chatter, 12)
         party.append(recruit)
         recruit = playerCharacter(
                 "Guntz", "Armadillo", "Steam Knight", chatter, 12)
@@ -1405,7 +1405,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Musashi", "Human", "Samurai", chatter, 21)
         party.append(recruit)
-        recruit = playerCharacter("Alef", "Foxling", "Bolt Mage", chatter, 23)
+        recruit = playerCharacter("Alef", "Foxling", "Archmage", chatter, 23)
         party.append(recruit)
         recruit = playerCharacter("Torasu", "Hobbit", "Priest", chatter, 23)
         party.append(recruit)
@@ -1422,7 +1422,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Jaha", "Dwarf", "Warrior", chatter)
         party.append(recruit)
-        recruit = playerCharacter("Kazin", "Elf", "Bolt Mage", chatter)
+        recruit = playerCharacter("Kazin", "Elf", "Archmage", chatter)
         party.append(recruit)
         recruit = playerCharacter("Slade", "Wererat", "Ninja", chatter)
         party.append(recruit)
@@ -1448,7 +1448,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Randolf", "Dwarf", "Warrior", chatter)
         party.append(recruit)
-        recruit = playerCharacter("Tyrin", "Elf", "Frost Mage", chatter)
+        recruit = playerCharacter("Tyrin", "Elf", "Wizard", chatter)
         party.append(recruit)
         recruit = playerCharacter("Janet", "Elf", "Archer", chatter)
         party.append(recruit)
@@ -1468,7 +1468,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Zynk", "Robot", "Soldier", chatter)
         party.append(recruit)
-        recruit = playerCharacter("Chaz", "Human", "Bolt Mage", chatter)
+        recruit = playerCharacter("Chaz", "Human", "Archmage", chatter)
         party.append(recruit)
         recruit = playerCharacter("Claude", "Golem", "Titan", chatter)
         party.append(recruit)
