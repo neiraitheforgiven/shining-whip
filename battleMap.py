@@ -3111,8 +3111,6 @@ class game(object):
                         "Sacred Swords", "Sword of Truth", 7200, 0, 0, 10, 0,
                         8, ["Bolt I"])
                 self.inventory.append(swordOfTruth)
-                self.battleStarted = 7
-                self.save()
             print(
                     "When you leave the cave, blinking in the sunlight over "
                     "you notice a sinister sight on the outskirts of Malanar.")
@@ -3128,6 +3126,24 @@ class game(object):
                     "You steel yourself for a grueling battle. By going "
                     "shopping.")
             self.shop.goShopping(self)
+            if self.battleStarted < 7:
+                print("Near the altar, you meet a Knight named Athur.")
+                print(
+                        "He suspects something of the illusion, and when the "
+                        "power of the Sword dispels the illusion, he joins "
+                        "you!")
+                recruit = playerCharacter(
+                        "Arthur", "Centaur", "Knight", chatter, 4)
+                self.equipOnCharacter(
+                        equipment("Spears", "Spear", 150, 0, 1, 5, 0, 0),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+                self.battleStarted = 7
+                self.save()
             print(
                     "Gritting your teeth, you rally the Force and head to the "
                     "altar. What dark trials await?")
