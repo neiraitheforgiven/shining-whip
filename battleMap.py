@@ -2523,18 +2523,26 @@ class battleField(object):
                     target for target in candidates
                     if target.hp == min(
                             unit.hp for unit in candidates)]
-            if candidates:
-                targetPos = max([
-                        self.getUnitPos(target) for target in candidates]) + 1
-            if candidates and (targetPos in monster.allowedMovement):
-                moveTo = targetPos
-            else:
-                if targetPos < min(monster.allowedMovement):
-                    moveTo = min(monster.allowedMovement)
-                elif targetPos > max(monster.allowedMovement):
-                    moveTo = max(monster.allowedMovement)
+            try:
+                if candidates:
+                    targetPos = max([
+                            self.getUnitPos(target)
+                            for target in candidates]) + 1
+                if candidates and (targetPos in monster.allowedMovement):
+                    moveTo = targetPos
                 else:
-                    return False
+                    if targetPos < min(monster.allowedMovement):
+                        moveTo = min(monster.allowedMovement)
+                    elif targetPos > max(monster.allowedMovement):
+                        moveTo = max(monster.allowedMovement)
+                    else:
+                        return False
+            except TypeError:
+                for cand in candidates:
+                    print(f"debug: {cand.name}")
+                print(f"debug: Sniper candidate positions: " + ", ".join([
+                        str(self.getUnitPos(target))
+                        for target in candidates]))
             self.move(monster, moveTo)
             return True
 
