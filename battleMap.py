@@ -3294,6 +3294,110 @@ class game(object):
                 battle(self, self.party, self.battleNum)
             else:
                 self.battleNum += 1
+        elif battleNum == 9:
+            print("")
+            print(
+                    "After the battle, Khris and Lowe pray for the Keepers, "
+                    "who are released from the stone.")
+            print("Two of the Keepers, Amon and Balbaroy, approach you.")
+            print(
+                    "With the scrolls containing the words to the Songs of "
+                    "the Creator destroyed, you need to find another source ")
+            print("for the words.")
+            print(
+                    "The Keepers tell you of a fortress, not build by mortal "
+                    "hands, which is etched with the words of the songs.")
+            print(
+                    "The Fortess in indestructable, but it is also in "
+                    "Runefaust, far to the North, and under the sway of "
+                    "Darksol.")
+            print(
+                    "The Keepers join you as guides and point you to the "
+                    "north, to the mountain land of Jaspet.")
+            if self.battleStarted < 9:
+                self.reckoning(40, 'the Keepers')
+                print("Amon joins your force!")
+                recruit = playerCharacter(
+                        "Amon", "Birdman", "Sky Battler", chatter, 8)
+                self.equipOnCharacter(
+                        equipment(
+                                "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+                print("Balbaroy joins your force!")
+                recruit = playerCharacter(
+                        "Balbaroy", "Birdman", "Sky Battler", chatter, 8)
+                self.equipOnCharacter(
+                        equipment(
+                                "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+            print(
+                    "You head north to Jaspet, where you find that all of the "
+                    "men have been conscripted by Darksol!")
+            print(
+                    "An elf woman, Diane, asks you to go to the quarries "
+                    "the conscripts are being forced to work.")
+            if self.battleStarted < 9:
+                print("Diane joins your force!")
+                recruit = playerCharacter(
+                        "Diane", "Elf", "Archer", chatter, 8)
+                self.equipOnCharacter(
+                        equipment(
+                                "Arrows", "Steel Arrow", 1200, 1, 1, 9, 0, 0),
+                        recruit, False)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+                self.shop = shop(self, [
+                        "Middle Sword", "Power Spear", "Bronze Lance",
+                        "Middle Axe", "Power Staff", "Iron Shot",
+                        "Steel Arrow"], [
+                        "Thief's Dagger", "Power Axe", "Power Spear",
+                        "Middle Axe"])
+                self.battleStarted = 9
+                self.save()
+            print(
+                    "Before embarking on the rescue mission, you visit the "
+                    "local shop.")
+            self.shop.goShopping(self)
+            print(
+                    "Approaching the quarries, you hear the roar of voices "
+                    "chanting an evil incantation. What lies ahead?")
+            self.party = self.assembleParty(self.playerCharacters, 12)
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(15, 'the townsfolk')
+                    self.shop.goShopping(self)
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'the townsfolk')
+                    self.shop.goShopping(self)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
         else:
             print("You have won the game... for now.")
             self.battleNum = 40
