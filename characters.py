@@ -124,6 +124,17 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment(
                     "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
+        elif name == "Lizardman":
+            self.level = 16
+            stats = {
+                    "Strength": 17, "Stamina": 12, "Speed": 6,
+                    "Dexterity": 12, "Intelligence": 8}
+            self.setStats(12, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Random"
+            self.equipment = equipment(
+                    "Axes", "Middle Axe", 300, 0, 0, 7, 0, 0)
+            self.shortName = "Lizard"
         elif name == "Mannequin":
             self.level = 6
             stats = {"Strength": 14, "Stamina": 8, "Speed": 5}
