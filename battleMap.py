@@ -651,7 +651,7 @@ class battle(object):
                     if type(target) != type(unit)])
         for i in range(minRange, maxRange + 1):
             tile = bf.terrainArray[i]
-            for target in [tile.units]:
+            for target in list(tile.units):
                 if not self.battleField.canBeTarget(unit):
                     continue
                 if damage < 0:
