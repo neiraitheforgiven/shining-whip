@@ -63,6 +63,27 @@ class monster(object):
                     "Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Apprc"
+        elif name == "Dark Elf Sniper":
+            self.level = 12
+            stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
+            self.setStats(5, **stats)
+            self.moveProfile = moveProfile or "Sniper"
+            self.attackProfile = attackProfile or "Weakest"
+            self.equipment = equipment(
+                    "Arrows", "Wooden Arrow", 150, 1, 1, 9, 0, 0)
+            self.shortName = "Dark Elf"
+        elif name == "Dark Magi":
+            self.level = 14
+            stats = {
+                    "Stamina": 9, "Intelligence": 15, "Strength": 9,
+                    "Speed": 9}
+            self.setStats(8, **stats)
+            self.moveProfile = moveProfile or "Defensive"
+            self.attackProfile = attackProfile or "Spellcaster"
+            self.equipment = equipment(
+                    "Staffs", "Power Staff", 500, 0, 0, 4, 6, 6)
+            self.powers = ["Blaze II", "Defense: Magic"]
+            self.shortName = "D.Magi"
         elif name == "Deranged Clown":
             self.level = 7
             stats = {"Stamina": 8, "Strength": 11, "Dexterity": 11, "Luck": 10}
