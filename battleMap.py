@@ -1012,6 +1012,30 @@ class battle(object):
                             for unit in candidates)]
             target = random.choice(candidates)
             self.attack(monster, target)
+        elif monster.attackProfile == "Healer-Singer":
+            # if there are targets that can be healed, heal the most damaged on
+            mostDamaged = []
+            mostDamage = 0
+            position = field.getUnitPos(monster)
+            for friend in field.playersAtPosition(position):
+                if type(friend) == type(monster):
+                    friendDamage = friend.maxHP() - friend.hp
+                    if friendDamage > 0:
+                        if friendDamage > mostDamage:
+                            mostDamaged = [friend]
+                        elif friendDamage == mostDamage:
+                            mostDamaged.append(friend)
+            if mostDamaged:
+                healTarget = random.choice(mostDamaged)
+                monster.allowedSpells["Heal I"] = [healTarget]
+                self.castSpell(monster, "Heal I", 0)
+            else:
+                if monster.allowedAttacks:
+                    if field.checkVocal(monster):
+                        self.doVocalAttack(monster)
+                    else:
+                        target = random.choice(monster.allowedAttacks)
+                        self.attack(monster, target)
         elif monster.attackProfile == "Random":
             target = random.choice(monster.allowedAttacks)
             self.attack(monster, target)
@@ -2364,6 +2388,46 @@ class battleField(object):
                 moveTo = min(monster.allowedMovement)
             self.move(monster, moveTo)
             return True
+        elif monster.moveProfile == "Companion-Healer":
+            # tends to be defensive but will move forward or back if there
+            # are friendly units in those tiles
+            moveTo = None
+            if self.getPower(monster, "Heal I") and (
+                    monster.fp > self.mpCost(monster, 3)):
+                # set yourself up to heal, don't move if monsters hurt
+                if any([
+                        friend for friend in self.playersAtPosition(position)
+                        if type(friend) == type(monster) and (
+                        friend.hp < friend.maxHP())]):
+                    return False
+                # otherwise look for friends nearby that are hurt
+                candidates = []
+                for tileIndex in monster.allowedMovement:
+                    if any(
+                            friend
+                            for friend in self.playersAtPosition(tileIndex)
+                            if type(friend) == type(monster) and (
+                            friend.hp < friend.maxHP())):
+                        candidates.append(position)
+                if any(candidates):
+                    moveTo = random.choice(candidates)
+                else:
+                    for tileIndex in monster.allowedMovement:
+                        if any(
+                                friend
+                                for friend in self.playersAtPosition(tileIndex)
+                                if type(friend) == type(monster)):
+                            candidates.append(position)
+                    if any(candidates):
+                        moveTo = random.choice(candidates)
+                if moveTo:
+                    self.move(monster, moveTo)
+                else:
+                    return False
+            else:
+                monster.moveProfile == "Aggressive-Singer"
+                moved = self.doMonsterMove(monster, position)
+                return moved
         elif monster.moveProfile == "Defensive":
             if monster.hp < monster.maxHP():
                 monster.moveProfile = "Aggressive"

@@ -185,6 +185,18 @@ class monster(object):
                     "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0)
             self.powers.append("Mounted Movement")
             self.shortName = "Knight"
+        elif name == "Vile Chanter":
+            self.level = 15
+            stats = {
+                    "Voice": 13, "Speed": 5, "Stamina": 9, "Faith": 12,
+                    "Dexterity": 10}
+            self.setStats(11, **stats)
+            self.moveProfile = moveProfile or "Companion-Healer"
+            self.attackProfile = attackProfile or "Singer"
+            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Heal I")
+            self.powers.append("Vocal Attack: Sustain Effect")
+            self.shortName = "Chanter"
         elif name == "Zombie":
             self.level = 5
             stats = {
