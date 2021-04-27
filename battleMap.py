@@ -1311,16 +1311,19 @@ class battle(object):
                 else:
                     print(f"{unit.name} recovered from being {state}!")
                 unit.status.remove(state)
-            elif state == 'Lulled to Sleep':
-                print(f"{unit.name} is asleep.")
-                return
-            elif state == 'Poisoned':
-                print(f"{unit.name} is Poisoned!")
-                damage = math.floor(self.getStat(unit, "Stamina") * 1.5)
-                unit.hp -= damage
-                print(f"{unit.name} takes {damage} damage from the poison.")
-                if unit.hp <= 0:
-                    self.kill(unit)
+            else:
+                if state == 'Poisoned':
+                    print(f"{unit.name} is Poisoned!")
+                    damage = math.floor(self.getStat(unit, "Stamina") * 1.5)
+                    unit.hp -= damage
+                    print(
+                            f"{unit.name} takes {damage} damage from the "
+                            "poison.")
+                    if unit.hp <= 0:
+                        self.kill(unit)
+                if state == 'Lulled to Sleep':
+                    print(f"{unit.name} is asleep.")
+                    return
             statusChecked = True
         otherUnits = ", ".join([
                 tileUnit.name for tileUnit in tile.units if tileUnit != unit])
