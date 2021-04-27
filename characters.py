@@ -285,7 +285,7 @@ class playerCharacter(object):
             elif playerClass == "Heavy Shot":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Dexterity")
-            elif playerClass == "Fire Mage":
+            elif playerClass == "Flamecaster":
                 self.growth = self.initializeRandomStats(
                         "Intelligence", "Charisma")
             elif playerClass == "Wizard":
@@ -523,7 +523,7 @@ class playerCharacter(object):
                         "Luck: Dodge Grants Counterattack",
                         "Swords: Increased Luck III",
                         "Luck: Counterattack First"]
-            elif "Fire Mage" in title:
+            elif "Flamecaster" in title:
                 listOfPowers = [
                         "Blaze I", "Magic: Cost Reduction I", "Paralyze I",
                         "Blaze II", "Defense: Counterspell I", "Blaze III",
@@ -798,7 +798,7 @@ class playerCharacter(object):
                 title = "Prophet"
         elif primeStat == "Intelligence":
             if secondStat == "Charisma":
-                title = "Fire Mage"
+                title = "Flamecaster"
             elif secondStat == "Dexterity":
                 title = "Trickster"
             elif secondStat == "Faith":
@@ -1356,7 +1356,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Lowe", "Hobbit", "Priest", chatter, 0)
         party.append(recruit)
-        recruit = playerCharacter("Tao", "Elf", "Fire Mage", chatter, 0)
+        recruit = playerCharacter("Tao", "Elf", "Flamecaster", chatter, 0)
         party.append(recruit)
         recruit = playerCharacter("Luke", "Dwarf", "Warrior", chatter, 0)
         party.append(recruit)
