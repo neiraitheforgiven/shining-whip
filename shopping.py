@@ -285,12 +285,20 @@ class shop(object):
             mpUp = False
             for pc in game.playerCharacters:
                 if equipString in pc.powers:
-                    if item.damage > pc.equipment.damage:
-                        damageUp = True
-                    if item.fp > pc.equipment.fp:
-                        faithUp = True
-                    if item.mp > pc.equipment.mp:
-                        mpUp = True
+                    if pc.equipment:
+                        if item.damage > pc.equipment.damage:
+                            damageUp = True
+                        if item.fp > pc.equipment.fp:
+                            faithUp = True
+                        if item.mp > pc.equipment.mp:
+                            mpUp = True
+                    else:
+                        if item.damage > 0:
+                            damageUp = True
+                        if item.fp > 0:
+                            faithUp = True
+                        if item.mp > 0:
+                            mpUp = True
             if damageUp:
                 shopString += " Damage Upgrade!"
             if faithUp:
