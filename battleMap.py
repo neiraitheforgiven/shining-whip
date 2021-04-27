@@ -627,7 +627,7 @@ class battle(object):
                         setback = math.floor(setback / 2)
                     target.initiativePoints -= setback
                     if target in self.turnOrder:
-                        setbacklf.turnOrder.remove(target)
+                        self.turnOrder.remove(target)
                 if counterattack and ((i + 1) == attackCount):
                     if bf.canAttack(target) and not targetStunned:
                         bf.checkAttack(target, bf.getUnitPos(target))
@@ -635,6 +635,8 @@ class battle(object):
                             self.attack(target, unit)
 
     def battleOn(self):
+        if self.game.battleStatus == 'victory':
+            return False
         if self.egressing:
             self.game.battleStatus = 'egress'
             return False
@@ -649,7 +651,6 @@ class battle(object):
                     unit.status and "Petrified" in unit.status)]):
                 return True
             else:
-                print("You are victorious!")
                 self.game.battleStatus = 'victory'
                 return False
         else:
