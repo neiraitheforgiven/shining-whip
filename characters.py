@@ -282,7 +282,7 @@ class playerCharacter(object):
             elif playerClass == "Archmage":
                 self.growth = self.initializeRandomStats(
                     "Intelligence", "Luck")
-            elif playerClass == "Brass Gunner":
+            elif playerClass == "Heavy Shot":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Dexterity")
             elif playerClass == "Fire Mage":
@@ -481,7 +481,7 @@ class playerCharacter(object):
                         "Bolt I", "Blaze I", "Freeze I",
                         "Teleport I", "Bolt II", "Bolt III",
                         "Death I", "Bolt IV"]
-            elif "Brass Gunner" in title:
+            elif "Heavy Shot" in title:
                 listOfPowers = [
                         "Heavy Attack Instead of Normal For Ranged Tile",
                         "Equip: Brass Guns", "Unhindered Movement",
@@ -846,7 +846,7 @@ class playerCharacter(object):
                         self.powers or self.stats["Speed"] > 25):
                     title = "Sky Battler"
                 else:
-                    title = "Brass Gunner"
+                    title = "Heavy Shot"
             elif secondStat == "Faith":
                 title = "Harbinger"
             elif secondStat == "Fame":
@@ -889,7 +889,7 @@ class playerCharacter(object):
             if secondStat == "Charisma":
                 title = "Samurai"
             elif secondStat == "Dexterity":
-                title = "Brass Gunner"
+                title = "Heavy Shot"
             elif secondStat == "Faith":
                 title = "Samurai"
             elif secondStat == "Fame":
@@ -1436,7 +1436,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Luke", "Birdman", "Sky Battler", chatter)
         party.append(recruit)
-        recruit = playerCharacter("Rohde", "Human", "Brass Gunner", chatter)
+        recruit = playerCharacter("Rohde", "Human", "Heavy Shot", chatter)
         party.append(recruit)
         recruit = playerCharacter("Rick", "Centaur", "Knight", chatter)
         party.append(recruit)
