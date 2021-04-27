@@ -2903,7 +2903,7 @@ class game(object):
                         recruit, False)
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter(
-                        "Tao", "Elf", "Fire Mage", chatter, 0)
+                        "Tao", "Elf", "Flamecaster", chatter, 0)
                 self.equipOnCharacter(
                         equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
                         recruit, False)
