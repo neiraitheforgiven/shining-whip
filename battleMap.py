@@ -3182,7 +3182,7 @@ class game(object):
             if self.battleStarted < 6:
                 print("Anri joins your force!")
                 recruit = playerCharacter(
-                        "Anri", "Human", "Frost Mage", chatter, 6)
+                        "Anri", "Human", "Wizard", chatter, 6)
                 self.equipOnCharacter(
                         equipment("Staffs", "Power Staff", 500, 0, 0, 4, 6, 6),
                         recruit, False)
