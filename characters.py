@@ -364,6 +364,9 @@ class playerCharacter(object):
         if nameOfPower == "Equip: Polearms":
             self.powers.extend(["Equip: Lances"])
             self.powers.extend(["Equip: Spears"])
+        if nameOfPower == "Equip: Warrior Weapons":
+            self.powers.extend(["Equip: Axes"])
+            self.powers.extend(["Equip: Swords"])
         self.powers.append(nameOfPower)
         if chatter:
             print(f"{self.name} learned {nameOfPower}!")
@@ -690,7 +693,7 @@ class playerCharacter(object):
                         "Flying Movement"]
             elif "Warrior" in title:
                 listOfPowers = [
-                        "Equip: Axes", "Defense: Melee Attacks I",
+                        "Equip: Warrior Weapons", "Defense: Melee Attacks I",
                         "Axes: Increased Damage I",
                         "Swords: Increased Luck I", "Whirlwind Attack",
                         "Defense: Melee Attacks II", "Rout: Follow-up Attack",
