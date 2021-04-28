@@ -2393,7 +2393,7 @@ class battleField(object):
                         for tileUnit in currentTile.units
                         if type(tileUnit) != type(unit)])
                 amount = max(1, friendSound - enemySound)
-                amount = amount + abs(tile.voicePower)
+                amount = amount + abs(vp)
                 damage = math.ceil(amount / 16)
                 damage = max(damage, 1)
                 return damage
