@@ -1657,6 +1657,12 @@ class battle(object):
                     attackTypeArray.extend(["sleep"] * sleepChance)
                 routSkill = max(cha, voice)
                 routChance = math.floor(routSkill + (routSkill * (luck / 10)))
+                if self.getPower(unit, "Luck: Increased Rout I"):
+                    routChance = math.ceil(routChance * 1.3)
+                if self.getPower(unit, "Luck: Increased Rout II"):
+                    routChance = math.ceil(routChance * 1.3)
+                if self.getPower(unit, "Luck: Increased Rout III"):
+                    routChance = math.ceil(routChance * 1.3)
                 attackTypeArray.extend(["routing"] * routChance)
                 attackType = random.choice(attackTypeArray)
                 targetDamage = damage
