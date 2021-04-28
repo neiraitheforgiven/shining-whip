@@ -955,6 +955,14 @@ class battle(object):
                     moveFromTile.units.remove(tileUnit)
                     moveToTile.units.append(tileUnit)
                     self.giveExperience(unit, tileUnit, 5)
+        elif spellName == "Sleep I":
+            self.castStatusSpell(
+                    unit, targetId, "Sleep I", 6, "Lulled to Sleep",
+                    stats=["Intelligence", "Charisma", "Luck"])
+        elif spellName == "Sleep I":
+            self.castStatusSpell(
+                    unit, targetId, "Sleep II", 10, "Lulled to Sleep",
+                    stats=["Intelligence", "Charisma", "Luck"])
         elif spellName == "Teleport I":
             unit.mp -= self.mpCost(unit, 5)
             field = self.battleField
@@ -2303,6 +2311,16 @@ class battleField(object):
                         targets.extend(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Portal I"] = targets
+        if (
+                self.getPower(unit, "Sleep I") and (
+                unit.mp >= self.mCOst(unit, 6))):
+            self.checkSpell(
+                    unit, position, "Sleep I", False, 1, 0, "Lulled to Sleep")
+        if (
+                self.getPower(unit, "Sleep II") and (
+                unit.mp >= self.mCOst(unit, 10))):
+            self.checkSpell(
+                    unit, position, "Sleep II", False, 1, 1, "Lulled to Sleep")
         if (
                 self.getPower(unit, "Teleport I") and (
                 unit.mp >= self.mpCost(unit, 5))):
