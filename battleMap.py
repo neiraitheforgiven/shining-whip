@@ -3547,6 +3547,7 @@ class game(object):
                 print(
                         f"The priests request {-amount} scroulings for the "
                         f"prayers that recalled the souls of your party.")
+            self.money = max(0, self.money + amount)
         self.save()
 
     def save(self):
