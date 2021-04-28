@@ -780,12 +780,11 @@ class battle(object):
         if faith:
             unit.fp -= self.mpCost(unit, cost)
         else:
-            unit.mp -= self.mpCOst(unit, cost)
+            unit.mp -= self.mpCost(unit, cost)
         target = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName} on {target.name}!")
         # assemble chance array
         chanceArray = []
-        chanceArray.extend(['fail'] * (50 - self.getStat(unit, "Luck")))
         successChance = sum(self.getStat(unit, stat) for stat in stats)
         chanceArray.extend(['success'] * successChance)
         resistChance = 0
@@ -957,6 +956,14 @@ class battle(object):
                     moveFromTile.units.remove(tileUnit)
                     moveToTile.units.append(tileUnit)
                     self.giveExperience(unit, tileUnit, 5)
+        elif spellName == "Sleep I":
+            self.castStatusSpell(
+                    unit, targetId, "Sleep I", 6, "Lulled to Sleep",
+                    stats=["Intelligence", "Charisma", "Luck"])
+        elif spellName == "Sleep I":
+            self.castStatusSpell(
+                    unit, targetId, "Sleep II", 10, "Lulled to Sleep",
+                    stats=["Intelligence", "Charisma", "Luck"])
         elif spellName == "Teleport I":
             unit.mp -= self.mpCost(unit, 5)
             field = self.battleField
@@ -2156,13 +2163,16 @@ class battleField(object):
         else:
             return False
 
-    def checkSpell(self, unit, position, name, healing=False, range=0, area=0):
+    def checkSpell(
+            self, unit, position, name, healing=False, range=0, area=0,
+            blockingStatus=None):
         minRange = max(0, (position - range))
         maxRange = min((position + range), len(self.terrainArray) - 1)
         if area == 0:
             targets = []
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = self.checkSpellTargets(unit, tile, healing)
+                tileTargets = self.checkSpellTargets(
+                        unit, tile, healing, blockingStatus)
                 if any(tileTargets):
                     targets.extend(target for target in tileTargets)
             if any(targets):
@@ -2171,7 +2181,8 @@ class battleField(object):
             # area spells target tiles -- should they?
             targetTiles = []
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = self.checkSpellTargets(unit, tile, healing)
+                tileTargets = self.checkSpellTargets(
+                        unit, tile, healing, blockingStatus)
                 if any(tileTargets):
                     targetTiles.append(tile)
             if any(targetTiles):
@@ -2186,7 +2197,8 @@ class battleField(object):
                 for tile in [
                         self.terrainArray[minFocusedRange:(
                         maxFocusedRange + 1)]]:
-                    tileTargets = self.checkSpellTargets(unit, tile, healing)
+                    tileTargets = self.checkSpellTargets(
+                            unit, tile, healing, blockingStatus)
                     if any(tileTargets):
                         targets.extend(self.terrainArray[i])
                         tileTargets = []
@@ -2198,13 +2210,18 @@ class battleField(object):
         else:
             return False
 
-    def checkSpellTargets(self, unit, tile, healing):
+    def checkSpellTargets(self, unit, tile, healing, blockingStatus=None):
         position = self.terrainArray.index(tile)
         if healing:
             friends = self.friendsAtPosition(unit, position)
-            return [friend for friend in friends if friend.hp < friend.maxHP()]
+            return [
+                    friend for friend in friends
+                    if friend.hp < friend.maxHP() and (
+                            blockingStatus not in friend.status)]
         else:
-            return self.enemiesAtPosition(unit, position)
+            return [
+                    enemy for enemy in self.enemiesAtPosition(unit, position)
+                    if blockingStatus not in enemy.status]
 
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
@@ -2304,6 +2321,16 @@ class battleField(object):
                         targets.extend(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Portal I"] = targets
+        if (
+                self.getPower(unit, "Sleep I") and (
+                unit.mp >= self.mCOst(unit, 6))):
+            self.checkSpell(
+                    unit, position, "Sleep I", False, 1, 0, "Lulled to Sleep")
+        if (
+                self.getPower(unit, "Sleep II") and (
+                unit.mp >= self.mCOst(unit, 10))):
+            self.checkSpell(
+                    unit, position, "Sleep II", False, 1, 1, "Lulled to Sleep")
         if (
                 self.getPower(unit, "Teleport I") and (
                 unit.mp >= self.mpCost(unit, 5))):
