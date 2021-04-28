@@ -2145,13 +2145,16 @@ class battleField(object):
         else:
             return False
 
-    def checkSpell(self, unit, position, name, healing=False, range=0, area=0):
+    def checkSpell(
+            self, unit, position, name, healing=False, range=0, area=0,
+            blockingStatus=None):
         minRange = max(0, (position - range))
         maxRange = min((position + range), len(self.terrainArray) - 1)
         if area == 0:
             targets = []
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = self.checkSpellTargets(unit, tile, healing)
+                tileTargets = self.checkSpellTargets(
+                        unit, tile, healing, blockingStatus)
                 if any(tileTargets):
                     targets.extend(target for target in tileTargets)
             if any(targets):
@@ -2160,7 +2163,8 @@ class battleField(object):
             # area spells target tiles -- should they?
             targetTiles = []
             for tile in self.terrainArray[minRange:(maxRange + 1)]:
-                tileTargets = self.checkSpellTargets(unit, tile, healing)
+                tileTargets = self.checkSpellTargets(
+                        unit, tile, healing, blockingStatus)
                 if any(tileTargets):
                     targetTiles.append(tile)
             if any(targetTiles):
@@ -2175,7 +2179,8 @@ class battleField(object):
                 for tile in [
                         self.terrainArray[minFocusedRange:(
                         maxFocusedRange + 1)]]:
-                    tileTargets = self.checkSpellTargets(unit, tile, healing)
+                    tileTargets = self.checkSpellTargets(
+                            unit, tile, healing, blockingStatus)
                     if any(tileTargets):
                         targets.extend(self.terrainArray[i])
                         tileTargets = []
@@ -2187,13 +2192,18 @@ class battleField(object):
         else:
             return False
 
-    def checkSpellTargets(self, unit, tile, healing):
+    def checkSpellTargets(self, unit, tile, healing, blockingStatus=None):
         position = self.terrainArray.index(tile)
         if healing:
             friends = self.friendsAtPosition(unit, position)
-            return [friend for friend in friends if friend.hp < friend.maxHP()]
+            return [
+                    friend for friend in friends
+                    if friend.hp < friend.maxHP() and (
+                            blockingStatus not in friend.status)]
         else:
-            return self.enemiesAtPosition(unit, position)
+            return [
+                    enemy for enemy in self.enemiesAtPosition(unit, position)
+                    if blockingStatus not in enemy.status]
 
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
