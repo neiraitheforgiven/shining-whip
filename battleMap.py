@@ -1373,7 +1373,9 @@ class battle(object):
                     unit, "Vocal Attack: Ignore Movement"):
                 vocalEnabled = self.battleField.checkVocal(unit)
                 if vocalEnabled:
-                    print("Type (V) to make a vocal attack.")
+                    print(
+                            f"Type (V) to make a level {vocalEnabled} "
+                            "vocal attack.")
                     allowedCommands.append("V")
                     allowedCommands.append("v")
             print("Type (W) to wait.")
@@ -2379,9 +2381,24 @@ class battleField(object):
         if ((
                 type(unit) == playerCharacter and (vp > 1)) or (
                 type(unit) == monster and (vp < -1))):
-            return any(self.enemiesAtPosition(unit, position))
+            if any(self.enemiesAtPosition(unit, position)):
+                friendSound = sum([
+                        max(self.getStat(tileUnit, "Faith"),
+                            self.getStat(tileUnit, "Voice"))
+                        for tileUnit in currentTile.units
+                        if type(tileUnit) == type(unit)])
+                enemySound = sum([
+                        max(self.getStat(tileUnit, "Faith"),
+                            self.getStat(tileUnit, "Voice"))
+                        for tileUnit in currentTile.units
+                        if type(tileUnit) != type(unit)])
+                amount = max(1, friendSound - enemySound)
+                amount = amount + abs(tile.voicePower)
+                damage = math.ceil(amount / 16)
+                damage = max(damage, 1)
+            return damage
         else:
-            return False
+            return 0
 
     def doMonsterMove(self, monster, position):
         moveTo = None
