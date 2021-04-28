@@ -627,7 +627,7 @@ class battle(object):
                         setback = math.floor(setback / 2)
                     target.initiativePoints -= setback
                     if target in self.turnOrder:
-                        setbacklf.turnOrder.remove(target)
+                        setback.turnOrder.remove(target)
                 if counterattack and ((i + 1) == attackCount):
                     if bf.canAttack(target) and not targetStunned:
                         bf.checkAttack(target, bf.getUnitPos(target))
@@ -779,12 +779,11 @@ class battle(object):
         if faith:
             unit.fp -= self.mpCost(unit, cost)
         else:
-            unit.mp -= self.mpCOst(unit, cost)
+            unit.mp -= self.mpCost(unit, cost)
         target = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName} on {target.name}!")
         # assemble chance array
         chanceArray = []
-        chanceArray.extend(['fail'] * (50 - self.getStat(unit, "Luck")))
         successChance = sum(self.getStat(unit, stat) for stat in stats)
         chanceArray.extend(['success'] * successChance)
         resistChance = 0
