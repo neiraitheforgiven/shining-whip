@@ -2396,9 +2396,8 @@ class battleField(object):
                 amount = amount + abs(tile.voicePower)
                 damage = math.ceil(amount / 16)
                 damage = max(damage, 1)
-            return damage
-        else:
-            return 0
+                return damage
+        return 0
 
     def doMonsterMove(self, monster, position):
         moveTo = None
