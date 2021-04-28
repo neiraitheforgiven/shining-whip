@@ -442,7 +442,7 @@ class playerCharacter(object):
                         "Arrows: Range + 1"]
             elif "Assassin" in title:
                 listOfPowers = [
-                        "Stealthy Movement", "Paralyze I",
+                        "Stealthy Movement", "Sleep I",
                         "Attack: Bonus Move", "Death I", "Shield I",
                         "Death II", "Equip: Sacred Swords",
                         "Luck: Critical Hit Adds Silence"]
@@ -498,7 +498,7 @@ class playerCharacter(object):
                         "Luck: Increased Rout II",
                         "Unholy: Increased Resistance I",
                         "Vocal Attack: Increased Damage II"
-                        "Rout: Add Effect: Paralyze"]
+                        "Rout: Add Effect: Sleep"]
             elif "Chorister" in title:
                 listOfPowers = [
                         "Vocal Attack: Sustain Effect", "Heal I",
@@ -525,7 +525,7 @@ class playerCharacter(object):
                         "Luck: Counterattack First"]
             elif "Fire Mage" in title:
                 listOfPowers = [
-                        "Blaze I", "Magic: Cost Reduction I", "Paralyze I",
+                        "Blaze I", "Magic: Cost Reduction I", "Sleep I",
                         "Blaze II", "Defense: Counterspell I", "Blaze III",
                         "Magic: Increased Damage I", "Blaze IV"]
             elif "Wizard" in title:
@@ -606,7 +606,7 @@ class playerCharacter(object):
                         "Swords: Increased Damage IV"]
             elif "Scholar" in title:
                 listOfPowers = [
-                        "Paralyze I", "Magic: Cost Reduction I", "Muddle I",
+                        "Sleep I", "Magic: Cost Reduction I", "Muddle I",
                         "Silence I", "Magic: All Spells +1 Rank",
                         "Magic: Cost Reduction II",
                         "Magic: Effects Always Hit"]
