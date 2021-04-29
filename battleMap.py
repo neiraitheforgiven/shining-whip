@@ -2435,7 +2435,7 @@ class battleField(object):
                 else:
                     return False
             else:
-                monster.moveProfile == "Aggressive-Singer"
+                monster.moveProfile = "Aggressive-Singer"
                 moved = self.doMonsterMove(monster, position)
                 return moved
         elif monster.moveProfile == "Defensive":
