@@ -2469,7 +2469,7 @@ class battleField(object):
                     monster.fp > self.mpCost(monster, 3)):
                 # set yourself up to heal, don't move if monsters hurt
                 if any([
-                        friend for friend in self.playersAtPosition(position)
+                        friend for friend in self.unitsAtPosition(position)
                         if type(friend) == type(monster) and (
                         friend.hp < friend.maxHP())]):
                     return False
@@ -2478,7 +2478,7 @@ class battleField(object):
                 for tileIndex in monster.allowedMovement:
                     if any(
                             friend
-                            for friend in self.playersAtPosition(tileIndex)
+                            for friend in self.unitsAtPosition(tileIndex)
                             if type(friend) == type(monster) and (
                             friend.hp < friend.maxHP())):
                         candidates.append(position)
@@ -2488,7 +2488,7 @@ class battleField(object):
                     for tileIndex in monster.allowedMovement:
                         if any(
                                 friend
-                                for friend in self.playersAtPosition(tileIndex)
+                                for friend in self.unitsAtPosition(tileIndex)
                                 if type(friend) == type(monster)):
                             candidates.append(position)
                     if any(candidates):
