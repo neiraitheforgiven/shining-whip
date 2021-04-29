@@ -357,6 +357,7 @@ class battle(object):
         doubleChanceArray = []
         dex = self.getStat(unit, "Dexterity")
         luck = self.getStat(unit, "Luck")
+        stamina = self.getStat(unit, "Stamina")
         if self.getPower(unit, "Swords: Increased Luck I"):
             if unit.equipment and unit.equipment.type == "Swords":
                 luck = math.ceil(luck * 1.3)
@@ -397,7 +398,6 @@ class battle(object):
                 routChance = math.ceil(routChance * 1.3)
             attackTypeArray.extend(["routing"] * routChance)
             if i + 1 == attackCount:
-                stamina = self.getStat(unit, "Stamina")
                 heavyChance = math.floor(stamina + (stamina * (luck / 10)))
                 attackTypeArray.extend(["heavy"] * heavyChance)
             if not self.getPower(unit, "Aimed Shot"):
