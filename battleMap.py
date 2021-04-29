@@ -1045,7 +1045,7 @@ class battle(object):
             mostDamaged = []
             mostDamage = 0
             position = field.getUnitPos(monster)
-            for friend in field.playersAtPosition(position):
+            for friend in field.unitsAtPosition(position):
                 if type(friend) == type(monster):
                     friendDamage = friend.maxHP() - friend.hp
                     if friendDamage > 0:
@@ -2805,6 +2805,11 @@ class battleField(object):
                     f"({position}) {self.terrainArray[position].name}")
         moveString += ", ".join(moveStringAdds)
         print(moveString + ".")
+
+    def unitsAtPosition(self, position):
+        return [
+                unit for unit in self.terrainArray[position].units
+                if self.canBeTarget(unit)]
 
     def viewMap(self, position):
         minRange = max(0, position - 3)
