@@ -2325,12 +2325,12 @@ class battleField(object):
                 unit.allowedSpells["Portal I"] = targets
         if (
                 self.getPower(unit, "Sleep I") and (
-                unit.mp >= self.mCost(unit, 6))):
+                unit.mp >= self.mpCost(unit, 6))):
             self.checkSpell(
                     unit, position, "Sleep I", False, 1, 0, "Lulled to Sleep")
         if (
                 self.getPower(unit, "Sleep II") and (
-                unit.mp >= self.mCost(unit, 10))):
+                unit.mp >= self.mpCost(unit, 10))):
             self.checkSpell(
                     unit, position, "Sleep II", False, 1, 1, "Lulled to Sleep")
         if (
