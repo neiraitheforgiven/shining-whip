@@ -204,7 +204,7 @@ class monster(object):
                     "Dexterity": 10}
             self.setStats(11, **stats)
             self.moveProfile = moveProfile or "Companion-Healer"
-            self.attackProfile = attackProfile or "Singer"
+            self.attackProfile = attackProfile or "Healer-Singer"
             self.powers.append("Vocal Attack: Increased Resonance I")
             self.powers.append("Heal I")
             self.powers.append("Vocal Attack: Sustain Effect")
