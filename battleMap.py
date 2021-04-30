@@ -663,7 +663,7 @@ class battle(object):
 
     def castAreaSpell(
             self, unit, targetId, spellName, cost, damage, area=0,
-            element=None, spread=False, faith=False):
+            element=None, spread=False, faith=False, speedUp=False):
         bf = self.battleField
         if element:
             elementWithSpace = element + " "
@@ -727,10 +727,13 @@ class battle(object):
                         self.giveExperience(unit, target, targetDamage)
                         if target.hp <= 0:
                             self.kill(target)
+        if speedUp:
+            intel = self.getStat(unit, "Intelligence")
+            unit.initiativePoints += intel
 
     def castSingleSpell(
             self, unit, targetId, spellName, cost, damage, element=None,
-            faith=False):
+            faith=False, speedUp=False):
         if faith:
             unit.fp -= self.mpCost(unit, cost)
         else:
@@ -772,6 +775,9 @@ class battle(object):
             if result == "sleep":
                 target.status.append("Lulled to Sleep")
                 print(f"{target.name} fell asleep!")
+        if speedUp:
+            intel = self.getStat(unit, "Intelligence")
+            unit.initiativePoints += intel
 
     def castStatusSpell(
             self, unit, targetId, spellName, cost, statusName, faith=False,
@@ -956,6 +962,18 @@ class battle(object):
                     moveFromTile.units.remove(tileUnit)
                     moveToTile.units.append(tileUnit)
                     self.giveExperience(unit, tileUnit, 5)
+        elif spellName == "Ninja Fire I":
+            self.castAreaSpell(
+                    unit, targetId, "Ninja Fire I", 6, 6, 0, "Fire",
+                    speedUp=True)
+        elif spellName == "Ninja Fire II":
+            self.castAreaSpell(
+                    unit, targetId, "Ninja Fire II", 10, 9, 0, "Fire",
+                    speedUp=True)
+        elif spellName == "Ninja Fire III":
+            self.castSingleSpell(
+                    unit, targetId, "Ninja Fire III", 12, 32, "Fire",
+                    speedUp=True)
         elif spellName == "Sleep I":
             self.castStatusSpell(
                     unit, targetId, "Sleep I", 6, "Lulled to Sleep",
