@@ -453,7 +453,7 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Equip: Daggers", "Heal I", "Equip: Arrows",
                         "Luck: Counterattack",
-                        "Luck: Increased Dodge Chance I",
+                        "Luck: Dodge Chance  Up I",
                         "Command: Health Regeneration I",
                         "Cast Spell: Add Resonance",
                         "Command: Increased Luck I"]
@@ -537,12 +537,12 @@ class playerCharacter(object):
                         "Freeze III", "Bolt I", "Freeze IV", "Bolt II"]
             elif "Gambler" in title:
                 listOfPowers = [
-                        "Equip: Axes", "Luck: Dodge Chance Increased I",
+                        "Equip: Axes", "Luck: Dodge Chance  Up I",
                         "Increased Luck When Outnumbered I",
                         "Luck: Dodge Grants Counterattack",
                         "Luck: Reverse Death", "Axes: Range + 1",
                         "Increased Luck When Outnumbered II",
-                        "Luck: Dodge Chance Increased II"]
+                        "Luck: Dodge Chance  Up II"]
             elif "Harbinger" in title:
                 listOfPowers = [
                         "Unarmed Attack: Damage I",
