@@ -2034,7 +2034,7 @@ class battleField(object):
         if not self.getPower(unit, "Movement: Ignore Enemies"):
             # calculate if we are blocked
             # flying units are easier to block but blocked by flying units only
-            if self.getPower(unit, "Flying Movment"):
+            if self.getPower(unit, "Flying Movement"):
                 if len([
                     tileUnit for tileUnit in tile.units
                     if type(tileUnit) != type(unit) and self.getPower(
