@@ -526,7 +526,8 @@ class battle(object):
                 if self.getPower(unit, damageString + "IV"):
                     damage *= 1.3
                 strengthForDamage = strength
-                if self.getPower(unit, "Lances: Movement Increases Damage I"):
+                if self.getPower(
+                        unit, "Lances: Movement Increases Strength Damage I"):
                     if unit.equipment and unit.equipment.type == "Lances":
                         strengthForDamage += math.ceil((
                                 self.getStat(unit, "Speed"
