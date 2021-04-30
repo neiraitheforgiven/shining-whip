@@ -3299,6 +3299,8 @@ class game(object):
             print(
                     "You steel yourself for a grueling battle. By going "
                     "shopping.")
+            if self.battleStarted < 7:
+                self.reckoning(35, "Princess Anri")
             self.shop.goShopping(self)
             if self.battleStarted < 7:
                 print("Near the altar, you meet a Knight named Athur.")
@@ -3361,6 +3363,8 @@ class game(object):
             print(
                     "When you arrive at the chapel, you are met by a group of "
                     "priests, led by a tall Vicar.")
+            if self.battleStarted < 8:
+                self.reckoning(40, "the Vicar")
             print(
                     'The vicar welcomes you, "The Words are kept in a warded '
                     'room, that can only be opened by the Keepers, Angelic '
