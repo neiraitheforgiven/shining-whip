@@ -3301,7 +3301,7 @@ class game(object):
                     "shopping.")
             self.shop.goShopping(self)
             if self.battleStarted < 7:
-                print("Near the altar, you meet a Knight named Athur.")
+                print("Near the altar, you meet a Knight named Arthur.")
                 print(
                         "He suspects something of the illusion, and when the "
                         "power of the Sword dispels the illusion, he joins "
