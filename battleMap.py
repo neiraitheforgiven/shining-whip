@@ -1983,6 +1983,7 @@ class battleField(object):
             self, unit, movementPoints, position, directionIsHigher,
             unstable, bonusSpent=False):
         tile = self.terrainArray[position]
+        blocked = False
         # calculate if there is space
         if not unstable:
             unstable = tile.unstable
