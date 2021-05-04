@@ -1934,6 +1934,7 @@ class battleField(object):
         self.elevation = 20
         self.terrainArray = []
         self.units = []
+        self.party = party
         for tile in listOfTiles:
             self.terrainArray.append(battleTile(tile, self))
         for tile in self.terrainArray:
@@ -2590,8 +2591,8 @@ class battleField(object):
                 return False
         elif monster.moveProfile == "Sniper":
             candidates = [
-                    target for target in self.game.party if target.hp > 0 and (
-                            self.canBeTarget(target))]
+                    target for target in self.party
+                    if target.hp > 0 and self.canBeTarget(target)]
             candidates = [
                     target for target in candidates
                     if target.stats["Fame"] == max(
