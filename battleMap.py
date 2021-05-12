@@ -2196,6 +2196,9 @@ class battleField(object):
     def checkSpell(
             self, unit, position, name, healing=False, range=0, area=0,
             blockingStatus=None):
+        if self.getPower(unit, "Healing Magic: Increased Range I"):
+            if healing:
+                range += 1
         minRange = max(0, (position - range))
         maxRange = min((position + range), len(self.terrainArray) - 1)
         if area == 0:
