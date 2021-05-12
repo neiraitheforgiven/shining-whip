@@ -395,6 +395,9 @@ class battle(object):
                                     "look at: "))
                             except ValueError:
                                 unitChoice = None
+                            if unitChoice not in ([partyOptions.index(option)
+                                for option in partyOptions]):
+                                unitChoice = None
                             partyOptions[unitChoice].printCharacterSheet()
                     elif unitChoice in ('S', 's'):
                         return currentParty
