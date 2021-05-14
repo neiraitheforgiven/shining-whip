@@ -613,6 +613,9 @@ class battle(object):
                                             self.battleField.getUnitPos(
                                                     unit) + adjust)
                                     attackCount += 1
+                                    print(
+                                            f"{unit.name} pursued "
+                                            f"{target.name}!")
                         else:
                             print(f"{target.name} was stunned!")
                             targetStunned = True
