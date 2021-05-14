@@ -1092,6 +1092,7 @@ class battle(object):
                     if friendDamage > 0:
                         if friendDamage > mostDamage:
                             mostDamaged = [friend]
+                            mostDamage = friendDamage
                         elif friendDamage == mostDamage:
                             mostDamaged.append(friend)
             if mostDamaged:
