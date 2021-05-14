@@ -600,7 +600,19 @@ class battle(object):
                                 in bf.terrainArray[moveTo].units
                                 if type(tileUnit) == type(target)]) < 4:
                             print(f"{target.name} was routed!")
+                            moveFrom = self.battleField.getUnitPos(target)
                             self.battleField.move(target, moveTo)
+                            if self.getPower(unit, "Rout: Pursuit Attack"):
+                                adjust = moveTo - moveFrom
+                                if len([
+                                        tileUnit for tileUnit
+                                        in bf.terrainArray[moveTo].units
+                                        if type(tileUnit) == type(unit)]) < 4:
+                                    self.battleField.move(
+                                            unit,
+                                            self.battleField.getUnitPos(
+                                                    unit) + adjust)
+                                    attackCount += 1
                         else:
                             print(f"{target.name} was stunned!")
                             targetStunned = True
