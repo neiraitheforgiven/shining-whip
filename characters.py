@@ -562,8 +562,8 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Mounted Movement", "Equip: Polearms",
                         "Lances: Movement Increases Strength Damage I",
-                        "Spears: Increased Damage I", "Defense: Lance I",
-                        "Defense: Arrow I",
+                        "Spears: Increased Damage I", "Rout: Pursuit Attack",
+                        "Defense Increased vs Ranged Attacks I",
                         "Faith: Add Damage on Unholy Ground",
                         "Unholy: Increased Resistance I"]
             elif "Mage Knight" in title:
@@ -702,7 +702,7 @@ class playerCharacter(object):
                 listOfPowers = [
                         "Unarmed Attack: Increased Damage I",
                         "Unarmed Attack: Increased Damage II",
-                        "Rout: Follow-up Attack",
+                        "Rout: Pursuit Attack",
                         "Unarmed Attack: Increased Damage III",
                         "Unarmed Attack: Ice Element",
                         "Unarmed Attack: Added Effect: Curse",
