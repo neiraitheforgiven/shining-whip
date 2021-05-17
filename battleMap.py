@@ -3569,7 +3569,7 @@ class game(object):
                     allowedUnits.index(unit) for unit in allowedUnits]:
                 try:
                     command = int(input(
-                            "Type a number to equip the weapon."))
+                            "Type a number to equip the weapon: "))
                 except ValueError:
                     command = None
                 if command == len(allowedUnits):
