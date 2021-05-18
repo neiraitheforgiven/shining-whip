@@ -21,6 +21,11 @@ class monster(object):
         self.initiativePoints = 0
         self.actedThisRound = False
         self.powers = []
+        self.skills = {
+            "Arrows": 0, "Axes": 0, "Brass Guns": 0, "Daggers": 0, "Lances": 0,
+            "Spears": 0, "Staffs": 0, "Swords": 0, "Sacred Swords": 0,
+            "Unarmed Attack": 0, "Holy Songs": 0
+        }
         self.moveProfile = moveProfile
         self.attackProfile = attackProfile
         self.equipment = None
@@ -270,6 +275,11 @@ class playerCharacter(object):
         self.trophies = []
         self.extraPowerSlot = []
         self.extraPowerSlot2 = []
+        self.skills = {
+            "Arrows": 0, "Axes": 0, "Brass Guns": 0, "Daggers": 0, "Lances": 0,
+            "Spears": 0, "Staffs": 0, "Swords": 0, "Sacred Swords": 0,
+            "Unarmed Attack": 0, "Holy Songs": 0
+        }
         if playerClass:
             if playerClass == "Assassin":
                 self.growth = self.initializeRandomStats(
@@ -355,6 +365,7 @@ class playerCharacter(object):
             print(f"{self.name} the {self.race} {self.title} created.")
         self.assignPower(self.getPower(self.title, chatter), chatter)
         self.career = f"    Career Path: {self.title}"
+        self.upSkill()
         if chatter:
             for statName, statValue in self.stats.items():
                 print("    {} of {}".format(statName, statValue))
@@ -420,6 +431,108 @@ class playerCharacter(object):
     def canEquip(self, equipment):
         equipPower = f"Equip: {equipment.type}"
         return equipPower in self.powers
+
+    def getSkills(self, title, chatter=False):
+        improvedSkills = []
+        if "Alchemist" in title:
+            improvedSkills.append("Staffs")
+        elif "Archer" in title:
+            improvedSkills.append("Arrows")
+        elif "Assassin" in title:
+            improvedSkills.append("Swords")
+        elif "Bard" in title:
+            improvedSkills.append("Daggers")
+            improvedSkills.append("Arrows")
+        elif "Baron" in title:
+            improvedSkills.append("Swords")
+        elif "Berserker" in title:
+            improvedSkills.append("Axes")
+            improvedSkills.append("Unarmed Attack")
+        elif "Blood Mage" in title:
+            improvedSkills.append("Daggers")
+        elif "Archmage" in title:
+            improvedSkills.append("Staffs")
+        elif "Heavy Shot" in title:
+            improvedSkills.append("Brass Guns")
+        elif "Cantor" in title:
+            improvedSkills.append("Holy Songs")
+        elif "Chorister" in title:
+            improvedSkills.append("Holy Songs")
+        elif "Dark Mage" in title:
+            improvedSkills.append("Staffs")
+        elif "Druid" in title:
+            improvedSkills.append("Staffs")
+        elif "Duelist" in title:
+            improvedSkills.append("Swords")
+        elif "Flamecaster" in title:
+            improvedSkills.append("Staffs")
+        elif "Wizard" in title:
+            improvedSkills.append("Staffs")
+        elif "Gambler" in title:
+            improvedSkills.append("Axes")
+        elif "Harbinger" in title:
+            improvedSkills.append("Holy Songs")
+            improvedSkills.append("Unarmed Attack")
+        elif "Hero" in title:
+            improvedSkills.append("Swords")
+            improvedSkills.append("Sacred Swords")
+        elif ("Knight" in title and "Mage Knight" not in
+                    title and "Steam Knight" not in title):
+            improvedSkills.append("Spears")
+            improvedSkills.append("Lances")
+        elif "Mage Knight" in title:
+            improvedSkills.append("Spears")
+            improvedSkills.append("Lances")
+        elif "Monk" in title:
+            improvedSkills.append("Unarmed Attack")
+        elif "Ninja" in title:
+            improvedSkills.append("Daggers")
+        elif "Orator" in title:
+            improvedSkills.append("Holy Songs")
+        elif "Priest" in title:
+            improvedSkills.append("Staffs")
+        elif "Prophet" in title:
+            improvedSkills.append("Staffs")
+            improvedSkills.append("Holy Songs")
+        elif "Samurai" in title:
+            improvedSkills.append("Swords")
+        elif "Scholar" in title:
+            improvedSkills.append("Staffs")
+        elif "Sky Battler" in title:
+            improvedSkills.append("Swords")
+        elif "Sky Lord" in title:
+            improvedSkills.append("Lances")
+        elif "Soldier" in title:
+            improvedSkills.append("Unarmed Attack")
+        elif "Sorceror" in title:
+            improvedSkills.append("Staffs")
+        elif "Squire" in title:
+            improvedSkills.append("Swords")
+        elif "Steam Knight" in title:
+            improvedSkills.append("Lances")
+        elif "Student" in title:
+            improvedSkills.append("Staffs")
+        elif "Survivor" in title:
+            improvedSkills.append("Unarmed Attack")
+        elif "Titan" in title:
+            improvedSkills.append("Unarmed Attack")
+        elif "Trickster" in title:
+            improvedSkills.append("Staffs")
+        elif "Troubadour" in title:
+            improvedSkills.append("Arrows")
+            improvedSkills.append("Holy Songs")
+        elif "Valkyrie" in title:
+            improvedSkills.append("Lances")
+            improvedSkills.append("Spears")
+            improvedSkills.append("Holy Songs")
+        elif "Warrior" in title:
+            improvedSkills.append("Axes")
+            improvedSkills.append("Swords")
+        elif "Werewolf" in title:
+            improvedSkills.append("Unarmed Attack")
+        # remove duplicates
+        improvedSkills = list(set(improvedSkills))
+        return improvedSkills
 
     def getPower(self, title, chatter=False):
         if "Mounted" in title and "Mounted Movement" not in self.powers:
@@ -1269,6 +1382,7 @@ class playerCharacter(object):
                             print(
                                     f"{self.name}: \"Aww, maybe I'm not cut "
                                     f"out to be a {self.title}.\"")
+        self.upSkill()
 
     def maxFP(self):
         if self.equipment:
@@ -1320,12 +1434,22 @@ class playerCharacter(object):
             if advance:
                 growthLevel += 1
 
+    def upSkill(self):
+        for skill in self.skills:
+            if self.getPower(f"Equip: {skill}"):
+                self.skills[skill] += 1
+        skills = self.getSkills(self.title)
+        for skill in skills:
+            self.skills[skill] = max(self.level * 2, self.skills[skill] + 1)
+        # Unarmed Attack and Holy Songs get two upgrades, but also function
+        # different as they are not tied to equipment
+
 
 class equipment(object):
 
     def __init__(
-            self, equipType, name, price, minRange=0, maxRange=0, damage=3,
-            fp=0, mp=0, powers=[]):
+            self, equipType, name, price, skill=0, minRange=0, maxRange=0,
+            damage=3, fp=0, mp=0, powers=[]):
         self.type = equipType
         self.name = name
         self.price = price
@@ -1336,10 +1460,10 @@ class equipment(object):
         self.fp = fp
         self.mp = mp
         self.powers = powers
+        self.skill = skill
 
     def canEquip(self, unit):
-        equipPower = f"Equip: {self.type}"
-        return equipPower in unit.powers
+        return unit.skills[self.type] >= self.skill
 
 
 party = []
