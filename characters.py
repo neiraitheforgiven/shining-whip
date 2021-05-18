@@ -1176,7 +1176,7 @@ class playerCharacter(object):
                                 "think?\"")
                         print(
                                 f"{self.name} can choose (0) {beforeTitle} or "
-                                f"(1) {afterTitle}.")
+                                f"(1) {afterDecorated}.")
                         choice = None
                         while choice not in (0, 1):
                             try:
@@ -1192,7 +1192,7 @@ class playerCharacter(object):
                                     "my best to prove your judgement right!\"")
                             self.assignPower(oldProposedPower, chatter)
                         if choice == 1:
-                            self.assignTitle(afterTitle, chatter)
+                            self.assignTitle(afterDecorated, chatter)
                             print(
                                     f"{self.name}: \"That's settled, then! "
                                     f"Today I will become a {self.title}!\"")
