@@ -395,8 +395,10 @@ class battle(object):
                                     "look at: "))
                             except ValueError:
                                 unitChoice = None
-                            if unitChoice not in ([partyOptions.index(option)
-                                for option in partyOptions]):
+                            if unitChoice and (
+                                    unitChoice not in ([
+                                            partyOptions.index(option)
+                                            for option in partyOptions])):
                                 unitChoice = None
                             partyOptions[unitChoice].printCharacterSheet()
                     elif unitChoice in ('S', 's'):
@@ -406,7 +408,7 @@ class battle(object):
                             unitChoice = int(unitChoice)
                         except ValueError:
                             unitChoice = None
-                        if unitChoice is not None and (
+                        if unitChoice and (
                                 unitChoice <= len(partyOptions) - 1):
                             currentParty.append(partyOptions[unitChoice])
                             print((
