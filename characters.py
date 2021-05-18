@@ -1298,7 +1298,8 @@ class playerCharacter(object):
         print(f"  HP:   {self.hp:3}/{self.maxHP():3}    Dexterity: {dex}")
         print(f"  FP:   {self.fp:3}/{self.maxFP():3}    Charisma: {cha}")
         print(f"  MP:   {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
-        print(f"  Moves: {self.movementPoints:2}/{speed:3}    Luck: {luck:3}")
+        print(f"  Moves: {max(self.movementPoints:2, 0)}/{speed:3}    "
+                f"Luck: {luck:3}")
         print(
                 f"  Exp:  {self.xp:3}/100    Fame:    {fame:3}"
                 f"")
