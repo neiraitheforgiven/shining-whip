@@ -526,6 +526,7 @@ class battle(object):
                     damageString = f"{unit.equipment.type}: Increased Damage "
                 else:
                     damageString = "Unarmed Attack: Increased Damage "
+                    damage += unit.skills["Unarmed Attack"]  # probably OP
                 if self.getPower(unit, damageString + "I"):
                     damage *= 1.3
                 if self.getPower(unit, damageString + "II"):
@@ -1695,7 +1696,8 @@ class battle(object):
                 for tileUnit in
                 bf.terrainArray[position].units
                 if type(tileUnit) != type(unit)])
-        amount = max(1, friendSound - enemySound)
+        # probably OP
+        amount = max(1, friendSound - enemySound) + unit.getSkill["Holy Songs"]
         amount = amount + abs(tile.voicePower)
         damage = math.ceil(amount / 16)
         damage = max(damage, 1)
