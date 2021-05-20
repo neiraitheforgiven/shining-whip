@@ -54,7 +54,8 @@ class monster(object):
             self.setStats(5, **stats)
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
-            self.equipment = equipment("Axes", "Rusted Axe", 20, 0, 0, 3, 0, 0)
+            self.equipment = equipment(
+                    "Axes", "Rusted Axe", 20, 1, 0, 0, 3, 0, 0)
             self.shortName = "C.Dwarf"
         elif name == "Dark Apprentice":
             self.level = 6
@@ -65,7 +66,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Spellcaster"
             self.equipment = equipment(
-                    "Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3)
+                    "Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Apprc"
         elif name == "Dark Elf Sniper":
@@ -75,7 +76,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Sniper"
             self.attackProfile = attackProfile or "Weakest"
             self.equipment = equipment(
-                    "Arrows", "Wooden Arrow", 150, 1, 1, 9, 0, 0)
+                    "Arrows", "Wooden Arrow", 150, 1, 1, 1, 9, 0, 0)
             self.shortName = "Dark Elf"
         elif name == "Dark Magi":
             self.level = 14
@@ -86,7 +87,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Spellcaster"
             self.equipment = equipment(
-                    "Staffs", "Power Staff", 500, 0, 0, 4, 6, 6)
+                    "Staffs", "Power Staff", 500, 1, 0, 0, 4, 6, 6)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Magi"
         elif name == "Deranged Clown":
@@ -95,7 +96,8 @@ class monster(object):
             self.setStats(10, **stats)
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
-            self.equipment = equipment("Daggers", "Knife", 500, 0, 0, 8, 0, 0)
+            self.equipment = equipment(
+                    "Daggers", "Knife", 500, 1, 0, 0, 8, 0, 0)
             self.shortName = "Clown"
         elif name == "Giant Bat":
             self.level = 5
@@ -128,7 +130,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Aggressive"
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment(
-                    "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
+                    "Swords", "Goblin Sword", 50, 1, 0, 0, 3, 0, 0)
         elif name == "Lizardman":
             self.level = 16
             stats = {
@@ -138,7 +140,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
             self.equipment = equipment(
-                    "Axes", "Middle Axe", 300, 0, 0, 7, 0, 0)
+                    "Axes", "Middle Axe", 300, 1, 0, 0, 7, 0, 0)
             self.shortName = "Lizard"
         elif name == "Mannequin":
             self.level = 6
@@ -170,7 +172,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Spellcaster"
             self.equipment = equipment(
-                    "Staffs", "Guardian Staff", 3200, 0, 0, 12, 12, 12)
+                    "Staffs", "Guardian Staff", 3200, 1, 0, 0, 12, 12, 12)
             self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
             self.shortName = "Master"
         elif name == "Skeleton Warrior":
@@ -181,7 +183,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "ChallengeAccepting"
             self.equipment = equipment(
-                    "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0)
+                    "Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0)
             self.powers.append("Command: Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
         elif name == "Sniper":
@@ -191,7 +193,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Sniper"
             self.attackProfile = attackProfile or "Weakest"
             self.equipment = equipment(
-                    "Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0)
+                    "Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
@@ -199,7 +201,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Retreat-Defensive"
             self.attackProfile = attackProfile or "ChallengeAccepting"
             self.equipment = equipment(
-                    "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0)
+                    "Lances", "Bronze Lance", 300, 1, 0, 0, 6, 0, 0)
             self.powers.append("Mounted Movement")
             self.shortName = "Knight"
         elif name == "Vile Chanter":
