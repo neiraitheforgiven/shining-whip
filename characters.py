@@ -652,12 +652,12 @@ class playerCharacter(object):
                         "Freeze III", "Bolt I", "Freeze IV", "Bolt II"]
             elif "Gambler" in title:
                 listOfPowers = [
-                        "Equip: Axes", "Luck: Dodge Chance  Up I",
+                        "Equip: Axes", "Luck: Dodge Chance Up I",
                         "Increased Luck When Outnumbered I",
                         "Luck: Dodge Grants Counterattack",
                         "Luck: Reverse Death", "Axes: Range + 1",
                         "Increased Luck When Outnumbered II",
-                        "Luck: Dodge Chance  Up II"]
+                        "Luck: Dodge Chance Up II"]
             elif "Harbinger" in title:
                 listOfPowers = [
                         "Unarmed Attack: Damage I",
@@ -678,7 +678,7 @@ class playerCharacter(object):
                         "Mounted Movement", "Equip: Polearms",
                         "Lances: Movement Increases Strength Damage I",
                         "Spears: Increased Damage I", "Rout: Pursuit Attack",
-                        "Defense Increased vs Ranged Attacks I",
+                        "Defense: Increased vs Ranged Attacks I",
                         "Faith: Add Damage on Unholy Ground",
                         "Unholy: Increased Resistance I"]
             elif "Mage Knight" in title:
@@ -771,7 +771,7 @@ class playerCharacter(object):
                 listOfPowers = ["Blaze I"]
             elif "Survivor" in title:
                 listOfPowers = [
-                        "Defense: Magic I",
+                        "Defense: Magic",
                         "Unarmed Attack: Increased Damage I",
                         "Luck: Increased Dodge I", "Flying Movement",
                         "Defense: Magic II", "Unarmed Attack: Fire Element",
@@ -801,7 +801,7 @@ class playerCharacter(object):
             elif "Valkyrie" in title:
                 listOfPowers = [
                         "Equip: Lances", "Defense: Melee Attacks I",
-                        "Vocal Attack: Lost Health Adds Damage II",
+                        "Vocal Attack: Lost Health Adds Damage I",
                         "Luck: Increased Rout I",
                         "Defense: Melee Attacks II", "Vocal Attack: Heal Self",
                         "Vocal Attack: Lost Health Adds Damage II",
@@ -812,7 +812,7 @@ class playerCharacter(object):
                         "Axes: Increased Damage I",
                         "Swords: Increased Luck I", "Whirlwind Attack",
                         "Defense: Melee Attacks II", "Rout: Follow-up Attack",
-                        "Axes: Increased Damage I"]
+                        "Axes: Increased Damage II"]
             elif "Werewolf" in title:
                 listOfPowers = [
                         "Unarmed Attack: Increased Damage I",
@@ -946,7 +946,7 @@ class playerCharacter(object):
                 title = "Alchemist"
             elif secondStat == "Speed":
                 title = "Gambler"
-            elif secondStat == "Soldier":
+            elif secondStat == "Stamina":
                 title = "Soldier"
             elif secondStat == "Strength":
                 title = "Soldier"
