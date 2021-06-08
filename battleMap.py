@@ -1062,15 +1062,11 @@ class battle(object):
     def doMonsterAttack(self, monster):
         field = self.battleField
         if monster.attackProfile == "ChallengeAccepting":
-            # will attack the highest fame, level, charisma, strength
+            # will attack the highest level, charisma, strength
             candidates = [
                     target for target in monster.allowedAttacks
-                    if target.stats["Fame"] == max(
-                            unit.stats["Fame"]
-                            for unit in monster.allowedAttacks)]
-            candidates = [
-                    target for target in candidates if target.level == max(
-                            unit.level for unit in candidates)]
+                    if target.level == max(
+                                unit.level for unit in monster.allowedAttacks)]
             candidates = [
                     target for target in candidates
                     if self.getStat(target, "Charisma") == max(
@@ -1874,7 +1870,7 @@ class battle(object):
             self.turnOrder.remove(target)
         if type(target) == monster and target.boss:
             if killer:
-                killer.stats["Fame"] += 1
+                killer.fame += 1
                 print(
                         f"The wicked {target.name} finally falls, slain "
                         f"by {killer.name}. {killer.name}'s name quickly "
@@ -1882,7 +1878,7 @@ class battle(object):
                 print("You are victorious!")
                 self.gameStatus = 'victory'
             else:
-                self.party[0].stats["Fame"] += 1
+                self.party[0].fame += 1
                 print(
                         f"The monstrous {target.name} finally falls. You are "
                         "victorious!")
@@ -2619,8 +2615,8 @@ class battleField(object):
                     if target.hp > 0 and self.canBeTarget(target)]
             candidates = [
                     target for target in candidates
-                    if target.stats["Fame"] == max(
-                            unit.stats["Fame"] for unit in candidates)]
+                    if target.getFame() == max(
+                            unit.getFame() for unit in candidates)]
             candidates = [
                     target for target in candidates
                     if target.hp == min(
@@ -2668,7 +2664,7 @@ class battleField(object):
         if not position:
             return 0
         allyFame = [
-                ally.stats["Fame"]
+                ally.getFame()
                 for ally in self.alliesAtPosition(unit, position)]
         if any(allyFame):
             return max(allyFame)
@@ -2705,8 +2701,6 @@ class battleField(object):
         return False
 
     def getStat(self, unit, statName):
-        if statName == "Fame":
-            print("warning: you called getStat for fame.")
         self.getFameBonus(unit)
         stat = unit.stats[statName]
         stat = math.floor(stat + (stat * (self.getFameBonus(unit) / 100)))
@@ -3623,12 +3617,12 @@ class game(object):
         equipable = [
                 pc for pc in self.playerCharacters if equipString in pc.powers]
         if equipable:
-            fame = max([pc.stats["Fame"] for pc in equipable])
+            fame = max([pc.getFame() for pc in equipable])
             if fame > 15:
                 blame = [
                         pc.name for pc in self.playerCharacters
                         if equipString in
-                        pc.powers and pc.stats["Fame"] == fame][0]
+                        pc.powers and pc.getFame() == fame][0]
         else:
             fame = 0
         amount = math.floor(item.price * (0.1 + (fame / 100)))

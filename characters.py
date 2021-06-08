@@ -426,6 +426,9 @@ class playerCharacter(object):
         equipPower = f"Equip: {equipment.type}"
         return equipPower in self.powers
 
+    def getFame(self):
+        return self.stats["Charisma"] + self.fame
+
     def getPower(self, title, chatter=False):
         if "Mounted" in title and "Mounted Movement" not in self.powers:
             return "Mounted Movement"
