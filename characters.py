@@ -232,7 +232,7 @@ class monster(object):
     def setStats(self, statLevel, **stats):
         statsToAssign = [
                 "Strength", "Dexterity", "Intelligence", "Faith", "Charisma",
-                "Luck", "Speed", "Stamina", "Voice", "Fame"]
+                "Luck", "Speed", "Stamina", "Voice", "Focus"]
         advance = True
         for i in range(len(statsToAssign)):
             stat = random.choice(statsToAssign)
@@ -263,6 +263,10 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.fame = 0
+        self.focus = 0
+        self.focused = False
+        self.focusTime = 0
         self.initiativePoints = 0
         self.actedThisRound = False
         self.hasEquipped = False
@@ -278,7 +282,8 @@ class playerCharacter(object):
                 self.growth = self.initializeRandomStats(
                         "Dexterity", "Speed", "Strength")
             elif playerClass == "Baron":
-                self.growth = self.initializeRandomStats("Strength", "Fame")
+                self.growth = self.initializeRandomStats(
+                        "Strength", "Charisma")
             elif playerClass == "Archmage":
                 self.growth = self.initializeRandomStats(
                     "Intelligence", "Luck")
@@ -316,7 +321,7 @@ class playerCharacter(object):
                         "Intelligence", "Faith")
             elif playerClass == "Steam Knight":
                 self.growth = self.initializeRandomStats(
-                        "Stamina", "Intelligence", "Fame")
+                        "Stamina", "Focus")
             elif playerClass == "Ninja":
                 self.growth = self.initializeRandomStats(
                         "Dexterity", "Intelligence")
@@ -324,7 +329,7 @@ class playerCharacter(object):
                 self.growth = self.initializeRandomStats("Voice", "Stamina")
             elif playerClass == "Titan":
                 self.growth = self.initializeRandomStats(
-                        "Stamina", "Fame", "Speed")
+                        "Strength", "Focus", "Speed")
             elif playerClass == "Warrior":
                 self.growth = self.initializeRandomStats("Strength", "Stamina")
             elif playerClass == "Werewolf":
@@ -728,8 +733,7 @@ class playerCharacter(object):
         listOfStats = {}
         title = "newbie"
         for stat in self.stats:
-            if stat != "Fame":
-                listOfStats[stat] = self.stats[stat]
+            listOfStats[stat] = self.stats[stat]
         primeStat = max(listOfStats.items(), key=itemgetter(1))[0]
         listOfStats = {}
         for stat in self.stats:
@@ -1007,7 +1011,7 @@ class playerCharacter(object):
                 self, bestStat=None, secondBestStat=None, dumpStat=None):
         statsToAssign = [
                 "Strength", "Dexterity", "Intelligence", "Faith", "Charisma",
-                "Luck", "Speed", "Stamina", "Voice", "Fame"]
+                "Luck", "Speed", "Stamina", "Voice", "Focus"]
         growth = {}
         advance = True
         growthLevel = 5
@@ -1135,14 +1139,14 @@ class playerCharacter(object):
                     fulfilled += 1
                 voiceString += f" --> {afterDict['Voice']}"
             voiceString = f"{voiceString:<25}"
-            # Fame
-            fameString = f"{'Fame':<12} {beforeDict['Fame']}"
-            fameString = f"{fameString:<16}"
-            if afterDict['Fame'] > beforeDict['Fame']:
-                if self.growth["Fame"] == 5:
+            # Focus
+            focusString = f"{'Focus':<12} {beforeDict['Focus']}"
+            focusString = f"{focusString:<16}"
+            if afterDict['Focus'] > beforeDict['Focus']:
+                if self.growth["Focus"] == 5:
                     fulfilled += 1
-                fameString += f" --> {afterDict['Fame']}"
-            fameString = f"{fameString:<25}"
+                focusString += f" --> {afterDict['Focus']}"
+            focusString = f"{focusString:<25}"
             # Luck
             luckString = f"{'Luck':<12} {beforeDict['Luck']}"
             luckString = f"{luckString:<16}"
@@ -1155,7 +1159,7 @@ class playerCharacter(object):
             print(f"    {strString}    {intString}")
             print(f"    {dexString}    {faithString}")
             print(f"    {chaString}    {voiceString}")
-            print(f"    {fameString}    {luckString}")
+            print(f"    {focusString}    {luckString}")
 
         if self.level % 5 == 0:
             beforeTitle = self.title
@@ -1291,7 +1295,7 @@ class playerCharacter(object):
         dex = self.stats["Dexterity"]
         cha = self.stats["Charisma"]
         voi = self.stats["Voice"]
-        fame = self.stats["Fame"]
+        focus = self.stats["Focus"]
         luck = self.stats["Luck"]
         speed = self.stats["Speed"]
         print(f"  Level:    {self.level:3}    Strength: {strength}")
@@ -1301,7 +1305,7 @@ class playerCharacter(object):
         print(f"  Moves: {max(self.movementPoints, 0):2}/{speed:3}    "
                 f"Luck: {luck:3}")
         print(
-                f"  Exp:  {self.xp:3}/100    Fame:    {fame:3}"
+                f"  Exp:  {self.xp:3}/100    Focus:    {focus:3}"
                 f"")
         sortedPowers = sorted(self.powers)
         print("Powers:")
