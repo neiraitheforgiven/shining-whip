@@ -1269,51 +1269,8 @@ class battle(object):
                     unit for unit in self.battleField.units
                     if unit.hp > 0 and not unit.actedThisRound]
             #  degrade the tiles now
-            timePassed = abs(self.currentInitiative - nextInitiative)
-            """New model design:
-            Potential Spread should be added whenever resonance is added to a
-            tile. Whenever time passes, 4xTime% points (rounded up) should be
-            degraded from each tile, and then 2xTime% points (rounded up)
-            should bleed from potential into the real resonance."""
+            self.elapseTime(self.currentInitiative - nextInitiative)
             self.currentInitiative = nextInitiative
-            for tile in self.battleField.terrainArray:
-                voicePowerLost = round(float((
-                        tile.voicePower + tile.resonance) * float(
-                                timePassed * 4 / 100)))
-                tile.voicePower = math.floor(float(
-                        tile.voicePower - voicePowerLost))
-                if tile.voicePower > 0:
-                    if not tile.goodRinging:
-                        voicePowerLost = float(
-                                (tile.voicePower + tile.resonance) * (
-                                        timePassed * 4 / 100))
-                        tile.voicePower = float(
-                                tile.voicePower - voicePowerLost)
-                elif tile.voicePower < 0:
-                    if not tile.evilRinging:
-                        voicePowerLost = float(
-                                (tile.voicePower + tile.resonance) * (
-                                        timePassed * 4 / 100))
-                        tile.voicePower = float(
-                                tile.voicePower - voicePowerLost)
-            for tile in self.battleField.terrainArray:
-                goodPowerSoaked = float((
-                        tile.proposedGoodVoicePower + tile.resonance) * (
-                                timePassed * 4 / 100))
-                if not tile.goodRinging:
-                    tile.proposedGoodVoicePower = max(
-                            0, tile.proposedGoodVoicePower - goodPowerSoaked)
-                evilPowerSoaked = abs(float(
-                        tile.proposedEvilVoicePower + tile.resonance) * (
-                                timePassed * 4 / 100))
-                if not tile.evilRinging:
-                    tile.proposedEvilVoicePower = min(
-                            0, tile.proposedEvilVoicePower + evilPowerSoaked)
-                proposedVoiceChange = goodPowerSoaked - evilPowerSoaked
-                if tile.voicePower + proposedVoiceChange != tile.resonance:
-                    self.addVocalPower(tile, proposedVoiceChange)
-                tile.goodRinging = max(0, tile.goodRinging - timePassed)
-                tile.evilRinging = max(0, tile.evilRinging - timePassed)
         for unit in self.battleField.units:
             unit.actedThisRound = False
 
@@ -1760,6 +1717,58 @@ class battle(object):
                 elif attackType == "sleep":
                     target.status.append("Lulled to Sleep")
                     print(f"{target.name} fell asleep!")
+
+    def elapseTime(startInitiative, nextInitiative):
+        timePassed = startInitiative - nextInitiative
+        if timePassed <= 0:
+            return
+        # Do Tile Resonance Spread
+        """New model design:
+        Potential Spread should be added whenever resonance is added to a
+        tile. Whenever time passes, 4xTime% points (rounded up) should be
+        degraded from each tile, and then 2xTime% points (rounded up)
+        should bleed from potential into the real resonance."""
+        for tile in self.battleField.terrainArray:
+            voicePowerLost = round(float((
+                    tile.voicePower + tile.resonance) * float(
+                            timePassed * 4 / 100)))
+            tile.voicePower = math.floor(float(
+                    tile.voicePower - voicePowerLost))
+            if tile.voicePower > 0:
+                if not tile.goodRinging:
+                    voicePowerLost = float(
+                            (tile.voicePower + tile.resonance) * (
+                                    timePassed * 4 / 100))
+                    tile.voicePower = float(
+                            tile.voicePower - voicePowerLost)
+            elif tile.voicePower < 0:
+                if not tile.evilRinging:
+                    voicePowerLost = float(
+                            (tile.voicePower + tile.resonance) * (
+                                    timePassed * 4 / 100))
+                    tile.voicePower = float(
+                            tile.voicePower - voicePowerLost)
+        for tile in self.battleField.terrainArray:
+            goodPowerSoaked = float((
+                    tile.proposedGoodVoicePower + tile.resonance) * (
+                            timePassed * 4 / 100))
+            if not tile.goodRinging:
+                tile.proposedGoodVoicePower = max(
+                        0, tile.proposedGoodVoicePower - goodPowerSoaked)
+            evilPowerSoaked = abs(float(
+                    tile.proposedEvilVoicePower + tile.resonance) * (
+                            timePassed * 4 / 100))
+            if not tile.evilRinging:
+                tile.proposedEvilVoicePower = min(
+                        0, tile.proposedEvilVoicePower + evilPowerSoaked)
+            proposedVoiceChange = goodPowerSoaked - evilPowerSoaked
+            if tile.voicePower + proposedVoiceChange != tile.resonance:
+                self.addVocalPower(tile, proposedVoiceChange)
+            tile.goodRinging = max(0, tile.goodRinging - timePassed)
+            tile.evilRinging = max(0, tile.evilRinging - timePassed)
+
+
+
 
     def getExtraSpell(self, unit, slot):
         possibleSpells = []
