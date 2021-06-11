@@ -1297,7 +1297,7 @@ class battle(object):
                     unit for unit in self.battleField.units
                     if unit.hp > 0 and not unit.actedThisRound]
             #  degrade the tiles now
-            self.elapseTime(self.currentInitiative - nextInitiative)
+            self.elapseTime(self.currentInitiative, nextInitiative)
             self.currentInitiative = nextInitiative
         for unit in self.battleField.units:
             unit.actedThisRound = False
