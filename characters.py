@@ -246,6 +246,10 @@ class monster(object):
                     "Battle Setup Error! Attempted to create monster not in "
                     "list!")
 
+    def getFame(self):
+        return (
+                self.stats["Charisma"] + self.fame)
+
     def maxHP(self):
         return ((self.stats["Stamina"] * 2) + self.level)
 
