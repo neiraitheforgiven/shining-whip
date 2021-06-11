@@ -1034,6 +1034,30 @@ class battle(object):
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
 
+    def checkMonsterFocus(self, monster):
+        if monster.focusTime > 0:
+            return
+        if monster.focusProfile == "Patient" and monster.focus < 3000:
+            return
+        if monster.focus > 1000:
+            if monster.focusProfile == "Aggressive":
+                self.enterFocus(monster)
+            elif monster.focusProfile == "Murderous":
+                if any(
+                        target for target in monster.allowedAttacks
+                        if target.hp < math.ceil(target.maxHP / 2)):
+                    self.enterFocus(monster)
+            elif monster.focusProfile == "Patient":
+                # focus will be 3000
+                self.enterFocus(monster)
+            elif monster.focusProfile == "Vengeful":
+                if monster.hp < monster.maxHP():
+                    self.enterFocus(monster)
+            else:
+                print(
+                        f"Error: {monster.name} called with invalid "
+                        f"focusProfile: {monster.focusProfile}")
+
     def determineInitiative(self, unit):
         luck = self.getStat(unit, "Luck")
         if self.getPower(unit, "Swords: Increased Luck I"):
@@ -1062,6 +1086,7 @@ class battle(object):
         self.attack(unit, target)
 
     def doMonsterAttack(self, monster):
+        self.checkMonsterFocus(monster)
         field = self.battleField
         if monster.attackProfile == "ChallengeAccepting":
             # will attack the highest level, charisma, strength
@@ -1497,8 +1522,7 @@ class battle(object):
                     print()
                 self.doTurn(unit, True, statusChecked)
             elif command in ("F", "f"):
-                unit.focusTime = self.getStat(unit, "Focus")
-                print(f"{unit} focuses energy!")
+                self.enterFocus(unit)
                 self.doTurn(unit, moved, statusChecked)
             elif command in ("L", "l"):
                 tileChoice = None
@@ -1785,8 +1809,9 @@ class battle(object):
             tile.goodRinging = max(0, tile.goodRinging - timePassed)
             tile.evilRinging = max(0, tile.evilRinging - timePassed)
 
-
-
+    def enterFocus(self, unit):
+        unit.focusTime = self.getStat(unit, "Focus")
+        print(f"{unit.name} enters a focused state!")
 
     def getExtraSpell(self, unit, slot):
         possibleSpells = []

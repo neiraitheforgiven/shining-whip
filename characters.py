@@ -6,7 +6,8 @@ import random
 class monster(object):
 
     def __init__(
-            self, name, moveProfile=None, attackProfile=None, level=None):
+            self, name, moveProfile=None, attackProfile=None,
+            focusProfile=None, level=None):
         self.stats = {}
         self.hp = 0
         self.fp = 0
@@ -21,8 +22,9 @@ class monster(object):
         self.initiativePoints = 0
         self.actedThisRound = False
         self.powers = []
-        self.moveProfile = moveProfile
         self.attackProfile = attackProfile
+        self.focusProfile = focusProfile
+        self.moveProfile = moveProfile
         self.equipment = None
         self.status = []
         self.boss = False
@@ -35,8 +37,9 @@ class monster(object):
                     "Intelligence": 15}
             self.setStats(8, **stats)
             self.shortName = "Puppet"
-            self.moveProfile = moveProfile or "Random"
             self.attackProfile = attackProfile or "Spellcaster"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Random"
             self.powers.append("Poisonous Attack")
             self.powers.append("Freeze I")
             self.powers.append("Unarmed Attack: Increased Damage I")
@@ -47,8 +50,9 @@ class monster(object):
             self.level = 3
             stats = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
             self.setStats(5, **stats)
-            self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
+            self.focusProfile = focusProfile or "Aggressive"
+            self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Axes", "Rusted Axe", 20, 0, 0, 3, 0, 0)
             self.shortName = "C.Dwarf"
         elif name == "Dark Apprentice":
@@ -57,8 +61,9 @@ class monster(object):
                     "Stamina": 5, "Intelligence": 13, "Strength": 9,
                     "Speed": 9}
             self.setStats(6, **stats)
-            self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Spellcaster"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
                     "Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3)
             self.powers = ["Blaze II", "Defense: Magic"]
@@ -67,8 +72,9 @@ class monster(object):
             self.level = 12
             stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
             self.setStats(5, **stats)
-            self.moveProfile = moveProfile or "Sniper"
             self.attackProfile = attackProfile or "Weakest"
+            self.focusProfile = focusProfile or "Murderous"
+            self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment(
                     "Arrows", "Wooden Arrow", 150, 1, 1, 9, 0, 0)
             self.shortName = "Dark Elf"
@@ -78,8 +84,9 @@ class monster(object):
                     "Stamina": 9, "Intelligence": 15, "Strength": 9,
                     "Speed": 9}
             self.setStats(8, **stats)
-            self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Spellcaster"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
                     "Staffs", "Power Staff", 500, 0, 0, 4, 6, 6)
             self.powers = ["Blaze II", "Defense: Magic"]
@@ -88,8 +95,9 @@ class monster(object):
             self.level = 7
             stats = {"Stamina": 8, "Strength": 11, "Dexterity": 11, "Luck": 10}
             self.setStats(10, **stats)
-            self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
+            self.focusProfile = focusProfile or "Murderous"
+            self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Daggers", "Knife", 500, 0, 0, 8, 0, 0)
             self.shortName = "Clown"
         elif name == "Giant Bat":
@@ -99,6 +107,7 @@ class monster(object):
                     "Dexterity": 6}
             self.setStats(7, **stats)
             self.attackProfile = attackProfile or "Singer"
+            self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
@@ -110,8 +119,9 @@ class monster(object):
             stats = {
                     "Stamina": 10, "Speed": 6, "Strength": 19, "Dexteriy": 14}
             self.setStats(11, **stats)
-            self.moveProfile = moveProfile or "Retreat-Defensive"
             self.attackProfile = attackProfile or "Random"
+            self.focusProfile = focusProfile or "Aggressive"
+            self.moveProfile = moveProfile or "Retreat-Defensive"
             self.powers.append("Poisonous Attack")
             self.powers.append("Unarmed Attack: Increased Damage I")
             self.powers.append("Unarmed Attack: Increased Damage II")
@@ -120,8 +130,9 @@ class monster(object):
             self.level = 1
             stats = {"Dexterity": 6, "Stamina": 5, "Speed": 5}
             self.setStats(5, **stats)
-            self.moveProfile = moveProfile or "Aggressive"
             self.attackProfile = attackProfile or "Random"
+            self.focusProfile = focusProfile or "Aggressive"
+            self.moveProfile = moveProfile or "Aggressive"
             self.equipment = equipment(
                     "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
         elif name == "Lizardman":
@@ -130,8 +141,9 @@ class monster(object):
                     "Strength": 17, "Stamina": 12, "Speed": 6,
                     "Dexterity": 12, "Intelligence": 8}
             self.setStats(12, **stats)
-            self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Random"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
                     "Axes", "Middle Axe", 300, 0, 0, 7, 0, 0)
             self.shortName = "Lizard"
@@ -139,8 +151,9 @@ class monster(object):
             self.level = 6
             stats = {"Strength": 14, "Stamina": 8, "Speed": 5}
             self.setStats(7, **stats)
-            self.moveProfile = moveProfile or "SlowAdvance"
             self.attackProfile = attackProfile or "Random"
+            self.focusProfile = focusProfile or "Aggressive"
+            self.moveProfile = moveProfile or "SlowAdvance"
             self.powers.append("Poisonous Attack")
             self.powers.append("Unarmed Attack: Increased Damage I")
             self.powers.append("Unarmed Attack: Increased Damage II")
@@ -151,8 +164,9 @@ class monster(object):
                     "Stamina": 17, "Intelligence": 25, "Strength": 13,
                     "Dexterity": 13, "Speed": 6}
             self.setStats(12, **stats)
-            self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Spellcaster"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Defensive"
             self.powers.append("Freeze III")
             self.powers.append("Magic: Cost Reduction I")
             self.shortName = "Marion"
@@ -162,8 +176,9 @@ class monster(object):
                     "Stamina": 9, "Intelligence": 20, "Strength": 16,
                     "Faith": 13, "Speed": 5, "Dexterity": 20}
             self.setStats(8, **stats)
-            self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "Spellcaster"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
                     "Staffs", "Guardian Staff", 3200, 0, 0, 12, 12, 12)
             self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
@@ -173,8 +188,9 @@ class monster(object):
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
             self.setStats(9, **stats)
             self.shortName = "Skull W."
-            self.moveProfile = moveProfile or "Defensive"
             self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
                     "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0)
             self.powers.append("Command: Luck: Counterattack")
@@ -183,16 +199,18 @@ class monster(object):
             self.level = 4
             stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
             self.setStats(5, **stats)
-            self.moveProfile = moveProfile or "Sniper"
             self.attackProfile = attackProfile or "Weakest"
+            self.focusProfile = focusProfile or "Murderous"
+            self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment(
                     "Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
             self.setStats(6, **stats)
-            self.moveProfile = moveProfile or "Retreat-Defensive"
             self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.focusProfile = focusProfile or "Patient"
+            self.moveProfile = moveProfile or "Retreat-Defensive"
             self.equipment = equipment(
                     "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0)
             self.powers.append("Mounted Movement")
@@ -203,8 +221,9 @@ class monster(object):
                     "Voice": 13, "Speed": 5, "Stamina": 9, "Faith": 12,
                     "Dexterity": 10}
             self.setStats(11, **stats)
-            self.moveProfile = moveProfile or "Companion-Healer"
             self.attackProfile = attackProfile or "Healer-Singer"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Companion-Healer"
             self.powers.append("Vocal Attack: Increased Resonance I")
             self.powers.append("Heal I")
             self.powers.append("Vocal Attack: Sustain Effect")
@@ -215,8 +234,9 @@ class monster(object):
                     "Strength": 14, "Dexterity": 7, "Speed": 5, "Stamina": 10,
                     "Luck": 12}
             self.setStats(6, **stats)
-            self.moveProfile = moveProfile or "SlowAdvance"
             self.attackProfile = attackProfile or "Random"
+            self.focusProfile = focusProfile or "Aggressive"
+            self.moveProfile = moveProfile or "SlowAdvance"
             self.powers.append("Unarmed Attack: Increased Damage I")
             self.powers.append("Poisonous Attack")
             self.powers.append("Luck: Counterattack")
