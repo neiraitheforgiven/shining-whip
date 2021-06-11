@@ -1251,6 +1251,7 @@ class battle(object):
                             f"  (HP: {pc.hp}/{maxHP} FP: {pc.fp}/{maxFP} "
                             f"MP: {pc.mp}/{maxMP} "
                             f"Move: {pc.movementPoints}{mvType} "
+                            f"Focus: {math.floor(pc.focus / 30)}% "
                             f"Fame Bonus: {fame}%)")
                     time.sleep(2. / 10)
                     position = self.battleField.getUnitPos(pc)

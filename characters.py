@@ -265,7 +265,6 @@ class playerCharacter(object):
         self.allowedSpells = {}
         self.fame = 0
         self.focus = 0
-        self.focused = False
         self.focusTime = 0
         self.initiativePoints = 0
         self.actedThisRound = False
@@ -427,7 +426,9 @@ class playerCharacter(object):
         return equipPower in self.powers
 
     def getFame(self):
-        return self.stats["Charisma"] + self.fame
+        return (
+                self.stats["Charisma"] + math.floor(
+                        len(self.trophies) / 3) + self.fame)
 
     def getPower(self, title, chatter=False):
         if "Mounted" in title and "Mounted Movement" not in self.powers:
@@ -1308,8 +1309,8 @@ class playerCharacter(object):
         print(f"  Moves: {max(self.movementPoints, 0):2}/{speed:3}    "
                 f"Luck: {luck:3}")
         print(
-                f"  Exp:  {self.xp:3}/100    Focus:    {focus:3}"
-                f"")
+                f"  Exp:  {self.xp:3}/100    Focus: "
+                f"{math.floor(self.focus / 30):3}/100 ({focus:3})")
         sortedPowers = sorted(self.powers)
         print("Powers:")
         print("  " + " - ".join(sortedPowers))
