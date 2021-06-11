@@ -1718,10 +1718,17 @@ class battle(object):
                     target.status.append("Lulled to Sleep")
                     print(f"{target.name} fell asleep!")
 
-    def elapseTime(startInitiative, nextInitiative):
+    def elapseTime(self, startInitiative, nextInitiative):
         timePassed = startInitiative - nextInitiative
         if timePassed <= 0:
             return
+        # Do Focus changes
+        for unit in self.battleField.units:
+            if unit.focusTime > 0:
+                unit.focusTime = max(0, unit.focusTime - timePassed * 15)
+            else:
+                unit.focus = min(3000, unit.focus + (
+                        timePassed * self.getStat(unit, "Focus")))
         # Do Tile Resonance Spread
         """New model design:
         Potential Spread should be added whenever resonance is added to a
@@ -2712,7 +2719,7 @@ class battleField(object):
     def getStat(self, unit, statName):
         #  is the unit focused?
         if unit.focusTime > 0:
-            focusBonus = 1 + (unit.focus / 100)
+            focusBonus = 1 + (unit.focus / (100 * 30))
         else:
             focusBonus = 1
         self.getFameBonus(unit)
