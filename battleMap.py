@@ -1364,6 +1364,10 @@ class battle(object):
                 allowedCommands.append("E")
                 allowedCommands.append("e")
             spellEnabled = self.battleField.checkSpells(unit, position)
+            if unit.focus >= 1000 and unit.focusTime == 0:
+                print("Type (F) to enter a focused state!")
+                allowedCommands.append("F")
+                allowedCommands.append("f")
             if spellEnabled:
                 self.battleField.printSpellString(unit)
                 print("Type (S) to cast a spell.")
@@ -1492,6 +1496,10 @@ class battle(object):
                                 unit, "Intelligence") + unit.equipment.mp)
                     print()
                 self.doTurn(unit, True, statusChecked)
+            elif command in ("F", "f"):
+                unit.focusTime = self.getStat(unit, "Focus")
+                print(f"{unit} focuses energy!")
+                self.doTurn(unit, moved, statusChecked)
             elif command in ("L", "l"):
                 tileChoice = None
                 while tileChoice not in ([
