@@ -1019,7 +1019,7 @@ class playerCharacter(object):
                     f"Stats are {self.stats}")
         undecoratedTitle = title
         decoratedTitle = title
-        if self.stats["Fame"] >= 25:
+        if self.fame >= 25:
             decoratedTitle = title + " Captain"
         if self.stats["Speed"] > 25 <= 40 and (
                 "Mounted" not in title and "Knight" not in
