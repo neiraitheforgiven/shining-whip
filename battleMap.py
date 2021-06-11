@@ -263,6 +263,8 @@ class battle(object):
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
                 unit.mp = unit.stats["Intelligence"]
+                unit.focusTime = 0
+                unit.focus = 0
                 unit.actedThisRound = False
                 unit.status = []
                 if unit.equipment:
