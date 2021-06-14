@@ -1046,7 +1046,7 @@ class battle(object):
             return
         if monster.focusProfile == "Patient" and monster.focus < 3000:
             return
-        if monster.focus > 1000:
+        if monster.focus > 750:
             if monster.focusProfile == "Aggressive":
                 self.enterFocus(monster)
             elif monster.focusProfile == "Murderous":
@@ -1396,7 +1396,7 @@ class battle(object):
                 allowedCommands.append("E")
                 allowedCommands.append("e")
             spellEnabled = self.battleField.checkSpells(unit, position)
-            if unit.focus >= 1000 and unit.focusTime == 0:
+            if unit.focus >= 750 and unit.focusTime == 0:
                 print("Type (F) to enter a focused state!")
                 allowedCommands.append("F")
                 allowedCommands.append("f")
