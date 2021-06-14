@@ -248,7 +248,7 @@ class monster(object):
 
     def getFame(self):
         return (
-                self.stats["Charisma"] + self.fame)
+                self.stats["Charisma"])
 
     def maxHP(self):
         return ((self.stats["Stamina"] * 2) + self.level)
