@@ -1771,6 +1771,8 @@ class battle(object):
         for unit in self.battleField.units:
             if unit.focusTime > 0:
                 unit.focusTime = max(0, unit.focusTime - (timePassed * 15))
+                if unit.focusTime == 0:
+                    print(f"{unit.name} is no longer focused.")
             else:
                 unit.focus = min(3000, unit.focus + (
                         timePassed * self.getStat(unit, "Focus")))
