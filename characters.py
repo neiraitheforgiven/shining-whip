@@ -1332,9 +1332,13 @@ class playerCharacter(object):
         print(f"  MP:   {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
         print(f"  Moves: {max(self.movementPoints, 0):2}/{speed:3}    "
                 f"Luck: {luck:3}")
+        if self.focus == 3000:
+            focusString = 'FULL!'
+        else:
+            focusString = f"{math.floor(self.focus / 7.5)}/100"
         print(
                 f"  Exp:  {self.xp:3}/100    Focus: "
-                f"{math.floor(self.focus / 7.5):3}/100 ({focus:3})")
+                f"{focusString:7} ({focus:2})")
         sortedPowers = sorted(self.powers)
         print("Powers:")
         print("  " + " - ".join(sortedPowers))
