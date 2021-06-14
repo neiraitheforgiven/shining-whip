@@ -13,6 +13,8 @@ import time
 class battle(object):
 
     def __init__(self, game, party, num=None):
+        self.totalTimePassed = 0
+        self.roundCount = 0
         self.game = game
         self.party = self.assembleParty(party, game.maxPartySize)
         self.currentInitiative = 0
@@ -276,6 +278,11 @@ class battle(object):
             self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
+                self.roundCount += 1
+                print(
+                        f"Debug: it is now round {self.roundCount}. Elapsed "
+                        f"time should be {(self.roundCount - 1) * 15} but is "
+                        f"{self.totalTimePassed}")
                 self.doRound()
 
     def addVocalPower(self, tile, amount):
@@ -1754,13 +1761,16 @@ class battle(object):
                     print(f"{target.name} fell asleep!")
 
     def elapseTime(self, startInitiative, nextInitiative):
-        timePassed = startInitiative - nextInitiative
+        timePassed = abs(nextInitiative - startInitiative)
+        print(f"Debug: {timePassed} time passed")
+        self.totalTimePassed += timePassed
+        print(f"Debug: the total time passed is {self.totalTimePassed}!")
         if timePassed <= 0:
             return
         # Do Focus changes
         for unit in self.battleField.units:
             if unit.focusTime > 0:
-                unit.focusTime = max(0, unit.focusTime - timePassed * 15)
+                unit.focusTime = max(0, unit.focusTime - (timePassed * 15))
             else:
                 unit.focus = min(3000, unit.focus + (
                         timePassed * self.getStat(unit, "Focus")))
