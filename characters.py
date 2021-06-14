@@ -1334,7 +1334,7 @@ class playerCharacter(object):
                 f"Luck: {luck:3}")
         print(
                 f"  Exp:  {self.xp:3}/100    Focus: "
-                f"{math.floor(self.focus / 30):3}/100 ({focus:3})")
+                f"{math.floor(self.focus / 7.5):3}/100 ({focus:3})")
         sortedPowers = sorted(self.powers)
         print("Powers:")
         print("  " + " - ".join(sortedPowers))
