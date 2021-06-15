@@ -530,6 +530,7 @@ class battle(object):
                     print("A heavy attack!")
                     print("")
                     damage *= 1.15
+                    self.rattle(unit, target, damage * 30)
                     time.sleep(1. / 10)
                 if unit.equipment:
                     damageString = f"{unit.equipment.type}: Increased Damage "
@@ -575,6 +576,7 @@ class battle(object):
                 damage = min(damage, target.hp)
                 print(f"{unit.name} deals {damage} damage to {target.name}!")
                 if attackType == 'critical':
+                    self.rattle(unit, target, damage * 30)
                     if self.getPower(
                             unit, "Luck: Critical Drain I") or (
                             self.getPower(unit, "Luck: Critical Drain II")):
@@ -601,6 +603,7 @@ class battle(object):
                     print(f"{target.name} is poisoned!.")
                     target.status.append['Poisoned']
                 if routEnemy and ((i + 1) == attackCount):
+                    self.rattle(unit, target, math.ceil(target.focus * 0.75))
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
                     elif type(target) == monster:
@@ -1960,6 +1963,15 @@ class battle(object):
     def printEstimatedValue(self, unit, equipment=None):
         bf = self.battleField
         bf.printEstimatedValue(unit, equipment)
+
+    def rattle(self, unit, target, amount):
+        # I'm passing unit so that later I can check for powers on rattling
+        focusResist = 30 * max(
+                #  self.getStat(target, "Focus"),
+                self.getStat(target, "Stamina"),
+                self.getStat(target, "Intelligence"))
+        target.focus = min(
+                target.focus, ((target.focus - amount) + focusResist))
 
 
 class battleTile(object):
