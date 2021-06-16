@@ -25,6 +25,7 @@ class monster(object):
         self.attackProfile = attackProfile
         self.focusProfile = focusProfile
         self.moveProfile = moveProfile
+        self.lastTurnFocusRank = 0
         self.equipment = None
         self.status = []
         self.boss = False
@@ -290,6 +291,7 @@ class playerCharacter(object):
         self.fame = 0
         self.focus = 0
         self.focusTime = 0
+        self.lastTurnFocusRank = 0
         self.initiativePoints = 0
         self.actedThisRound = False
         self.hasEquipped = False
@@ -1335,10 +1337,10 @@ class playerCharacter(object):
         if self.focus == 3000:
             focusString = 'FULL!'
         else:
-            focusString = f"{math.floor(self.focus / 7.5)}/100"
+            focusString = f"Rank {math.floor(self.focus / 750)}"
         print(
                 f"  Exp:  {self.xp:3}/100    Focus: "
-                f"{focusString:7} ({focus:2})")
+                f"{focusString:6} + {focus * 2}% / turn")
         sortedPowers = sorted(self.powers)
         print("Powers:")
         print("  " + " - ".join(sortedPowers))

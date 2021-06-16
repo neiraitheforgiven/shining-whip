@@ -267,6 +267,7 @@ class battle(object):
                 unit.mp = unit.stats["Intelligence"]
                 unit.focusTime = 0
                 unit.focus = 0
+                unit.lastTurnFocusRank = 0
                 unit.actedThisRound = False
                 unit.status = []
                 if unit.equipment:
@@ -1282,11 +1283,15 @@ class battle(object):
                     print(
                             f"It's {pc.name}'s turn! (Level {pc.level} "
                             f"{pc.title})")
+                    currentFocusRank = self.getFocusRank(unit)
+                    if currentFocusRank > unit.lastTurnFocusRank:
+                        print(f"{pc.name} gained a rank of focus!")
+                    self.lastTurnFocusRank = currentFocusRank
                     print(
                             f"  (HP: {pc.hp}/{maxHP} FP: {pc.fp}/{maxFP} "
                             f"MP: {pc.mp}/{maxMP} "
                             f"Move: {pc.movementPoints}{mvType} "
-                            f"Focus: {math.floor(pc.focus / 30)}% "
+                            f"Focus: {currentFocusRank} "
                             f"Fame Bonus: {fame}%)")
                     time.sleep(2. / 10)
                     position = self.battleField.getUnitPos(pc)
@@ -1899,6 +1904,9 @@ class battle(object):
     def getFameBonus(self, unit):
         return self.battleField.getFameBonus(unit)
 
+    def getFocusRank(self, unit):
+        return math.floor(unit.focus / 750)
+
     def getPower(self, unit, name):
         return self.battleField.getPower(unit, name)
 
@@ -1965,6 +1973,7 @@ class battle(object):
         bf.printEstimatedValue(unit, equipment)
 
     def rattle(self, unit, target, amount):
+        currentFocusRank = self.getFocusRank(target)
         # I'm passing unit so that later I can check for powers on rattling
         focusResist = 30 * max(
                 #  self.getStat(target, "Focus"),
@@ -1972,6 +1981,15 @@ class battle(object):
                 self.getStat(target, "Intelligence"))
         target.focus = min(
                 target.focus, ((target.focus - amount) + focusResist))
+        newFocusRank = self.getFocusRank(target)
+        if newFocusRank < currentFocusRank:
+            delimiter = currentFocusRank - newFocusRank
+            if delimiter == 1:
+                delimiter = 'a'
+                rankword = 'rank'
+            else:
+                rankword = 'ranks'
+            print(f"{target.name} loses {delimiter} {rankword} of focus!")
 
 
 class battleTile(object):
@@ -2779,7 +2797,7 @@ class battleField(object):
     def getStat(self, unit, statName):
         #  is the unit focused?
         if unit.focusTime > 0:
-            focusBonus = 1 + (unit.focus / (100 * 30))
+            focusBonus = 1 + (self.getFocusRank(unit) * 0.25)
         else:
             focusBonus = 1
         self.getFameBonus(unit)
