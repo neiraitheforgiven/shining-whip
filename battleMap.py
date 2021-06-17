@@ -1905,7 +1905,7 @@ class battle(object):
         return self.battleField.getFameBonus(unit)
 
     def getFocusRank(self, unit):
-        return math.floor(unit.focus / 750)
+        return self.battleField.getFameBonus(unit)
 
     def getPower(self, unit, name):
         return self.battleField.getPower(unit, name)
@@ -2764,6 +2764,9 @@ class battleField(object):
             return max(allyFame)
         else:
             return 0
+
+    def getFocusRank(self, unit):
+        return math.floor(unit.focus / 750)
 
     def getName(self, unit, target):
         if type(unit) == playerCharacter:
