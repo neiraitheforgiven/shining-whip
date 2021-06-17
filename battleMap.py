@@ -1404,7 +1404,7 @@ class battle(object):
                 allowedCommands.append("E")
                 allowedCommands.append("e")
             spellEnabled = self.battleField.checkSpells(unit, position)
-            if unit.focus >= 750 and unit.focusTime == 0:
+            if self.getFocusRank(unit) >= 1 and unit.focusTime == 0:
                 print("Type (F) to enter a focused state!")
                 allowedCommands.append("F")
                 allowedCommands.append("f")
