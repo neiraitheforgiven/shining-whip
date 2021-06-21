@@ -1990,7 +1990,9 @@ class battle(object):
                 rankword = 'rank'
             else:
                 rankword = 'ranks'
-            print(f"{target.name} loses {delimiter} {rankword} of focus!")
+            print(
+                    f"{unit.name} broke {delimiter} {rankword} of "
+                    f"{target.name}'s focus!")
 
 
 class battleTile(object):
