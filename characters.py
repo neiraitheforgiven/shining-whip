@@ -772,61 +772,69 @@ class playerCharacter(object):
         secondStat = max(listOfStats.items(), key=itemgetter(1))[0]
         if primeStat == "Charisma":
             if secondStat == "Dexterity":
-                title = "Bard"
+                title = "Jongleur"
             elif secondStat == "Faith":
                 title = "Prophet"
-            elif secondStat == "Fame":
-                title = "Baron"
+            elif secondStat == "Focus":
+                title = "Banshee"
             elif secondStat == "Intelligence":
                 title = "Dark Mage"
             elif secondStat == "Luck":
-                title = "Gambler"
+                if self.stats["Intelligence"] > self.stats["Voice"]:
+                    title = "Bard"
+                else:
+                    title = "Troubadour"
             elif secondStat == "Speed":
-                title = "Orator"
+                title = "Duelist"
             elif secondStat == "Stamina":
-                title = "Sorceror"
+                if self.stats["Luck"] < (5 + self.level / 4):
+                    title = "Berserker"
+                else:
+                    title = "Samurai"
             elif secondStat == "Strength":
-                title = "Knight"
+                title = "Baron"
             elif secondStat == "Voice":
                 title = "Troubadour"
         elif primeStat == "Dexterity":
             if secondStat == "Charisma":
-                title = "Ninja"
+                title = "Jongleur"
             elif secondStat == "Faith":
                 title = "Druid"
-            elif secondStat == "Fame":
-                if self.stats["Luck"] < (5 + self.level / 4):
-                    title = "Werewolf"
-                else:
-                    title = "Archer"
+            elif secondStat == "Focus":
+                title = "Archer"
             elif secondStat == "Intelligence":
                 title = "Ninja"
             elif secondStat == "Luck":
                 title = "Bard"
             elif secondStat == "Speed":
-                title = "Archer"
+                title = "Ninja"
             elif secondStat == "Stamina":
-                title = "Archer"
+                if self.stats["Luck"] < (5 + self.level / 4):
+                    title = "Werewolf"
+                else:
+                    title = "Heavy Shot"
             elif secondStat == "Strength":
                 if self.stats["Luck"] < (5 + self.level / 4):
                     title = "Werewolf"
                 elif "Knight" not in self.title:
                     title = "Assassin"
+                else:
+                    title = "Soldier"
             elif secondStat == "Voice":
-                title = "Druid"
+                title = "Bard"
         elif primeStat == "Faith":
             if secondStat == "Charisma":
                 title = "Priest"
             elif secondStat == "Dexterity":
                 title = "Druid"
-            elif secondStat == "Fame":
-                title = "Scholar"
+            elif secondStat == "Focus":
+                title = "Bishop"
             elif secondStat == "Intelligence":
                 title = "Priest"
             elif secondStat == "Luck":
                 title = "Alchemist"
             elif secondStat == "Speed":
-                title = "Cantor"
+                title = "Peregrine"
             elif secondStat == "Stamina":
                 title = "Monk"
             elif secondStat == "Strength":
@@ -837,10 +845,10 @@ class playerCharacter(object):
             if secondStat == "Charisma":
                 title = "Flamecaster"
             elif secondStat == "Dexterity":
-                title = "Trickster"
+                title = "Channeler"
             elif secondStat == "Faith":
-                title = "Sorceror"
-            elif secondStat == "Fame":
+                title = "Priest"
+            elif secondStat == "Focus":
                 title = "Scholar"
             elif secondStat == "Luck":
                 title = "Archmage"
@@ -854,21 +862,44 @@ class playerCharacter(object):
                 title = "Sorceror"
         elif primeStat == "Luck":
             if secondStat == "Charisma":
-                title = "Gambler"
+                if self.stats["Intelligence"] > self.stats["Voice"]:
+                    title = "Bard"
+                else:
+                    title = "Troubadour"
             elif secondStat == "Dexterity":
                 title = "Bard"
             elif secondStat == "Faith":
                 title = "Alchemist"
-            elif secondStat == "Fame":
+            elif secondStat == "Focus":
                 title = "Gambler"
             elif secondStat == "Intelligence":
                 title = "Alchemist"
             elif secondStat == "Speed":
                 title = "Gambler"
-            elif secondStat == "Soldier":
-                title = "Soldier"
+            elif secondStat == "Stamina":
+                if (self.race in (
+                        "Dragon", "Tortoise") or self.level > 20 and "Warrior"
+                        not in title):
+                    title = "Survivor"
+                    if self.race not in ("Dragon", "Phoenix", "Tortoise") or (
+                            self.race == "Tortoise" and "Flying Movement"
+                            in self.powers):
+                        self.race = "Dragon"
+                        print(f"{self.name} became a Dragon!")
+                else:
+                    title = "Warrior"
             elif secondStat == "Strength":
-                title = "Soldier"
+                if (self.race in (
+                        "Dragon", "Tortoise") or self.level > 20 and "Warrior"
+                        not in title):
+                    title = "Survivor"
+                    if self.race not in ("Dragon", "Phoenix", "Tortoise") or (
+                            self.race == "Tortoise" and "Flying Movement"
+                            in self.powers):
+                        self.race = "Dragon"
+                        print(f"{self.name} became a Dragon!")
+                else:
+                    title = "Warrior"
             elif secondStat == "Voice":
                 title = "Cantor"
         elif primeStat == "Speed":
@@ -876,8 +907,12 @@ class playerCharacter(object):
                 if ("Flying Movement" in
                         self.powers or self.stats["Speed"] > 25):
                     title = "Sky Battler"
+                elif self.stats["Intelligence"] > max(
+                        self.stats["Faith"], self.stats["Dexterity"]) \
+                        and self.level > 4:
+                    title = "Mage Knight"
                 else:
-                    title = "Duelist"
+                    title = "Knight"
             elif secondStat == "Dexterity":
                 if ("Flying Movement" in
                         self.powers or self.stats["Speed"] > 25):
@@ -885,19 +920,11 @@ class playerCharacter(object):
                 else:
                     title = "Heavy Shot"
             elif secondStat == "Faith":
-                title = "Harbinger"
-            elif secondStat == "Fame":
-                if ("Flying Movement" in
-                        self.powers or self.stats["Speed"] > 25):
-                    title = "Sky Battler"
-                else:
-                    title = "Duelist"
+                title = "Peregrine"
+            elif secondStat == "Focus":
+                title = "Sky Lord"
             elif secondStat == "Intelligence":
-                if ("Flying Movement" in
-                        self.powers or self.stats["Speed"] > 25):
-                    title = "Sky Lord"
-                else:
-                    title = "Trickster"
+                title = "Ninja"
             elif secondStat == "Luck":
                 if ("Flying Movement" in
                         self.powers or self.stats["Speed"] > 25):
@@ -921,7 +948,7 @@ class playerCharacter(object):
                 else:
                     title = "Knight"
             elif secondStat == "Voice":
-                title = "Harbinger"
+                title = "Cantor"
         elif primeStat == "Stamina":
             if secondStat == "Charisma":
                 title = "Samurai"
@@ -929,18 +956,12 @@ class playerCharacter(object):
                 title = "Heavy Shot"
             elif secondStat == "Faith":
                 title = "Samurai"
-            elif secondStat == "Fame":
-                title = "Valkyrie"
+            elif secondStat == "Focus":
+                title = "Steam Knight"
             elif secondStat == "Intelligence":
-                if self.stats["Fame"] < (5 + self.level / 4):
-                    title = "Steam Knight"
-                else:
-                    title = "Blood Mage"
+                title = "Blood Mage"
             elif secondStat == "Luck":
-                if self.stats["Speed"] < (5 + self.level / 4):
-                    title = "Titan"
-                else:
-                    title = "Duelist"
+                title = "Duelist"
             elif secondStat == "Speed":
                 if self.stats["Luck"] < (5 + self.level / 4):
                     title = "Werewolf"
@@ -959,16 +980,19 @@ class playerCharacter(object):
                         and self.level > 4:
                     title = "Mage Knight"
                 else:
-                    title = "Knight"
+                    title = "Baron"
             elif secondStat == "Dexterity":
                 if "Knight" not in self.title:
                     title = "Assassin"
                 else:
-                    title = "Duelist"
+                    title = "Soldier"
             elif secondStat == "Faith":
                 title = "Monk"
-            elif secondStat == "Fame":
-                title = "Baron"
+            elif secondStat == "Focus":
+                if self.stats["Speed"] < (5 + self.level / 4):
+                    title = "Titan"
+                else:
+                    title = "Soldier"
             elif secondStat == "Intelligence":
                 title = "Hero"
             elif secondStat == "Luck":
@@ -985,21 +1009,17 @@ class playerCharacter(object):
                     title = "Berserker"
                 title = "Warrior"
             elif secondStat == "Voice":
-                title = "Baron"
+                title = "Banshee"
         elif primeStat == "Voice":
-            if secondStat in ("Stamina", "Strength", "Speed") and (
-                    self.race in ("Dragon", "Tortoise") or self.level > 20):
-                title = "Survivor"
-                if self.race not in ("Dragon", "Phoenix", "Tortoise") or (
-                        self.race == "Tortoise" and "Flying Movement"
-                        in self.powers):
-                    self.race = "Dragon"
-                    print(f"{self.name} became a Dragon!")
-            elif secondStat in ("Charisma", "Dexterity"):
+            if secondStat == "Charisma":
+                title = "Orator"
+            elif secondStat == "Dexterity":
                 title = "Chorister"
             elif secondStat == "Faith":
                 title = "Prophet"
-            elif secondStat in ("Fame", "Intelligence"):
+            elif secondStat == "Focus":
+                title = "Chorister"
+            elif secondStat == "Intelligence":
                 title = "Orator"
             elif secondStat == "Luck":
                 title = "Troubadour"
@@ -1008,7 +1028,29 @@ class playerCharacter(object):
             elif secondStat == "Stamina":
                 title = "Valkyrie"
             elif secondStat == "Strength":
-                title = "Baron"
+                title = "Banshee"
+        elif primeStat == "Focus":
+            if secondStat == "Charisma":
+                title = "Jongleur"
+            elif secondStat == "Dexterity":
+                title = "Archer"
+            elif secondStat == "Faith":
+                title = "Bishop"
+            elif secondStat == "Intelligence":
+                title = "Sky Lord"
+            elif secondStat == "Luck":
+                title = "Gambler"
+            elif secondStat == "Speed":
+                title = "Sky Lord"
+            elif secondStat == "Stamina":
+                title = "Steam Knight"
+            elif secondStat == "Strength":
+                if self.stats["Speed"] < (5 + self.level / 4):
+                    title = "Titan"
+                else:
+                    title = "Soldier"
+            elif secondStat == "Voice":
+                title = "Chorister"
         if title == "newbie":
             print(
                     f"Newbie found. Let Neirai the Forgiven know."
