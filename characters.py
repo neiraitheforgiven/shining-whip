@@ -305,31 +305,42 @@ class playerCharacter(object):
                         "Strength", "Dexterity")
             elif playerClass == "Archer":
                 self.growth = self.initializeRandomStats(
-                        "Dexterity", "Speed", "Strength")
-            elif playerClass == "Baron":
-                self.growth = self.initializeRandomStats(
-                        "Strength", "Charisma")
+                        "Dexterity", "Focus")
             elif playerClass == "Archmage":
                 self.growth = self.initializeRandomStats(
-                    "Intelligence", "Luck")
-            elif playerClass == "Heavy Shot":
+                        "Intelligence", "Luck")
+            elif playerClass == "Banshee":
+                self.growth = self.initializeRandomStats("Strength", "Voice")
+            elif playerClass == "Baron":
                 self.growth = self.initializeRandomStats(
-                        "Stamina", "Dexterity")
+                        "Charisma", "Strength")
+            elif playerClass == "Bishop":
+                self.growth = self.initializeRandomStats("Faith", "Focus")
+            elif playerClass == "Channeler":
+                self.growth = self.initializeRandomStats(
+                        "Intelligence", "Dexterity")
             elif playerClass == "Flamecaster":
                 self.growth = self.initializeRandomStats(
                         "Intelligence", "Charisma")
-            elif playerClass == "Wizard":
+            elif playerClass == "Heavy Shot":
                 self.growth = self.initializeRandomStats(
-                        "Intelligence", "Stamina")
-            elif playerClass == "Harbinger":
-                self.growth = self.initializeRandomStats("Speed", "Voice")
+                        "Stamina", "Dexterity")
             elif playerClass == "Hero":
                 self.growth = self.initializeRandomStats(
                         "Strength", "Intelligence")
+            elif playerClass == "Jongleur":
+                self.growth = self.initializeRandomStats(
+                        "Dexterity", "Charisma")
             elif playerClass == "Knight":
+                # can be mage knight
                 self.growth = self.initializeRandomStats("Strength", "Speed")
             elif playerClass == "Monk":
                 self.growth = self.initializeRandomStats("Faith", "Strength")
+            elif playerClass == "Ninja":
+                self.growth = self.initializeRandomStats(
+                        "Dexterity", "Intelligence")
+            elif playerClass == "Peregrine":
+                self.growth = self.initializeRandomStats("Speed", "Faith")
             elif playerClass == "Priest":
                 self.growth = self.initializeRandomStats("Faith", "Charisma")
             elif playerClass == "Samurai":
@@ -338,20 +349,17 @@ class playerCharacter(object):
                 self.growth = self.initializeRandomStats("Speed", "Dexterity")
             elif playerClass == "Sky Lord":
                 self.growth = self.initializeRandomStats(
-                        "Speed", "Intelligence")
+                        "Focus", "Speed")
             elif playerClass == "Soldier":
-                self.growth = self.initializeRandomStats("Luck", "Strength")
+                self.growth = self.initializeRandomStats("Focus", "Strength")
             elif playerClass == "Sorceror":
                 self.growth = self.initializeRandomStats(
-                        "Intelligence", "Faith")
+                        "Intelligence", "Voice")
             elif playerClass == "Steam Knight":
                 self.growth = self.initializeRandomStats(
                         "Stamina", "Focus")
-            elif playerClass == "Ninja":
-                self.growth = self.initializeRandomStats(
-                        "Dexterity", "Intelligence")
             elif playerClass == "Survivor":
-                self.growth = self.initializeRandomStats("Voice", "Stamina")
+                self.growth = self.initializeRandomStats("Luck", "Stamina")
             elif playerClass == "Titan":
                 self.growth = self.initializeRandomStats(
                         "Strength", "Focus", "Speed")
@@ -360,6 +368,9 @@ class playerCharacter(object):
             elif playerClass == "Werewolf":
                 self.growth = self.initializeRandomStats(
                         "Dexterity", "Strength", "Luck")
+            elif playerClass == "Wizard":
+                self.growth = self.initializeRandomStats(
+                        "Intelligence", "Stamina")
             else:
                 self.growth = self.initializeRandomStats()
         else:
