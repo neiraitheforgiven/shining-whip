@@ -485,8 +485,13 @@ class playerCharacter(object):
             improvedSkills.append("Staffs")
         elif "Archer" in title:
             improvedSkills.append("Arrows")
+        elif "Archmage" in title:
+            improvedSkills.append("Staffs")
         elif "Assassin" in title:
             improvedSkills.append("Swords")
+            improvedSkills.append("Sacred Swords")
+        elif "Banshee" in title:
+            improvedSkills.append("Axes")
         elif "Bard" in title:
             improvedSkills.append("Daggers")
             improvedSkills.append("Arrows")
@@ -495,14 +500,14 @@ class playerCharacter(object):
         elif "Berserker" in title:
             improvedSkills.append("Axes")
             improvedSkills.append("Unarmed Attack")
+        elif "Bishop" in title:
+            improvedSkills.append("Staffs")
         elif "Blood Mage" in title:
             improvedSkills.append("Daggers")
-        elif "Archmage" in title:
-            improvedSkills.append("Staffs")
-        elif "Heavy Shot" in title:
-            improvedSkills.append("Brass Guns")
         elif "Cantor" in title:
             improvedSkills.append("Holy Songs")
+        elif "Channeler" in title:
+            improvedSkills.append("Staffs")
         elif "Chorister" in title:
             improvedSkills.append("Holy Songs")
         elif "Dark Mage" in title:
@@ -513,16 +518,15 @@ class playerCharacter(object):
             improvedSkills.append("Swords")
         elif "Flamecaster" in title:
             improvedSkills.append("Staffs")
-        elif "Wizard" in title:
-            improvedSkills.append("Staffs")
         elif "Gambler" in title:
             improvedSkills.append("Axes")
-        elif "Harbinger" in title:
-            improvedSkills.append("Holy Songs")
-            improvedSkills.append("Unarmed Attack")
+        elif "Heavy Shot" in title:
+            improvedSkills.append("Brass Guns")
         elif "Hero" in title:
             improvedSkills.append("Swords")
             improvedSkills.append("Sacred Swords")
+        elif "Jongleur" in title:
+            improvedSkills.append("Daggers")
         elif ("Knight" in title and "Mage Knight" not in
                     title and "Steam Knight" not in title):
             improvedSkills.append("Spears")
@@ -536,6 +540,8 @@ class playerCharacter(object):
             improvedSkills.append("Daggers")
         elif "Orator" in title:
             improvedSkills.append("Holy Songs")
+        elif "Peregrine" in title:
+            improvedSkills.append("Unarmed Attack")
         elif "Priest" in title:
             improvedSkills.append("Staffs")
         elif "Prophet" in title:
@@ -551,6 +557,7 @@ class playerCharacter(object):
             improvedSkills.append("Lances")
         elif "Soldier" in title:
             improvedSkills.append("Unarmed Attack")
+            improvedSkills.append("Brass Guns")
         elif "Sorceror" in title:
             improvedSkills.append("Staffs")
         elif "Squire" in title:
@@ -577,6 +584,8 @@ class playerCharacter(object):
             improvedSkills.append("Swords")
         elif "Werewolf" in title:
             improvedSkills.append("Unarmed Attack")
+        elif "Wizard" in title:
+            improvedSkills.append("Staffs")
         # remove duplicates
         improvedSkills = list(set(improvedSkills))
         return improvedSkills
