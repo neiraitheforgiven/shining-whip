@@ -2813,8 +2813,9 @@ class battleField(object):
             focusBonus = 1
         self.getFameBonus(unit)
         stat = unit.stats[statName]
-        stat = math.floor(
-                stat + (stat * (self.getFameBonus(unit) / 100) * focusBonus))
+        stat = math.ceil(
+                stat + (math.floor(
+                        stat * (self.getFameBonus(unit) / 100)) * focusBonus))
         return stat
 
     def getUnitPos(self, unit):
