@@ -537,6 +537,7 @@ class battle(object):
                     damageString = f"{unit.equipment.type}: Increased Damage "
                 else:
                     damageString = "Unarmed Attack: Increased Damage "
+                    damage += math.ceil(unit.skills["Unarmed Attack"] / 2)
                 if self.getPower(unit, damageString + "I"):
                     damage *= 1.3
                 if self.getPower(unit, damageString + "II"):
@@ -1698,7 +1699,8 @@ class battle(object):
                 for tileUnit in
                 bf.terrainArray[position].units
                 if type(tileUnit) != type(unit)])
-        amount = max(1, friendSound - enemySound)
+        amount = max(1, friendSound - enemySound) + math.ceil(
+                unit.getSkill["Holy Songs"] / 2)
         amount = amount + abs(tile.voicePower)
         damage = math.ceil(amount / 16)
         damage = max(damage, 1)
@@ -3100,39 +3102,46 @@ class game(object):
                         "Max", "Human", "Hero", chatter, 0)
                 self.equipOnCharacter(
                         equipment(
-                                "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                                "Swords", "Middle Sword",
+                                250, 1, 0, 0, 5, 0, 0),
                         recruit, False)
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter(
                         "Lowe", "Hobbit", "Priest", chatter, 0)
                 self.equipOnCharacter(
-                        equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                        equipment(
+                                "Staffs", "Wooden Staff",
+                                80, 1, 0, 0, 1, 3, 3),
                         recruit, False)
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter(
                         "Tao", "Elf", "Flamecaster", chatter, 0)
                 self.equipOnCharacter(
-                        equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                        equipment(
+                                "Staffs", "Wooden Staff",
+                                80, 1, 0, 0, 1, 3, 3),
                         recruit, False)
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter(
                         "Luke", "Dwarf", "Warrior", chatter, 0)
                 self.equipOnCharacter(
-                        equipment("Axes", "Short Axe", 120, 0, 0, 3, 0, 0),
+                        equipment("Axes", "Short Axe", 120, 1, 0, 0, 3, 0, 0),
                         recruit, False)
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter(
                         "Ken", "Centaur", "Knight", chatter, 0)
                 self.equipOnCharacter(
                         equipment(
-                                "Spears", "Wooden Spear", 100, 0, 1, 3, 0, 0),
+                                "Spears", "Wooden Spear",
+                                100, 1, 0, 1, 3, 0, 0),
                         recruit, False)
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter(
                         "Hans", "Elf", "Archer", chatter, 0)
                 self.equipOnCharacter(
                         equipment(
-                                "Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0),
+                                "Arrows", "Wooden Arrow",
+                                150, 1, 1, 1, 3, 0, 0),
                         recruit, False)
                 self.playerCharacters.append(recruit)
                 self.battleStarted = 1
@@ -3210,7 +3219,8 @@ class game(object):
                 self.playerCharacters.append(recruit)
                 self.equipOnCharacter(
                         equipment(
-                                "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0),
+                                "Lances", "Bronze Lance",
+                                300, 4, 0, 0, 6, 0, 0),
                         recruit, False)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
@@ -3219,7 +3229,8 @@ class game(object):
                 self.playerCharacters.append(recruit)
                 self.equipOnCharacter(
                         equipment(
-                                "Axes", "Hand Axe", 200, 0, 0, 4, 0, 0),
+                                "Axes", "Hand Axe",
+                                200, 4, 0, 0, 4, 0, 0),
                                 recruit, False)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
@@ -3300,7 +3311,9 @@ class game(object):
                 recruit = playerCharacter(
                         "Khris", "Kyantol", "Priest", chatter, 4)
                 self.equipOnCharacter(
-                        equipment("Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3),
+                        equipment(
+                                "Staffs", "Wooden Staff",
+                                80, 1, 0, 0, 1, 3, 3),
                         recruit, False)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
@@ -3391,7 +3404,9 @@ class game(object):
                 recruit = playerCharacter(
                         "Anri", "Human", "Wizard", chatter, 6)
                 self.equipOnCharacter(
-                        equipment("Staffs", "Power Staff", 500, 0, 0, 4, 6, 6),
+                        equipment(
+                                "Staffs", "Power Staff",
+                                500, 8, 0, 0, 4, 6, 6),
                         recruit, False)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
@@ -3436,8 +3451,8 @@ class game(object):
                     "you can.")
             if self.battleStarted < 7:
                 swordOfTruth = equipment(
-                        "Sacred Swords", "Sword of Truth", 7200, 0, 0, 10, 0,
-                        8, ["Bolt I"])
+                        "Sacred Swords", "Sword of Truth",
+                        7200, 1, 0, 0, 10, 0, 8, ["Bolt I"])
                 self.inventory.append(swordOfTruth)
             print(
                     "When you leave the cave, blinking in the sunlight over "
@@ -3465,7 +3480,7 @@ class game(object):
                 recruit = playerCharacter(
                         "Arthur", "Centaur", "Knight", chatter, 4)
                 self.equipOnCharacter(
-                        equipment("Spears", "Spear", 150, 0, 1, 5, 0, 0),
+                        equipment("Spears", "Spear", 150, 5, 0, 1, 5, 0, 0),
                         recruit, False)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
@@ -3577,7 +3592,8 @@ class game(object):
                         "Amon", "Birdman", "Sky Battler", chatter, 8)
                 self.equipOnCharacter(
                         equipment(
-                                "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                                "Swords", "Middle Sword",
+                                250, 8, 0, 0, 5, 0, 0),
                         recruit, False)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
@@ -3593,7 +3609,8 @@ class game(object):
                         "Balbaroy", "Birdman", "Sky Battler", chatter, 8)
                 self.equipOnCharacter(
                         equipment(
-                                "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0),
+                                "Swords", "Middle Sword",
+                                250, 8, 0, 0, 5, 0, 0),
                         recruit, False)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)
@@ -3616,7 +3633,8 @@ class game(object):
                         "Diane", "Elf", "Archer", chatter, 8)
                 self.equipOnCharacter(
                         equipment(
-                                "Arrows", "Steel Arrow", 1200, 1, 1, 9, 0, 0),
+                                "Arrows", "Steel Arrow",
+                                1200, 12, 1, 1, 9, 0, 0),
                         recruit, False)
                 recruit.levelUp(chatter)
                 recruit.levelUp(chatter)

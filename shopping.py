@@ -33,136 +33,139 @@ class shop(object):
     def createGood(self, name):
         # Arrows
         if name == "Elven Arrow":
-            return potentialItem("Arrows", name, 2300, 1, 2, 12, 0, 0)
+            return potentialItem("Arrows", name, 2300, 18, 1, 2, 12, 0, 0)
         elif name == "Faerie Arrow":
             return potentialItem(
-                    "Arrows", name, 9000, 1, 2, 20, 1, 2, ["Quick Shot"])
+                    "Arrows", name, 9000, 24, 1, 2, 20, 1, 2, ["Quick Shot"])
         elif name == "Hyperial Arrow":
-            return potentialItem("Arrows", name, 17000, 1, 3, 27, 0, 0)
+            return potentialItem("Arrows", name, 17000, 40, 1, 3, 27, 0, 0)
         elif name == "Robin's Arrow":
-            return potentialItem("Arrows", name, 1480, 1, 1, 11, 0, 0)
+            return potentialItem("Arrows", name, 1480, 14, 1, 1, 11, 0, 0)
         elif name == "Steel Arrow":
-            return potentialItem("Arrows", name, 1200, 1, 1, 9, 0, 0)
+            return potentialItem("Arrows", name, 1200, 12, 1, 1, 9, 0, 0)
         elif name == "Wooden Arrow":
-            return potentialItem("Arrows", name, 150, 1, 1, 5, 0, 0)
+            return potentialItem("Arrows", name, 150, 1, 1, 1, 5, 0, 0)
 
         # Axes
         elif name == "Atlas Axe":
             return potentialItem(
-                    "Axes", name, 11000, 0, 0, 22, 0, 28, ["Atlas I"])
+                    "Axes", name, 11000, 40, 0, 0, 22, 0, 28, ["Atlas I"])
         elif name == "Battle Axe":
-            return potentialItem("Axes", name, 2600, 0, 0, 11, 0, 0)
+            return potentialItem("Axes", name, 2600, 24, 0, 0, 11, 0, 0)
         elif name == "Great Axe":
-            return potentialItem("Axes", name, 10000, 0, 0, 18, 0, 0)
+            return potentialItem("Axes", name, 10000, 36, 0, 0, 18, 0, 0)
         elif name == "Hand Axe":
-            return potentialItem("Axes", name, 200, 0, 0, 4, 0, 0)
+            return potentialItem("Axes", name, 200, 5, 0, 0, 4, 0, 0)
         elif name == "Heat Axe":
             return potentialItem(
-                    "Axes", name, 4400, 0, 0, 15, 0, 10,
+                    "Axes", name, 4400, 25, 0, 0, 15, 0, 10,
                     ["Axes: Added Effect: Fire", "Blaze II"])
         elif name == "Middle Axe":
-            return potentialItem("Axes", name, 300, 0, 0, 7, 0, 0)
+            return potentialItem("Axes", name, 300, 12, 0, 0, 7, 0, 0)
         elif name == "Power Axe":
-            return potentialItem("Axes", name, 1100, 0, 0, 11, 0, 0)
+            return potentialItem("Axes", name, 1100, 18, 0, 0, 11, 0, 0)
         elif name == "Short Axe":
-            return potentialItem("Axes", name, 120, 0, 0, 3, 0, 0)
+            return potentialItem("Axes", name, 120, 1, 0, 0, 3, 0, 0)
 
         # Brass Guns
         elif name == "Ancient Cannon":
-            return potentialItem("Brass Guns", name, 6000, 1, 1, 22, 0, 0)
+            return potentialItem("Brass Guns", name, 6000, 28, 1, 1, 22, 0, 0)
         elif name == "Assault Shell":
-            return potentialItem("Brass Guns", name, 4500, 1, 2, 18, 0, 0)
+            return potentialItem("Brass Guns", name, 4500, 36, 1, 2, 18, 0, 0)
         elif name == "Buster Shot":
-            return potentialItem("Brass Guns", name, 12400, 1, 2, 23, 0, 0)
+            return potentialItem("Brass Guns", name, 12400, 40, 1, 2, 23, 0, 0)
         elif name == "Grand Cannon":
             return potentialItem(
-                    "Brass Guns", name, 18500, 1, 2, 29, 0, 18, ["Muddle I"])
+                    "Brass Guns", name, 18500, 44, 1, 2, 29, 0, 18,
+                    ["Muddle I"])
         elif name == "Iron Shot":
-            return potentialItem("Brass Guns", name, 800, 1, 1, 7, 0, 0)
+            return potentialItem("Brass Guns", name, 800, 1, 1, 1, 7, 0, 0)
 
         # Daggers
         elif name == "Bloody Knife":
             return potentialItem(
-                    "Daggers", name, 4500, 0, 0, 14, 0, 0,
+                    "Daggers", name, 4500, 19, 0, 0, 14, 0, 0,
                     ["Luck: Critical Drain I"])
         elif name == "Dagger":
-            return potentialItem("Daggers", name, 320, 0, 0, 5, 0, 0)
+            return potentialItem("Daggers", name, 320, 4, 0, 0, 5, 0, 0)
         elif name == "Knife":
-            return potentialItem("Daggers", name, 500, 0, 0, 8, 0, 0)
+            return potentialItem("Daggers", name, 500, 6, 0, 0, 8, 0, 0)
         elif name == "Ritual Dagger":
             return potentialItem(
-                    "Daggers", name, 9500, 0, 0, 17, 8, 0,
+                    "Daggers", name, 9500, 29, 0, 0, 17, 8, 0,
                     ["Daggers: Added Effect: Poison"])
         elif name == "Short Knife":
-            return potentialItem("Daggers", name, 70, 0, 0, 3, 0, 0)
+            return potentialItem("Daggers", name, 70, 1, 0, 0, 3, 0, 0)
         elif name == "Thief's Dagger":
             return potentialItem(
-                    "Daggers", name, 1000, 0, 0, 12, 0, 0,
+                    "Daggers", name, 1000, 11, 0, 0, 12, 0, 0,
                     ["Daggers: Increased Luck"])
 
         # Lances
         elif name == "Bronze Lance":
-            return potentialItem("Lances", name, 300, 0, 0, 6, 0, 0)
+            return potentialItem("Lances", name, 300, 8, 0, 0, 6, 0, 0)
         elif name == "Chrome Lance":
-            return potentialItem("Lances", name, 4500, 0, 0, 15, 0, 0)
+            return potentialItem("Lances", name, 4500, 24, 0, 0, 15, 0, 0)
         elif name == "Devil Lance":
             return potentialItem(
-                    "Lances", name, 7000, 0, 0, 23, 0, 0, ["Cursed Weapon"])
+                    "Lances", name, 7000, 34, 0, 0, 23, 0, 0,
+                    ["Cursed Weapon"])
         elif name == "Halberd":
             return potentialItem(
-                    "Lances", name, 5000, 0, 0, 17, 0, 16, ["Bolt I"])
+                    "Lances", name, 5000, 30, 0, 0, 17, 0, 16, ["Bolt I"])
         elif name == "Steel Lance":
-            return potentialItem("Lances", name, 3000, 0, 0, 12, 0, 0)
+            return potentialItem("Lances", name, 3000, 16, 0, 0, 12, 0, 0)
 
         # Spears
         elif name == "Balista Bolt":
-            return potentialItem("Spears", name, 14000, 0, 1, 23, 0, 0)
+            return potentialItem("Spears", name, 14000, 42, 0, 1, 23, 0, 0)
         elif name == "Power Spear":
-            return potentialItem("Spears", name, 900, 0, 1, 10, 0, 0)
+            return potentialItem("Spears", name, 900, 12, 0, 1, 10, 0, 0)
         elif name == "Spear":
-            return potentialItem("Spears", name, 150, 0, 1, 5, 0, 0)
+            return potentialItem("Spears", name, 150, 5, 0, 1, 5, 0, 0)
         elif name == "Wooden Spear":
-            return potentialItem("Spears", name, 100, 0, 1, 3, 0, 0)
+            return potentialItem("Spears", name, 100, 1, 0, 1, 3, 0, 0)
 
         # Staffs
         elif name == "Demon Rod":
             return potentialItem(
-                    "Staffs", name, 5000, 0, 0, 23, -6, -6, ["Conduit I"])
+                    "Staffs", name, 5000, 38, 0, 0, 23, -6, -6, ["Conduit I"])
         elif name == "Guardian Staff":
-            return potentialItem("Staffs", name, 3200, 0, 0, 12, 12, 12)
+            return potentialItem("Staffs", name, 3200, 28, 0, 0, 12, 12, 12)
         elif name == "Holy Staff":
             return potentialItem(
-                    "Staffs", name, 8000, 0, 0, 17, 24, 24, ["Blast II"])
+                    "Staffs", name, 8000, 36, 0, 0, 17, 24, 24, ["Blast II"])
         elif name == "Power Staff":
-            return potentialItem("Staffs", name, 500, 0, 0, 4, 6, 6)
+            return potentialItem("Staffs", name, 500, 8, 0, 0, 4, 6, 6)
         elif name == "Wooden Staff":
-            return potentialItem("Staffs", name, 80, 0, 0, 1, 3, 3)
+            return potentialItem("Staffs", name, 80, 1, 0, 0, 1, 3, 3)
 
         # Swords
         elif name == "Broadsword":
-            return potentialItem("Swords", name, 4800, 0, 0, 14, 0, 0)
+            return potentialItem("Swords", name, 4800, 36, 0, 0, 14, 0, 0)
         elif name == "Doom Blade":
-            return potentialItem("Katanas", name, 5000, 0, 0, 17, 0, 0)
+            return potentialItem("Katanas", name, 5000, 40, 0, 0, 17, 0, 0)
         elif name == "Katana":
-            return potentialItem("Katanas", name, 6000, 0, 0, 20, 0, 0)
+            return potentialItem("Katanas", name, 6000, 44, 0, 0, 20, 0, 0)
         elif name == "Long Sword":
-            return potentialItem("Swords", name, 750, 0, 0, 8, 0, 0)
+            return potentialItem("Swords", name, 750, 18, 0, 0, 8, 0, 0)
         elif name == "Middle Sword":
-            return potentialItem("Swords", name, 250, 0, 0, 5, 0, 0)
+            return potentialItem("Swords", name, 250, 8, 0, 0, 5, 0, 0)
         elif name == "Short Sword":
-            return potentialItem("Swords", name, 100, 0, 0, 3, 0, 0)
+            return potentialItem("Swords", name, 100, 1, 0, 0, 3, 0, 0)
         elif name == "Steel Sword":
-            return potentialItem("Swords", name, 2500, 0, 0, 12, 0, 0)
+            return potentialItem("Swords", name, 2500, 24, 0, 0, 12, 0, 0)
         elif name == "Sword of Darkness":
             return potentialItem(
-                    "Sacred Swords", name, 8000, 0, 0, 27, 0, 12,
+                    "Sacred Swords", name, 8000, 27, 0, 0, 27, 0, 12,
                     ["Death I", "Cursed Weapon"])
         elif name == "Sword of Light":
             return potentialItem(
-                    "Sacred Swords", name, 7200, 0, 0, 24, 0, 30, ["Bolt II"])
+                    "Sacred Swords", name, 7200, 24, 0, 0, 24, 0, 30,
+                    ["Bolt II"])
         elif name == "Sword of Order":
             return potentialItem(
-                    "Sacred Swords", name, 7200, 0, 0, 27, 0, 20,
+                    "Sacred Swords", name, 7200, 27, 0, 27, 0, 20,
                     ["Freeze III"])
         else:
             print(f"warning. No shop item called {name} exists.")
@@ -326,8 +329,8 @@ class shop(object):
 class potentialItem(object):
 
     def __init__(
-            self, equipType, name, price, minRange=0, maxRange=0, damage=3,
-            fp=0, mp=0, powers=[]):
+            self, equipType, name, price, skill=0, minRange=0, maxRange=0,
+            damage=3, fp=0, mp=0, powers=[]):
         self.type = equipType
         self.name = name
         self.minRange = minRange
@@ -338,7 +341,7 @@ class potentialItem(object):
         self.mp = mp
         self.price = price
         self.powers = powers
+        self.skill = skill
 
     def canEquip(self, unit):
-        equipPower = f"Equip: {self.type}"
-        return equipPower in unit.powers
+        return unit.skills[self.type] >= self.skill

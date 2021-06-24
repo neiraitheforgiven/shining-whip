@@ -22,6 +22,12 @@ class monster(object):
         self.initiativePoints = 0
         self.actedThisRound = False
         self.powers = []
+        self.skills = {
+            "Arrows": 0, "Axes": 0, "Brass Guns": 0, "Daggers": 0, "Lances": 0,
+            "Spears": 0, "Staffs": 0, "Swords": 0, "Sacred Swords": 0,
+            "Unarmed Attack": 0, "Holy Songs": 0
+        }
+        self.moveProfile = moveProfile
         self.attackProfile = attackProfile
         self.focusProfile = focusProfile
         self.moveProfile = moveProfile
@@ -66,7 +72,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
-                    "Staffs", "Wooden Staff", 80, 0, 0, 1, 3, 3)
+                    "Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Apprc"
         elif name == "Dark Elf Sniper":
@@ -77,7 +83,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment(
-                    "Arrows", "Wooden Arrow", 150, 1, 1, 9, 0, 0)
+                    "Arrows", "Wooden Arrow", 150, 1, 1, 1, 9, 0, 0)
             self.shortName = "Dark Elf"
         elif name == "Dark Magi":
             self.level = 14
@@ -89,7 +95,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
-                    "Staffs", "Power Staff", 500, 0, 0, 4, 6, 6)
+                    "Staffs", "Power Staff", 500, 1, 0, 0, 4, 6, 6)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Magi"
         elif name == "Deranged Clown":
@@ -135,7 +141,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "Aggressive"
             self.equipment = equipment(
-                    "Swords", "Goblin Sword", 50, 0, 0, 3, 0, 0)
+                    "Swords", "Goblin Sword", 50, 1, 0, 0, 3, 0, 0)
         elif name == "Lizardman":
             self.level = 16
             stats = {
@@ -146,7 +152,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
-                    "Axes", "Middle Axe", 300, 0, 0, 7, 0, 0)
+                    "Axes", "Middle Axe", 300, 1, 0, 0, 7, 0, 0)
             self.shortName = "Lizard"
         elif name == "Mannequin":
             self.level = 6
@@ -181,7 +187,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
-                    "Staffs", "Guardian Staff", 3200, 0, 0, 12, 12, 12)
+                    "Staffs", "Guardian Staff", 3200, 1, 0, 0, 12, 12, 12)
             self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
             self.shortName = "Master"
         elif name == "Skeleton Warrior":
@@ -193,7 +199,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
-                    "Swords", "Middle Sword", 250, 0, 0, 5, 0, 0)
+                    "Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0)
             self.powers.append("Command: Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
         elif name == "Sniper":
@@ -204,7 +210,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment(
-                    "Arrows", "Wooden Arrow", 150, 1, 1, 3, 0, 0)
+                    "Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
@@ -213,7 +219,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Patient"
             self.moveProfile = moveProfile or "Retreat-Defensive"
             self.equipment = equipment(
-                    "Lances", "Bronze Lance", 300, 0, 0, 6, 0, 0)
+                    "Lances", "Bronze Lance", 300, 1, 0, 0, 6, 0, 0)
             self.powers.append("Mounted Movement")
             self.shortName = "Knight"
         elif name == "Vile Chanter":
@@ -299,6 +305,11 @@ class playerCharacter(object):
         self.trophies = []
         self.extraPowerSlot = []
         self.extraPowerSlot2 = []
+        self.skills = {
+            "Arrows": 0, "Axes": 0, "Brass Guns": 0, "Daggers": 0, "Lances": 0,
+            "Spears": 0, "Staffs": 0, "Swords": 0, "Sacred Swords": 0,
+            "Unarmed Attack": 0, "Holy Songs": 0
+        }
         if playerClass:
             if playerClass == "Assassin":
                 self.growth = self.initializeRandomStats(
@@ -396,6 +407,7 @@ class playerCharacter(object):
             print(f"{self.name} the {self.race} {self.title} created.")
         self.assignPower(self.getPower(self.title, chatter), chatter)
         self.career = f"    Career Path: {self.title}"
+        self.upSkill()
         if chatter:
             for statName, statValue in self.stats.items():
                 print("    {} of {}".format(statName, statValue))
@@ -466,6 +478,108 @@ class playerCharacter(object):
         return (
                 self.stats["Charisma"] + math.floor(
                         len(self.trophies) / 3) + self.fame)
+
+    def getSkills(self, title, chatter=False):
+        improvedSkills = []
+        if "Alchemist" in title:
+            improvedSkills.append("Staffs")
+        elif "Archer" in title:
+            improvedSkills.append("Arrows")
+        elif "Assassin" in title:
+            improvedSkills.append("Swords")
+        elif "Bard" in title:
+            improvedSkills.append("Daggers")
+            improvedSkills.append("Arrows")
+        elif "Baron" in title:
+            improvedSkills.append("Swords")
+        elif "Berserker" in title:
+            improvedSkills.append("Axes")
+            improvedSkills.append("Unarmed Attack")
+        elif "Blood Mage" in title:
+            improvedSkills.append("Daggers")
+        elif "Archmage" in title:
+            improvedSkills.append("Staffs")
+        elif "Heavy Shot" in title:
+            improvedSkills.append("Brass Guns")
+        elif "Cantor" in title:
+            improvedSkills.append("Holy Songs")
+        elif "Chorister" in title:
+            improvedSkills.append("Holy Songs")
+        elif "Dark Mage" in title:
+            improvedSkills.append("Staffs")
+        elif "Druid" in title:
+            improvedSkills.append("Staffs")
+        elif "Duelist" in title:
+            improvedSkills.append("Swords")
+        elif "Flamecaster" in title:
+            improvedSkills.append("Staffs")
+        elif "Wizard" in title:
+            improvedSkills.append("Staffs")
+        elif "Gambler" in title:
+            improvedSkills.append("Axes")
+        elif "Harbinger" in title:
+            improvedSkills.append("Holy Songs")
+            improvedSkills.append("Unarmed Attack")
+        elif "Hero" in title:
+            improvedSkills.append("Swords")
+            improvedSkills.append("Sacred Swords")
+        elif ("Knight" in title and "Mage Knight" not in
+                    title and "Steam Knight" not in title):
+            improvedSkills.append("Spears")
+            improvedSkills.append("Lances")
+        elif "Mage Knight" in title:
+            improvedSkills.append("Spears")
+            improvedSkills.append("Lances")
+        elif "Monk" in title:
+            improvedSkills.append("Unarmed Attack")
+        elif "Ninja" in title:
+            improvedSkills.append("Daggers")
+        elif "Orator" in title:
+            improvedSkills.append("Holy Songs")
+        elif "Priest" in title:
+            improvedSkills.append("Staffs")
+        elif "Prophet" in title:
+            improvedSkills.append("Staffs")
+            improvedSkills.append("Holy Songs")
+        elif "Samurai" in title:
+            improvedSkills.append("Swords")
+        elif "Scholar" in title:
+            improvedSkills.append("Staffs")
+        elif "Sky Battler" in title:
+            improvedSkills.append("Swords")
+        elif "Sky Lord" in title:
+            improvedSkills.append("Lances")
+        elif "Soldier" in title:
+            improvedSkills.append("Unarmed Attack")
+        elif "Sorceror" in title:
+            improvedSkills.append("Staffs")
+        elif "Squire" in title:
+            improvedSkills.append("Swords")
+        elif "Steam Knight" in title:
+            improvedSkills.append("Lances")
+        elif "Student" in title:
+            improvedSkills.append("Staffs")
+        elif "Survivor" in title:
+            improvedSkills.append("Unarmed Attack")
+        elif "Titan" in title:
+            improvedSkills.append("Unarmed Attack")
+        elif "Trickster" in title:
+            improvedSkills.append("Staffs")
+        elif "Troubadour" in title:
+            improvedSkills.append("Arrows")
+            improvedSkills.append("Holy Songs")
+        elif "Valkyrie" in title:
+            improvedSkills.append("Lances")
+            improvedSkills.append("Spears")
+            improvedSkills.append("Holy Songs")
+        elif "Warrior" in title:
+            improvedSkills.append("Axes")
+            improvedSkills.append("Swords")
+        elif "Werewolf" in title:
+            improvedSkills.append("Unarmed Attack")
+        # remove duplicates
+        improvedSkills = list(set(improvedSkills))
+        return improvedSkills
 
     def getPower(self, title, chatter=False):
         if "Mounted" in title and "Mounted Movement" not in self.powers:
@@ -583,12 +697,12 @@ class playerCharacter(object):
                         "Freeze III", "Bolt I", "Freeze IV", "Bolt II"]
             elif "Gambler" in title:
                 listOfPowers = [
-                        "Equip: Axes", "Luck: Dodge Chance  Up I",
+                        "Equip: Axes", "Luck: Dodge Chance Up I",
                         "Increased Luck When Outnumbered I",
                         "Luck: Dodge Grants Counterattack",
                         "Luck: Reverse Death", "Axes: Range + 1",
                         "Increased Luck When Outnumbered II",
-                        "Luck: Dodge Chance  Up II"]
+                        "Luck: Dodge Chance Up II"]
             elif "Harbinger" in title:
                 listOfPowers = [
                         "Unarmed Attack: Damage I",
@@ -609,7 +723,7 @@ class playerCharacter(object):
                         "Mounted Movement", "Equip: Polearms",
                         "Lances: Movement Increases Strength Damage I",
                         "Spears: Increased Damage I", "Rout: Pursuit Attack",
-                        "Defense Increased vs Ranged Attacks I",
+                        "Defense: Increased vs Ranged Attacks I",
                         "Faith: Add Damage on Unholy Ground",
                         "Unholy: Increased Resistance I"]
             elif "Mage Knight" in title:
@@ -702,7 +816,7 @@ class playerCharacter(object):
                 listOfPowers = ["Blaze I"]
             elif "Survivor" in title:
                 listOfPowers = [
-                        "Defense: Magic I",
+                        "Defense: Magic",
                         "Unarmed Attack: Increased Damage I",
                         "Luck: Increased Dodge I", "Flying Movement",
                         "Defense: Magic II", "Unarmed Attack: Fire Element",
@@ -732,7 +846,7 @@ class playerCharacter(object):
             elif "Valkyrie" in title:
                 listOfPowers = [
                         "Equip: Lances", "Defense: Melee Attacks I",
-                        "Vocal Attack: Lost Health Adds Damage II",
+                        "Vocal Attack: Lost Health Adds Damage I",
                         "Luck: Increased Rout I",
                         "Defense: Melee Attacks II", "Vocal Attack: Heal Self",
                         "Vocal Attack: Lost Health Adds Damage II",
@@ -743,7 +857,7 @@ class playerCharacter(object):
                         "Axes: Increased Damage I",
                         "Swords: Increased Luck I", "Whirlwind Attack",
                         "Defense: Melee Attacks II", "Rout: Follow-up Attack",
-                        "Axes: Increased Damage I"]
+                        "Axes: Increased Damage II"]
             elif "Werewolf" in title:
                 listOfPowers = [
                         "Unarmed Attack: Increased Damage I",
@@ -1356,6 +1470,7 @@ class playerCharacter(object):
                             print(
                                     f"{self.name}: \"Aww, maybe I'm not cut "
                                     f"out to be a {self.title}.\"")
+        self.upSkill()
 
     def maxFP(self):
         if self.equipment:
@@ -1411,12 +1526,22 @@ class playerCharacter(object):
             if advance:
                 growthLevel += 1
 
+    def upSkill(self):
+        for skill in self.skills:
+            if self.getPower(f"Equip: {skill}"):
+                self.skills[skill] += 1
+        skills = self.getSkills(self.title)
+        for skill in skills:
+            self.skills[skill] = max(self.level * 2, self.skills[skill] + 1)
+        # Unarmed Attack and Holy Songs get two upgrades, but also function
+        # different as they are not tied to equipment
+
 
 class equipment(object):
 
     def __init__(
-            self, equipType, name, price, minRange=0, maxRange=0, damage=3,
-            fp=0, mp=0, powers=[]):
+            self, equipType, name, price, skill=0, minRange=0, maxRange=0,
+            damage=3, fp=0, mp=0, powers=[]):
         self.type = equipType
         self.name = name
         self.price = price
@@ -1427,10 +1552,10 @@ class equipment(object):
         self.fp = fp
         self.mp = mp
         self.powers = powers
+        self.skill = skill
 
     def canEquip(self, unit):
-        equipPower = f"Equip: {self.type}"
-        return equipPower in unit.powers
+        return unit.skills[self.type] >= self.skill
 
 
 party = []
