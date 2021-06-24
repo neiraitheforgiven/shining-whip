@@ -628,8 +628,8 @@ class playerCharacter(object):
                         "Focused Attacks Rout"]
             elif "Bard" in title:
                 listOfPowers = [
-                        "Surge I", "Free Spell After Critical", "Dao I",
-                        "Luck: Critical Chance Up I", "Apollo I", "Dao II",
+                        "Blaze I", "Free Spell After Critical", "Surge I",
+                        "Luck: Critical Chance Up I", "Dao I", "Apollo I",
                         "Sing While Casting", "Command: MP Regeneration"]
             elif "Baron" in title:
                 listOfPowers = [
