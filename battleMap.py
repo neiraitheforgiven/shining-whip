@@ -1836,7 +1836,12 @@ class battle(object):
             tile.evilRinging = max(0, tile.evilRinging - timePassed)
 
     def enterFocus(self, unit):
+        oldMovementPoints = unit.movementPoints
+        oldMoveSkill = 3 + math.ceil(self.getStat(unit, "Speed") / 2)
         unit.focusTime = self.getStat(unit, "Focus")
+        newMoveSkill = 3 + math.ceil(self.getStat(unit, "Speed") / 2)
+        unit.movementPoints = math.ceil(
+                oldMovementPoints * (newMoveSkill / oldMoveSkill))
         print(f"{unit.name} enters a focused state!")
 
     def getExtraSpell(self, unit, slot):
