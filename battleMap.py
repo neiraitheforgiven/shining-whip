@@ -1703,7 +1703,7 @@ class battle(object):
                 bf.terrainArray[position].units
                 if type(tileUnit) != type(unit)])
         amount = max(1, friendSound - enemySound) + math.ceil(
-                unit.getSkill["Holy Songs"] / 2)
+                unit.skills["Holy Songs"] / 2)
         amount = amount + abs(tile.voicePower)
         damage = math.ceil(amount / 16)
         damage = max(damage, 1)
