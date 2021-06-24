@@ -60,7 +60,10 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "Defensive"
-            self.equipment = equipment("Axes", "Rusted Axe", 20, 0, 0, 3, 0, 0)
+            # self, equipType, name, price, skill=0, minRange=0, maxRange=0,
+            #damage=3, fp=0, mp=0, powers=[]
+            self.equipment = equipment(
+                    "Axes", "Rusted Axe", 20, 1, 0, 0, 3, 0, 0)
             self.shortName = "C.Dwarf"
         elif name == "Dark Apprentice":
             self.level = 6
@@ -105,7 +108,8 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Defensive"
-            self.equipment = equipment("Daggers", "Knife", 500, 0, 0, 8, 0, 0)
+            self.equipment = equipment(
+                    "Daggers", "Knife", 500, 1, 0, 0, 8, 0, 0)
             self.shortName = "Clown"
         elif name == "Giant Bat":
             self.level = 5
