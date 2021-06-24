@@ -266,7 +266,10 @@ class battle(object):
                 unit.fp = unit.stats["Faith"]
                 unit.mp = unit.stats["Intelligence"]
                 unit.focusTime = 0
-                unit.focus = 0
+                if self.getPower(unit, "Begin Battle With Rank II Focus"):
+                    unit.focus = 1500
+                else:
+                    unit.focus = 0
                 unit.lastTurnFocusRank = 0
                 unit.actedThisRound = False
                 unit.status = []
@@ -1287,7 +1290,7 @@ class battle(object):
                     currentFocusRank = self.getFocusRank(unit)
                     if currentFocusRank > unit.lastTurnFocusRank:
                         print(f"{pc.name} gained a rank of focus!")
-                    self.lastTurnFocusRank = currentFocusRank
+                    unit.lastTurnFocusRank = currentFocusRank
                     print(
                             f"  (HP: {pc.hp}/{maxHP} FP: {pc.fp}/{maxFP} "
                             f"MP: {pc.mp}/{maxMP} "
@@ -1908,7 +1911,7 @@ class battle(object):
         return self.battleField.getFameBonus(unit)
 
     def getFocusRank(self, unit):
-        return self.battleField.getFameBonus(unit)
+        return self.battleField.getFocusRank(unit)
 
     def getPower(self, unit, name):
         return self.battleField.getPower(unit, name)
