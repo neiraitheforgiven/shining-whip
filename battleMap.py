@@ -2230,18 +2230,7 @@ class battleField(object):
 
     def checkAttack(self, unit, position):
         unit.allowedAttacks = []
-        if unit.equipment:
-            minRange = unit.equipment.minRange
-            maxRange = unit.equipment.maxRange
-        else:
-            minRange = 0
-            maxRange = 0
-        # we need to check for spells if the caster is a monster
-        if type(unit) == monster:
-            if self.getPower(unit, "Blaze II") or (
-                    self.getPower(unit, "Freeze III")):
-                minRange = 0
-                maxRange = 1
+        minRange, maxRange = self.checkRange(unit)
         if minRange == 0 and maxRange == 0:
             unit.allowedAttacks = self.enemiesAtPosition(unit, position)
             return bool(unit.allowedAttacks)
@@ -2313,6 +2302,23 @@ class battleField(object):
             return True
         else:
             return False
+
+    def checkRange(self, unit):
+        if unit.equipment:
+            minRange = unit.equipment.minRange
+            maxRange = unit.equipment.maxRange
+            if unit.equipment.type == 'Daggers':
+                if self.getPower(unit, 'Daggers: Range +1'):
+                    maxRange += 1
+        else:
+            minRange = 0
+            maxRange = 0
+        if type(unit) == monster:
+            if self.getPower(unit, "Blaze II") or (
+                    self.getPower(unit, "Freeze III")):
+                minRange = max(0, minRange)
+                maxRange = max(1, minRange)
+        return minRange, maxRange
 
     def checkSpell(
             self, unit, position, name, healing=False, range=0, area=0,
