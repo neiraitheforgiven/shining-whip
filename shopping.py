@@ -21,8 +21,9 @@ class shop(object):
         else:
             game.money -= item.price
             equip = equipment(
-                    item.type, item.name, item.price, item.minRange,
-                    item.maxRange, item.damage, item.fp, item.fp, item.powers)
+                    item.type, item.name, item.price, item.skill,
+                    item.minRange, item.maxRange, item.damage, item.fp,
+                    item.fp, item.powers)
             game.inventory.append(equip)
             print("\"Thanks for the scrolls, kid!\"")
             print("Would you like to equip it right away?")
