@@ -1292,7 +1292,7 @@ class battle(object):
                         print(f"{pc.name} gained a rank of focus!")
                     unit.lastTurnFocusRank = currentFocusRank
                     print(
-                            f"  (HP: {pc.hp}/{maxHP()} FP: {pc.fp}/{maxFP()} "
+                            f"  (HP: {pc.hp}/{maxHP} FP: {pc.fp}/{maxFP} "
                             f"MP: {pc.mp}/{maxMP} "
                             f"Move: {pc.movementPoints}{mvType} "
                             f"Focus: {currentFocusRank} "
