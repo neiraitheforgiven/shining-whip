@@ -1056,7 +1056,7 @@ class battle(object):
             elif monster.focusProfile == "Murderous":
                 if any(
                         target for target in monster.allowedAttacks
-                        if target.hp < math.ceil(target.maxHP / 2)):
+                        if target.hp < math.ceil(target.maxHP() / 2)):
                     self.enterFocus(monster)
             elif monster.focusProfile == "Patient":
                 # focus will be 3000
