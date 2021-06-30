@@ -1656,14 +1656,14 @@ class battle(object):
             moveEnabled = self.battleField.checkMove(unit, position)
             if moveEnabled:
                 moved = self.battleField.doMonsterMove(unit, position)
-                if moved and monster.bleedTime > 0:
-                    self.bleed(monster)
+                if moved and unit.bleedTime > 0:
+                    self.bleed(unit)
             position = self.battleField.getUnitPos(unit)
             attackEnabled = self.battleField.checkAttack(unit, position)
             if attackEnabled:
                 self.doMonsterAttack(unit)
-                if monster.bleedTime > 0:
-                    self.bleed(monster)
+                if unit.bleedTime > 0:
+                    self.bleed(unit)
             else:
                 print(f"{unit.name} waited.")
             if not moved or self.getPower(
