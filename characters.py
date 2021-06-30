@@ -21,6 +21,7 @@ class monster(object):
         self.allowedSpells = {}
         self.initiativePoints = 0
         self.actedThisRound = False
+        self.bleedTime = 0
         self.powers = []
         self.skills = {
             "Arrows": 0, "Axes": 0, "Brass Guns": 0, "Daggers": 0, "Lances": 0,
@@ -61,7 +62,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "Defensive"
             # self, equipType, name, price, skill=0, minRange=0, maxRange=0,
-            #damage=3, fp=0, mp=0, powers=[]
+            # damage=3, fp=0, mp=0, powers=[]
             self.equipment = equipment(
                     "Axes", "Rusted Axe", 20, 1, 0, 0, 3, 0, 0)
             self.shortName = "C.Dwarf"
@@ -298,6 +299,7 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.bleedTime = 0
         self.fame = 0
         self.focus = 0
         self.focusTime = 0

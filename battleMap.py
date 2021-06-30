@@ -270,6 +270,7 @@ class battle(object):
                     unit.focus = 1500
                 else:
                     unit.focus = 0
+                unit.bleedTime = 0
                 unit.lastTurnFocusRank = 0
                 unit.actedThisRound = False
                 unit.status = []
@@ -543,6 +544,8 @@ class battle(object):
                     if self.getPower(unit, "Increased Heavy Damage IV"):
                         damage *= 1.3
                     self.rattle(unit, target, damage * 30)
+                    if self.getPower(unit, "Heavy Attacks Inflict Bleed"):
+                        unit.bleedTime = min(45, unit.bleedTime + 15)
                     time.sleep(1. / 10)
                 if unit.equipment:
                     damageString = f"{unit.equipment.type}: Increased Damage "
@@ -715,6 +718,12 @@ class battle(object):
             print("")
             return False
 
+    def bleed(self, unit):
+        damage = math.ceil(unit.level / 2)
+        unit.hp -= damage
+        if unit.hp <= 0:
+            self.kill(unit)
+
     def castAreaSpell(
             self, unit, targetId, spellName, cost, damage, area=0,
             element=None, spread=False, faith=False, speedUp=False):
@@ -756,6 +765,12 @@ class battle(object):
                                 f"{unit.name} restores {healing} health "
                                 f"to {target.name}!")
                         target.hp += healing
+                        if target.hp == target.maxHP():
+                            if target.bleedTime > 0:
+                                target.bleedTime = 0
+                                print(
+                                        f"{unit.name}'s magic stopped "
+                                        f"{target.name}'s bleeding!")
                         self.giveExperience(unit, target, healing)
                 elif damage > 0:
                     # spell is a damage spell
@@ -1451,6 +1466,8 @@ class battle(object):
                         moveTo = None
                 self.battleField.move(unit, moveTo)
                 self.doTurn(unit, True, statusChecked)
+                if unit.bleedTime > 0:
+                    self.bleed(unit)
             elif command in ("A", "a"):
                 attackTarget = None
                 while attackTarget not in [
@@ -1496,6 +1513,8 @@ class battle(object):
                                             unit, "Voice"))
                     if darkTile and tile.voicePower > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
+                if unit.bleedTime > 0:
+                    self.bleed(unit)
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
@@ -1588,8 +1607,12 @@ class battle(object):
                     except ValueError:
                         spellTarget = None
                 self.castSpell(unit, spellToCast, spellTarget)
+                if unit.bleedTime > 0:
+                    self.bleed(unit)
             elif command in ("V", "v"):
                 self.doVocalAttack(unit)
+                if unit.bleedTime > 0:
+                    self.bleed(unit)
             elif command in ("W", "w"):
                 if not moved or self.getPower(
                         unit, "Vocal Attack: Ignore Movement"):
@@ -1645,10 +1668,14 @@ class battle(object):
             moveEnabled = self.battleField.checkMove(unit, position)
             if moveEnabled:
                 moved = self.battleField.doMonsterMove(unit, position)
+                if moved and monster.bleedTime > 0:
+                    self.bleed(monster)
             position = self.battleField.getUnitPos(unit)
             attackEnabled = self.battleField.checkAttack(unit, position)
             if attackEnabled:
                 self.doMonsterAttack(unit)
+                if monster.bleedTime > 0:
+                    self.bleed(monster)
             else:
                 print(f"{unit.name} waited.")
             if not moved or self.getPower(
@@ -1802,6 +1829,10 @@ class battle(object):
             else:
                 unit.focus = min(3000, unit.focus + (
                         timePassed * self.getStat(unit, "Focus")))
+            if unit.bleedTime > 0:
+                unit.bleedTime = max(0, unit.bleedTime - timePassed)
+                if unit.bleedTime == 0:
+                    print(f"{unit.name} stopped the bleeding!")
         # Do Tile Resonance Spread
         """New model design:
         Potential Spread should be added whenever resonance is added to a
