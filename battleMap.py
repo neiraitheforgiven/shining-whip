@@ -536,6 +536,8 @@ class battle(object):
                     print("")
                     damage *= 1.15
                     self.rattle(unit, target, damage * 30)
+                    if self.getPower(unit, "Heavy Attacks Inflict Bleed"):
+                        unit.bleedTime = min(45, unit.bleedTime + 15)
                     time.sleep(1. / 10)
                 if unit.equipment:
                     damageString = f"{unit.equipment.type}: Increased Damage "
