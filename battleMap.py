@@ -568,8 +568,10 @@ class battle(object):
                 if unit.equipment:
                     damage += unit.equipment.damage
                 # elevation damage
-                unitHeight = bf.terrainArray[bf.getUnitPos(unit)].elevation
-                targetHeight = bf.terrainArray[bf.getUnitPos(target)].elevation
+                unitTile = bf.terrainArray[bf.getUnitPos(unit)]
+                targetTile = bf.terrainArray[bf.getUnitPos(target)]
+                unitHeight = unitTile.elevation
+                targetHeight = targetTile.elevation
                 heightBonus = 1 + ((unitHeight - targetHeight) / 20)
                 damage = math.floor(damage * heightBonus)
                 if attackType != 'critical':
@@ -594,6 +596,8 @@ class battle(object):
                                 "the attack!")
                         unit.hp += heal
                 target.hp -= damage
+                if self.getPower(unit, "Attack Damage Added to Resonance"):
+                    self.addVocalPower(unitTile, damage)
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
                     self.kill(target, unit)
