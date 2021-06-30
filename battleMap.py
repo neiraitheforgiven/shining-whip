@@ -597,7 +597,23 @@ class battle(object):
                         unit.hp += heal
                 target.hp -= damage
                 if self.getPower(unit, "Attack Damage Added to Resonance"):
+                    darkTile = unitTile.voicePower < -1
+                    if darkTile:
+                        print(
+                                f'{unit.name} shouts a few lines from the '
+                                'holy song, hoping to be heard over the '
+                                'unholy din.')
+                    elif unitTile.voicePower > 1:
+                        print(
+                                f'{unit.name} sings along with the holy song '
+                                'of the Force.')
+                    else:
+                        print(
+                                f'{unit.name} sings out a stanza from the '
+                                'holy song.')
                     self.addVocalPower(unitTile, damage)
+                    if darkTile and unitTile.voicePower > -1:
+                        print(f"{unit.name}'s voice overcame the darkness!")
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
                     self.kill(target, unit)
