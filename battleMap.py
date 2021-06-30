@@ -534,6 +534,14 @@ class battle(object):
                     print("A heavy attack!")
                     print("")
                     damage *= 1.15
+                    if self.getPower(unit, "Increased Heavy Damage I"):
+                        damage *= 1.3
+                    if self.getPower(unit, "Increased Heavy Damage II"):
+                        damage *= 1.3
+                    if self.getPower(unit, "Increased Heavy Damage III"):
+                        damage *= 1.3
+                    if self.getPower(unit, "Increased Heavy Damage IV"):
+                        damage *= 1.3
                     self.rattle(unit, target, damage * 30)
                     time.sleep(1. / 10)
                 if unit.equipment:
