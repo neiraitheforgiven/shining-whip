@@ -2879,14 +2879,20 @@ class battleField(object):
     def getStat(self, unit, statName):
         #  is the unit focused?
         if unit.focusTime > 0:
-            focusBonus = 1 + (self.getFocusRank(unit) * 0.25)
+            focusBonus = 1 + (self.getFocusRank(unit) * 0.50)
         else:
             focusBonus = 1
+        if focusBonus != 1:
+            print(f"DEBUG: Focus found! Focus Bonus is {focusBonus}")
         self.getFameBonus(unit)
         stat = unit.stats[statName]
+        if focusBonus != 1:
+            print(f"DEBUG: stat before: {stat}")
         stat = math.ceil(
                 stat + (math.floor(
                         stat * (self.getFameBonus(unit) / 100)) * focusBonus))
+        if focusBonus != 1:
+            print(f"DEBUG: stat after: {stat}")
         return stat
 
     def getUnitPos(self, unit):
