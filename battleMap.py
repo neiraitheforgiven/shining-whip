@@ -2879,7 +2879,7 @@ class battleField(object):
     def getStat(self, unit, statName):
         #  is the unit focused?
         if unit.focusTime > 0:
-            focusBonus = 1 + (self.getFocusRank(unit) * 0.50)
+            focusBonus = 1 + (self.getFocusRank(unit) * 0.25)
         else:
             focusBonus = 1
         if focusBonus != 1:
