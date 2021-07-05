@@ -2835,14 +2835,14 @@ class battleField(object):
     def getFameBonus(self, unit):
         position = self.getUnitPos(unit)
         if not position:
-            return 0
+            return 1
         allyFame = [
                 ally.getFame()
                 for ally in self.alliesAtPosition(unit, position)]
         if any(allyFame):
-            return max(allyFame)
+            return 1 + (max(allyFame) / 100.)
         else:
-            return 0
+            return 1
 
     def getFocusRank(self, unit):
         return math.floor(unit.focus / 750)
@@ -2883,14 +2883,12 @@ class battleField(object):
         else:
             focusBonus = 1
         if focusBonus != 1:
-            print(f"DEBUG: Focus found! Focus Bonus is {focusBonus}")
-        self.getFameBonus(unit)
+            print(f"DEBUG: Focus found on {unit.name}! Focus Bonus is {focusBonus}")
         stat = unit.stats[statName]
         if focusBonus != 1:
             print(f"DEBUG: stat before: {stat}")
         stat = math.ceil(
-                stat + (math.floor(
-                        stat * (self.getFameBonus(unit) / 100)) * focusBonus))
+                stat * self.getFameBonus(unit) * focusBonus)
         if focusBonus != 1:
             print(f"DEBUG: stat after: {stat}")
         return stat
