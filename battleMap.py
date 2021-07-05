@@ -8,6 +8,7 @@ import os
 import random
 import shelve
 import time
+import traceback
 
 
 class battle(object):
@@ -262,10 +263,10 @@ class battle(object):
                                 (monster("Master Mage"), 27)],
                                 self.party, game)
             for unit in self.battleField.units:
+                unit.focusTime = 0
                 unit.hp = unit.maxHP()
                 unit.fp = unit.stats["Faith"]
                 unit.mp = unit.stats["Intelligence"]
-                unit.focusTime = 0
                 if self.getPower(unit, "Begin Battle With Rank II Focus"):
                     unit.focus = 1500
                 else:
@@ -280,6 +281,7 @@ class battle(object):
                 if self.getPower(unit, "Egress I") and unit.mp < self.mpCost(
                         unit, 8):
                     print(f"warning: {unit.name} has too few mp to Egress")
+                print(f"DEBUG: {unit.name} has {unit.focusTime} ft")
             self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
@@ -2131,6 +2133,8 @@ class battleField(object):
 
         initiativeOrder = []
         for pc in party:
+            # bug exists where unit may have focusTime from last battle
+            pc.focusTime = 0
             luck = self.getStat(pc, "Luck")
             initiative = max(
                     self.getStat(pc, "Charisma"),
@@ -2883,7 +2887,10 @@ class battleField(object):
         else:
             focusBonus = 1
         if focusBonus != 1:
-            print(f"DEBUG: Focus found on {unit.name}! Focus Bonus is {focusBonus}")
+            print(
+                    f"DEBUG: Focus found on {unit.name}! "
+                    f"Focus Bonus is {focusBonus} " + \
+                    ''.join(traceback.format_stack()))
         stat = unit.stats[statName]
         if focusBonus != 1:
             print(f"DEBUG: stat before: {stat}")
