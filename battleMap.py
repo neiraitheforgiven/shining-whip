@@ -281,15 +281,10 @@ class battle(object):
                 if self.getPower(unit, "Egress I") and unit.mp < self.mpCost(
                         unit, 8):
                     print(f"warning: {unit.name} has too few mp to Egress")
-                print(f"DEBUG: {unit.name} has {unit.focusTime} ft")
             self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
                 self.roundCount += 1
-                print(
-                        f"Debug: it is now round {self.roundCount}. Elapsed "
-                        f"time should be {(self.roundCount - 1) * 15} but is "
-                        f"{self.totalTimePassed}")
                 self.doRound()
 
     def addVocalPower(self, tile, amount):
@@ -738,7 +733,8 @@ class battle(object):
             return False
 
     def bleed(self, unit):
-        damage = math.ceil(unit.level / 2)
+        coef = math.round(unit.hp / self.maxHP(unit), 2)
+        damage = math.ceil(unit.hp * coef)
         unit.hp -= damage
         if unit.hp <= 0:
             self.kill(unit)
@@ -2886,18 +2882,9 @@ class battleField(object):
             focusBonus = 1 + (self.getFocusRank(unit) * 0.25)
         else:
             focusBonus = 1
-        if focusBonus != 1:
-            print(
-                    f"DEBUG: Focus found on {unit.name}! "
-                    f"Focus Bonus is {focusBonus} " + \
-                    ''.join(traceback.format_stack()))
         stat = unit.stats[statName]
-        if focusBonus != 1:
-            print(f"DEBUG: stat before: {stat}")
         stat = math.ceil(
                 stat * self.getFameBonus(unit) * focusBonus)
-        if focusBonus != 1:
-            print(f"DEBUG: stat after: {stat}")
         return stat
 
     def getUnitPos(self, unit):
