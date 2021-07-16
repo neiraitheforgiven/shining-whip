@@ -4,10 +4,9 @@ import random
 
 
 class monster(object):
-
     def __init__(
-            self, name, moveProfile=None, attackProfile=None,
-            focusProfile=None, level=None):
+        self, name, moveProfile=None, attackProfile=None, focusProfile=None, level=None
+    ):
         self.stats = {}
         self.hp = 0
         self.fp = 0
@@ -24,9 +23,17 @@ class monster(object):
         self.bleedTime = 0
         self.powers = []
         self.skills = {
-            "Arrows": 0, "Axes": 0, "Brass Guns": 0, "Daggers": 0, "Lances": 0,
-            "Spears": 0, "Staffs": 0, "Swords": 0, "Sacred Swords": 0,
-            "Unarmed Attack": 0, "Holy Songs": 0
+            "Arrows": 0,
+            "Axes": 0,
+            "Brass Guns": 0,
+            "Daggers": 0,
+            "Lances": 0,
+            "Spears": 0,
+            "Staffs": 0,
+            "Swords": 0,
+            "Sacred Swords": 0,
+            "Unarmed Attack": 0,
+            "Holy Songs": 0,
         }
         self.moveProfile = moveProfile
         self.attackProfile = attackProfile
@@ -41,8 +48,12 @@ class monster(object):
         if name == "Body Puppet":
             self.level = 7
             stats = {
-                    "Strength": 10, "Stamina": 7, "Dexterity": 7, "Speed": 5,
-                    "Intelligence": 15}
+                "Strength": 10,
+                "Stamina": 7,
+                "Dexterity": 7,
+                "Speed": 5,
+                "Intelligence": 15,
+            }
             self.setStats(8, **stats)
             self.shortName = "Puppet"
             self.attackProfile = attackProfile or "Spellcaster"
@@ -63,20 +74,16 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             # self, equipType, name, price, skill=0, minRange=0, maxRange=0,
             # damage=3, fp=0, mp=0, powers=[]
-            self.equipment = equipment(
-                    "Axes", "Rusted Axe", 20, 1, 0, 0, 3, 0, 0)
+            self.equipment = equipment("Axes", "Rusted Axe", 20, 1, 0, 0, 3, 0, 0)
             self.shortName = "C.Dwarf"
         elif name == "Dark Apprentice":
             self.level = 6
-            stats = {
-                    "Stamina": 5, "Intelligence": 13, "Strength": 9,
-                    "Speed": 9}
+            stats = {"Stamina": 5, "Intelligence": 13, "Strength": 9, "Speed": 9}
             self.setStats(6, **stats)
             self.attackProfile = attackProfile or "Spellcaster"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
-            self.equipment = equipment(
-                    "Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3)
+            self.equipment = equipment("Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Apprc"
         elif name == "Dark Elf Sniper":
@@ -86,20 +93,16 @@ class monster(object):
             self.attackProfile = attackProfile or "Weakest"
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Sniper"
-            self.equipment = equipment(
-                    "Arrows", "Wooden Arrow", 150, 1, 1, 1, 9, 0, 0)
+            self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 9, 0, 0)
             self.shortName = "Dark Elf"
         elif name == "Dark Magi":
             self.level = 14
-            stats = {
-                    "Stamina": 9, "Intelligence": 15, "Strength": 9,
-                    "Speed": 9}
+            stats = {"Stamina": 9, "Intelligence": 15, "Strength": 9, "Speed": 9}
             self.setStats(8, **stats)
             self.attackProfile = attackProfile or "Spellcaster"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
-            self.equipment = equipment(
-                    "Staffs", "Power Staff", 500, 1, 0, 0, 4, 6, 6)
+            self.equipment = equipment("Staffs", "Power Staff", 500, 1, 0, 0, 4, 6, 6)
             self.powers = ["Blaze II", "Defense: Magic"]
             self.shortName = "D.Magi"
         elif name == "Deranged Clown":
@@ -109,14 +112,17 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Defensive"
-            self.equipment = equipment(
-                    "Daggers", "Knife", 500, 1, 0, 0, 8, 0, 0)
+            self.equipment = equipment("Daggers", "Knife", 500, 1, 0, 0, 8, 0, 0)
             self.shortName = "Clown"
         elif name == "Giant Bat":
             self.level = 5
             stats = {
-                    "Voice": 11, "Stamina": 7, "Speed": 7, "Strength": 9,
-                    "Dexterity": 6}
+                "Voice": 11,
+                "Stamina": 7,
+                "Speed": 7,
+                "Strength": 9,
+                "Dexterity": 6,
+            }
             self.setStats(7, **stats)
             self.attackProfile = attackProfile or "Singer"
             self.focusProfile = focusProfile or "Aggressive"
@@ -128,8 +134,7 @@ class monster(object):
             self.shortName = "Bat"
         elif name == "Ghoul":
             self.level = 10
-            stats = {
-                    "Stamina": 10, "Speed": 6, "Strength": 19, "Dexteriy": 14}
+            stats = {"Stamina": 10, "Speed": 6, "Strength": 19, "Dexteriy": 14}
             self.setStats(11, **stats)
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
@@ -145,19 +150,21 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "Aggressive"
-            self.equipment = equipment(
-                    "Swords", "Goblin Sword", 50, 1, 0, 0, 3, 0, 0)
+            self.equipment = equipment("Swords", "Goblin Sword", 50, 1, 0, 0, 3, 0, 0)
         elif name == "Lizardman":
             self.level = 16
             stats = {
-                    "Strength": 17, "Stamina": 12, "Speed": 6,
-                    "Dexterity": 12, "Intelligence": 8}
+                "Strength": 17,
+                "Stamina": 12,
+                "Speed": 6,
+                "Dexterity": 12,
+                "Intelligence": 8,
+            }
             self.setStats(12, **stats)
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
-            self.equipment = equipment(
-                    "Axes", "Middle Axe", 300, 1, 0, 0, 7, 0, 0)
+            self.equipment = equipment("Axes", "Middle Axe", 300, 1, 0, 0, 7, 0, 0)
             self.shortName = "Lizard"
         elif name == "Mannequin":
             self.level = 6
@@ -173,8 +180,12 @@ class monster(object):
             self.level = 10
             self.boss = True
             stats = {
-                    "Stamina": 17, "Intelligence": 25, "Strength": 13,
-                    "Dexterity": 13, "Speed": 6}
+                "Stamina": 17,
+                "Intelligence": 25,
+                "Strength": 13,
+                "Dexterity": 13,
+                "Speed": 6,
+            }
             self.setStats(12, **stats)
             self.attackProfile = attackProfile or "Spellcaster"
             self.focusProfile = focusProfile or "Vengeful"
@@ -185,14 +196,20 @@ class monster(object):
         elif name == "Master Mage":
             self.level = 14
             stats = {
-                    "Stamina": 9, "Intelligence": 20, "Strength": 16,
-                    "Faith": 13, "Speed": 5, "Dexterity": 20}
+                "Stamina": 9,
+                "Intelligence": 20,
+                "Strength": 16,
+                "Faith": 13,
+                "Speed": 5,
+                "Dexterity": 20,
+            }
             self.setStats(8, **stats)
             self.attackProfile = attackProfile or "Spellcaster"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment(
-                    "Staffs", "Guardian Staff", 3200, 1, 0, 0, 12, 12, 12)
+                "Staffs", "Guardian Staff", 3200, 1, 0, 0, 12, 12, 12
+            )
             self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
             self.shortName = "Master"
         elif name == "Skeleton Warrior":
@@ -203,8 +220,7 @@ class monster(object):
             self.attackProfile = attackProfile or "ChallengeAccepting"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
-            self.equipment = equipment(
-                    "Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0)
+            self.equipment = equipment("Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0)
             self.powers.append("Command: Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
         elif name == "Sniper":
@@ -214,8 +230,7 @@ class monster(object):
             self.attackProfile = attackProfile or "Weakest"
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Sniper"
-            self.equipment = equipment(
-                    "Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0)
+            self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0)
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
@@ -223,15 +238,18 @@ class monster(object):
             self.attackProfile = attackProfile or "ChallengeAccepting"
             self.focusProfile = focusProfile or "Patient"
             self.moveProfile = moveProfile or "Retreat-Defensive"
-            self.equipment = equipment(
-                    "Lances", "Bronze Lance", 300, 1, 0, 0, 6, 0, 0)
+            self.equipment = equipment("Lances", "Bronze Lance", 300, 1, 0, 0, 6, 0, 0)
             self.powers.append("Mounted Movement")
             self.shortName = "Knight"
         elif name == "Vile Chanter":
             self.level = 15
             stats = {
-                    "Voice": 13, "Speed": 5, "Stamina": 9, "Faith": 12,
-                    "Dexterity": 10}
+                "Voice": 13,
+                "Speed": 5,
+                "Stamina": 9,
+                "Faith": 12,
+                "Dexterity": 10,
+            }
             self.setStats(11, **stats)
             self.attackProfile = attackProfile or "Healer-Singer"
             self.focusProfile = focusProfile or "Vengeful"
@@ -243,8 +261,12 @@ class monster(object):
         elif name == "Zombie":
             self.level = 5
             stats = {
-                    "Strength": 14, "Dexterity": 7, "Speed": 5, "Stamina": 10,
-                    "Luck": 12}
+                "Strength": 14,
+                "Dexterity": 7,
+                "Speed": 5,
+                "Stamina": 10,
+                "Luck": 12,
+            }
             self.setStats(6, **stats)
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
@@ -254,21 +276,27 @@ class monster(object):
             self.powers.append("Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
         else:
-            print(
-                    "Battle Setup Error! Attempted to create monster not in "
-                    "list!")
+            print("Battle Setup Error! Attempted to create monster not in list!")
 
     def getFame(self):
-        return (
-                self.stats["Charisma"])
+        return self.stats["Charisma"]
 
     def maxHP(self):
-        return ((self.stats["Stamina"] * 2) + self.level)
+        return (self.stats["Stamina"] * 2) + self.level
 
     def setStats(self, statLevel, **stats):
         statsToAssign = [
-                "Strength", "Dexterity", "Intelligence", "Faith", "Charisma",
-                "Luck", "Speed", "Stamina", "Voice", "Focus"]
+            "Strength",
+            "Dexterity",
+            "Intelligence",
+            "Faith",
+            "Charisma",
+            "Luck",
+            "Speed",
+            "Stamina",
+            "Voice",
+            "Focus",
+        ]
         advance = True
         for i in range(len(statsToAssign)):
             stat = random.choice(statsToAssign)
@@ -286,8 +314,8 @@ class playerCharacter(object):
     """docstring for playerCharacter"""
 
     def __init__(
-            self, name=None, race=None, playerClass=None, chatter=False,
-            battleNum=None):
+        self, name=None, race=None, playerClass=None, chatter=False, battleNum=None
+    ):
         self.hp = 0
         self.fp = 0
         self.mp = 0
@@ -312,50 +340,48 @@ class playerCharacter(object):
         self.extraPowerSlot = []
         self.extraPowerSlot2 = []
         self.skills = {
-            "Arrows": 0, "Axes": 0, "Brass Guns": 0, "Daggers": 0, "Lances": 0,
-            "Spears": 0, "Staffs": 0, "Swords": 0, "Sacred Swords": 0,
-            "Unarmed Attack": 0, "Holy Songs": 0
+            "Arrows": 0,
+            "Axes": 0,
+            "Brass Guns": 0,
+            "Daggers": 0,
+            "Lances": 0,
+            "Spears": 0,
+            "Staffs": 0,
+            "Swords": 0,
+            "Sacred Swords": 0,
+            "Unarmed Attack": 0,
+            "Holy Songs": 0,
         }
         if playerClass:
             if playerClass == "Assassin":
-                self.growth = self.initializeRandomStats(
-                        "Strength", "Dexterity")
+                self.growth = self.initializeRandomStats("Strength", "Dexterity")
             elif playerClass == "Archer":
-                self.growth = self.initializeRandomStats(
-                        "Dexterity", "Focus")
+                self.growth = self.initializeRandomStats("Dexterity", "Focus")
             elif playerClass == "Archmage":
-                self.growth = self.initializeRandomStats(
-                        "Intelligence", "Luck")
+                self.growth = self.initializeRandomStats("Intelligence", "Luck")
             elif playerClass == "Banshee":
                 self.growth = self.initializeRandomStats("Strength", "Voice")
             elif playerClass == "Baron":
-                self.growth = self.initializeRandomStats(
-                        "Charisma", "Strength")
+                self.growth = self.initializeRandomStats("Charisma", "Strength")
             elif playerClass == "Bishop":
                 self.growth = self.initializeRandomStats("Faith", "Focus")
             elif playerClass == "Channeler":
-                self.growth = self.initializeRandomStats(
-                        "Intelligence", "Dexterity")
+                self.growth = self.initializeRandomStats("Intelligence", "Dexterity")
             elif playerClass == "Flamecaster":
-                self.growth = self.initializeRandomStats(
-                        "Intelligence", "Charisma")
+                self.growth = self.initializeRandomStats("Intelligence", "Charisma")
             elif playerClass == "Heavy Shot":
-                self.growth = self.initializeRandomStats(
-                        "Stamina", "Dexterity")
+                self.growth = self.initializeRandomStats("Stamina", "Dexterity")
             elif playerClass == "Hero":
-                self.growth = self.initializeRandomStats(
-                        "Strength", "Intelligence")
+                self.growth = self.initializeRandomStats("Strength", "Intelligence")
             elif playerClass == "Jongleur":
-                self.growth = self.initializeRandomStats(
-                        "Dexterity", "Charisma")
+                self.growth = self.initializeRandomStats("Dexterity", "Charisma")
             elif playerClass == "Knight":
                 # can be mage knight
                 self.growth = self.initializeRandomStats("Strength", "Speed")
             elif playerClass == "Monk":
                 self.growth = self.initializeRandomStats("Faith", "Strength")
             elif playerClass == "Ninja":
-                self.growth = self.initializeRandomStats(
-                        "Dexterity", "Intelligence")
+                self.growth = self.initializeRandomStats("Dexterity", "Intelligence")
             elif playerClass == "Peregrine":
                 self.growth = self.initializeRandomStats("Speed", "Faith")
             elif playerClass == "Priest":
@@ -365,29 +391,25 @@ class playerCharacter(object):
             elif playerClass == "Sky Battler":
                 self.growth = self.initializeRandomStats("Speed", "Dexterity")
             elif playerClass == "Sky Lord":
-                self.growth = self.initializeRandomStats(
-                        "Focus", "Speed")
+                self.growth = self.initializeRandomStats("Focus", "Speed")
             elif playerClass == "Soldier":
                 self.growth = self.initializeRandomStats("Focus", "Strength")
             elif playerClass == "Sorceror":
-                self.growth = self.initializeRandomStats(
-                        "Intelligence", "Voice")
+                self.growth = self.initializeRandomStats("Intelligence", "Voice")
             elif playerClass == "Steam Knight":
-                self.growth = self.initializeRandomStats(
-                        "Stamina", "Focus")
+                self.growth = self.initializeRandomStats("Stamina", "Focus")
             elif playerClass == "Survivor":
                 self.growth = self.initializeRandomStats("Luck", "Stamina")
             elif playerClass == "Titan":
-                self.growth = self.initializeRandomStats(
-                        "Strength", "Focus", "Speed")
+                self.growth = self.initializeRandomStats("Strength", "Focus", "Speed")
             elif playerClass == "Warrior":
                 self.growth = self.initializeRandomStats("Strength", "Stamina")
             elif playerClass == "Werewolf":
                 self.growth = self.initializeRandomStats(
-                        "Dexterity", "Strength", "Luck")
+                    "Dexterity", "Strength", "Luck"
+                )
             elif playerClass == "Wizard":
-                self.growth = self.initializeRandomStats(
-                        "Intelligence", "Stamina")
+                self.growth = self.initializeRandomStats("Intelligence", "Stamina")
             else:
                 self.growth = self.initializeRandomStats()
         else:
@@ -426,11 +448,29 @@ class playerCharacter(object):
 
     def assignRace(self, race=None):
         if not race:
-            race = random.choice([
-                    "Armadillo", "Birdman", "Centaur", "Dragon", "Dwarf",
-                    "Elf", "Foxling", "Golem", "Half-Giant", "Hobbit", "Human",
-                    "Insect", "Kyantol", "Magical Creature", "Phoenix",
-                    "Robot", "Tortoise", "Wererat", "Wolfling"])
+            race = random.choice(
+                [
+                    "Armadillo",
+                    "Birdman",
+                    "Centaur",
+                    "Dragon",
+                    "Dwarf",
+                    "Elf",
+                    "Foxling",
+                    "Golem",
+                    "Half-Giant",
+                    "Hobbit",
+                    "Human",
+                    "Insect",
+                    "Kyantol",
+                    "Magical Creature",
+                    "Phoenix",
+                    "Robot",
+                    "Tortoise",
+                    "Wererat",
+                    "Wolfling",
+                ]
+            )
         if race in ("Armadillo", "Tortoise"):
             self.powers.append("Defense: Weapons I")
         elif race in ("Birdman", "Dragon", "Magical Creature", "Phoenix"):
@@ -448,7 +488,8 @@ class playerCharacter(object):
             self.powers.append("Equip: Staffs")
         elif race == "Human":
             if self.stats["Intelligence"] > max(
-                    self.stats["Dexterity"], self.stats["Strength"]):
+                self.stats["Dexterity"], self.stats["Strength"]
+            ):
                 self.powers.append("Equip: Staffs")
             elif self.stats["Dexterity"] > self.stats["Strength"]:
                 self.powers.append("Equip: Brass Guns")
@@ -475,9 +516,7 @@ class playerCharacter(object):
         return equipPower in self.powers
 
     def getFame(self):
-        return (
-                self.stats["Charisma"] + math.floor(
-                        len(self.trophies) / 3) + self.fame)
+        return self.stats["Charisma"] + math.floor(len(self.trophies) / 3) + self.fame
 
     def getSkills(self, title, chatter=False):
         improvedSkills = []
@@ -527,8 +566,11 @@ class playerCharacter(object):
             improvedSkills.append("Sacred Swords")
         elif "Jongleur" in title:
             improvedSkills.append("Daggers")
-        elif ("Knight" in title and "Mage Knight" not in
-                    title and "Steam Knight" not in title):
+        elif (
+            "Knight" in title
+            and "Mage Knight" not in title
+            and "Steam Knight" not in title
+        ):
             improvedSkills.append("Spears")
             improvedSkills.append("Lances")
         elif "Mage Knight" in title:
@@ -599,321 +641,512 @@ class playerCharacter(object):
             listOfPowers = []
             if "Alchemist" in title:
                 listOfPowers = [
-                        "Random Additional Spell I", "Convert Faith and Magic",
-                        "Heal I", "Defense: Being Routed Deals Fire Damage",
-                        "Attack: Chance of Confusion",
-                        "Defense: Being Routed Adds Silence",
-                        "Random Additional Spell II", "Conduit I"]
+                    "Random Additional Spell I",
+                    "Convert Faith and Magic",
+                    "Heal I",
+                    "Defense: Being Routed Deals Fire Damage",
+                    "Attack: Chance of Confusion",
+                    "Defense: Being Routed Adds Silence",
+                    "Random Additional Spell II",
+                    "Conduit I",
+                ]
             elif "Archer" in title:
                 listOfPowers = [
-                        "Begin Battle With Rank II Focus", "Quick Shot",
-                        "Increased Terrain Advantage I",
-                        "Arrows: Increased Damage I", "Aimed Shot",
-                        "Arrows: Add Effect: Poison",
-                        "Luck: Enable Triple Attack", "Arrows: Range + 1"]
+                    "Begin Battle With Rank II Focus",
+                    "Quick Shot",
+                    "Increased Terrain Advantage I",
+                    "Arrows: Increased Damage I",
+                    "Aimed Shot",
+                    "Arrows: Add Effect: Poison",
+                    "Luck: Enable Triple Attack",
+                    "Arrows: Range + 1",
+                ]
             elif "Archmage" in title:
                 listOfPowers = [
-                        "Bolt I", "Blaze I", "Freeze I", "Teleport I",
-                        "Bolt II", "Bolt III", "Death I", "Bolt IV"]
+                    "Bolt I",
+                    "Blaze I",
+                    "Freeze I",
+                    "Teleport I",
+                    "Bolt II",
+                    "Bolt III",
+                    "Death I",
+                    "Bolt IV",
+                ]
             elif "Assassin" in title:
                 listOfPowers = [
-                        "Attack: Bonus Move", "Sleep I", "Stealthy Movement",
-                        "Death I", "Shield I", "Death II",
-                        "Prevent Counterattack",
-                        "Luck: Critical Hit Adds Silence"]
+                    "Attack: Bonus Move",
+                    "Sleep I",
+                    "Stealthy Movement",
+                    "Death I",
+                    "Shield I",
+                    "Death II",
+                    "Prevent Counterattack",
+                    "Luck: Critical Hit Adds Silence",
+                ]
             elif "Banshee" in title:
                 listOfPowers = [
-                        "Attack Damage Added to Resonance",
-                        "Kills Increase Focus", "Axes: Bonus Damage I",
-                        "Attack: Bonus Move", "Axes: Bonus Damage II",
-                        "Charm instead of Rout", "Luck: Increased Dodge I",
-                        "Focused Attacks Rout"]
+                    "Attack Damage Added to Resonance",
+                    "Kills Increase Focus",
+                    "Axes: Bonus Damage I",
+                    "Attack: Bonus Move",
+                    "Axes: Bonus Damage II",
+                    "Charm instead of Rout",
+                    "Luck: Increased Dodge I",
+                    "Focused Attacks Rout",
+                ]
             elif "Bard" in title:
                 listOfPowers = [
-                        "Blaze I", "Free Spell After Critical", "Surge I",
-                        "Luck: Critical Chance Up I", "Dao I", "Apollo I",
-                        "Sing While Casting", "Command: MP Regeneration"]
+                    "Blaze I",
+                    "Free Spell After Critical",
+                    "Surge I",
+                    "Luck: Critical Chance Up I",
+                    "Dao I",
+                    "Apollo I",
+                    "Sing While Casting",
+                    "Command: MP Regeneration",
+                ]
             elif "Baron" in title:
                 listOfPowers = [
-                        "Swords: Increased Damage I",
-                        "Command: Luck: Counterattack", "Luck: Reverse Death",
-                        "Command: Allies Increase Defense",
-                        "Luck: Critical Drain I",
-                        "Aimed Shot", "Death II", "Luck: Critical Drain II"]
+                    "Swords: Increased Damage I",
+                    "Command: Luck: Counterattack",
+                    "Luck: Reverse Death",
+                    "Command: Allies Increase Defense",
+                    "Luck: Critical Drain I",
+                    "Aimed Shot",
+                    "Death II",
+                    "Luck: Critical Drain II",
+                ]
             elif "Berserker" in title:
                 listOfPowers = [
-                        "Increased Heavy Damage I", "Unhindered Movement",
-                        "Unarmed Attack: Rout Deals Damage",
-                        "Increased Heavy Damage II",
-                        "Axes: Lost Health Adds Damage I",
-                        "Increased Heavy Damage III",
-                        "Axes: Increased Critical Chance I",
-                        "Axes: Increased Critical Chance II"]
+                    "Increased Heavy Damage I",
+                    "Unhindered Movement",
+                    "Unarmed Attack: Rout Deals Damage",
+                    "Increased Heavy Damage II",
+                    "Axes: Lost Health Adds Damage I",
+                    "Increased Heavy Damage III",
+                    "Axes: Increased Critical Chance I",
+                    "Axes: Increased Critical Chance II",
+                ]
             elif "Bishop" in title:
                 listOfPowers = [
-                        "Aura I", "Shield I",
-                        "Staffs: Ranged Lightning Damage", "Aura II",
-                        "Aura III", "Focus: Magic AOE Doubled", "Aura IV",
-                        "Command: Fill Focus If Ally Dies"]
+                    "Aura I",
+                    "Shield I",
+                    "Staffs: Ranged Lightning Damage",
+                    "Aura II",
+                    "Aura III",
+                    "Focus: Magic AOE Doubled",
+                    "Aura IV",
+                    "Command: Fill Focus If Ally Dies",
+                ]
             elif "Blood Mage" in title:
                 listOfPowers = [
-                        "Drain I", "Poison I", "Cast Magic Using Health",
-                        "Drain II", "Muddle I", "Death I",
-                        "Daggers: Cast Spell Adds Bonus Attack", "Poison II"]
+                    "Drain I",
+                    "Poison I",
+                    "Cast Magic Using Health",
+                    "Drain II",
+                    "Muddle I",
+                    "Death I",
+                    "Daggers: Cast Spell Adds Bonus Attack",
+                    "Poison II",
+                ]
             elif "Cantor" in title:
                 listOfPowers = [
-                        "Luck: Increased Rout I",
-                        "Vocal Attack: Ignore Movement", "Mounted Movement",
-                        "Vocal Attack: Increased Damage I",
-                        "Luck: Increased Rout II",
-                        "Unholy: Increased Resistance I",
-                        "Vocal Attack: Increased Damage II"
-                        "Rout: Add Effect: Sleep"]
+                    "Luck: Increased Rout I",
+                    "Vocal Attack: Ignore Movement",
+                    "Mounted Movement",
+                    "Vocal Attack: Increased Damage I",
+                    "Luck: Increased Rout II",
+                    "Unholy: Increased Resistance I",
+                    "Vocal Attack: Increased Damage IIRout: Add Effect: Sleep",
+                ]
             elif "Channeler" in title:
                 listOfPowers = [
-                        "Surge I", "Counterspell", "Silence I", "Surge II",
-                        "Silence II", "Surge III", "Silence II", "Surge IV"]
+                    "Surge I",
+                    "Counterspell",
+                    "Silence I",
+                    "Surge II",
+                    "Silence II",
+                    "Surge III",
+                    "Silence II",
+                    "Surge IV",
+                ]
             elif "Chorister" in title:
                 listOfPowers = [
-                        "Vocal Attack: Sustain Effect",
-                        "Vocal Attack: Increased Resonance I",
-                        "Command: Vocal Attack: Increased Damage I",
-                        "Vocal Attack: Increased Resonance II",
-                        "Holy Ground Increases Defense I",
-                        "Command: Vocal Attack: Increased Damage II",
-                        "Vocal Attack: Increased Resonance III",
-                        "Vocal Attack: Chance of Charm"]
+                    "Vocal Attack: Sustain Effect",
+                    "Vocal Attack: Increased Resonance I",
+                    "Command: Vocal Attack: Increased Damage I",
+                    "Vocal Attack: Increased Resonance II",
+                    "Holy Ground Increases Defense I",
+                    "Command: Vocal Attack: Increased Damage II",
+                    "Vocal Attack: Increased Resonance III",
+                    "Vocal Attack: Chance of Charm",
+                ]
             elif "Dark Mage" in title:
                 listOfPowers = [
-                        "Blaze I", "Freeze I", "Defense: Magic", "Blaze II",
-                        "Death I", "Freeze II", "Death II", "Bolt I"]
+                    "Blaze I",
+                    "Freeze I",
+                    "Defense: Magic",
+                    "Blaze II",
+                    "Death I",
+                    "Freeze II",
+                    "Death II",
+                    "Bolt I",
+                ]
             elif "Druid" in title:
                 listOfPowers = [
-                        "Stealthy Movement", "Defense: Increased Resistance I",
-                        "Detox I", "Blast I", "Conduit I", "Blast II",
-                        "Defense: Increased Resistance II", "Blast III"]
+                    "Stealthy Movement",
+                    "Defense: Increased Resistance I",
+                    "Detox I",
+                    "Blast I",
+                    "Conduit I",
+                    "Blast II",
+                    "Defense: Increased Resistance II",
+                    "Blast III",
+                ]
             elif "Duelist" in title:
                 listOfPowers = [
-                        "Swords: Increased Luck I", "Luck: Counterattack",
-                        "Defense: Swords I", "Challenge to Duel",
-                        "Swords: Increased Luck II",
-                        "Luck: Dodge Grants Counterattack",
-                        "Swords: Increased Luck III",
-                        "Luck: Counterattack First"]
+                    "Swords: Increased Luck I",
+                    "Luck: Counterattack",
+                    "Defense: Swords I",
+                    "Challenge to Duel",
+                    "Swords: Increased Luck II",
+                    "Luck: Dodge Grants Counterattack",
+                    "Swords: Increased Luck III",
+                    "Luck: Counterattack First",
+                ]
             elif "Flamecaster" in title:
                 listOfPowers = [
-                        "Blaze I", "Magic: Cost Reduction I", "Sleep I",
-                        "Blaze II", "Counterspell", "Blaze III",
-                        "Magic: Increased Damage I", "Blaze IV"]
+                    "Blaze I",
+                    "Magic: Cost Reduction I",
+                    "Sleep I",
+                    "Blaze II",
+                    "Counterspell",
+                    "Blaze III",
+                    "Magic: Increased Damage I",
+                    "Blaze IV",
+                ]
             elif "Gambler" in title:
                 listOfPowers = [
-                        "Increased Luck When Outnumbered I",
-                        "Luck: Dodge Chance Up I",
-                        "Luck: Dodge Grants Counterattack",
-                        "Stealthy Movement",
-                        "Increased Luck When Outnumbered II",
-                        "Luck: Reverse Death", "Luck: Dodge Chance Up II",
-                        "Luck: Dodge Chance Up II"]
+                    "Increased Luck When Outnumbered I",
+                    "Luck: Dodge Chance Up I",
+                    "Luck: Dodge Grants Counterattack",
+                    "Stealthy Movement",
+                    "Increased Luck When Outnumbered II",
+                    "Luck: Reverse Death",
+                    "Luck: Dodge Chance Up II",
+                    "Luck: Dodge Chance Up II",
+                ]
             elif "Heavy Shot" in title:
                 listOfPowers = [
-                        "Heavy Attack Instead of Normal For Ranged Tile",
-                        "Gain Focus When Stationary", "Unhindered Movement",
-                        "Brass Guns: Critical Damage I",
-                        "Defense: Physical I",
-                        "Brass Guns: Critical Damage II",
-                        "Defense: Physical II",
-                        "Brass Guns: Minumum Range - 1"]
+                    "Heavy Attack Instead of Normal For Ranged Tile",
+                    "Gain Focus When Stationary",
+                    "Unhindered Movement",
+                    "Brass Guns: Critical Damage I",
+                    "Defense: Physical I",
+                    "Brass Guns: Critical Damage II",
+                    "Defense: Physical II",
+                    "Brass Guns: Minumum Range - 1",
+                ]
             elif "Hero" in title:
                 listOfPowers = [
-                        "Egress I", "Swords: Increased Luck I",
-                        "Bolt I", "Luck: Counterattack", "Bolt II",
-                        "Magic: Cost Reduction I", "Bolt III",
-                        "Swords: Increased Luck II"]
+                    "Egress I",
+                    "Swords: Increased Luck I",
+                    "Bolt I",
+                    "Luck: Counterattack",
+                    "Bolt II",
+                    "Magic: Cost Reduction I",
+                    "Bolt III",
+                    "Swords: Increased Luck II",
+                ]
             elif "Jongleur" in title:
                 listOfPowers = [
-                        "Luck: Enable Triple Attack", "Quick Shot",
-                        "Begin Battle With Rank 2 Focus",
-                        "Daggers: Add Effect: Poison",
-                        "Luck: Increased Dodge I", "Luck: Increased Dodge II",
-                        "Luck: Increased Dodge III",
-                        "Luck: Dodge Grants Counterattack"]
-            elif ("Knight" in title and "Mage Knight" not in
-                    title and "Steam Knight" not in title):
+                    "Luck: Enable Triple Attack",
+                    "Quick Shot",
+                    "Begin Battle With Rank 2 Focus",
+                    "Daggers: Add Effect: Poison",
+                    "Luck: Increased Dodge I",
+                    "Luck: Increased Dodge II",
+                    "Luck: Increased Dodge III",
+                    "Luck: Dodge Grants Counterattack",
+                ]
+            elif (
+                "Knight" in title
+                and "Mage Knight" not in title
+                and "Steam Knight" not in title
+            ):
                 listOfPowers = [
-                        "Mounted Movement", "Unholy: Increased Resistance I",
-                        "Lances: Movement Increases Strength Damage I",
-                        "Spears: Increased Damage I", "Rout: Pursuit Attack",
-                        "Defense: Increased vs Ranged Attacks I",
-                        "Add Damage on Unholy Ground", "Challenge to Duel"]
+                    "Mounted Movement",
+                    "Unholy: Increased Resistance I",
+                    "Lances: Movement Increases Strength Damage I",
+                    "Spears: Increased Damage I",
+                    "Rout: Pursuit Attack",
+                    "Defense: Increased vs Ranged Attacks I",
+                    "Add Damage on Unholy Ground",
+                    "Challenge to Duel",
+                ]
             elif "Mage Knight" in title:
                 listOfPowers = [
-                        "Blaze I", "Mounted Movement",
-                        "Unholy: Increased Resistance I", "Freeze I",
-                        "Lance: Attack adds Magic Vulnerability"
-                        "Bolt I",
-                        "Faith: Add Damage on Unholy Ground",
-                        "Defense: Dark Magic II"]
+                    "Blaze I",
+                    "Mounted Movement",
+                    "Unholy: Increased Resistance I",
+                    "Freeze I",
+                    "Lance: Attack adds Magic VulnerabilityBolt I",
+                    "Faith: Add Damage on Unholy Ground",
+                    "Defense: Dark Magic II",
+                ]
             elif "Monk" in title:
                 listOfPowers = [
-                        "Heal I", "Faith: Add Damage on Holy Ground I",
-                        "Heal II", "Heal III",
-                        "Faith: Add Damage on Holy Ground II", "Heal IV",
-                        "Silence I", "Aura I"]
+                    "Heal I",
+                    "Faith: Add Damage on Holy Ground I",
+                    "Heal II",
+                    "Heal III",
+                    "Faith: Add Damage on Holy Ground II",
+                    "Heal IV",
+                    "Silence I",
+                    "Aura I",
+                ]
             elif "Ninja" in title:
                 listOfPowers = [
-                        "Daggers: Range +1", "Ninja Fire I",
-                        "Luck: Counterattack", "Focus: Free Spells",
-                        "Stealthy Movement", "Ninja Bolt I", "Ninja Fire II",
-                        "Ninja Bolt II"]
+                    "Daggers: Range +1",
+                    "Ninja Fire I",
+                    "Luck: Counterattack",
+                    "Focus: Free Spells",
+                    "Stealthy Movement",
+                    "Ninja Bolt I",
+                    "Ninja Fire II",
+                    "Ninja Bolt II",
+                ]
             elif "Orator" in title:
                 listOfPowers = [
-                        "Shield I", "Vocal Attack: Increased Resonance I",
-                        "Command: Holy Ground adds Defense",
-                        "Focus: Overcome the Darkness",
-                        "Command: Holy Ground Adds Focus",
-                        "Vocal Attack: Increased Resonance II", "Shield II",
-                        "Vocal Attack: Sustain Effect"]
+                    "Shield I",
+                    "Vocal Attack: Increased Resonance I",
+                    "Command: Holy Ground adds Defense",
+                    "Focus: Overcome the Darkness",
+                    "Command: Holy Ground Adds Focus",
+                    "Vocal Attack: Increased Resonance II",
+                    "Shield II",
+                    "Vocal Attack: Sustain Effect",
+                ]
             elif "Peregrine" in title:
                 listOfPowers = [
-                        "Unarmed Attack: Wind Element", "Purifying Strike",
-                        "Unarmed Attack: Range +1", "Dispel I",
-                        "Defense: Fire I", "Silence I", "Luck: Reverse Death",
-                        "Diving Strike"]
+                    "Unarmed Attack: Wind Element",
+                    "Purifying Strike",
+                    "Unarmed Attack: Range +1",
+                    "Dispel I",
+                    "Defense: Fire I",
+                    "Silence I",
+                    "Luck: Reverse Death",
+                    "Diving Strike",
+                ]
             elif "Priest" in title:
                 listOfPowers = [
-                        "Heal I", "Detox I", "Heal II",
-                        "Healing Magic: Increased Range I", "Heal III",
-                        "Healing Magic: Reduced Cost I", "Heal IV",
-                        "Healing Magic: Additional Effect: Bonus Turn"]
+                    "Heal I",
+                    "Detox I",
+                    "Heal II",
+                    "Healing Magic: Increased Range I",
+                    "Heal III",
+                    "Healing Magic: Reduced Cost I",
+                    "Heal IV",
+                    "Healing Magic: Additional Effect: Bonus Turn",
+                ]
             elif "Prophet" in title:
                 listOfPowers = [
-                        "Heal I", "Heal II", "Slow I", "Heal III", "Aura I",
-                        "Vocal Attack: Heal Allies", "Heal IV",
-                        "Aura II"]
+                    "Heal I",
+                    "Heal II",
+                    "Slow I",
+                    "Heal III",
+                    "Aura I",
+                    "Vocal Attack: Heal Allies",
+                    "Heal IV",
+                    "Aura II",
+                ]
             elif "Samurai" in title:
                 listOfPowers = [
-                        "Swords: Focus From Attacks", "Increased Damage I",
-                        "Swords: Fire Element", "Defense: Melee I",
-                        "Swords: Increased Damage II", "Boost I",
-                        "Swords: Increased Damage III",
-                        "Swords: Increased Damage IV"]
+                    "Swords: Focus From Attacks",
+                    "Increased Damage I",
+                    "Swords: Fire Element",
+                    "Defense: Melee I",
+                    "Swords: Increased Damage II",
+                    "Boost I",
+                    "Swords: Increased Damage III",
+                    "Swords: Increased Damage IV",
+                ]
             elif "Scholar" in title:
                 listOfPowers = [
-                        "Sleep I", "Magic: Cost Reduction I", "Muddle I",
-                        "Silence I", "Magic: All Spells +1 Rank",
-                        "Focus: Effects Always Hit", "Petrify I"]
+                    "Sleep I",
+                    "Magic: Cost Reduction I",
+                    "Muddle I",
+                    "Silence I",
+                    "Magic: All Spells +1 Rank",
+                    "Focus: Effects Always Hit",
+                    "Petrify I",
+                ]
             elif "Sky Battler" in title:
                 listOfPowers = [
-                        "Flying Movement", "Extra Damage to Single Target",
-                        "Luck: Counterattack", "Luck: Increased Dodge I",
-                        "Swords: Increased Luck II",
-                        "Luck: Increased Dodge II", "Movement: Ignore Enemies",
-                        "Swords: Increased Luck III"]
+                    "Flying Movement",
+                    "Extra Damage to Single Target",
+                    "Luck: Counterattack",
+                    "Luck: Increased Dodge I",
+                    "Swords: Increased Luck II",
+                    "Luck: Increased Dodge II",
+                    "Movement: Ignore Enemies",
+                    "Swords: Increased Luck III",
+                ]
             elif "Sky Lord" in title:
                 listOfPowers = [
-                        "Flying Movement",
-                        "Heavy / Critical Attack Destroys Focus",
-                        "Lances: Movement Increases Strength Damage I",
-                        "Lances: Increased Damage I",
-                        "Luck: Increased Dodge I", "Lances: Increased Luck I"
-                        "Luck: Increased Dodge II",
-                        "Dodge: Add Speed I"]
+                    "Flying Movement",
+                    "Heavy / Critical Attack Destroys Focus",
+                    "Lances: Movement Increases Strength Damage I",
+                    "Lances: Increased Damage I",
+                    "Luck: Increased Dodge I",
+                    "Lances: Increased Luck ILuck: Increased Dodge II",
+                    "Dodge: Add Speed I",
+                ]
             elif "Soldier" in title:
                 listOfPowers = [
-                        "No Loss Of Focus From Enemy Attacks",
-                        "Receive Command Distance +1",
-                        "Focues: Range +1",
-                        "Defense: Physical I", "Attack: Lightning Element",
-                        "Whirlwind Attack", "Kills Increase Focus",
-                        "Defense: Area Spells"]
+                    "No Loss Of Focus From Enemy Attacks",
+                    "Receive Command Distance +1",
+                    "Focues: Range +1",
+                    "Defense: Physical I",
+                    "Attack: Lightning Element",
+                    "Whirlwind Attack",
+                    "Kills Increase Focus",
+                    "Defense: Area Spells",
+                ]
             elif "Sorceror" in title:
                 listOfPowers = [
-                        "Dao I", "Apollo I", "Dao II", "Apollo II",
-                        "Poseidon I", "Atlas I", "Poseidon II", "Atlas II"]
+                    "Dao I",
+                    "Apollo I",
+                    "Dao II",
+                    "Apollo II",
+                    "Poseidon I",
+                    "Atlas I",
+                    "Poseidon II",
+                    "Atlas II",
+                ]
             elif "Squire" in title:
                 listOfPowers = ["Equip: Swords"]
             elif "Steam Knight" in title:
                 listOfPowers = [
-                        "Defense: Reduced Critical Damage I",
-                        "Increase Defense When Focus Full",
-                        "Focus: Double Strength Increase",
-                        "Defense: Reduced Critical Damage II",
-                        "Lances: Increased Critical Chance I",
-                        "Unhindered Movement",
-                        "Lances: Increased Critical Chance II",
-                        "Magic Damage Taken Increases Focus"]
+                    "Defense: Reduced Critical Damage I",
+                    "Increase Defense When Focus Full",
+                    "Focus: Double Strength Increase",
+                    "Defense: Reduced Critical Damage II",
+                    "Lances: Increased Critical Chance I",
+                    "Unhindered Movement",
+                    "Lances: Increased Critical Chance II",
+                    "Magic Damage Taken Increases Focus",
+                ]
             elif "Student" in title:
                 listOfPowers = ["Blaze I"]
             elif "Survivor" in title:
                 listOfPowers = [
-                        "Defense: Magic", "Focus: Increase Healing",
-                        "Luck: Increased Dodge I", "Flying Movement",
-                        "Defense: Magic II", "Unarmed Attack: Fire Element",
-                        "Kills Increase Focus", "Critical Attack: Bolt III"]
+                    "Defense: Magic",
+                    "Focus: Increase Healing",
+                    "Luck: Increased Dodge I",
+                    "Flying Movement",
+                    "Defense: Magic II",
+                    "Unarmed Attack: Fire Element",
+                    "Kills Increase Focus",
+                    "Critical Attack: Bolt III",
+                ]
             elif "Titan" in title:
                 listOfPowers = [
-                        "Increased Heavy Damage I", "Defense: Fire I",
-                        "Magic Damage Taken Increases Focus",
-                        "Defense: Reduced Critical Damage I",
-                        "No Loss Of Focus From Enemy Attacks",
-                        "Focus: Attacks Stun",
-                        "Defense: Fire II", "Critical: Added Effect: Muddle"]
+                    "Increased Heavy Damage I",
+                    "Defense: Fire I",
+                    "Magic Damage Taken Increases Focus",
+                    "Defense: Reduced Critical Damage I",
+                    "No Loss Of Focus From Enemy Attacks",
+                    "Focus: Attacks Stun",
+                    "Defense: Fire II",
+                    "Critical: Added Effect: Muddle",
+                ]
             elif "Trickster" in title:
                 listOfPowers = [
-                        "Teleport I", "Ninja Fire I", "Teleport II",
-                        "Ninja Bolt I", "Give Vulnerability",
-                        "Portal I", "Teleport III", "Teleport: Add Turn"]
+                    "Teleport I",
+                    "Ninja Fire I",
+                    "Teleport II",
+                    "Ninja Bolt I",
+                    "Give Vulnerability",
+                    "Portal I",
+                    "Teleport III",
+                    "Teleport: Add Turn",
+                ]
             elif "Troubadour" in title:
                 listOfPowers = [
-                        "Vocal Attack: Ignore Movement",
-                        "Vocal Attack: Increased Damage I", "Sonorous Voice",
-                        "Holy Ground: Range +1", "Luck: Counterattack",
-                        "Vocal Attack: Increased Damage II",
-                        "Arrows: Support Counterattack",
-                        "Arrows: Add Effect: Muddle"]
+                    "Vocal Attack: Ignore Movement",
+                    "Vocal Attack: Increased Damage I",
+                    "Sonorous Voice",
+                    "Holy Ground: Range +1",
+                    "Luck: Counterattack",
+                    "Vocal Attack: Increased Damage II",
+                    "Arrows: Support Counterattack",
+                    "Arrows: Add Effect: Muddle",
+                ]
             elif "Valkyrie" in title:
                 listOfPowers = [
-                        "Vocal Attack: Heavy Attack",
-                        "Defense: Melee Attacks I",
-                        "Vocal Attack: Lost Health Adds Damage I",
-                        "Luck: Increased Rout I",
-                        "Defense: Melee Attacks II", "Vocal Attack: Heal Self",
-                        "Vocal Attack: Lost Health Adds Damage II",
-                        "Flying Movement"]
+                    "Vocal Attack: Heavy Attack",
+                    "Defense: Melee Attacks I",
+                    "Vocal Attack: Lost Health Adds Damage I",
+                    "Luck: Increased Rout I",
+                    "Defense: Melee Attacks II",
+                    "Vocal Attack: Heal Self",
+                    "Vocal Attack: Lost Health Adds Damage II",
+                    "Flying Movement",
+                ]
             elif "Warrior" in title:
                 listOfPowers = [
-                        "Defense: Melee Attacks I",
-                        "Heavy Attacks Inflict Bleed",
-                        "Axes: Increased Damage I",
-                        "No Loss Of Focus From Enemy Attacks",
-                        "Whirlwind Attack", "Defense: Melee Attacks II",
-                        "Rout: Follow-up Attack",
-                        "Axes: Increased Damage II"]
+                    "Defense: Melee Attacks I",
+                    "Heavy Attacks Inflict Bleed",
+                    "Axes: Increased Damage I",
+                    "No Loss Of Focus From Enemy Attacks",
+                    "Whirlwind Attack",
+                    "Defense: Melee Attacks II",
+                    "Rout: Follow-up Attack",
+                    "Axes: Increased Damage II",
+                ]
             elif "Werewolf" in title:
                 listOfPowers = [
-                        "Jump Attack", "Unarmed Attack: Increased Damage I",
-                        "Rout: Pursuit Attack",
-                        "Unarmed Attack: Increased Damage II",
-                        "Unarmed Attack: Ice Element",
-                        "Unarmed Attack: Added Effect: Curse",
-                        "Rout: Follow-up Attack",
-                        "Stealthy Movement"]
+                    "Jump Attack",
+                    "Unarmed Attack: Increased Damage I",
+                    "Rout: Pursuit Attack",
+                    "Unarmed Attack: Increased Damage II",
+                    "Unarmed Attack: Ice Element",
+                    "Unarmed Attack: Added Effect: Curse",
+                    "Rout: Follow-up Attack",
+                    "Stealthy Movement",
+                ]
             elif "Wizard" in title:
                 listOfPowers = [
-                        "Freeze I", "Blaze I", "Freeze II", "Blaze II",
-                        "Freeze III", "Bolt I", "Freeze IV", "Bolt II"]
+                    "Freeze I",
+                    "Blaze I",
+                    "Freeze II",
+                    "Blaze II",
+                    "Freeze III",
+                    "Bolt I",
+                    "Freeze IV",
+                    "Bolt II",
+                ]
             for power in listOfPowers:
-                if not any([
-                        knownPower for knownPower in self.powers
-                        if power in knownPower]):
+                if not any(
+                    [knownPower for knownPower in self.powers if power in knownPower]
+                ):
                     nameOfPower = power
-                    if nameOfPower == "Mounted Movement" and any([
-                            knownPower for knownPower in self.powers
-                            if knownPower == "Flying Movement"]):
+                    if nameOfPower == "Mounted Movement" and any(
+                        [
+                            knownPower
+                            for knownPower in self.powers
+                            if knownPower == "Flying Movement"
+                        ]
+                    ):
                         continue
-                    if 'Captain' in self.title and not any([
-                            knownPower for knownPower in self.powers
-                            if 'Command:' in knownPower]):
+                    if 'Captain' in self.title and not any(
+                        [
+                            knownPower
+                            for knownPower in self.powers
+                            if 'Command:' in knownPower
+                        ]
+                    ):
                         if 'Command:' not in nameOfPower:
                             nameOfPower = 'Command: ' + nameOfPower
                     return nameOfPower
@@ -1036,25 +1269,29 @@ class playerCharacter(object):
             elif secondStat == "Speed":
                 title = "Gambler"
             elif secondStat == "Stamina":
-                if (self.race in (
-                        "Dragon", "Tortoise") or self.level > 20 and "Warrior"
-                        not in title):
+                if (
+                    self.race in ("Dragon", "Tortoise")
+                    or self.level > 20
+                    and "Warrior" not in title
+                ):
                     title = "Survivor"
                     if self.race not in ("Dragon", "Phoenix", "Tortoise") or (
-                            self.race == "Tortoise" and "Flying Movement"
-                            in self.powers):
+                        self.race == "Tortoise" and "Flying Movement" in self.powers
+                    ):
                         self.race = "Dragon"
                         print(f"{self.name} became a Dragon!")
                 else:
                     title = "Warrior"
             elif secondStat == "Strength":
-                if (self.race in (
-                        "Dragon", "Tortoise") or self.level > 20 and "Warrior"
-                        not in title):
+                if (
+                    self.race in ("Dragon", "Tortoise")
+                    or self.level > 20
+                    and "Warrior" not in title
+                ):
                     title = "Survivor"
                     if self.race not in ("Dragon", "Phoenix", "Tortoise") or (
-                            self.race == "Tortoise" and "Flying Movement"
-                            in self.powers):
+                        self.race == "Tortoise" and "Flying Movement" in self.powers
+                    ):
                         self.race = "Dragon"
                         print(f"{self.name} became a Dragon!")
                 else:
@@ -1063,18 +1300,18 @@ class playerCharacter(object):
                 title = "Cantor"
         elif primeStat == "Speed":
             if secondStat == "Charisma":
-                if ("Flying Movement" in
-                        self.powers or self.stats["Speed"] > 25):
+                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
                     title = "Sky Battler"
-                elif self.stats["Intelligence"] > max(
-                        self.stats["Faith"], self.stats["Dexterity"]) \
-                        and self.level > 4:
+                elif (
+                    self.stats["Intelligence"]
+                    > max(self.stats["Faith"], self.stats["Dexterity"])
+                    and self.level > 4
+                ):
                     title = "Mage Knight"
                 else:
                     title = "Knight"
             elif secondStat == "Dexterity":
-                if ("Flying Movement" in
-                        self.powers or self.stats["Speed"] > 25):
+                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
                     title = "Sky Battler"
                 else:
                     title = "Heavy Shot"
@@ -1085,23 +1322,21 @@ class playerCharacter(object):
             elif secondStat == "Intelligence":
                 title = "Ninja"
             elif secondStat == "Luck":
-                if ("Flying Movement" in
-                        self.powers or self.stats["Speed"] > 25):
+                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
                     title = "Sky Battler"
                 else:
                     title = "Duelist"
             elif secondStat == "Stamina":
-                if ("Flying Movement" in
-                        self.powers or self.stats["Speed"] > 25):
+                if "Flying Movement" in self.powers or self.stats["Speed"] > 25:
                     title = "Sky Lord"
                 else:
                     title = "Knight"
             elif secondStat == "Strength":
-                if (self.race in ("Dragon", "Tortoise") or self.level > 20):
+                if self.race in ("Dragon", "Tortoise") or self.level > 20:
                     title = "Survivor"
                     if self.race not in ("Dragon", "Phoenix", "Tortoise") or (
-                            self.race == "Tortoise" and "Flying Movement"
-                            in self.powers):
+                        self.race == "Tortoise" and "Flying Movement" in self.powers
+                    ):
                         self.race = "Dragon"
                         print(f"{self.name} became a Dragon!")
                 else:
@@ -1134,9 +1369,11 @@ class playerCharacter(object):
                 title = "Valkyrie"
         elif primeStat == "Strength":
             if secondStat == "Charisma":
-                if self.stats["Intelligence"] > max(
-                        self.stats["Faith"], self.stats["Dexterity"]) \
-                        and self.level > 4:
+                if (
+                    self.stats["Intelligence"]
+                    > max(self.stats["Faith"], self.stats["Dexterity"])
+                    and self.level > 4
+                ):
                     title = "Mage Knight"
                 else:
                     title = "Baron"
@@ -1157,9 +1394,11 @@ class playerCharacter(object):
             elif secondStat == "Luck":
                 title = "Hero"
             elif secondStat == "Speed":
-                if self.stats["Intelligence"] > max(
-                        self.stats["Faith"], self.stats["Dexterity"]) \
-                        and self.level > 4:
+                if (
+                    self.stats["Intelligence"]
+                    > max(self.stats["Faith"], self.stats["Dexterity"])
+                    and self.level > 4
+                ):
                     title = "Mage Knight"
                 else:
                     title = "Knight"
@@ -1211,38 +1450,48 @@ class playerCharacter(object):
             elif secondStat == "Voice":
                 title = "Chorister"
         if title == "newbie":
-            print(
-                    f"Newbie found. Let Neirai the Forgiven know."
-                    f"Stats are {self.stats}")
+            print(f"Newbie found. Let Neirai the Forgiven know.Stats are {self.stats}")
             if self.stats["Intelligence"] < self.stats["Strength"]:
                 title = "Squire"
                 print(
-                    f"Squire found. Let Neirai the Forgiven know."
-                    f"Stats are {self.stats}")
+                    f"Squire found. Let Neirai the Forgiven know.Stats are {self.stats}"
+                )
             else:
                 title = "Student"
                 print(
-                    f"Student found. Let Neirai the Forgiven know."
-                    f"Stats are {self.stats}")
+                    "Student found. Let Neirai the Forgiven know."
+                    f"Stats are {self.stats}"
+                )
         undecoratedTitle = title
         decoratedTitle = title
         if self.fame >= 25:
             decoratedTitle = title + " Captain"
         if self.stats["Speed"] > 25 <= 40 and (
-                "Mounted" not in title and "Knight" not in
-                title and "Sky " not in
-                title and "Flying Movement" not in self.powers):
+            "Mounted" not in title
+            and "Knight" not in title
+            and "Sky " not in title
+            and "Flying Movement" not in self.powers
+        ):
             decoratedTitle = "Mounted " + decoratedTitle
-        elif (self.stats["Speed"] > 40 or "Flying Movement" in
-                self.powers) and "Sky " not in title:
+        elif (
+            self.stats["Speed"] > 40 or "Flying Movement" in self.powers
+        ) and "Sky " not in title:
             decoratedTitle = "Sky " + decoratedTitle
         return undecoratedTitle, decoratedTitle
 
-    def initializeRandomStats(
-                self, bestStat=None, secondBestStat=None, dumpStat=None):
+    def initializeRandomStats(self, bestStat=None, secondBestStat=None, dumpStat=None):
         statsToAssign = [
-                "Strength", "Dexterity", "Intelligence", "Faith", "Charisma",
-                "Luck", "Speed", "Stamina", "Voice", "Focus"]
+            "Strength",
+            "Dexterity",
+            "Intelligence",
+            "Faith",
+            "Charisma",
+            "Luck",
+            "Speed",
+            "Stamina",
+            "Voice",
+            "Focus",
+        ]
         growth = {}
         advance = True
         growthLevel = 5
@@ -1301,8 +1550,7 @@ class playerCharacter(object):
                     break
         if chatter:
             happy = self.statIncreaseCount >= (self.level * 4 - 1)
-            breakthrough = (
-                    self.statIncreaseCount - preLevelStatIncreaseCount > 5)
+            breakthrough = self.statIncreaseCount - preLevelStatIncreaseCount > 5
             for statName, statValue in self.growth.items():
                 afterDict[statName] = self.stats[statName]
             fulfilled = 0
@@ -1405,21 +1653,24 @@ class playerCharacter(object):
                         choice = 0
                     else:
                         print(
-                                f"{self.name}: \"I'm starting to feel as if "
-                                f"being a {self.title} isn't working out. "
-                                f"Perhaps I should become a {afterDecorated} "
-                                f"and study the art of {newProposedPower} "
-                                f"instead of sticking with {beforeTitle} and "
-                                f"learning {oldProposedPower}. What do you "
-                                "think?\"")
+                            f"{self.name}: \"I'm starting to feel as if "
+                            f"being a {self.title} isn't working out. "
+                            f"Perhaps I should become a {afterDecorated} "
+                            f"and study the art of {newProposedPower} "
+                            f"instead of sticking with {beforeTitle} and "
+                            f"learning {oldProposedPower}. What do you "
+                            "think?\""
+                        )
                         print(
-                                f"{self.name} can choose (0) {beforeTitle} or "
-                                f"(1) {afterDecorated}.")
+                            f"{self.name} can choose (0) {beforeTitle} or "
+                            f"(1) {afterDecorated}."
+                        )
                         choice = None
                         while choice not in (0, 1):
                             try:
-                                choice = int(input(
-                                    "Type the number to make your choice: "))
+                                choice = int(
+                                    input("Type the number to make your choice: ")
+                                )
                             except ValueError:
                                 choice = None
                     if choice == 0:
@@ -1428,8 +1679,9 @@ class playerCharacter(object):
                         self.assignTitle(beforeTitle, chatter)
                         if chatter:
                             print(
-                                    f"{self.name}: \"If you insist, I will do "
-                                    "my best to prove your judgement right!\"")
+                                f"{self.name}: \"If you insist, I will do "
+                                "my best to prove your judgement right!\""
+                            )
                         self.assignPower(oldProposedPower, chatter)
                     if choice == 1:
                         if chatter:
@@ -1437,16 +1689,17 @@ class playerCharacter(object):
                         self.assignTitle(afterDecorated, chatter)
                         if chatter:
                             print(
-                                    f"{self.name}: \"That's settled, then! "
-                                    f"Today I will become a {self.title}!\"")
+                                f"{self.name}: \"That's settled, then! "
+                                f"Today I will become a {self.title}!\""
+                            )
                         self.assignPower(newProposedPower, chatter)
                 else:
                     if chatter:
                         print(
-                                f"{self.name}: \"Another step on my chosen "
-                                f"path as a {self.title}!\"")
-                    self.assignPower(
-                            self.getPower(self.title, chatter), chatter)
+                            f"{self.name}: \"Another step on my chosen "
+                            f"path as a {self.title}!\""
+                        )
+                    self.assignPower(self.getPower(self.title, chatter), chatter)
             self.updateGrowth()
         else:
             if chatter:
@@ -1454,65 +1707,77 @@ class playerCharacter(object):
                     if happy:
                         if breakthrough:
                             print(
-                                    f"{self.name}: \"These are the moments "
-                                    "that define the legends of the "
-                                    f"{self.title}!\"")
+                                f"{self.name}: \"These are the moments "
+                                "that define the legends of the "
+                                f"{self.title}!\""
+                            )
                         else:
                             print(
-                                    f"{self.name}: \"Yes! I am the epitome "
-                                    f"of a {self.title}!\"")
+                                f"{self.name}: \"Yes! I am the epitome "
+                                f"of a {self.title}!\""
+                            )
                     else:
                         if breakthrough:
                             print(
-                                    f"{self.name}: \"What is this? This "
-                                    "power! It seems like so much more than a "
-                                    f"mere {self.title}!\"")
+                                f"{self.name}: \"What is this? This "
+                                "power! It seems like so much more than a "
+                                f"mere {self.title}!\""
+                            )
                         else:
                             print(
-                                    f"{self.name}: \"At least I know this is "
-                                    f"the path a {self.title} should be "
-                                    "taking.\"")
+                                f"{self.name}: \"At least I know this is "
+                                f"the path a {self.title} should be "
+                                "taking.\""
+                            )
                 elif fulfilled == 1:
                     if happy:
                         if breakthrough:
                             print(
-                                    f"{self.name}: \"Wow! That really opened "
-                                    "up some new perspectives!\"")
+                                f"{self.name}: \"Wow! That really opened "
+                                "up some new perspectives!\""
+                            )
                         else:
                             print(
-                                    f"{self.name}: \"It's not much, but this "
-                                    f"will make me a better {self.title}.\"")
+                                f"{self.name}: \"It's not much, but this "
+                                f"will make me a better {self.title}.\""
+                            )
                     else:
                         if breakthrough:
                             print(
-                                    f"{self.name}: \"Finally, something "
-                                    f"about being a {self.title} is making "
-                                    "sense.\"")
+                                f"{self.name}: \"Finally, something "
+                                f"about being a {self.title} is making "
+                                "sense.\""
+                            )
                         else:
                             print(
-                                    f"{self.name}: \"Being a {self.title} is "
-                                    "a lot harder than I expected.\"")
+                                f"{self.name}: \"Being a {self.title} is "
+                                "a lot harder than I expected.\""
+                            )
                 else:
                     if happy:
                         if breakthrough:
                             print(
-                                    f"{self.name}: \"I... I've had a vision. "
-                                    "I've never seen myself in that light "
-                                    "before...\"")
+                                f"{self.name}: \"I... I've had a vision. "
+                                "I've never seen myself in that light "
+                                "before...\""
+                            )
                         else:
                             print(
-                                    f"{self.name}: \"Well, that is a "
-                                    "disappointment, to say the least.\"")
+                                f"{self.name}: \"Well, that is a "
+                                "disappointment, to say the least.\""
+                            )
                     else:
                         if breakthrough:
                             print(
                                 f"{self.name}: \"Maybe I'll never be a great "
                                 f"{self.title}, but perhaps there are other "
-                                "options opening up!\"")
+                                "options opening up!\""
+                            )
                         else:
                             print(
-                                    f"{self.name}: \"Aww, maybe I'm not cut "
-                                    f"out to be a {self.title}.\"")
+                                f"{self.name}: \"Aww, maybe I'm not cut "
+                                f"out to be a {self.title}.\""
+                            )
         self.upSkill()
 
     def maxFP(self):
@@ -1522,7 +1787,7 @@ class playerCharacter(object):
             return self.stats["Faith"]
 
     def maxHP(self):
-        return ((self.stats["Stamina"] * 2) + self.level)
+        return (self.stats["Stamina"] * 2) + self.level
 
     def maxMP(self):
         if self.equipment:
@@ -1543,15 +1808,14 @@ class playerCharacter(object):
         print(f"  HP:   {self.hp:3}/{self.maxHP():3}    Dexterity: {dex}")
         print(f"  FP:   {self.fp:3}/{self.maxFP():3}    Charisma: {cha}")
         print(f"  MP:   {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
-        print(f"  Moves: {max(self.movementPoints, 0):2}/{speed:3}    "
-                f"Luck: {luck:3}")
+        print(f"  Moves: {max(self.movementPoints, 0):2}/{speed:3}    Luck: {luck:3}")
         if self.focus == 3000:
             focusString = 'FULL!'
         else:
             focusString = f"Rank {math.floor(self.focus / 750)}"
         print(
-                f"  Exp:  {self.xp:3}/100    Focus: "
-                f"{focusString:6} + {focus * 2}% / turn")
+            f"  Exp:  {self.xp:3}/100    Focus: {focusString:6} + {focus * 2}% / turn"
+        )
         sortedPowers = sorted(self.powers)
         print("Powers:")
         print("  " + " - ".join(sortedPowers))
@@ -1584,10 +1848,19 @@ class playerCharacter(object):
 
 
 class equipment(object):
-
     def __init__(
-            self, equipType, name, price, skill=0, minRange=0, maxRange=0,
-            damage=3, fp=0, mp=0, powers=[]):
+        self,
+        equipType,
+        name,
+        price,
+        skill=0,
+        minRange=0,
+        maxRange=0,
+        damage=3,
+        fp=0,
+        mp=0,
+        powers=[],
+    ):
         self.type = equipType
         self.name = name
         self.price = price
@@ -1608,12 +1881,10 @@ party = []
 stop = input("Type debug to enter debug mode.")
 if stop == "debug":
     module = input("Type SF if you want me to run the SF module.")
-    chatty = input(
-            "Type chatty if you want to be barraged with leveling info.")
+    chatty = input("Type chatty if you want to be barraged with leveling info.")
     if chatty == 'chatty':
         chatter = True
-        stopEveryLevel = input(
-                "Type slow if you want to stop for every level.")
+        stopEveryLevel = input("Type slow if you want to stop for every level.")
     else:
         chatter = False
         stopEveryLevel = "fast"
@@ -1642,8 +1913,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Arthur", "Centaur", "Knight", chatter, 6)
         party.append(recruit)
-        recruit = playerCharacter(
-                "Balbaroy", "Birdman", "Sky Battler", chatter, 8)
+        recruit = playerCharacter("Balbaroy", "Birdman", "Sky Battler", chatter, 8)
         party.append(recruit)
         recruit = playerCharacter("Amon", "Birdman", "Sky Battler", chatter, 8)
         party.append(recruit)
@@ -1657,11 +1927,9 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Vankar", "Centaur", "Knight", chatter, 11)
         party.append(recruit)
-        recruit = playerCharacter(
-                "Domingo", "Magical Creature", "Wizard", chatter, 12)
+        recruit = playerCharacter("Domingo", "Magical Creature", "Wizard", chatter, 12)
         party.append(recruit)
-        recruit = playerCharacter(
-                "Guntz", "Armadillo", "Steam Knight", chatter, 12)
+        recruit = playerCharacter("Guntz", "Armadillo", "Steam Knight", chatter, 12)
         party.append(recruit)
         recruit = playerCharacter("Earnest", "Centaur", "Knight", chatter, 13)
         party.append(recruit)
@@ -1764,13 +2032,15 @@ if stop == "debug":
                             pc.levelUp(chatter)
                         if i == pc.battleNum:
                             print(
-                                    f"{pc.name} is a level {pc.level} "
-                                    f"{pc.race} {pc.title} with {pc.powers}.")
+                                f"{pc.name} is a level {pc.level} "
+                                f"{pc.race} {pc.title} with {pc.powers}."
+                            )
                         else:
                             print(
-                                    f"{pc.name} is a level {pc.level} "
-                                    f"{pc.race} {pc.title} with "
-                                    f"{pc.powers[len(pc.powers) - 1:]}.")
+                                f"{pc.name} is a level {pc.level} "
+                                f"{pc.race} {pc.title} with "
+                                f"{pc.powers[len(pc.powers) - 1:]}."
+                            )
                 stop = input()
         # elif module == "SF2":
     else:
