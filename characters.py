@@ -1821,7 +1821,16 @@ class playerCharacter(object):
         print("  " + " - ".join(sortedPowers))
         sortedSkills = sorted(self.skills)
         print("Skills:")
-        print("  " + " - ".join([skill for skill in sortedSkills if skill > 0]))
+        print(
+            "  "
+            + " - ".join(
+                [
+                    str(f"{skill}: {self.skills[skill]}")
+                    for skill in sortedSkills
+                    if self.skills[skill] > 0
+                ]
+            )
+        )
         if self.equipment:
             print(f"Equipped: {self.equipment.name}")
         print(f"Trophies: {len(self.trophies):3}")
