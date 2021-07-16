@@ -1396,11 +1396,14 @@ class playerCharacter(object):
             beforeTitle = self.title
             if chatter:
                 print("")
-                afterTitle, afterDecorated = self.getTitle(chatter)
-                oldProposedPower = self.getPower(beforeTitle, chatter)
-                newProposedPower = self.getPower(afterDecorated, chatter)
-                if afterTitle != beforeTitle:
-                    if afterDecorated != beforeTitle:
+            afterTitle, afterDecorated = self.getTitle(chatter)
+            oldProposedPower = self.getPower(beforeTitle, chatter)
+            newProposedPower = self.getPower(afterDecorated, chatter)
+            if afterTitle != beforeTitle:
+                if afterDecorated != beforeTitle:
+                    if not chatter:
+                        choice = 0
+                    else:
                         print(
                                 f"{self.name}: \"I'm starting to feel as if "
                                 f"being a {self.title} isn't working out. "
@@ -1419,23 +1422,29 @@ class playerCharacter(object):
                                     "Type the number to make your choice: "))
                             except ValueError:
                                 choice = None
-                        if choice == 0:
+                    if choice == 0:
+                        if chatter:
                             print(f"")
-                            self.assignTitle(beforeTitle, chatter)
+                        self.assignTitle(beforeTitle, chatter)
+                        if chatter:
                             print(
                                     f"{self.name}: \"If you insist, I will do "
                                     "my best to prove your judgement right!\"")
-                            self.assignPower(oldProposedPower, chatter)
-                        if choice == 1:
-                            self.assignTitle(afterDecorated, chatter)
+                        self.assignPower(oldProposedPower, chatter)
+                    if choice == 1:
+                        if chatter:
+                            print(f"")
+                        self.assignTitle(afterDecorated, chatter)
+                        if chatter:
                             print(
                                     f"{self.name}: \"That's settled, then! "
                                     f"Today I will become a {self.title}!\"")
-                            self.assignPower(newProposedPower, chatter)
+                        self.assignPower(newProposedPower, chatter)
                 else:
-                    print(
-                            f"{self.name}: \"Another step on my chosen path "
-                            f"as a {self.title}!\"")
+                    if chatter:
+                        print(
+                                f"{self.name}: \"Another step on my chosen "
+                                f"path as a {self.title}!\"")
                     self.assignPower(
                             self.getPower(self.title, chatter), chatter)
             self.updateGrowth()
