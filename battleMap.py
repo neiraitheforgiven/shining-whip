@@ -3713,6 +3713,7 @@ class game(object):
                         "Iron Shot",
                         "Bronze Lance",
                     ],
+                    5,
                 )
             self.shop.goShopping(self)
             print("")
@@ -3813,6 +3814,7 @@ class game(object):
                         "Power Staff",
                         "Power Spear",
                     ],
+                    8,
                 )
                 self.battleStarted = 5
                 self.save()
@@ -4127,6 +4129,7 @@ class game(object):
                         "Steel Arrow",
                     ],
                     ["Thief's Dagger", "Power Axe", "Power Spear", "Middle Axe"],
+                    12,
                 )
                 self.battleStarted = 9
                 self.save()
