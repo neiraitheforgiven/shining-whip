@@ -1005,7 +1005,7 @@ class battle(object):
             return False
 
     def bleed(self, unit):
-        coef = math.round(unit.hp / self.maxHP(unit), 2)
+        coef = round(unit.hp / self.maxHP(unit), 2)
         damage = math.ceil(unit.hp * coef)
         unit.hp -= damage
         if unit.hp <= 0:
