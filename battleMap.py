@@ -3561,7 +3561,7 @@ class game(object):
             self.doBattle(self.battleNum)
 
     def doBattle(self, battleNum):
-        chatter = False
+        chatter = True
         if battleNum == 1:
             print("You are the leader of a small part of misfits.")
             print("You are from Yatahal, the Holy City.")
@@ -3698,15 +3698,15 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
                 self.playerCharacters.append(recruit)
                 self.equipOnCharacter(
                     equipment("Axes", "Hand Axe", 200, 4, 0, 0, 4, 0, 0), recruit, False
                 )
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 self.reckoning(25, 'widow of your mentor')
                 self.battleStarted = 3
                 self.save()
@@ -3792,10 +3792,10 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
                 self.battleStarted = 4
                 self.save()
@@ -3899,12 +3899,12 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
                 self.battleStarted = 6
                 self.save()
@@ -3981,10 +3981,10 @@ class game(object):
                 self.equipOnCharacter(
                     equipment("Spears", "Spear", 150, 5, 0, 1, 5, 0, 0), recruit, False
                 )
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
                 self.battleStarted = 7
                 self.save()
@@ -4105,14 +4105,14 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
                 print("Balbaroy joins your force!")
                 recruit = playerCharacter(
@@ -4123,14 +4123,14 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
             print(
                 "You head north to Jaspet, where you find that all of the "
@@ -4148,14 +4148,14 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
                 self.shop = shop(
                     self,
