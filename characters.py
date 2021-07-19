@@ -1717,7 +1717,7 @@ class playerCharacter(object):
                         f"{self.name}: \"Another step on my chosen "
                         f"path as a {self.title}!\""
                     )
-            self.assignPower(self.getPower(self.title, chatter), chatter)
+                self.assignPower(self.getPower(self.title, chatter), chatter)
             self.updateGrowth()
         else:
             if chatter:
