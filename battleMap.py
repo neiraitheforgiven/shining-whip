@@ -4268,5 +4268,16 @@ class game(object):
         self.shelf["battleStarted"] = self.battleStarted
         self.shelf.close()
 
+    def setMinSkill(self, level):
+        for pc in self.playerCharacters:
+            maxSkill = max(pc.skills[skill] for skill in pc.skills)
+            if maxSkill < level:
+                maxSkills = [
+                    skill for skill in pc.skills if pc.skills[skill] == maxSkill
+                ]
+                if set(maxSkills) - set(["Unarmed Attack", "Holy Songs"]):
+                    pc.upSkill()
+                    self.setMinSkill(level)
+
 
 game = game()
