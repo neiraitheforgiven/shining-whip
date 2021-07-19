@@ -3590,42 +3590,42 @@ class game(object):
             print("")
             print("Swallowing your fear, you draw arms and challenge them!")
             if self.battleStarted < 1:
-                recruit = playerCharacter("Max", "Human", "Hero", chatter, 0)
+                recruit = playerCharacter("Max", "Human", "Hero", False, 0)
                 self.equipOnCharacter(
                     equipment("Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0),
                     recruit,
                     False,
                 )
                 self.playerCharacters.append(recruit)
-                recruit = playerCharacter("Lowe", "Hobbit", "Priest", chatter, 0)
+                recruit = playerCharacter("Lowe", "Hobbit", "Priest", False, 0)
                 self.equipOnCharacter(
                     equipment("Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3),
                     recruit,
                     False,
                 )
                 self.playerCharacters.append(recruit)
-                recruit = playerCharacter("Tao", "Elf", "Flamecaster", chatter, 0)
+                recruit = playerCharacter("Tao", "Elf", "Flamecaster", False, 0)
                 self.equipOnCharacter(
                     equipment("Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3),
                     recruit,
                     False,
                 )
                 self.playerCharacters.append(recruit)
-                recruit = playerCharacter("Luke", "Dwarf", "Warrior", chatter, 0)
+                recruit = playerCharacter("Luke", "Dwarf", "Warrior", False, 0)
                 self.equipOnCharacter(
                     equipment("Axes", "Short Axe", 120, 1, 0, 0, 3, 0, 0),
                     recruit,
                     False,
                 )
                 self.playerCharacters.append(recruit)
-                recruit = playerCharacter("Ken", "Centaur", "Knight", chatter, 0)
+                recruit = playerCharacter("Ken", "Centaur", "Knight", False, 0)
                 self.equipOnCharacter(
                     equipment("Spears", "Wooden Spear", 100, 1, 0, 1, 3, 0, 0),
                     recruit,
                     False,
                 )
                 self.playerCharacters.append(recruit)
-                recruit = playerCharacter("Hans", "Elf", "Archer", chatter, 0)
+                recruit = playerCharacter("Hans", "Elf", "Archer", False, 0)
                 self.equipOnCharacter(
                     equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0),
                     recruit,
@@ -3657,7 +3657,7 @@ class game(object):
             print("That's not good....")
             print("")
             if self.battleStarted < 2:
-                recruit = playerCharacter("Gong", "Half-Giant", "Monk", chatter, 1)
+                recruit = playerCharacter("Gong", "Half-Giant", "Monk", False, 1)
                 recruit.levelUp(chatter)
                 self.playerCharacters.append(recruit)
                 self.reckoning(25, 'lonely priest')
@@ -3691,7 +3691,7 @@ class game(object):
             print("drunk on wine and thirsty for vengence, Gort!")
             print("")
             if self.battleStarted < 3:
-                recruit = playerCharacter("Mae", "Centaur", "Knight", chatter, 2)
+                recruit = playerCharacter("Mae", "Centaur", "Knight", False, 2)
                 self.playerCharacters.append(recruit)
                 self.equipOnCharacter(
                     equipment("Lances", "Bronze Lance", 300, 4, 0, 0, 6, 0, 0),
@@ -3700,7 +3700,7 @@ class game(object):
                 )
                 recruit.levelUp(False)
                 recruit.levelUp(False)
-                recruit = playerCharacter("Gort", "Dwarf", "Warrior", chatter, 2)
+                recruit = playerCharacter("Gort", "Dwarf", "Warrior", False, 2)
                 self.playerCharacters.append(recruit)
                 self.equipOnCharacter(
                     equipment("Axes", "Hand Axe", 200, 4, 0, 0, 4, 0, 0), recruit, False
@@ -3786,7 +3786,7 @@ class game(object):
             print("\"I'm Khris. The priesthood is still loyal to Yatahal.\"")
             if self.battleStarted < 4:
                 print("Khris joins your force!")
-                recruit = playerCharacter("Khris", "Kyantol", "Priest", chatter, 4)
+                recruit = playerCharacter("Khris", "Kyantol", "Priest", False, 4)
                 self.equipOnCharacter(
                     equipment("Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3),
                     recruit,
@@ -3893,7 +3893,7 @@ class game(object):
             print("Within, she claims you will find a sacred sword.")
             if self.battleStarted < 6:
                 print("Anri joins your force!")
-                recruit = playerCharacter("Anri", "Human", "Wizard", chatter, 6)
+                recruit = playerCharacter("Anri", "Human", "Wizard", False, 6)
                 self.equipOnCharacter(
                     equipment("Staffs", "Power Staff", 500, 8, 0, 0, 4, 6, 6),
                     recruit,
@@ -3977,7 +3977,7 @@ class game(object):
                     "power of the Sword dispels the illusion, he joins "
                     "you!"
                 )
-                recruit = playerCharacter("Arthur", "Centaur", "Knight", chatter, 4)
+                recruit = playerCharacter("Arthur", "Centaur", "Knight", False, 4)
                 self.equipOnCharacter(
                     equipment("Spears", "Spear", 150, 5, 0, 1, 5, 0, 0), recruit, False
                 )
@@ -4099,7 +4099,7 @@ class game(object):
             if self.battleStarted < 9:
                 self.reckoning(40, 'the Keepers')
                 print("Amon joins your force!")
-                recruit = playerCharacter("Amon", "Birdman", "Sky Battler", chatter, 8)
+                recruit = playerCharacter("Amon", "Birdman", "Sky Battler", False, 8)
                 self.equipOnCharacter(
                     equipment("Swords", "Middle Sword", 250, 8, 0, 0, 5, 0, 0),
                     recruit,
@@ -4116,7 +4116,7 @@ class game(object):
                 self.playerCharacters.append(recruit)
                 print("Balbaroy joins your force!")
                 recruit = playerCharacter(
-                    "Balbaroy", "Birdman", "Sky Battler", chatter, 8
+                    "Balbaroy", "Birdman", "Sky Battler", False, 8
                 )
                 self.equipOnCharacter(
                     equipment("Swords", "Middle Sword", 250, 8, 0, 0, 5, 0, 0),
@@ -4142,7 +4142,7 @@ class game(object):
             )
             if self.battleStarted < 9:
                 print("Diane joins your force!")
-                recruit = playerCharacter("Diane", "Elf", "Archer", chatter, 8)
+                recruit = playerCharacter("Diane", "Elf", "Archer", False, 8)
                 self.equipOnCharacter(
                     equipment("Arrows", "Steel Arrow", 1200, 12, 1, 1, 9, 0, 0),
                     recruit,
@@ -4217,16 +4217,16 @@ class game(object):
             if self.battleStarted < 10:
                 self.reckoning(40, 'the grateful townsfolk')
                 print("Zylo joins your force!")
-                recruit = playerCharacter("Zylo", "Wolfling", "Werewolf", chatter, 9)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
-                recruit.levelUp(chatter)
+                recruit = playerCharacter("Zylo", "Wolfling", "Werewolf", False, 9)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
             self.battleStarted = 10
             self.save()
