@@ -814,9 +814,12 @@ class battle(object):
                         )
                 damage = max(strengthForDamage, damage)
                 if i == 0:
-                    if self.getPower(unit, "Charge"):
-                        speed = self.getStat(unit, "Speed")
-                        damage += speed - unit.movementPoints
+                    if self.getPower(unit, "Jump Attack"):
+                        if self.getPower(target, "Mounted Movement") or self.getPower(
+                            target, "Flying Movement"
+                        ):
+                            print(f"{unit.name} leaps onto {target.name}!")
+                            damage *= 1.3
                 if self.getPower(target, "Defense: Melee Attacks I") and (
                     bf.getUnitPos(unit) == bf.getUnitPos(target)
                 ):
@@ -2583,7 +2586,10 @@ class battleField(object):
                             tileUnit
                             for tileUnit in tile.units
                             if type(tileUnit) != type(unit)
-                            and self.getPower(tileUnit, "Flying Movement")
+                            and (
+                                self.getPower(tileUnit, "Flying Movement")
+                                or self.getPower(tileUnit, "Jump Attack")
+                            )
                             and (self.canBlock(tileUnit))
                         ]
                     )
@@ -2704,7 +2710,7 @@ class battleField(object):
                             tileUnit
                             for tileUnit in currentTile.units
                             if type(tileUnit) != type(unit)
-                            and self.getPower(tileUnit, "FlyingMovement")
+                            and self.getPower(tileUnit, "Flying Movement")
                             and (self.canBlock(tileUnit))
                         ]
                     )
@@ -2716,7 +2722,7 @@ class battleField(object):
                             tileUnit
                             for tileUnit in currentTile.units
                             if type(tileUnit) != type(unit)
-                            and self.getPower(tileUnit, "FlyingMovement")
+                            and self.getPower(tileUnit, "Flying Movement")
                             and (self.canBlock(tileUnit))
                         ]
                     )
