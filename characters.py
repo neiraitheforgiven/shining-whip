@@ -1673,12 +1673,14 @@ class playerCharacter(object):
                         print(
                             f"{self.name}: \"I'm starting to feel as if "
                             f"being a {self.title} isn't working out. "
+                        )
+                        print(
                             f"Perhaps I should become a {afterDecorated} "
                             f"and study the art of {newProposedPower} "
                             f"instead of sticking with {beforeTitle} and "
-                            f"learning {oldProposedPower}. What do you "
-                            "think?\""
+                            f"learning {oldProposedPower}."
                         )
+                        print("What do you think?\"")
                         print(
                             f"{self.name} can choose (0) {beforeTitle} or "
                             f"(1) {afterDecorated}."
