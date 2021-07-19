@@ -212,6 +212,24 @@ class monster(object):
             )
             self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
             self.shortName = "Master"
+        elif name == "Pteropus Knight":
+            self.level = 13
+            stats = {
+                "Strength": 15,
+                "Stamina": 12,
+                "Speed": 7,
+                "Dexterity": 12,
+                "Focus": 13,
+            }
+            self.setStats(12, **stats)
+            self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.focusProfile = focusProfile or "Patient"
+            self.moveProfile = moveProfile or "Defensive"
+            self.equipment = equipment("Lances", "Bronze Lance", 300, 8, 0, 0, 6, 0, 0)
+            self.shortName = "Pteropus"
+            self.powers.append("Flying Movement")
+            self.powers.append("Mounted Movement")
+            self.powers.append("Lances: Movement Increases Strength Damage I")
         elif name == "Skeleton Warrior":
             self.level = 8
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}

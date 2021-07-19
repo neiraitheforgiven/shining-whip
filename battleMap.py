@@ -461,6 +461,46 @@ class battle(object):
                     self.party,
                     game,
                 )
+            elif num == 10:
+                self.battleField = battleField(
+                    [
+                        "Loose Rock",  # 0
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass",  # 4
+                        "Forest",
+                        "Forest",
+                        "Forest",
+                        "Forest",  # 8
+                        "Forest",
+                        "Forest",
+                        "Forest",
+                        "Forest",  # 12
+                        "Forest",
+                        "Loose Rock",
+                        "Loose Rock",  # 15
+                    ],
+                    [
+                        (monster("Skeleton Warrior"), 4),
+                        (monster("Skeleton Warrior"), 4),
+                        (monster("Skeleton Warrior"), 4),
+                        (monster("Dark Elf Sniper"), 6),
+                        (monster("Dark Elf Sniper"), 6),
+                        (monster("Lizardman"), 7),
+                        (monster("Skeleton Warrior"), 7),
+                        (monster("Vile Chanter"), 7),
+                        (monster("Skeleton Warrior"), 7),
+                        (monster("Pteropus Knight"), 12),
+                        (monster("Pteropus Knight"), 12),
+                        (monster("Pteropus Knight"), 15),
+                        (monster("Pteropus Knight"), 15),
+                        (monster("Lizardman"), 15),
+                        (monster("Vile Chanter"), 15),
+                    ],
+                    self.party,
+                    game,
+                )
             for unit in self.battleField.units:
                 unit.focusTime = 0
                 unit.hp = unit.maxHP()
@@ -4138,6 +4178,66 @@ class game(object):
             print(
                 "Approaching the quarries, you hear the roar of voices "
                 "chanting an evil incantation. What lies ahead?"
+            )
+            self.party = self.playerCharacters
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(15, 'the townsfolk')
+                    self.shop.goShopping(self)
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'the townsfolk')
+                    self.shop.goShopping(self)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
+        elif self.battleNum == 10:
+            print("")
+            print("You begin to set the men free. They tell you that they were forced ")
+            print("to unearth an ancient monster, the Screaming Beast.")
+            print(
+                "The Screaming Beast has been brought to the North in order to unleash "
+            )
+            print(
+                "its voice from a high point where it can destroy all of Yatahal and"
+                " the "
+            )
+            print("surrounding lands.")
+            print("")
+            print(
+                "Most of the workers are concerned about their lives and what will come"
+                " of them."
+            )
+            print("One of the workers, a wolfman named Zylo, is more of man of action.")
+            print(
+                "He begs you to join him as he heads North to deal with the Screaming"
+                " Beast."
+            )
+            print("")
+            if self.battleStarted < 10:
+                self.reckoning(40, 'the grateful townsfolk')
+                print("Zylo joins your force!")
+                recruit = playerCharacter("Zylo", "Wolfling", "Werewolf", chatter, 9)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                recruit.levelUp(chatter)
+                self.playerCharacters.append(recruit)
+            self.battleStarted = 10
+            self.save()
+            print("You stop back at the shop before heading off to the forest.")
+            self.shop.goShopping(self)
+            print(
+                "You head into the forest, tracking North to find the Screaming Beast."
+            )
+            print(
+                "Your enemies are lying in wait, seeking to prevent you from foiling"
+                " their plans."
             )
             self.party = self.playerCharacters
             self.battleStatus = None
