@@ -4,8 +4,10 @@ import random
 
 
 class shop(object):
-    def __init__(self, game, listOfGoods, listOfDealGoods):
+    def __init__(self, game, listOfGoods, listOfDealGoods, skillLevel=None):
         self.goods = []
+        if skillLevel:
+            game.setMinSkill(skillLevel)
         for goodName in listOfGoods:
             self.goods.append(self.createGood(goodName))
         self.deal = self.createGood(random.choice(listOfDealGoods))
