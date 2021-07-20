@@ -833,7 +833,10 @@ class battle(object):
                 unitHeight = unitTile.elevation
                 targetHeight = targetTile.elevation
                 heightBonus = 1 + ((unitHeight - targetHeight) / 20)
-                damage = math.floor(damage * heightBonus)
+                damage = math.ceil(damage * heightBonus)
+                if heightBonus > 1:
+                    if getPower(unit, "Increased Terrain Advantage I"):
+                        damage = math.ceil(damage * heightBonus)
                 if attackType != 'critical':
                     damage -= max(
                         self.getStat(target, "Strength"),
