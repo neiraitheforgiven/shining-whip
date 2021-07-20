@@ -834,7 +834,7 @@ class battle(object):
                 heightBonus = 1 + ((unitHeight - targetHeight) / 20)
                 damage = math.ceil(damage * heightBonus)
                 if heightBonus > 1:
-                    if getPower(unit, "Increased Terrain Advantage I"):
+                    if self.getPower(unit, "Increased Terrain Advantage I"):
                         damage = math.ceil(damage * heightBonus)
                 if attackType != 'critical':
                     damage -= max(
