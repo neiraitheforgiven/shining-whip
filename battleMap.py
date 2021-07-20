@@ -2330,7 +2330,9 @@ class battle(object):
             possibleSpells = [
                 spell for spell in possibleSpells if spell not in unit.extraPowerSlot
             ]
-        return random.choice(possibleSpells)
+        spellChoice = random.choice(possibleSpells)
+        print(f"{unit.name} learned {spellChoice}!")
+        return spellChoice
 
     def getFameBonus(self, unit):
         return self.battleField.getFameBonus(unit)
