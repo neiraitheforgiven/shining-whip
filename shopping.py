@@ -321,7 +321,7 @@ class shop(object):
             faithUp = False
             mpUp = False
             for pc in game.playerCharacters:
-                if pc.skills[item.type] >= item.skill:
+                if item.canEquip(pc):
                     if pc.equipment:
                         if item.damage > pc.equipment.damage:
                             damageUp = True
