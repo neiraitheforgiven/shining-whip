@@ -114,6 +114,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Daggers", "Knife", 500, 1, 0, 0, 8, 0, 0)
             self.shortName = "Clown"
+            self.powers = ["Luck: Enable Triple Attack", "Daggers: Attacks Add Bleed"]
         elif name == "Giant Bat":
             self.level = 5
             stats = {
