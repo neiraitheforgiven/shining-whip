@@ -861,6 +861,9 @@ class battle(object):
                         print(f"{unit.name} drained {heal} health during the attack!")
                         unit.hp += heal
                 target.hp -= damage
+                if attackType == 'heavy':
+                    if self.getPower(unit, "Heavy Attacks Inflict Bleed"):
+                        self.bleedStart(target)
                 if self.getPower(unit, "Attack Damage Added to Resonance"):
                     darkTile = unitTile.voicePower < -1
                     if darkTile:
