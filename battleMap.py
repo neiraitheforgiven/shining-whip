@@ -668,7 +668,11 @@ class battle(object):
                             unitChoice = int(unitChoice)
                         except ValueError:
                             unitChoice = None
-                        if unitChoice and (unitChoice <= len(partyOptions) - 1):
+                        if (
+                            unitChoice
+                            and (unitChoice <= len(partyOptions) - 1)
+                            or unitChoice == 0
+                        ):
                             currentParty.append(partyOptions[unitChoice])
                             print(f"{partyOptions[unitChoice].name} joins the party!")
                             partyOptions = [
