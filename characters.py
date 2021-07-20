@@ -134,7 +134,7 @@ class monster(object):
             self.shortName = "Bat"
         elif name == "Ghoul":
             self.level = 12
-            stats = {"Stamina": 10, "Speed": 6, "Strength": 19, "Dexteriy": 14}
+            stats = {"Stamina": 10, "Speed": 6, "Strength": 17, "Dexteriy": 14}
             self.setStats(11, **stats)
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
