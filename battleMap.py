@@ -790,7 +790,7 @@ class battle(object):
                         damage *= 1.3
                     self.rattle(unit, target, damage * 30)
                     if self.getPower(unit, "Heavy Attacks Inflict Bleed"):
-                        self.bleedStart(unit)
+                        self.bleedStart(target)
                     time.sleep(1.0 / 10)
                 if unit.equipment:
                     damageString = f"{unit.equipment.type}: Increased Damage "
@@ -873,7 +873,7 @@ class battle(object):
                         print(f"{unit.name}'s voice overcame the darkness!")
                 if self.getPower(unit, "Daggers: Add Effect: Bleed"):
                     if unit.equipment and unit.equipment.type == "Daggers":
-                        self.bleedStart(unit)
+                        self.bleedStart(target)
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
                     self.kill(target, unit)
@@ -1009,16 +1009,16 @@ class battle(object):
     def bleed(self, unit):
         coef = round(unit.hp / unit.maxHP(), 2)
         damage = math.ceil(unit.hp * coef)
-        print(f"{unit.name} bled for {min(damage, unit.hp)} damage")
+        print(f"{unit.name} bled for {min(damage, unit.hp)} damage.")
         unit.hp -= damage
         if unit.hp <= 0:
             self.kill(unit)
 
-    def bleedStart(self, unit):
+    def bleedStart(self, target):
         shoutOut = False
-        if unit.bleedTime == 0:
+        if target.bleedTime == 0:
             shoutOut = True
-        unit.bleedTime = min(45, unit.bleedTime + 15)
+        target.bleedTime = min(45, target.bleedTime + 15)
         if shoutOut:
             print("The wound begins to bleed.")
 
