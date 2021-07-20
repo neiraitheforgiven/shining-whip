@@ -504,8 +504,13 @@ class battle(object):
             for unit in self.battleField.units:
                 unit.focusTime = 0
                 unit.hp = unit.maxHP()
-                unit.fp = unit.stats["Faith"]
-                unit.mp = unit.stats["Intelligence"]
+                if self.getPower(unit, "Convert Faith and Magic"):
+                    combined = unit.stats["Faith"] + unit.stats["Intelligence"]
+                    unit.fp = combined
+                    unit.mp = combined
+                else:
+                    unit.fp = unit.stats["Faith"]
+                    unit.mp = unit.stats["Intelligence"]
                 if self.getPower(unit, "Begin Battle With Rank II Focus"):
                     unit.focus = 1500
                 else:
@@ -1050,10 +1055,14 @@ class battle(object):
             elementWithSpace = element + " "
         else:
             elementWithSpace = None
-        if faith:
+        if self.getPower(unit, "Convert Faith and Magic"):
             unit.fp -= self.mpCost(unit, cost)
-        else:
             unit.mp -= self.mpCost(unit, cost)
+        else:
+            if faith:
+                unit.fp -= self.mpCost(unit, cost)
+            else:
+                unit.mp -= self.mpCost(unit, cost)
         spellTarget = unit.allowedSpells[spellName][targetId]
         if type(spellTarget) == int:
             position = spellTarget
@@ -1130,10 +1139,14 @@ class battle(object):
         faith=False,
         speedUp=False,
     ):
-        if faith:
+        if self.getPower(unit, "Convert Faith and Magic"):
             unit.fp -= self.mpCost(unit, cost)
-        else:
             unit.mp -= self.mpCost(unit, cost)
+        else:
+            if faith:
+                unit.fp -= self.mpCost(unit, cost)
+            else:
+                unit.mp -= self.mpCost(unit, cost)
         target = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName} on {target.name}!")
         if damage < 0:
@@ -1183,10 +1196,14 @@ class battle(object):
         stats=[],
         counterStats=["Stamina", "Faith"],
     ):
-        if faith:
+        if self.getPower(unit, "Convert Faith and Magic"):
             unit.fp -= self.mpCost(unit, cost)
-        else:
             unit.mp -= self.mpCost(unit, cost)
+        else:
+            if faith:
+                unit.fp -= self.mpCost(unit, cost)
+            else:
+                unit.mp -= self.mpCost(unit, cost)
         target = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName} on {target.name}!")
         # assemble chance array
@@ -1218,7 +1235,11 @@ class battle(object):
 
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Afflict I":
-            unit.mp -= self.mpCost(unit, 13)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 13)
+                unit.mp -= self.mpCost(unit, 13)
+            else:
+                unit.mp -= self.mpCost(unit, 13)
             print(f"{unit.name} casts Afflict I!")
             self.castStatusSpell(
                 unit,
@@ -1254,7 +1275,11 @@ class battle(object):
         elif spellName == "Aura III":
             self.castAreaSpell(unit, targetId, "Aura III", 15, -30, 1, faith=True)
         elif spellName == "Aura IV":
-            unit.fp -= self.mpCost(unit, 20)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 20)
+                unit.mp -= self.mpCost(unit, 20)
+            else:
+                unit.fp -= self.mpCost(unit, 20)
             print(f"{unit.name} casts {spellName}!")
             for target in self.party:
                 healing = min(25, (target.maxHP() - target.hp))
@@ -1284,7 +1309,11 @@ class battle(object):
                 unit, targetId, "Dao II", 15, 40, 0, "Earth", spread=True
             )
         elif spellName == "Detox I":
-            unit.fp -= self.mpCost(unit, 3)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 3)
+                unit.mp -= self.mpCost(unit, 3)
+            else:
+                unit.fp -= self.mpCost(unit, 3)
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
             if "Petrified" in target.status:
@@ -1293,7 +1322,11 @@ class battle(object):
             print(f"{target.name} recovers!")
             self.giveExperience(unit, target, 10)
         elif spellName == "Drain I":
-            unit.mp -= self.mpCost(unit, 5)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 5)
+                unit.mp -= self.mpCost(unit, 5)
+            else:
+                unit.mp -= self.mpCost(unit, 5)
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
             damage = min(10, target.hp)
@@ -1304,7 +1337,11 @@ class battle(object):
             if target.hp <= 0:
                 self.kill(target, unit)
         elif spellName == "Drain II":
-            unit.mp -= self.mpCost(unit, 12)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 12)
+                unit.mp -= self.mpCost(unit, 12)
+            else:
+                unit.mp -= self.mpCost(unit, 12)
             target = unit.allowedSpells[spellName][targetId]
             print(f"{unit.name} casts {spellName} on {target.name}!")
             damage = min(18, target.hp)
@@ -1323,7 +1360,11 @@ class battle(object):
             if target.hp <= 0:
                 self.kill(target, unit)
         elif spellName == "Egress I":
-            unit.mp -= self.mpCost(unit, 8)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 8)
+                unit.mp -= self.mpCost(unit, 8)
+            else:
+                unit.mp -= self.mpCost(unit, 8)
             print(f"{unit.name} casts {spellName}!")
             self.egressing = True
             print(
@@ -1367,7 +1408,11 @@ class battle(object):
                 counterStats=["Stamina", "Dexterity"],
             )
         elif spellName == "Portal I":
-            unit.mp -= self.mpCost(unit, 21)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 21)
+                unit.mp -= self.mpCost(unit, 21)
+            else:
+                unit.mp -= self.mpCost(unit, 21)
             field = self.battleField
             moveFromTile = field.terrainArray[field.getUnitPos(unit)]
             position = unit.allowedSpells[spellName][targetId]
@@ -1409,7 +1454,11 @@ class battle(object):
                 stats=["Intelligence", "Charisma", "Luck"],
             )
         elif spellName == "Teleport I":
-            unit.mp -= self.mpCost(unit, 5)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 5)
+                unit.mp -= self.mpCost(unit, 5)
+            else:
+                unit.mp -= self.mpCost(unit, 5)
             field = self.battleField
             moveFromTile = field.terrainArray[field.getUnitPos(unit)]
             moveToTile = unit.allowedSpells[spellName][targetId]
@@ -1417,7 +1466,11 @@ class battle(object):
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 5)
         elif spellName == "Teleport II":
-            unit.mp -= self.mpCost(unit, 10)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 10)
+                unit.mp -= self.mpCost(unit, 10)
+            else:
+                unit.mp -= self.mpCost(unit, 10)
             field = self.battleField
             moveFromTile = field.terrainArray[field.getUnitPos(unit)]
             moveToTile = unit.allowedSpells[spellName][targetId]
@@ -1425,7 +1478,11 @@ class battle(object):
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
         elif spellName == "Teleport III":
-            unit.mp -= self.mpCost(unit, 6)
+            if self.getPower(unit, "Convert Faith and Magic"):
+                unit.fp -= self.mpCost(unit, 6)
+                unit.mp -= self.mpCost(unit, 6)
+            else:
+                unit.mp -= self.mpCost(unit, 6)
             field = self.battleField
             moveFromTile = field.terrainArray[field.getUnitPos(unit)]
             moveToTile = unit.allowedSpells[spellName][targetId]
