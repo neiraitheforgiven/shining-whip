@@ -4381,10 +4381,15 @@ class game(object):
         elif type(character) == playerCharacter:
             pc = character
         if pc:
+            # does the pc already have equipment?
             if pc.equipment:
+                # if so, unequip it
                 incumbentEquipment = pc.equipment
                 incumbentEquipment.equippedBy = None
+                if incumbentEquipment not in self.inventory:
+                    self.inventory.append(incumbentEquipment)
                 pc.equipment = None
+            # does the equipment have a current user?
             if equipment.equippedBy:
                 incumbentUser = equipment.equippedBy
                 incumbentUser.equipment = None
