@@ -314,7 +314,6 @@ class shop(object):
 
     def printShopItems(self, game):
         for item in self.goods:
-            equipString = f"Equip: {item.type}"
             shopString = (
                 f"({self.goods.index(item)}) {item.name} - {item.price} Scroulings"
             )
@@ -322,7 +321,7 @@ class shop(object):
             faithUp = False
             mpUp = False
             for pc in game.playerCharacters:
-                if equipString in pc.powers:
+                if pc.skills[item.type] >= item.skill:
                     if pc.equipment:
                         if item.damage > pc.equipment.damage:
                             damageUp = True

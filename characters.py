@@ -531,8 +531,7 @@ class playerCharacter(object):
             self.career += f" --> {self.title} ({self.level})"
 
     def canEquip(self, equipment):
-        equipPower = f"Equip: {equipment.type}"
-        return equipPower in self.powers
+        return equipment.canEquip(self)
 
     def getFame(self):
         return self.stats["Charisma"] + math.floor(len(self.trophies) / 3) + self.fame
