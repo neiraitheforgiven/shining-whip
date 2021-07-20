@@ -1838,6 +1838,11 @@ class playerCharacter(object):
             f"  Exp:  {self.xp:3}/100    Focus: {focusString:6} + {focus * 2}% / turn"
         )
         sortedPowers = sorted(self.powers)
+        for power in sortedPowers:
+            if power == "Random Additional Spell I":
+                power = f"Random Additional Spell I ({self.extraPowerSlot})"
+            if power == "Random Additional Spell II":
+                power = f"Random Additional Spell II ({self.extraPowerSlot2})"
         print("Powers:")
         print("  " + " - ".join(sortedPowers))
         sortedSkills = sorted(self.skills)
