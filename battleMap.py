@@ -2254,9 +2254,7 @@ class battle(object):
 
     def elapseTime(self, startInitiative, nextInitiative):
         timePassed = abs(nextInitiative - startInitiative)
-        print(f"Debug: {timePassed} time passed")
         self.totalTimePassed += timePassed
-        print(f"Debug: the total time passed is {self.totalTimePassed}!")
         if timePassed <= 0:
             return
         # Do Focus changes
@@ -3293,27 +3291,17 @@ class battleField(object):
                 for target in candidates
                 if target.hp == min(unit.hp for unit in candidates)
             ]
-            try:
-                if candidates:
-                    targetPos = (
-                        max([self.getUnitPos(target) for target in candidates]) + 1
-                    )
-                if candidates and (targetPos in monster.allowedMovement):
-                    moveTo = targetPos
+            if candidates:
+                targetPos = max([self.getUnitPos(target) for target in candidates]) + 1
+            if candidates and (targetPos in monster.allowedMovement):
+                moveTo = targetPos
+            else:
+                if targetPos < min(monster.allowedMovement):
+                    moveTo = min(monster.allowedMovement)
+                elif targetPos > max(monster.allowedMovement):
+                    moveTo = max(monster.allowedMovement)
                 else:
-                    if targetPos < min(monster.allowedMovement):
-                        moveTo = min(monster.allowedMovement)
-                    elif targetPos > max(monster.allowedMovement):
-                        moveTo = max(monster.allowedMovement)
-                    else:
-                        return False
-            except TypeError:
-                for cand in candidates:
-                    print(f"debug: {cand.name}")
-                print(
-                    f"debug: Sniper candidate positions: "
-                    + ", ".join([str(self.getUnitPos(target)) for target in candidates])
-                )
+                    return False
             self.move(monster, moveTo)
             return True
 
@@ -4449,10 +4437,6 @@ class game(object):
         self.save()
 
     def save(self):
-        print(
-            f"DEBUG: We just saved the game! Battle #{self.battleNum}, "
-            f"BattleStarted {self.battleStarted}"
-        )
         self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
         self.shelf["playerCharacters"] = self.playerCharacters
         self.shelf["money"] = self.money
