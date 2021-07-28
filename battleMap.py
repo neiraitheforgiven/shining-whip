@@ -3381,6 +3381,23 @@ class battleField(object):
                 return True
         return False
 
+    def getResonance(self, tile):
+        heroes = [
+            unit for unit in self.units if unit.hp > 0 and type(unit) == playerCharacter
+        ]
+        monsters = [
+            unit for unit in self.units if unit.hp > 0 and type(unit) == monster
+        ]
+        heroCount = len(hero for hero in heroes if tile in hero.resonating)
+        monsterCount = len(
+            monster for monster in monsters if tile in monster.resonating
+        )
+        value = heroCount - monsterCount
+        if value < -4:
+            return -4
+        else:
+            return min(4, value)
+
     def getStat(self, unit, statName):
         #  is the unit focused?
         if unit.focusTime > 0:
