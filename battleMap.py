@@ -1897,7 +1897,6 @@ class battle(object):
                         attackTarget = None
                 self.doAttack(unit, attackTarget)
                 if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
-                    vp = self.getStat(unit, "Voice")
                     darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
@@ -2036,7 +2035,6 @@ class battle(object):
                     self.bleed(unit)
             elif command in ("W", "w"):
                 if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
-                    vp = self.getStat(unit, "Voice")
                     darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
