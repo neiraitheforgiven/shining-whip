@@ -8,7 +8,8 @@ import os
 import random
 import shelve
 import time
-import traceback
+
+#  import traceback
 
 
 class battle(object):
