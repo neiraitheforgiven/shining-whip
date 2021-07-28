@@ -535,7 +535,8 @@ class battle(object):
     def addResonance(self, unit, tile, area=1, supplemental=False):
         tileIndex = self.battleField.terrainArray.index(tile)
         if not supplemental:
-            unit.resonating = []
+            if not self.getPower(unit, "Vocal Attack: Sustain Effect"):
+                unit.resonating = []
         for tileId in range(tileIndex - area, tileIndex + area):
             if tileId > len(self.battleField.terrainArray) or tileId < 0:
                 continue
@@ -1916,16 +1917,7 @@ class battle(object):
                     if self.getPower(unit, "Vocal Attack: Increased Area II"):
                         area += 1
                     self.addResonance(unit, tile, area)
-                    if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                        if type(unit) == playerCharacter:
-                            tile.goodRinging = max(
-                                15, tile.goodRinging + self.getStat(unit, "Voice")
-                            )
-                        else:
-                            tile.evilRinging = max(
-                                15, tile.evilRinging + self.getStat(unit, "Voice")
-                            )
-                    if darkTile and tile.voicePower > -1:
+                    if darkTile and self.getResonance(tile) > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
                 if unit.bleedTime > 0:
                     self.bleed(unit)
@@ -2054,15 +2046,6 @@ class battle(object):
                     if self.getPower(unit, "Vocal Attack: Increased Area II"):
                         area += 1
                     self.addResonance(unit, tile, area)
-                    if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                        if type(unit) == playerCharacter:
-                            tile.goodRinging = max(
-                                15, tile.goodRinging + self.getStat(unit, "Voice")
-                            )
-                        else:
-                            tile.evilRinging = max(
-                                15, tile.evilRinging + self.getStat(unit, "Voice")
-                            )
                     if darkTile and tile.voicePower > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
                 else:
@@ -2103,15 +2086,6 @@ class battle(object):
                 if self.getPower(unit, "Vocal Attack: Increased Area II"):
                     area += 1
                 self.addResonance(unit, tile, area)
-                if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                    if type(unit) == playerCharacter:
-                        tile.goodRinging = max(
-                            15, tile.goodRinging + self.getStat(unit, "Voice")
-                        )
-                    else:
-                        tile.evilRinging = max(
-                            15, tile.evilRinging + self.getStat(unit, "Voice")
-                        )
         time.sleep(6.0 / 10)
         endBattle = not self.battleOn()
         return endBattle
