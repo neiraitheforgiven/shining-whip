@@ -532,31 +532,15 @@ class battle(object):
                 self.roundCount += 1
                 self.doRound()
 
-    def addVocalPower(self, tile, amount):
-        tileId = self.battleField.terrainArray.index(tile)
-        tile.voicePower += amount
-        if tileId + 1 < len(self.battleField.terrainArray):
-            tile2 = self.battleField.terrainArray[tileId + 1]
-            # set proposed voice power for each side = 1/2 current
-            # voice power
-            if (tile.voicePower / 2) > (tile2.proposedGoodVoicePower) and (
-                tile.voicePower > tile2.voicePower
-            ):
-                tile2.proposedGoodVoicePower = tile.voicePower / 2
-            if (tile.voicePower / 2) < (tile2.proposedEvilVoicePower) and (
-                tile.voicePower < tile2.voicePower
-            ):
-                tile2.proposedEvilVoicePower = tile.voicePower / 2
-        if tileId - 1 >= 0:
-            tile2 = self.battleField.terrainArray[tileId - 1]
-            if (tile.voicePower / 2) > (tile2.proposedGoodVoicePower) and (
-                tile.voicePower > tile2.voicePower
-            ):
-                tile2.proposedGoodVoicePower = tile.voicePower / 2
-            if (tile.voicePower / 2) < (tile2.proposedEvilVoicePower) and (
-                tile.voicePower < tile2.voicePower
-            ):
-                tile2.proposedEvilVoicePower = tile.voicePower / 2
+    def addResonance(self, unit, tile, area=1, supplemental=False):
+        tileIndex = self.battleField.terrainArray.index(tile)
+        if not supplemental:
+            unit.resonating = []
+        for tileId in range(tileIndex - area, tileIndex + area):
+            if tileId > len(self.battleField.terrainArray) or tileId < 0:
+                continue
+            tile2 = self.battleField.terrainArray[tileId]
+            unit.resonating.append(tile2)
 
     def assembleParty(self, party, maxPartySize):
         if len(party) <= maxPartySize:
@@ -871,22 +855,22 @@ class battle(object):
                 if attackType == 'heavy':
                     if self.getPower(unit, "Heavy Attacks Inflict Bleed"):
                         self.bleedStart(target)
-                if self.getPower(unit, "Attack Damage Added to Resonance"):
-                    darkTile = unitTile.voicePower < -1
+                if self.getPower(unit, "Attacking Adds Resonance"):
+                    darkTile = self.getResonance(unitTile) <= -1
                     if darkTile:
                         print(
                             f'{unit.name} shouts a few lines from the '
                             'holy song, hoping to be heard over the '
                             'unholy din.'
                         )
-                    elif unitTile.voicePower > 1:
+                    elif self.getResonance(unitTile) >= 1:
                         print(
                             f'{unit.name} sings along with the holy song of the Force.'
                         )
                     else:
                         print(f'{unit.name} sings out a stanza from the holy song.')
-                    self.addVocalPower(unitTile, damage)
-                    if darkTile and unitTile.voicePower > -1:
+                    self.addResonance(unit, unitTile, 1, True)
+                    if darkTile and self.getResonance(unitTile) > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
                 if self.getPower(unit, "Daggers: Add Effect: Bleed"):
                     if unit.equipment and unit.equipment.type == "Daggers":
@@ -1914,24 +1898,25 @@ class battle(object):
                 self.doAttack(unit, attackTarget)
                 if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
                     vp = self.getStat(unit, "Voice")
-                    darkTile = tile.voicePower < -1
+                    darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
                             f'{unit.name} shouts a few lines from the '
                             'holy song, hoping to be heard over the '
                             'unholy din.'
                         )
-                    elif tile.voicePower > 1:
+                    elif self.getResonance(tile) >= 1:
                         print(
                             f'{unit.name} sings along with the holy song of the Force.'
                         )
                     else:
                         print(f'{unit.name} sings out a stanza from the holy song.')
-                    if self.getPower(unit, "Vocal Attack: Increased Resonance I"):
-                        vp = math.ceil(vp * 1.3)
-                    if self.getPower(unit, "Vocal Attack: Increased Resonance II"):
-                        vp = math.ceil(vp * 1.3)
-                    self.addVocalPower(tile, vp)
+                    area = 1
+                    if self.getPower(unit, "Vocal Attack: Increased Area I"):
+                        area += 1
+                    if self.getPower(unit, "Vocal Attack: Increased Area II"):
+                        area += 1
+                    self.addResonance(unit, tile, area)
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                         if type(unit) == playerCharacter:
                             tile.goodRinging = max(
@@ -2052,24 +2037,25 @@ class battle(object):
             elif command in ("W", "w"):
                 if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
                     vp = self.getStat(unit, "Voice")
-                    darkTile = tile.voicePower < -1
+                    darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
                             f'{unit.name} shouts a few lines from the '
                             'holy song, hoping to be heard over the '
                             'unholy din.'
                         )
-                    elif tile.voicePower > 1:
+                    elif self.getResonance(tile) >= 1:
                         print(
                             f'{unit.name} sings along with the holy song of the Force.'
                         )
                     else:
                         print(f'{unit.name} sings out a stanza from the holy song.')
-                    if self.getPower(unit, "Vocal Attack: Increased Resonance I"):
-                        vp = math.ceil(vp * 1.3)
-                    if self.getPower(unit, "Vocal Attack: Increased Resonance II"):
-                        vp = math.ceil(vp * 1.3)
-                    self.addVocalPower(tile, vp)
+                    area = 1
+                    if self.getPower(unit, "Vocal Attack: Increased Area I"):
+                        area += 1
+                    if self.getPower(unit, "Vocal Attack: Increased Area II"):
+                        area += 1
+                    self.addResonance(unit, tile, area)
                     if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                         if type(unit) == playerCharacter:
                             tile.goodRinging = max(
@@ -2113,12 +2099,12 @@ class battle(object):
             else:
                 print(f"{unit.name} waited.")
             if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
-                vp = self.getStat(unit, "Voice")
-                if self.getPower(unit, "Vocal Attack: Increased Resonance I"):
-                    vp = math.ceil(vp * 1.3)
-                if self.getPower(unit, "Vocal Attack: Increased Resonance II"):
-                    vp = math.ceil(vp * 1.3)
-                self.addVocalPower(tile, -vp)
+                area = 1
+                if self.getPower(unit, "Vocal Attack: Increased Area I"):
+                    area += 1
+                if self.getPower(unit, "Vocal Attack: Increased Area II"):
+                    area += 1
+                self.addResonance(unit, tile, area)
                 if self.getPower(unit, "Vocal Attack: Sustain Effect"):
                     if type(unit) == playerCharacter:
                         tile.goodRinging = max(
