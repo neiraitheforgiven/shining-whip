@@ -525,6 +525,7 @@ class battle(object):
                     unit.mp += unit.equipment.mp
                 if self.getPower(unit, "Egress I") and unit.mp < self.mpCost(unit, 8):
                     print(f"warning: {unit.name} has too few mp to Egress")
+                unit.resonating = []
             self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():

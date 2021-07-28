@@ -21,6 +21,7 @@ class monster(object):
         self.initiativePoints = 0
         self.actedThisRound = False
         self.bleedTime = 0
+        self.resonation = []
         self.powers = []
         self.skills = {
             "Arrows": 0,
@@ -346,6 +347,7 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.resonation = []
         self.bleedTime = 0
         self.fame = 0
         self.focus = 0
