@@ -532,11 +532,11 @@ class battle(object):
                 self.roundCount += 1
                 self.doRound()
 
-    def addResonance(self, unit, tile, area=1, supplemental=False):
+    def addResonance(self, unit, tile, area=1):
         tileIndex = self.battleField.terrainArray.index(tile)
-        if not supplemental:
-            if not self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                unit.resonating = []
+        if area == 0:
+            unit.resonating.append(tile)
+            return
         for tileId in range(tileIndex - area, tileIndex + area):
             if tileId > len(self.battleField.terrainArray) or tileId < 0:
                 continue
@@ -870,7 +870,7 @@ class battle(object):
                         )
                     else:
                         print(f'{unit.name} sings out a stanza from the holy song.')
-                    self.addResonance(unit, unitTile, 1, True)
+                    self.addResonance(unit, unitTile, 0)
                     if darkTile and self.getResonance(unitTile) > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
                 if self.getPower(unit, "Daggers: Add Effect: Bleed"):
@@ -1504,6 +1504,15 @@ class battle(object):
                     f"focusProfile: {monster.focusProfile}"
                 )
 
+    def cleanupResonance(self, unit):
+        if not unit.resonating:
+            return
+        if not self.getPower(unit, "Vocal Attack: Sustain Effect"):
+            setRes = set(unit.resonating)
+            for res in setRes:
+                unit.resonating.remove(res)
+        unit.resonating = list(set(unit.resonating))
+
     def determineInitiative(self, unit):
         luck = self.getStat(unit, "Luck")
         if self.getPower(unit, "Swords: Increased Luck I"):
@@ -2050,7 +2059,9 @@ class battle(object):
                         print(f"{unit.name}'s voice overcame the darkness!")
                 else:
                     print(f'{unit.name} waited.')
-                return
+                time.sleep(6.0 / 10)
+                endBattle = not self.battleOn()
+                return endBattle
         elif type(unit) == monster:
             print("")
             print(f"It's {unit.name}'s turn!")
@@ -2086,6 +2097,7 @@ class battle(object):
                 if self.getPower(unit, "Vocal Attack: Increased Area II"):
                     area += 1
                 self.addResonance(unit, tile, area)
+        self.cleanupResonance(unit)
         time.sleep(6.0 / 10)
         endBattle = not self.battleOn()
         return endBattle
