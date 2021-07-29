@@ -910,7 +910,8 @@ class playerCharacter(object):
                     "Mounted Movement",
                     "Unholy: Increased Resistance I",
                     "Freeze I",
-                    "Lance: Attack adds Magic VulnerabilityBolt I",
+                    "Lance: Attack adds Magic Vulnerability",
+                    "Bolt I",
                     "Faith: Add Damage on Unholy Ground",
                     "Defense: Dark Magic II",
                 ]
