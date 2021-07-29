@@ -853,7 +853,7 @@ class playerCharacter(object):
                     "Stealthy Movement",
                     "Increased Luck When Outnumbered II",
                     "Luck: Reverse Death",
-                    "Luck: Dodge Chance Up II",
+                    "Luck: Dodge Chance Up I",
                     "Luck: Dodge Chance Up II",
                 ]
             elif "Heavy Shot" in title:
