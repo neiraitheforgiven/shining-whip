@@ -2123,12 +2123,14 @@ class battle(object):
         attackTypeArray.extend(["normal"] * (100 - (luck)))
         criticalChance = math.floor(voice + (voice * (luck / 10)))
         attackTypeArray.extend(["critical"] * criticalChance)
-        friendSound = sum(
-            [
-                max(self.getStat(tileUnit, "Faith"), self.getStat(tileUnit, "Voice"))
-                for tileUnit in bf.terrainArray[position].units
-                if type(tileUnit) == type(unit)
-            ]
+        resonance = self.getResonance(tile)
+        if type(unit) == playerCharacter:
+            resonanceMult = 0.25 * (resonance + 4)
+        else:
+            resonanceMult = 0.25 * ((-1 * resonance) + 4)
+        force = (
+            max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
+            * resonanceMult
         )
         attackType = random.choice(attackTypeArray)
         if attackType == "critical":
@@ -2136,20 +2138,7 @@ class battle(object):
             time.sleep(4.0 / 10)
             print("A Thunderous Attack!")
             print("")
-            friendSound *= 2
-        enemySound = sum(
-            [
-                max(self.getStat(tileUnit, "Faith"), self.getStat(tileUnit, "Voice"))
-                for tileUnit in bf.terrainArray[position].units
-                if type(tileUnit) != type(unit)
-            ]
-        )
-        amount = max(1, friendSound - enemySound) + math.ceil(
-            unit.skills["Holy Songs"] / 2
-        )
-        amount = amount + abs(tile.voicePower)
-        damage = math.ceil(amount / 16)
-        damage = max(damage, 1)
+            force *= 2
         for target in list(tile.units):
             if not self.battleField.canBeTarget(target):
                 continue
@@ -2169,6 +2158,14 @@ class battle(object):
                     routChance = math.ceil(routChance * 1.3)
                 attackTypeArray.extend(["routing"] * routChance)
                 attackType = random.choice(attackTypeArray)
+                defense = max(
+                    self.getStat(target, "Faith"), self.getStat(target, "Voice")
+                )
+                amount = max(1, force - defense) + math.ceil(
+                    unit.skills["Holy Songs"] / 2
+                )
+                damage = math.ceil(amount / 4)
+                damage = max(damage, 1)
                 targetDamage = damage
                 targetDamage = min(targetDamage, target.hp)
                 print(f"The note deals {targetDamage} damage to {target.name}!")
