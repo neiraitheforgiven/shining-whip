@@ -537,7 +537,7 @@ class battle(object):
         if area == 0:
             unit.resonating.append(tile)
             return
-        for tileId in range(tileIndex - area, tileIndex + area):
+        for tileId in range(tileIndex - area, tileIndex + area + 1):
             if tileId > len(self.battleField.terrainArray) or tileId < 0:
                 continue
             tile2 = self.battleField.terrainArray[tileId]
@@ -1811,7 +1811,7 @@ class battle(object):
             if self.getPower(unit, "Defense: Increased Resistance II"):
                 resistChance = math.ceil(resistChance * 1.3)
             if self.getPower(unit, "Unholy: Increased Resistance I"):
-                if tile.voicePower < 0:
+                if self.getResonance(tile) < 0:
                     resistChance = math.ceil(resistChance * 1.66)
             resistArray = []
             resistArray.extend(['resist'] * resistChance)
@@ -2058,7 +2058,7 @@ class battle(object):
                     if self.getPower(unit, "Vocal Attack: Increased Area II"):
                         area += 1
                     self.addResonance(unit, tile, area)
-                    if darkTile and tile.voicePower > -1:
+                    if darkTile and self.getResonance(tile) > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
                 else:
                     print(f'{unit.name} waited.')
@@ -2337,6 +2337,9 @@ class battle(object):
 
     def getPower(self, unit, name):
         return self.battleField.getPower(unit, name)
+
+    def getResonance(self, tile):
+        return self.battleField.getResonance(tile)
 
     def getStat(self, unit, statName):
         return self.battleField.getStat(unit, statName)
@@ -3317,11 +3320,11 @@ class battleField(object):
         monsters = [
             unit for unit in self.units if unit.hp > 0 and type(unit) == monster
         ]
-        heroCount = len(hero for hero in heroes if tile in hero.resonating)
+        heroCount = len([hero for hero in heroes if tile in hero.resonating])
         monsterCount = len(
-            monster for monster in monsters if tile in monster.resonating
+            [monster for monster in monsters if tile in monster.resonating]
         )
-        value = heroCount - monsterCount
+        value = heroCount - monsterCount + tile.voicePower
         if value < -4:
             return -4
         else:
@@ -3504,10 +3507,11 @@ class battleField(object):
                 mapAdd += f" +{tileHeight} "
             elif tileHeight < 0:
                 mapAdd += f" {tileHeight} "
-            if round(tile.voicePower) > 0:
-                mapAdd += "(Shining)"
-            elif round(tile.voicePower) < 0:
-                mapAdd += "(Unholy)"
+            resonance = self.getResonance(tile)
+            if resonance > 0:
+                mapAdd += f"(Holy {resonance})"
+            elif resonance < 0:
+                mapAdd += f"(Evil {resonance})"
             mapRow += f"{mapAdd:24}"
         print(mapRow)
         for i in range(11, -1, -1):
