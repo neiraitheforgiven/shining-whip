@@ -1167,6 +1167,9 @@ class battle(object):
             if result == "sleep":
                 target.status.append("Lulled to Sleep")
                 print(f"{target.name} fell asleep!")
+                # calling it twice will wipe all resonance unless the target has sustain
+                self.cleanupResonance(target)
+                self.cleanupResonance(target)
         if speedUp:
             intel = self.getStat(unit, "Intelligence")
             unit.initiativePoints += intel
@@ -2220,6 +2223,9 @@ class battle(object):
                 elif attackType == "sleep":
                     target.status.append("Lulled to Sleep")
                     print(f"{target.name} fell asleep!")
+                    # calling it twice will wipe all resonance unless the target has sustain
+                    self.cleanupResonance(target)
+                    self.cleanupResonance(target)
 
     def elapseTime(self, startInitiative, nextInitiative):
         timePassed = abs(nextInitiative - startInitiative)
