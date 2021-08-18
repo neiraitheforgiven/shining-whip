@@ -762,22 +762,34 @@ class playerCharacter(object):
                 listOfPowers = [
                     "Drain I",
                     "Poison I",
-                    "Cast Magic Using Health",
+                    "Essence I",
                     "Drain II",
                     "Muddle I",
                     "Death I",
-                    "Daggers: Cast Spell Adds Bonus Attack",
+                    "Physical Attack: Essence",
                     "Poison II",
                 ]
             elif "Cantor" in title:
                 listOfPowers = [
-                    "Luck: Increased Rout I",
                     "Vocal Attack: Ignore Movement",
                     "Mounted Movement",
-                    "Vocal Attack: Increased Damage I",
-                    "Luck: Increased Rout II",
+                    "Vocal Attack Causes Feedback Bleed",
+                    "Vocal Attack: Sustain Effect",
+                    "Unholy Ground Adds Focus",
                     "Unholy: Increased Resistance I",
-                    "Vocal Attack: Increased Damage IIRout: Add Effect: Sleep",
+                    "Luck: Vocal Attack Bleed Chance",
+                    "Rout: Add Effect: Silence",
+                ]
+            elif "Catechumen" in title:
+                listOfPowers = [
+                    "Unarmed Attack: Vocal Cascade I",
+                    "Luck: Increased Rout I",
+                    "Holy Ground Increases Focus I",
+                    "Unarmed Attack: Vocal Cascade II",
+                    "Luck: Increased Rout II",
+                    "Gain Regeneration on Holy Ground",
+                    "Holy Ground Increases Focus II",
+                    "Unarmed Attack: Vocal Cascade III",
                 ]
             elif "Channeler" in title:
                 listOfPowers = [
@@ -789,17 +801,6 @@ class playerCharacter(object):
                     "Surge III",
                     "Silence II",
                     "Surge IV",
-                ]
-            elif "Chorister" in title:
-                listOfPowers = [
-                    "Vocal Attack: Sustain Effect",
-                    "Vocal Attack: Increased Resonance I",
-                    "Command: Vocal Attack: Increased Damage I",
-                    "Vocal Attack: Increased Resonance II",
-                    "Holy Ground Increases Defense I",
-                    "Command: Vocal Attack: Increased Damage II",
-                    "Vocal Attack: Increased Resonance III",
-                    "Vocal Attack: Chance of Charm",
                 ]
             elif "Dark Mage" in title:
                 listOfPowers = [
@@ -936,6 +937,17 @@ class playerCharacter(object):
                     "Ninja Bolt I",
                     "Ninja Fire II",
                     "Ninja Bolt II",
+                ]
+            elif "Oracle" in title:
+                listOfPowers = [
+                    "Vocal Attack: Chance of Double Attack",
+                    "Deafening Voice",
+                    "Focus: Improve Luck I",
+                    "Essence I",
+                    "Seal Resistance",
+                    "Focus: Improve Luck II",
+                    "Detox I",
+                    "Physical Attack: Essence",
                 ]
             elif "Orator" in title:
                 listOfPowers = [
@@ -1092,17 +1104,6 @@ class playerCharacter(object):
                     "Portal I",
                     "Teleport III",
                     "Teleport: Add Turn",
-                ]
-            elif "Troubadour" in title:
-                listOfPowers = [
-                    "Vocal Attack: Ignore Movement",
-                    "Vocal Attack: Increased Damage I",
-                    "Sonorous Voice",
-                    "Holy Ground: Range +1",
-                    "Luck: Counterattack",
-                    "Vocal Attack: Increased Damage II",
-                    "Arrows: Support Counterattack",
-                    "Arrows: Add Effect: Muddle",
                 ]
             elif "Valkyrie" in title:
                 listOfPowers = [
