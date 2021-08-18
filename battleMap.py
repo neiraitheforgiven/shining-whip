@@ -538,7 +538,7 @@ class battle(object):
             unit.resonating.append(tile)
             return
         for tileId in range(tileIndex - area, tileIndex + area + 1):
-            if tileId > len(self.battleField.terrainArray) or tileId < 0:
+            if tileId >= len(self.battleField.terrainArray) or tileId < 0:
                 continue
             tile2 = self.battleField.terrainArray[tileId]
             unit.resonating.append(tile2)
