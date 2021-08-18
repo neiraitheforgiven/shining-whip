@@ -536,11 +536,13 @@ class battle(object):
         tileIndex = self.battleField.terrainArray.index(tile)
         if area == 0:
             unit.resonating.append(tile)
+            unit.resonating.append(tile)
             return
         for tileId in range(tileIndex - area, tileIndex + area + 1):
-            if tileId > len(self.battleField.terrainArray) or tileId < 0:
+            if tileId >= len(self.battleField.terrainArray) or tileId < 0:
                 continue
             tile2 = self.battleField.terrainArray[tileId]
+            unit.resonating.append(tile2)
             unit.resonating.append(tile2)
 
     def assembleParty(self, party, maxPartySize):
@@ -1883,7 +1885,7 @@ class battle(object):
             ):
                 vocalEnabled = self.battleField.checkVocal(unit)
                 if vocalEnabled:
-                    print(f"Type (V) to make a level {vocalEnabled} vocal attack.")
+                    print(f"Type (V) to make a vocal attack.")
                     allowedCommands.append("V")
                     allowedCommands.append("v")
             print("Type (W) to wait.")
@@ -3011,37 +3013,11 @@ class battleField(object):
     def checkVocal(self, unit):
         position = self.getUnitPos(unit)
         currentTile = self.terrainArray[position]
-        vp = currentTile.voicePower
-        if (type(unit) == playerCharacter and (vp > 1)) or (
-            type(unit) == monster and (vp < -1)
+        vp = self.getResonance(currentTile)
+        if (type(unit) == playerCharacter and (vp > -4)) or (
+            type(unit) == monster and (vp < 4)
         ):
-            if any(self.enemiesAtPosition(unit, position)):
-                friendSound = sum(
-                    [
-                        max(
-                            self.getStat(tileUnit, "Faith"),
-                            self.getStat(tileUnit, "Voice"),
-                        )
-                        for tileUnit in currentTile.units
-                        if type(tileUnit) == type(unit)
-                    ]
-                )
-                enemySound = sum(
-                    [
-                        max(
-                            self.getStat(tileUnit, "Faith"),
-                            self.getStat(tileUnit, "Voice"),
-                        )
-                        for tileUnit in currentTile.units
-                        if type(tileUnit) != type(unit)
-                    ]
-                )
-                amount = max(1, friendSound - enemySound)
-                amount = amount + abs(vp)
-                damage = math.ceil(amount / 16)
-                damage = max(damage, 1)
-                return damage
-        return 0
+            return any(self.enemiesAtPosition(unit, position))
 
     def doMonsterMove(self, monster, position):
         moveTo = None
