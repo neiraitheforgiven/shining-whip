@@ -1781,7 +1781,7 @@ class battle(object):
         for unit in self.battleField.units:
             unit.actedThisRound = False
 
-    def doTurn(self, unit, moved=False, statusChecked=False):
+    def doTurn(self, unit, moved=False, statusChecked=False, attacked=False):
         if unit.status and "Petrified" in unit.status:
             return
         position = self.battleField.getUnitPos(unit)
@@ -1860,26 +1860,28 @@ class battle(object):
             print(f"Type (C) to look at {unit.name}'s character sheet.")
             print("Type (L) to look at the battlefield,")
             attackEnabled = self.battleField.checkAttack(unit, position)
-            if attackEnabled:
+            if attackEnabled and not attacked:
                 self.battleField.printAttackString(unit)
                 print("Type (A) to attack.")
                 allowedCommands.append("A")
                 allowedCommands.append("a")
-            if not unit.hasEquipped and not moved and self.getPower(unit, "Equip"):
+            if not unit.hasEquipped and not moved:
                 print("Type (E) to equip or unequip weapons.")
                 allowedCommands.append("E")
                 allowedCommands.append("e")
-            spellEnabled = self.battleField.checkSpells(unit, position)
             if self.getFocusRank(unit) >= 1 and unit.focusTime == 0:
                 print("Type (F) to enter a focused state!")
                 allowedCommands.append("F")
                 allowedCommands.append("f")
-            if spellEnabled:
+            spellEnabled = self.battleField.checkSpells(unit, position)
+            if spellEnabled and not attacked:
                 self.battleField.printSpellString(unit)
                 print("Type (S) to cast a spell.")
                 allowedCommands.append("S")
                 allowedCommands.append("s")
-            if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
+            if (not moved and not attacked) or self.getPower(
+                unit, "Vocal Attack: Ignore Movement"
+            ):
                 vocalEnabled = self.battleField.checkVocal(unit)
                 if vocalEnabled:
                     print(f"Type (V) to make a level {vocalEnabled} vocal attack.")
@@ -1897,9 +1899,9 @@ class battle(object):
                     except ValueError:
                         moveTo = None
                 self.battleField.move(unit, moveTo)
-                self.doTurn(unit, True, statusChecked)
                 if unit.bleedTime > 0:
                     self.bleed(unit)
+                self.doTurn(unit, True, statusChecked, attacked)
             elif command in ("A", "a"):
                 attackTarget = None
                 while attackTarget not in [
@@ -1943,6 +1945,8 @@ class battle(object):
                         print(f"{unit.name}'s voice overcame the darkness!")
                 if unit.bleedTime > 0:
                     self.bleed(unit)
+                if self.getPower(unit, "Attack: Bonus Move"):
+                    self.doTurn(unit, moved, statusChecked, True)
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
@@ -2110,6 +2114,12 @@ class battle(object):
                     self.bleed(unit)
             else:
                 print(f"{unit.name} waited.")
+            if self.getPower(unit, "Attack: Bonus Move"):
+                moveEnabled = self.battleField.checkMove(unit, position)
+                if moveEnabled:
+                    moved = self.battleField.doMonsterMove(unit, position)
+                    if moved and unit.bleedTime > 0:
+                        self.bleed(unit)
             if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
                 vp = self.getStat(unit, "Voice")
                 if self.getPower(unit, "Vocal Attack: Increased Resonance I"):
