@@ -911,6 +911,8 @@ class battle(object):
                             print(f"{target.name} was routed!")
                             moveFrom = self.battleField.getUnitPos(target)
                             self.battleField.move(target, moveTo)
+                            self.cleanupResonance(target)
+                            self.cleanupResonance(target)
                             if self.getPower(unit, "Rout: Pursuit Attack"):
                                 adjust = moveTo - moveFrom
                                 if (
@@ -948,6 +950,8 @@ class battle(object):
                             target.initiativePoints -= setback
                             if target in self.turnOrder:
                                 self.turnOrder.remove(target)
+                            self.cleanupResonance(target)
+                            self.cleanupResonance(target)
                     else:
                         print(f"{target.name} was stunned!")
                         targetStunned = True
@@ -958,6 +962,8 @@ class battle(object):
                         target.initiativePoints -= setback
                         if target in self.turnOrder:
                             self.turnOrder.remove(target)
+                        self.cleanupResonance(target)
+                        self.cleanupResonance(target)
                 if attackType == 'heavy':
                     setback = math.ceil(stamina / 2)
                     if target.initiativePoints < (self.currentInitiative - setback):
@@ -2196,6 +2202,8 @@ class battle(object):
                         ):
                             print(f"{target.name} was routed!")
                             self.battleField.move(target, moveTo)
+                            self.cleanupResonance(target)
+                            self.cleanupResonance(target)
                         else:
                             print(f"{target.name} was stunned!")
                             setback = min(
@@ -2210,6 +2218,8 @@ class battle(object):
                             ):
                                 setback = math.floor(setback / 2)
                             target.initiativePoints -= setback
+                            self.cleanupResonance(target)
+                            self.cleanupResonance(target)
                     else:
                         print(f"{target.name} was stunned!")
                         setback = min(
@@ -2222,6 +2232,8 @@ class battle(object):
                         ):
                             setback = math.floor(setback / 2)
                         target.initiativePoints -= setback
+                        self.cleanupResonance(target)
+                        self.cleanupResonance(target)
                 elif attackType == "sleep":
                     target.status.append("Lulled to Sleep")
                     print(f"{target.name} fell asleep!")
