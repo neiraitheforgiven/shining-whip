@@ -8,7 +8,8 @@ import os
 import random
 import shelve
 import time
-import traceback
+
+#  import traceback
 
 
 class battle(object):
@@ -524,37 +525,23 @@ class battle(object):
                     unit.mp += unit.equipment.mp
                 if self.getPower(unit, "Egress I") and unit.mp < self.mpCost(unit, 8):
                     print(f"warning: {unit.name} has too few mp to Egress")
+                unit.resonating = []
             self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
                 self.roundCount += 1
                 self.doRound()
 
-    def addVocalPower(self, tile, amount):
-        tileId = self.battleField.terrainArray.index(tile)
-        tile.voicePower += amount
-        if tileId + 1 < len(self.battleField.terrainArray):
-            tile2 = self.battleField.terrainArray[tileId + 1]
-            # set proposed voice power for each side = 1/2 current
-            # voice power
-            if (tile.voicePower / 2) > (tile2.proposedGoodVoicePower) and (
-                tile.voicePower > tile2.voicePower
-            ):
-                tile2.proposedGoodVoicePower = tile.voicePower / 2
-            if (tile.voicePower / 2) < (tile2.proposedEvilVoicePower) and (
-                tile.voicePower < tile2.voicePower
-            ):
-                tile2.proposedEvilVoicePower = tile.voicePower / 2
-        if tileId - 1 >= 0:
-            tile2 = self.battleField.terrainArray[tileId - 1]
-            if (tile.voicePower / 2) > (tile2.proposedGoodVoicePower) and (
-                tile.voicePower > tile2.voicePower
-            ):
-                tile2.proposedGoodVoicePower = tile.voicePower / 2
-            if (tile.voicePower / 2) < (tile2.proposedEvilVoicePower) and (
-                tile.voicePower < tile2.voicePower
-            ):
-                tile2.proposedEvilVoicePower = tile.voicePower / 2
+    def addResonance(self, unit, tile, area=1):
+        tileIndex = self.battleField.terrainArray.index(tile)
+        if area == 0:
+            unit.resonating.append(tile)
+            return
+        for tileId in range(tileIndex - area, tileIndex + area + 1):
+            if tileId > len(self.battleField.terrainArray) or tileId < 0:
+                continue
+            tile2 = self.battleField.terrainArray[tileId]
+            unit.resonating.append(tile2)
 
     def assembleParty(self, party, maxPartySize):
         if len(party) <= maxPartySize:
@@ -869,22 +856,22 @@ class battle(object):
                 if attackType == 'heavy':
                     if self.getPower(unit, "Heavy Attacks Inflict Bleed"):
                         self.bleedStart(target)
-                if self.getPower(unit, "Attack Damage Added to Resonance"):
-                    darkTile = unitTile.voicePower < -1
+                if self.getPower(unit, "Attacking Adds Resonance"):
+                    darkTile = self.getResonance(unitTile) <= -1
                     if darkTile:
                         print(
                             f'{unit.name} shouts a few lines from the '
                             'holy song, hoping to be heard over the '
                             'unholy din.'
                         )
-                    elif unitTile.voicePower > 1:
+                    elif self.getResonance(unitTile) >= 1:
                         print(
                             f'{unit.name} sings along with the holy song of the Force.'
                         )
                     else:
                         print(f'{unit.name} sings out a stanza from the holy song.')
-                    self.addVocalPower(unitTile, damage)
-                    if darkTile and unitTile.voicePower > -1:
+                    self.addResonance(unit, unitTile, 0)
+                    if darkTile and self.getResonance(unitTile) > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
                 if self.getPower(unit, "Daggers: Add Effect: Bleed"):
                     if unit.equipment and unit.equipment.type == "Daggers":
@@ -1180,6 +1167,9 @@ class battle(object):
             if result == "sleep":
                 target.status.append("Lulled to Sleep")
                 print(f"{target.name} fell asleep!")
+                # calling it twice will wipe all resonance unless the target has sustain
+                self.cleanupResonance(target)
+                self.cleanupResonance(target)
         if speedUp:
             intel = self.getStat(unit, "Intelligence")
             unit.initiativePoints += intel
@@ -1517,6 +1507,15 @@ class battle(object):
                     f"focusProfile: {monster.focusProfile}"
                 )
 
+    def cleanupResonance(self, unit):
+        if not unit.resonating:
+            return
+        if not self.getPower(unit, "Vocal Attack: Sustain Effect"):
+            setRes = set(unit.resonating)
+            for res in setRes:
+                unit.resonating.remove(res)
+        unit.resonating = list(set(unit.resonating))
+
     def determineInitiative(self, unit):
         luck = self.getStat(unit, "Luck")
         if self.getPower(unit, "Swords: Increased Luck I"):
@@ -1812,7 +1811,7 @@ class battle(object):
             if self.getPower(unit, "Defense: Increased Resistance II"):
                 resistChance = math.ceil(resistChance * 1.3)
             if self.getPower(unit, "Unholy: Increased Resistance I"):
-                if tile.voicePower < 0:
+                if self.getResonance(tile) < 0:
                     resistChance = math.ceil(resistChance * 1.66)
             resistArray = []
             resistArray.extend(['resist'] * resistChance)
@@ -1913,35 +1912,26 @@ class battle(object):
                         attackTarget = None
                 self.doAttack(unit, attackTarget)
                 if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
-                    vp = self.getStat(unit, "Voice")
-                    darkTile = tile.voicePower < -1
+                    darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
                             f'{unit.name} shouts a few lines from the '
                             'holy song, hoping to be heard over the '
                             'unholy din.'
                         )
-                    elif tile.voicePower > 1:
+                    elif self.getResonance(tile) >= 1:
                         print(
                             f'{unit.name} sings along with the holy song of the Force.'
                         )
                     else:
                         print(f'{unit.name} sings out a stanza from the holy song.')
-                    if self.getPower(unit, "Vocal Attack: Increased Resonance I"):
-                        vp = math.ceil(vp * 1.3)
-                    if self.getPower(unit, "Vocal Attack: Increased Resonance II"):
-                        vp = math.ceil(vp * 1.3)
-                    self.addVocalPower(tile, vp)
-                    if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                        if type(unit) == playerCharacter:
-                            tile.goodRinging = max(
-                                15, tile.goodRinging + self.getStat(unit, "Voice")
-                            )
-                        else:
-                            tile.evilRinging = max(
-                                15, tile.evilRinging + self.getStat(unit, "Voice")
-                            )
-                    if darkTile and tile.voicePower > -1:
+                    area = 1
+                    if self.getPower(unit, "Vocal Attack: Increased Area I"):
+                        area += 1
+                    if self.getPower(unit, "Vocal Attack: Increased Area II"):
+                        area += 1
+                    self.addResonance(unit, tile, area)
+                    if darkTile and self.getResonance(tile) > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
                 if unit.bleedTime > 0:
                     self.bleed(unit)
@@ -2053,39 +2043,32 @@ class battle(object):
                     self.bleed(unit)
             elif command in ("W", "w"):
                 if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
-                    vp = self.getStat(unit, "Voice")
-                    darkTile = tile.voicePower < -1
+                    darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
                             f'{unit.name} shouts a few lines from the '
                             'holy song, hoping to be heard over the '
                             'unholy din.'
                         )
-                    elif tile.voicePower > 1:
+                    elif self.getResonance(tile) >= 1:
                         print(
                             f'{unit.name} sings along with the holy song of the Force.'
                         )
                     else:
                         print(f'{unit.name} sings out a stanza from the holy song.')
-                    if self.getPower(unit, "Vocal Attack: Increased Resonance I"):
-                        vp = math.ceil(vp * 1.3)
-                    if self.getPower(unit, "Vocal Attack: Increased Resonance II"):
-                        vp = math.ceil(vp * 1.3)
-                    self.addVocalPower(tile, vp)
-                    if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                        if type(unit) == playerCharacter:
-                            tile.goodRinging = max(
-                                15, tile.goodRinging + self.getStat(unit, "Voice")
-                            )
-                        else:
-                            tile.evilRinging = max(
-                                15, tile.evilRinging + self.getStat(unit, "Voice")
-                            )
-                    if darkTile and tile.voicePower > -1:
+                    area = 1
+                    if self.getPower(unit, "Vocal Attack: Increased Area I"):
+                        area += 1
+                    if self.getPower(unit, "Vocal Attack: Increased Area II"):
+                        area += 1
+                    self.addResonance(unit, tile, area)
+                    if darkTile and self.getResonance(tile) > -1:
                         print(f"{unit.name}'s voice overcame the darkness!")
                 else:
                     print(f'{unit.name} waited.')
-                return
+                time.sleep(6.0 / 10)
+                endBattle = not self.battleOn()
+                return endBattle
         elif type(unit) == monster:
             print("")
             print(f"It's {unit.name}'s turn!")
@@ -2121,21 +2104,13 @@ class battle(object):
                     if moved and unit.bleedTime > 0:
                         self.bleed(unit)
             if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
-                vp = self.getStat(unit, "Voice")
-                if self.getPower(unit, "Vocal Attack: Increased Resonance I"):
-                    vp = math.ceil(vp * 1.3)
-                if self.getPower(unit, "Vocal Attack: Increased Resonance II"):
-                    vp = math.ceil(vp * 1.3)
-                self.addVocalPower(tile, -vp)
-                if self.getPower(unit, "Vocal Attack: Sustain Effect"):
-                    if type(unit) == playerCharacter:
-                        tile.goodRinging = max(
-                            15, tile.goodRinging + self.getStat(unit, "Voice")
-                        )
-                    else:
-                        tile.evilRinging = max(
-                            15, tile.evilRinging + self.getStat(unit, "Voice")
-                        )
+                area = 1
+                if self.getPower(unit, "Vocal Attack: Increased Area I"):
+                    area += 1
+                if self.getPower(unit, "Vocal Attack: Increased Area II"):
+                    area += 1
+                self.addResonance(unit, tile, area)
+        self.cleanupResonance(unit)
         time.sleep(6.0 / 10)
         endBattle = not self.battleOn()
         return endBattle
@@ -2161,12 +2136,14 @@ class battle(object):
         attackTypeArray.extend(["normal"] * (100 - (luck)))
         criticalChance = math.floor(voice + (voice * (luck / 10)))
         attackTypeArray.extend(["critical"] * criticalChance)
-        friendSound = sum(
-            [
-                max(self.getStat(tileUnit, "Faith"), self.getStat(tileUnit, "Voice"))
-                for tileUnit in bf.terrainArray[position].units
-                if type(tileUnit) == type(unit)
-            ]
+        resonance = self.getResonance(tile)
+        if type(unit) == playerCharacter:
+            resonanceMult = 0.25 * (resonance + 4)
+        else:
+            resonanceMult = 0.25 * ((-1 * resonance) + 4)
+        force = (
+            max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
+            * resonanceMult
         )
         attackType = random.choice(attackTypeArray)
         if attackType == "critical":
@@ -2174,20 +2151,7 @@ class battle(object):
             time.sleep(4.0 / 10)
             print("A Thunderous Attack!")
             print("")
-            friendSound *= 2
-        enemySound = sum(
-            [
-                max(self.getStat(tileUnit, "Faith"), self.getStat(tileUnit, "Voice"))
-                for tileUnit in bf.terrainArray[position].units
-                if type(tileUnit) != type(unit)
-            ]
-        )
-        amount = max(1, friendSound - enemySound) + math.ceil(
-            unit.skills["Holy Songs"] / 2
-        )
-        amount = amount + abs(tile.voicePower)
-        damage = math.ceil(amount / 16)
-        damage = max(damage, 1)
+            force *= 2
         for target in list(tile.units):
             if not self.battleField.canBeTarget(target):
                 continue
@@ -2207,6 +2171,14 @@ class battle(object):
                     routChance = math.ceil(routChance * 1.3)
                 attackTypeArray.extend(["routing"] * routChance)
                 attackType = random.choice(attackTypeArray)
+                defense = max(
+                    self.getStat(target, "Faith"), self.getStat(target, "Voice")
+                )
+                amount = max(1, force - defense) + math.ceil(
+                    unit.skills["Holy Songs"] / 2
+                )
+                damage = math.ceil(amount / 4)
+                damage = max(damage, 1)
                 targetDamage = damage
                 targetDamage = min(targetDamage, target.hp)
                 print(f"The note deals {targetDamage} damage to {target.name}!")
@@ -2261,6 +2233,9 @@ class battle(object):
                 elif attackType == "sleep":
                     target.status.append("Lulled to Sleep")
                     print(f"{target.name} fell asleep!")
+                    # calling it twice will wipe all resonance unless the target has sustain
+                    self.cleanupResonance(target)
+                    self.cleanupResonance(target)
 
     def elapseTime(self, startInitiative, nextInitiative):
         timePassed = abs(nextInitiative - startInitiative)
@@ -2284,50 +2259,6 @@ class battle(object):
                 unit.bleedTime = max(0, unit.bleedTime - timePassed)
                 if unit.bleedTime == 0:
                     print(f"{unit.name} stopped the bleeding!")
-        # Do Tile Resonance Spread
-        """New model design:
-        Potential Spread should be added whenever resonance is added to a
-        tile. Whenever time passes, 4xTime% points (rounded up) should be
-        degraded from each tile, and then 2xTime% points (rounded up)
-        should bleed from potential into the real resonance."""
-        for tile in self.battleField.terrainArray:
-            voicePowerLost = round(
-                float((tile.voicePower + tile.resonance) * float(timePassed * 4 / 100))
-            )
-            tile.voicePower = math.floor(float(tile.voicePower - voicePowerLost))
-            if tile.voicePower > 0:
-                if not tile.goodRinging:
-                    voicePowerLost = float(
-                        (tile.voicePower + tile.resonance) * (timePassed * 4 / 100)
-                    )
-                    tile.voicePower = float(tile.voicePower - voicePowerLost)
-            elif tile.voicePower < 0:
-                if not tile.evilRinging:
-                    voicePowerLost = float(
-                        (tile.voicePower + tile.resonance) * (timePassed * 4 / 100)
-                    )
-                    tile.voicePower = float(tile.voicePower - voicePowerLost)
-        for tile in self.battleField.terrainArray:
-            goodPowerSoaked = float(
-                (tile.proposedGoodVoicePower + tile.resonance) * (timePassed * 4 / 100)
-            )
-            if not tile.goodRinging:
-                tile.proposedGoodVoicePower = max(
-                    0, tile.proposedGoodVoicePower - goodPowerSoaked
-                )
-            evilPowerSoaked = abs(
-                float(tile.proposedEvilVoicePower + tile.resonance)
-                * (timePassed * 4 / 100)
-            )
-            if not tile.evilRinging:
-                tile.proposedEvilVoicePower = min(
-                    0, tile.proposedEvilVoicePower + evilPowerSoaked
-                )
-            proposedVoiceChange = goodPowerSoaked - evilPowerSoaked
-            if tile.voicePower + proposedVoiceChange != tile.resonance:
-                self.addVocalPower(tile, proposedVoiceChange)
-            tile.goodRinging = max(0, tile.goodRinging - timePassed)
-            tile.evilRinging = max(0, tile.evilRinging - timePassed)
 
     def enterFocus(self, unit):
         oldMovementPoints = unit.movementPoints
@@ -2416,6 +2347,9 @@ class battle(object):
 
     def getPower(self, unit, name):
         return self.battleField.getPower(unit, name)
+
+    def getResonance(self, tile):
+        return self.battleField.getResonance(tile)
 
     def getStat(self, unit, statName):
         return self.battleField.getStat(unit, statName)
@@ -3389,6 +3323,23 @@ class battleField(object):
                 return True
         return False
 
+    def getResonance(self, tile):
+        heroes = [
+            unit for unit in self.units if unit.hp > 0 and type(unit) == playerCharacter
+        ]
+        monsters = [
+            unit for unit in self.units if unit.hp > 0 and type(unit) == monster
+        ]
+        heroCount = len([hero for hero in heroes if tile in hero.resonating])
+        monsterCount = len(
+            [monster for monster in monsters if tile in monster.resonating]
+        )
+        value = heroCount - monsterCount + tile.voicePower
+        if value < -4:
+            return -4
+        else:
+            return min(4, value)
+
     def getStat(self, unit, statName):
         #  is the unit focused?
         if unit.focusTime > 0:
@@ -3566,10 +3517,11 @@ class battleField(object):
                 mapAdd += f" +{tileHeight} "
             elif tileHeight < 0:
                 mapAdd += f" {tileHeight} "
-            if round(tile.voicePower) > 0:
-                mapAdd += "(Shining)"
-            elif round(tile.voicePower) < 0:
-                mapAdd += "(Unholy)"
+            resonance = self.getResonance(tile)
+            if resonance > 0:
+                mapAdd += f"(Holy {resonance})"
+            elif resonance < 0:
+                mapAdd += f"(Evil {resonance})"
             mapRow += f"{mapAdd:24}"
         print(mapRow)
         for i in range(11, -1, -1):

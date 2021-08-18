@@ -21,6 +21,7 @@ class monster(object):
         self.initiativePoints = 0
         self.actedThisRound = False
         self.bleedTime = 0
+        self.resonating = []
         self.powers = []
         self.skills = {
             "Arrows": 0,
@@ -130,7 +131,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
-            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Vocal Attack: Increased Damage I")
             self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
         elif name == "Ghoul":
@@ -273,7 +274,7 @@ class monster(object):
             self.attackProfile = attackProfile or "Healer-Singer"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Companion-Healer"
-            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Vocal Attack: Increased Area I")
             self.powers.append("Heal I")
             self.powers.append("Vocal Attack: Sustain Effect")
             self.shortName = "Chanter"
@@ -346,6 +347,7 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.resonating = []
         self.bleedTime = 0
         self.fame = 0
         self.focus = 0
@@ -703,7 +705,7 @@ class playerCharacter(object):
                 ]
             elif "Banshee" in title:
                 listOfPowers = [
-                    "Attack Damage Added to Resonance",
+                    "Attacking Adds Resonance",
                     "Kills Increase Focus",
                     "Axes: Bonus Damage I",
                     "Attack: Bonus Move",
@@ -852,7 +854,7 @@ class playerCharacter(object):
                     "Stealthy Movement",
                     "Increased Luck When Outnumbered II",
                     "Luck: Reverse Death",
-                    "Luck: Dodge Chance Up II",
+                    "Luck: Dodge Chance Up I",
                     "Luck: Dodge Chance Up II",
                 ]
             elif "Heavy Shot" in title:
@@ -909,7 +911,8 @@ class playerCharacter(object):
                     "Mounted Movement",
                     "Unholy: Increased Resistance I",
                     "Freeze I",
-                    "Lance: Attack adds Magic VulnerabilityBolt I",
+                    "Lance: Attack adds Magic Vulnerability",
+                    "Bolt I",
                     "Faith: Add Damage on Unholy Ground",
                     "Defense: Dark Magic II",
                 ]
@@ -949,11 +952,11 @@ class playerCharacter(object):
             elif "Orator" in title:
                 listOfPowers = [
                     "Shield I",
-                    "Vocal Attack: Increased Resonance I",
+                    "Vocal Attack: Increased Area I",
                     "Command: Holy Ground adds Defense",
                     "Focus: Overcome the Darkness",
                     "Command: Holy Ground Adds Focus",
-                    "Vocal Attack: Increased Resonance II",
+                    "Vocal Attack: Increased Area II",
                     "Shield II",
                     "Vocal Attack: Sustain Effect",
                 ]
