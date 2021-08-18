@@ -536,11 +536,13 @@ class battle(object):
         tileIndex = self.battleField.terrainArray.index(tile)
         if area == 0:
             unit.resonating.append(tile)
+            unit.resonating.append(tile)
             return
         for tileId in range(tileIndex - area, tileIndex + area + 1):
             if tileId >= len(self.battleField.terrainArray) or tileId < 0:
                 continue
             tile2 = self.battleField.terrainArray[tileId]
+            unit.resonating.append(tile2)
             unit.resonating.append(tile2)
 
     def assembleParty(self, party, maxPartySize):
