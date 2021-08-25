@@ -358,7 +358,7 @@ class battle(object):
                     ],
                     self.party,
                     game,
-                    -10,
+                    -2,
                 )
             elif num == 8:
                 self.battleField = battleField(
@@ -407,7 +407,7 @@ class battle(object):
                     ],
                     self.party,
                     game,
-                    10,
+                    2,
                 )
             elif num == 9:
                 self.battleField = battleField(
