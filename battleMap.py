@@ -2253,9 +2253,7 @@ class battle(object):
 
     def elapseTime(self, startInitiative, nextInitiative):
         timePassed = abs(nextInitiative - startInitiative)
-        print(f"Debug: {timePassed} time passed")
         self.totalTimePassed += timePassed
-        print(f"Debug: the total time passed is {self.totalTimePassed}!")
         if timePassed <= 0:
             return
         # Do Focus changes
@@ -4399,10 +4397,6 @@ class game(object):
         self.save()
 
     def save(self):
-        print(
-            f"DEBUG: We just saved the game! Battle #{self.battleNum}, "
-            f"BattleStarted {self.battleStarted}"
-        )
         self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
         self.shelf["playerCharacters"] = self.playerCharacters
         self.shelf["money"] = self.money
