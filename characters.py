@@ -247,13 +247,19 @@ class monster(object):
         elif name == "Screaming Beast":
             self.level = 15
             self.boss = True
-            stats = {"Voice": 25, "Stamina": 20, "Speed": 0, "Dexterity": 27}
+            stats = {
+                "Voice": 25,
+                "Stamina": 20,
+                "Speed": 0,
+                "Dexterity": 27,
+                "Focus": 35,
+            }
             self.setStats(12, **stats)
             self.attackProfile = attackProfile or "ScreamingBeast"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Stationary"
             self.shortName = "Scream"
-            self.powers.append("Vocal Attack: Area III")
+            self.powers.append("Vocal Attack: Increased Area III")
             self.powers.append("Vocal Attack: Sustain Effect")
             self.powers.append("Defense: Lightning Vulnerability")
         elif name == "Skeleton Warrior":

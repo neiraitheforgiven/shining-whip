@@ -1653,6 +1653,11 @@ class battle(object):
         elif monster.attackProfile == "Random":
             target = random.choice(monster.allowedAttacks)
             self.attack(monster, target)
+        elif monster.attackProfile == "ScreamingBeast":
+            if monster.focusTime == 0:
+                print(f"{monster.name} sucks in a tremendous breath!")
+            else:
+                self.DoVocalScreamAttack(monster, 0)
         elif monster.attackProfile == "Singer":
             if monster.allowedAttacks:
                 if field.checkVocal(monster):
@@ -2177,7 +2182,6 @@ class battle(object):
         position = bf.getUnitPos(unit)
         tile = bf.terrainArray[position]
         print(f"{unit.name} sings out a note of power!")
-        cha = self.getStat(unit, "Charisma")
         luck = self.getStat(unit, "Luck")
         if self.getPower(unit, "Swords: Increased Luck I"):
             if unit.equipment and unit.equipment.type == "Swords":
@@ -2209,6 +2213,43 @@ class battle(object):
             print("A Thunderous Attack!")
             print("")
             force *= 2
+        self.doVocalDamage(bf, unit, tile, force)
+
+    def doVocalScreamAttack(self, unit, penalty, damage=None, position=None):
+        bf = self.battleField
+        if not position:
+            position = bf.getUnitPos(unit)
+            tile = bf.terrainArray[position]
+        if not damage:
+            print(f"{unit.name} screams out an earshattering note!")
+        resonance = self.getResonance(tile)
+        if type(unit) == playerCharacter:
+            resonanceMult = max(0, 0.25 * (resonance + 4 + penalty))
+        else:
+            resonanceMult = min(0, 0.25 * ((-1 * resonance) + 4 + penalty))
+        if not resonanceMult:
+            return
+        force = (
+            max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
+            * resonanceMult
+        )
+        damage = force
+        self.doVocalDamage(bf, unit, tile, force)
+        if type(unit) == playerCharacter:
+            position += 1
+            penalty -= 1
+        else:
+            position -= 1
+            penalty += 1
+        if 0 <= moveTo <= len(self.battleField.terrainArray) - 1:
+            return
+        else:
+            self.doVocalScreamAttack(unit, penalty, damage, position)
+
+    def doVocalDamage(self, bf, unit, tile, force):
+        cha = self.getStat(unit, "Charisma")
+        luck = self.getStat(unit, "Luck")
+        voice = self.getStat(unit, "Voice")
         for target in list(tile.units):
             if not self.battleField.canBeTarget(target):
                 continue
@@ -3295,6 +3336,8 @@ class battleField(object):
                 )
             self.move(monster, moveTo)
             return True
+        elif monster.moveProfile == "Stationary":
+            return False
 
     def enemiesAtPosition(self, me, position):
         return [
