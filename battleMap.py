@@ -502,6 +502,55 @@ class battle(object):
                     self.party,
                     game,
                 )
+            elif num == 11:
+                self.battleField = battleField(
+                    [
+                        "Grass",  # 0
+                        "Grass",
+                        "Path",
+                        "Path",
+                        "Path",  # 4
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Path",  # 8
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Path",  # 12
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Path",  # 16
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Downward Stair",  # 20
+                        "Downward Stair",
+                        "Downward Stair",
+                        "Grass",
+                    ],
+                    [
+                        (monster("Lizardman"), 8),
+                        (monster("Vile Chanter"), 11),
+                        (monster("Pteropus Knight"), 12),
+                        (monster("Pteropus Knight"), 13),
+                        (monster("Lizardman"), 13),
+                        (monster("Pteropus Knight"), 14),
+                        (monster("Lizardman"), 14),
+                        (monster("Lizardman"), 14),
+                        (monster("Screaming Beast"), 19),
+                        (monster("Silver Knight"), 19),
+                        (monster("Vile Chanter"), 20),
+                        (monster("Lizardman"), 21),
+                        (monster("Dark Elf Sniper"), 21),
+                        (monster("Silver Knight"), 22),
+                        (monster("Dark Elf Sniper"), 22),
+                        (monster("Dark Elf Sniper"), 22),
+                    ],
+                    self.party,
+                    game,
+                )
             for unit in self.battleField.units:
                 unit.focusTime = 0
                 unit.hp = unit.maxHP()
