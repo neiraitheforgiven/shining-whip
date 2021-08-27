@@ -214,6 +214,18 @@ class monster(object):
             )
             self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
             self.shortName = "Master"
+        elif name == "Mercenary Knight":
+            self.level = 14
+            stats = {"Strength": 18, "Stamina": 14, "Speed": 11, "Charisma": 15}
+            self.setStats(13, **stats)
+            self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.focusProfile = focusProfile or "Patient"
+            self.moveProfile = moveProfile or "Defensive"
+            self.equipment = equipment(
+                "Lances", "Steel Lance", 3000, 16, 0, 0, 12, 0, 0
+            )
+            self.powers.append("Mounted Movement")
+            self.shortName = "MercKnt"
         elif name == "Pteropus Knight":
             self.level = 13
             stats = {
@@ -232,6 +244,18 @@ class monster(object):
             self.powers.append("Flying Movement")
             self.powers.append("Mounted Movement")
             self.powers.append("Lances: Movement Increases Strength Damage I")
+        elif name == "Screaming Beast":
+            self.level = 15
+            self.boss = True
+            stats = {"Voice": 25, "Stamina": 20, "Speed": 0, "Dexterity": 27}
+            self.setStats(12, **stats)
+            self.attackProfile = attackProfile or "ScreamingBeast"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Stationary"
+            self.shortName = "Scream"
+            self.powers.append("Vocal Attack: Area III")
+            self.powers.append("Vocal Attack: Sustain Effect")
+            self.powers.append("Defense: Lightning Vulnerability")
         elif name == "Skeleton Warrior":
             self.level = 8
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
