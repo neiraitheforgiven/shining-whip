@@ -4377,6 +4377,44 @@ class game(object):
                 battle(self, self.party, self.battleNum)
             else:
                 self.battleNum += 1
+        elif self.battleNum == 11:
+            print("")
+            print(
+                "You come into a natural choke point: a path along the edge of the "
+                "mountains."
+            )
+            print("Here, you find a group of mercenaries in the enemy employ.")
+            print(
+                "They are escorting a creature of nightmare, grey-skinned with a huge "
+                "toothed smile and "
+            )
+            print("one red, unblinking eye, it is clearly a demon of sorts:")
+            print("The Screaming Beast.")
+            print("")
+            print("As you approach, a shouting match breaks out in the enemy camp.")
+            print("One of the mercenaries insists the the monster is an abomination.")
+            print("He grabs his lance and charges towards the Beast.")
+            print("The Beast opens its mouth and lets out an unholy shriek.")
+            print(
+                "The force of the wail is so great that the mercenary loses his feet "
+                "and falls off the path, down the side of the mountain."
+            )
+            print("You take advantage of the chaos to enter the fight.")
+            print("")
+            if self.battleStarted < 11:
+                self.reckoning(55, 'a plot device')
+            self.battleStarted = 11
+            self.save()
+            self.party = self.playerCharacters
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(25, 'the townsfolk')
+                    self.shop.goShopping(self)
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'the townsfolk')
+                    self.shop.goShopping(self)
+                battle(self, self.party, self.battleNum)
         else:
             print("You have won the game... for now.")
             self.battleNum = 40
