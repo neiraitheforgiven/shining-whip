@@ -2215,7 +2215,9 @@ class battle(object):
             force *= 2
         self.doVocalDamage(bf, unit, tile, force)
 
-    def doVocalScreamAttack(self, unit, penalty, damage=None, position=None):
+    def doVocalScreamAttack(
+        self, unit, penalty, residualResonance=None, damage=None, position=None
+    ):
         bf = self.battleField
         if not position:
             position = bf.getUnitPos(unit)
@@ -2225,26 +2227,35 @@ class battle(object):
         resonance = self.getResonance(tile)
         if type(unit) == playerCharacter:
             resonanceMult = max(0, 0.25 * (resonance + 4 + penalty))
+            if residualResonance:
+                if resonanceMult < residualResonance:
+                    if resonanceMult < -3:
+                        return
+                    penalty += residualResonance - resonanceMult
+            else:
+                residualResonance = resonanceMult
         else:
-            resonanceMult = min(0, 0.25 * ((-1 * resonance) + 4 + penalty))
-        if not resonanceMult:
-            return
+            resonanceMult = min(0, 0.25 * ((-1 * resonance) - 4 - penalty))
+            if residualResonance:
+                if resonanceMult > residualResonance:
+                    if resonanceMult > 3:
+                        return
+                    penalty += residualResonance - resonanceMult
+            else:
+                residualResonance = resonanceMult
         force = (
             max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
             * resonanceMult
         )
-        damage = force
         self.doVocalDamage(bf, unit, tile, force)
         if type(unit) == playerCharacter:
             position += 1
-            penalty -= 1
         else:
             position -= 1
-            penalty += 1
         if 0 <= moveTo <= len(self.battleField.terrainArray) - 1:
             return
         else:
-            self.doVocalScreamAttack(unit, penalty, damage, position)
+            self.doVocalScreamAttack(unit, penalty, residualResonance, damage, position)
 
     def doVocalDamage(self, bf, unit, tile, force):
         cha = self.getStat(unit, "Charisma")
