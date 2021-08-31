@@ -252,11 +252,11 @@ class monster(object):
                 "Stamina": 20,
                 "Speed": 0,
                 "Dexterity": 27,
-                "Focus": 35,
+                "Focus": 45,
             }
             self.setStats(12, **stats)
             self.attackProfile = attackProfile or "ScreamingBeast"
-            self.focusProfile = focusProfile or "Vengeful"
+            self.focusProfile = focusProfile or "Patient"
             self.moveProfile = moveProfile or "Stationary"
             self.shortName = "Scream"
             self.powers.append("Vocal Attack: Increased Area III")
