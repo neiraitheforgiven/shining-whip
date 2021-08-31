@@ -2808,6 +2808,8 @@ class battleField(object):
         return True
 
     def checkAttack(self, unit, position):
+        if type(unit) == monster and unit.attackProfile == "ScreamingBeast":
+            return True
         unit.allowedAttacks = []
         minRange, maxRange = self.checkRange(unit)
         if minRange == 0 and maxRange == 0:
