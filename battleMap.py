@@ -2252,7 +2252,7 @@ class battle(object):
             position += 1
         else:
             position -= 1
-        if 0 <= moveTo <= len(self.battleField.terrainArray) - 1:
+        if 0 <= position <= len(self.battleField.terrainArray) - 1:
             return
         else:
             self.doVocalScreamAttack(unit, penalty, residualResonance, damage, position)
