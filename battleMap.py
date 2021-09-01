@@ -1654,10 +1654,11 @@ class battle(object):
             target = random.choice(monster.allowedAttacks)
             self.attack(monster, target)
         elif monster.attackProfile == "ScreamingBeast":
+            print(f"debug: {monster.name} has {monster.focus} focus")
             if monster.focusTime == 0:
                 print(f"{monster.name} sucks in a tremendous breath!")
             else:
-                self.DoVocalScreamAttack(monster, 0)
+                self.doVocalScreamAttack(monster, 0)
         elif monster.attackProfile == "Singer":
             if monster.allowedAttacks:
                 if field.checkVocal(monster):
@@ -2219,10 +2220,11 @@ class battle(object):
         self, unit, penalty, residualResonance=None, damage=None, position=None
     ):
         bf = self.battleField
-        if not position:
+        if position is None:
             position = bf.getUnitPos(unit)
-            tile = bf.terrainArray[position]
-        if not damage:
+        tile = bf.terrainArray[position]
+        print(f"debug: position = {position}")
+        if damage is None:
             print(f"{unit.name} screams out an earshattering note!")
         resonance = self.getResonance(tile)
         if type(unit) == playerCharacter:
@@ -2236,6 +2238,7 @@ class battle(object):
                 residualResonance = resonanceMult
         else:
             resonanceMult = min(0, 0.25 * ((-1 * resonance) - 4 - penalty))
+            print(f"debug: resonanceMult = {resonanceMult}")
             if residualResonance:
                 if resonanceMult > residualResonance:
                     if resonanceMult > 3:
@@ -2243,19 +2246,27 @@ class battle(object):
                     penalty += residualResonance - resonanceMult
             else:
                 residualResonance = resonanceMult
-        force = (
+        force = math.ceil(
             max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
             * resonanceMult
         )
+        print(f"debug: force = {force}")
+        if force == 0:
+            return
         self.doVocalDamage(bf, unit, tile, force)
         if type(unit) == playerCharacter:
             position += 1
         else:
             position -= 1
+        print(f"debug: position = {position}")
         if 0 <= position <= len(self.battleField.terrainArray) - 1:
-            return
+            print(
+                "debug: position valid?"
+                f" {bool(0 <= position <= len(self.battleField.terrainArray) - 1)}"
+            )
+            self.doVocalScreamAttack(unit, penalty, residualResonance, force, position)
         else:
-            self.doVocalScreamAttack(unit, penalty, residualResonance, damage, position)
+            return
 
     def doVocalDamage(self, bf, unit, tile, force):
         cha = self.getStat(unit, "Charisma")
