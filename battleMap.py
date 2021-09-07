@@ -1659,6 +1659,8 @@ class battle(object):
                 print(f"{monster.name} sucks in a tremendous breath!")
             else:
                 self.doVocalScreamAttack(monster, 0)
+                monster.focusTime = 0
+                monster.focus = 1500
         elif monster.attackProfile == "Singer":
             if monster.allowedAttacks:
                 if field.checkVocal(monster):
