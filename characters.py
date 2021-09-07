@@ -244,7 +244,7 @@ class monster(object):
             self.powers.append("Flying Movement")
             self.powers.append("Mounted Movement")
             self.powers.append("Lances: Movement Increases Strength Damage I")
-        elif name == "Screaming Beast":
+        elif name == "The Screaming Beast":
             self.level = 15
             self.boss = True
             stats = {
