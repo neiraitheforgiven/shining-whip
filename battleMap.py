@@ -2216,41 +2216,38 @@ class battle(object):
             force *= 2
         self.doVocalDamage(bf, unit, tile, force)
 
-    def doVocalScreamAttack(
-        self, unit, penalty, residualResonance=None, damage=None, position=None
-    ):
+    def doVocalScreamAttack(self, unit, penalty=0, position=None, cap=None):
         bf = self.battleField
         if position is None:
             position = bf.getUnitPos(unit)
-        tile = bf.terrainArray[position]
-        print(f"debug: position = {position}")
-        if damage is None:
             print(f"{unit.name} screams out an earshattering note!")
+        tile = bf.terrainArray[position]
         resonance = self.getResonance(tile)
         if type(unit) == playerCharacter:
-            resonanceMult = max(0, 0.25 * (resonance + 4 + penalty))
-            if residualResonance:
-                if resonanceMult < residualResonance:
-                    if resonanceMult < -3:
-                        return
-                    penalty += residualResonance - resonanceMult
-            else:
-                residualResonance = resonanceMult
+            if not cap:
+                cap = resonance + 4
+            resonanceMult = min(cap, resonance + 4) - penalty
+            if resonanceMult < -3:
+                print(f"{unit.name}'s scream can't be heard over the clamour!")
+                return
+            if resonance < 0:
+                print(f"{unit.name}'s scream fades into the unholy din!")
+                cap -= 1
         else:
-            resonanceMult = min(0, 0.25 * ((-1 * resonance) - 4 - penalty))
-            print(f"debug: resonanceMult = {resonanceMult}")
-            if residualResonance:
-                if resonanceMult > residualResonance:
-                    if resonanceMult > 3:
-                        return
-                    penalty += residualResonance - resonanceMult
-            else:
-                residualResonance = resonanceMult
+            if not cap:
+                cap = (-1 * resonance) + 4
+            resonanceMult = min(cap, (-1 * resonance) + 4) - penalty
+            if resonanceMult < -3:
+                print(f"{unit.name}'s scream is drowned out by the Holy Song!")
+                return
+            if resonance > 0:
+                cap -= 1
+                print(f"{unit.name}'s scream is weakened by the Holy Song!")
         force = math.ceil(
             max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
             * resonanceMult
+            / 4
         )
-        print(f"debug: force = {force}")
         if force == 0:
             return
         self.doVocalDamage(bf, unit, tile, force)
@@ -2260,15 +2257,13 @@ class battle(object):
             position -= 1
         print(f"debug: position = {position}")
         if 0 <= position <= len(self.battleField.terrainArray) - 1:
-            print(
-                "debug: position valid?"
-                f" {bool(0 <= position <= len(self.battleField.terrainArray) - 1)}"
-            )
-            self.doVocalScreamAttack(unit, penalty, residualResonance, force, position)
+            self.doVocalScreamAttack(unit, penalty, position, cap)
         else:
             return
 
     def doVocalDamage(self, bf, unit, tile, force):
+        if force < 0:
+            force *= -1
         cha = self.getStat(unit, "Charisma")
         luck = self.getStat(unit, "Luck")
         voice = self.getStat(unit, "Voice")
