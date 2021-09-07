@@ -539,7 +539,7 @@ class battle(object):
                         (monster("Pteropus Knight"), 14),
                         (monster("Lizardman"), 14),
                         (monster("Lizardman"), 14),
-                        (monster("Screaming Beast"), 19),
+                        (monster("The Screaming Beast"), 19),
                         (monster("Mercenary Knight"), 19),
                         (monster("Vile Chanter"), 20),
                         (monster("Lizardman"), 21),
@@ -2243,8 +2243,8 @@ class battle(object):
                 print(f"{unit.name}'s scream is drowned out by the Holy Song!")
                 return
             if resonance > 0:
-                cap -= 1
                 print(f"{unit.name}'s scream is weakened by the Holy Song!")
+                cap -= 1
         force = math.ceil(
             max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
             * resonanceMult
@@ -2257,7 +2257,6 @@ class battle(object):
             position += 1
         else:
             position -= 1
-        print(f"debug: position = {position}")
         if 0 <= position <= len(self.battleField.terrainArray) - 1:
             self.doVocalScreamAttack(unit, penalty, position, cap)
         else:
