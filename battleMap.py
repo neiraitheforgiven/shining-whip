@@ -2243,9 +2243,12 @@ class battle(object):
                 if resonance + 4 < cap:
                     cap = resonance
         else:
+            resonance *= -1
             if not cap:
-                cap = (-1 * resonance) + 4
-            resonanceMult = min(cap, (-1 * resonance) + 4) - penalty
+                cap = (resonance) + 4
+            print(f"debug: resonance: {resonance}, cap: {cap}")
+            resonanceMult = min(cap, resonance + 4) - penalty
+            print(f"debug: resonanceMult: {resonanceMult}")
             if resonanceMult < -3:
                 print(f"{unit.name}'s scream is drowned out by the Holy Song!")
                 return
