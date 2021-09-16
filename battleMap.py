@@ -1656,7 +1656,13 @@ class battle(object):
         elif monster.attackProfile == "ScreamingBeast":
             print(f"debug: {monster.name} has {monster.focus} focus")
             if monster.focusTime == 0:
-                print(f"{monster.name} sucks in a tremendous breath!")
+                print(f" {monster.name} sucks in a tremendous breath!")
+                if monster.focus > 2700:
+                    print(f" {monster.name}'s body is fully inflated!")
+                elif monster.focus > 2100:
+                    print(f" Sections of {monster.name}'s body are inflating.")
+                elif monster.focus > 1500:
+                    print(f" Pouches on {monster.name}'s neck are inflating.")
             else:
                 self.doVocalScreamAttack(monster, 0)
                 monster.focusTime = 0
@@ -2234,7 +2240,8 @@ class battle(object):
                 return
             if resonance < 0:
                 print(f"{unit.name}'s scream fades into the unholy din!")
-                cap -= 1
+                if resonance + 4 < cap:
+                    cap = resonance
         else:
             if not cap:
                 cap = (-1 * resonance) + 4
@@ -2242,9 +2249,10 @@ class battle(object):
             if resonanceMult < -3:
                 print(f"{unit.name}'s scream is drowned out by the Holy Song!")
                 return
-            if resonance > 0:
+            if resonance < 0:
                 print(f"{unit.name}'s scream is weakened by the Holy Song!")
-                cap -= 1
+                if resonance + 4 < cap:
+                    cap = resonance
         force = math.ceil(
             max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
             * resonanceMult
