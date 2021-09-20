@@ -724,7 +724,7 @@ class battle(object):
                             break
             return currentParty
 
-    def attack(self, unit, target, skipAttackCount=False):
+    def attack(self, unit, target, pursuitAttack=False):
         bf = self.battleField
         counterattack = False
         poisonEnemy = False
@@ -743,7 +743,7 @@ class battle(object):
         if self.getPower(unit, "Swords: Increased Luck III"):
             if unit.equipment and unit.equipment.type == "Swords":
                 luck = math.ceil(luck * 1.3)
-        if skipAttackCount:
+        if pursuitAttack:
             attackCount = 1
         else:
             doubleChance = math.floor(dex + (dex * (luck / 10)))
@@ -965,25 +965,27 @@ class battle(object):
                             self.battleField.move(target, moveTo)
                             self.cleanupResonance(target)
                             self.cleanupResonance(target)
-                            if self.getPower(unit, "Rout: Pursuit Attack"):
-                                adjust = moveTo - moveFrom
-                                if (
-                                    len(
-                                        [
-                                            tileUnit
-                                            for tileUnit in bf.terrainArray[
-                                                moveTo
-                                            ].units
-                                            if type(tileUnit) == type(unit)
-                                        ]
-                                    )
-                                    < 4
-                                ):
-                                    self.battleField.move(
-                                        unit, self.battleField.getUnitPos(unit) + adjust
-                                    )
-                                    print(f"{unit.name} pursued {target.name}!")
-                                    self.attack(unit, target, True)
+                            if not pursuitAttack:
+                                if self.getPower(unit, "Rout: Pursuit Attack"):
+                                    adjust = moveTo - moveFrom
+                                    if (
+                                        len(
+                                            [
+                                                tileUnit
+                                                for tileUnit in bf.terrainArray[
+                                                    moveTo
+                                                ].units
+                                                if type(tileUnit) == type(unit)
+                                            ]
+                                        )
+                                        < 4
+                                    ):
+                                        self.battleField.move(
+                                            unit,
+                                            self.battleField.getUnitPos(unit) + adjust,
+                                        )
+                                        print(f"{unit.name} pursued {target.name}!")
+                                        self.attack(unit, target, True)
                         else:
                             print(f"{target.name} was stunned!")
                             targetStunned = True
