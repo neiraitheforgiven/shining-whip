@@ -249,9 +249,9 @@ class monster(object):
             self.boss = True
             stats = {
                 "Voice": 15,
-                "Stamina": 20,
-                "Speed": 0,
-                "Dexterity": 27,
+                "Stamina": 28,
+                "Speed": 1,
+                "Dexterity": 14,
                 "Focus": 45,
             }
             self.setStats(12, **stats)
