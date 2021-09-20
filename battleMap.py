@@ -855,6 +855,18 @@ class battle(object):
                     damage *= 1.3
                 if self.getPower(unit, damageString + "IV"):
                     damage *= 1.3
+                if self.getPower(unit, "Extra Damage to Single Target"):
+                    if (
+                        len(
+                            [
+                                tileUnit
+                                for tileUnit in self.getUnitPos(unit).units
+                                if type(tileUnit) == type(target)
+                            ]
+                        )
+                        == 1
+                    ):
+                        damage *= 1.3
                 strengthForDamage = strength
                 if self.getPower(unit, "Lances: Movement Increases Strength Damage I"):
                     if unit.equipment and unit.equipment.type == "Lances":
