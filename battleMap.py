@@ -2521,11 +2521,11 @@ class battle(object):
                     "becomes a favorite tale of skalds and minstrels. "
                 )
                 print("You are victorious!")
-                self.gameStatus = 'victory'
+                self.battleStatus = 'victory'
             else:
                 self.party[0].fame += 1
                 print(f"The monstrous {target.name} finally falls. You are victorious!")
-                self.gameStatus = 'victory'
+                self.battleStatus = 'victory'
         del target
         time.sleep(7.0 / 10)
         return
@@ -4443,6 +4443,8 @@ class game(object):
                     self.reckoning(0, 'the townsfolk')
                     self.shop.goShopping(self)
                 battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
         else:
             print("You have won the game... for now.")
             self.battleNum = 40
