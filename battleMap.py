@@ -918,11 +918,19 @@ class battle(object):
                             targetDamage + (self.getStat(unit, "Faith") / 3)
                         )
                 if attackType != 'critical':
-                    damage -= max(
-                        self.getStat(target, "Strength"),
-                        self.getStat(target, "Dexterity"),
-                        self.getStat(target, "Faith"),
-                    )
+                    if self.getPower(target, "Use Voice For Defense"):
+                        damage -= max(
+                            self.getStat(target, "Strength"),
+                            self.getStat(target, "Dexterity"),
+                            self.getStat(target, "Faith"),
+                            self.getStat(target, "Voice"),
+                        )
+                    else:
+                        damage -= max(
+                            self.getStat(target, "Strength"),
+                            self.getStat(target, "Dexterity"),
+                            self.getStat(target, "Faith"),
+                        )
                 damage = max(damage, 1)
                 damage = min(damage, target.hp)
                 print(f"{unit.name} deals {damage} damage to {target.name}!")
