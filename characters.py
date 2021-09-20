@@ -992,9 +992,9 @@ class playerCharacter(object):
                 ]
             elif "Peregrine" in title:
                 listOfPowers = [
-                    "Unarmed Attack: Wind Element",
+                    "Wind Fists: Unarmed Range and Wind",
                     "Purifying Strike",
-                    "Unarmed Attack: Range +1",
+                    "Pure of Heart: Status Immune",
                     "Dispel I",
                     "Defense: Fire I",
                     "Silence I",
