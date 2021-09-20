@@ -96,6 +96,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 9, 0, 0)
             self.shortName = "Dark Elf"
+            self.powers.append("Defense: Wind Vulnerability")
         elif name == "Dark Magi":
             self.level = 12
             stats = {"Stamina": 9, "Intelligence": 15, "Strength": 9, "Speed": 9}
@@ -168,6 +169,8 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Axes", "Middle Axe", 300, 1, 0, 0, 7, 0, 0)
             self.shortName = "Lizard"
+            self.powers.append("Defense: Ice Vulnerability")
+            self.powers.append("Defense: Fire Defense")
         elif name == "Mannequin":
             self.level = 8
             stats = {"Strength": 14, "Stamina": 8, "Speed": 5}
@@ -281,6 +284,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0)
+            self.powers.append("Defense: Wind Vulnerability")
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
@@ -307,6 +311,7 @@ class monster(object):
             self.powers.append("Vocal Attack: Increased Area I")
             self.powers.append("Heal I")
             self.powers.append("Vocal Attack: Sustain Effect")
+            self.powers.append("Defense: Wind Vulnerability")
             self.shortName = "Chanter"
         elif name == "Zombie":
             self.level = 7

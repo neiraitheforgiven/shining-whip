@@ -874,8 +874,17 @@ class battle(object):
                 ):
                     damage *= 0.7
                     damage = math.floor(damage)
+                element = None
                 if unit.equipment:
                     damage += unit.equipment.damage
+                else:
+                    if self.getPower(unit, "Wind Fists: Unarmed Range and Wind"):
+                        element = "Wind"
+                if element:
+                    if self.getPower(target, f"Defense: {element} Resistance"):
+                        targetDamage = math.floor(targetDamage / 1.3)
+                    if self.getPower(target, f"Defense: {element} Vulnerability"):
+                        targetDamage = math.ceil(targetDamage * 1.3)
                 # elevation damage
                 unitTile = bf.terrainArray[bf.getUnitPos(unit)]
                 targetTile = bf.terrainArray[bf.getUnitPos(target)]
@@ -2943,6 +2952,8 @@ class battleField(object):
         else:
             minRange = 0
             maxRange = 0
+            if self.getPower(unit, "Wind Fists: Unarmed Range and Wind"):
+                maxRange += 1
         if type(unit) == monster:
             if self.getPower(unit, "Blaze II") or (self.getPower(unit, "Freeze III")):
                 minRange = max(0, minRange)
