@@ -575,6 +575,8 @@ class battle(object):
                 if self.getPower(unit, "Egress I") and unit.mp < self.mpCost(unit, 8):
                     print(f"warning: {unit.name} has too few mp to Egress")
                 unit.resonating = []
+                unit.extraPowerSlot = None
+                unit.extraPowerSlot2 = None
             self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
@@ -1954,12 +1956,14 @@ class battle(object):
             [tileUnit.name for tileUnit in tile.units if tileUnit != unit]
         )
         if type(unit) == playerCharacter:
-            if self.getPower(unit, 'Random Additional Spell I') and not (
-                unit.extraPowerSlot
+            if (
+                self.getPower(unit, 'Random Additional Spell I')
+                and not unit.extraPowerSlot
             ):
                 unit.extraPowerSlot = self.getExtraSpell(unit, 1)
-            if self.getPower(unit, 'Random Additional Spell II') and not (
-                unit.extraPowerSlot2
+            if (
+                self.getPower(unit, 'Random Additional Spell II')
+                and not unit.extraPowerSlot2
             ):
                 unit.extraPowerSlot2 = self.getExtraSpell(unit, 2)
             allowedCommands = ["C", "c", "L", "l", "W", "w"]
@@ -2508,6 +2512,10 @@ class battle(object):
                 spell for spell in possibleSpells if spell not in unit.extraPowerSlot
             ]
         spellChoice = random.choice(possibleSpells)
+        if slot == 1:
+            unit.extraPowerSlot = spellChoice
+        if slot == 2:
+            unit.extraPowerSlot2 = spellChoice
         print(f"{unit.name} learned {spellChoice}!")
         return spellChoice
 
