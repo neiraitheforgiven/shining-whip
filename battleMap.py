@@ -2233,32 +2233,28 @@ class battle(object):
         resonance = self.getResonance(tile)
         if type(unit) == playerCharacter:
             if not cap:
-                cap = resonance + 4
-            resonanceMult = min(cap, resonance + 4) - penalty
+                cap = resonance
+            resonanceMult = min(cap, resonance) - penalty
             if resonanceMult < -3:
                 print(f"{unit.name}'s scream can't be heard over the clamour!")
                 return
-            if resonance < 0:
+            if resonance < 0 and resonance < cap:
                 print(f"{unit.name}'s scream fades into the unholy din!")
-                if resonance + 4 < cap:
-                    cap = resonance
+                cap = resonance
         else:
             resonance *= -1
             if not cap:
-                cap = (resonance) + 4
-            print(f"debug: resonance: {resonance}, cap: {cap}")
-            resonanceMult = min(cap, resonance + 4) - penalty
-            print(f"debug: resonanceMult: {resonanceMult}")
+                cap = resonance
+            resonanceMult = min(cap, resonance) - penalty
             if resonanceMult < -3:
                 print(f"{unit.name}'s scream is drowned out by the Holy Song!")
                 return
-            if resonance < 0:
+            if resonance < 0 and resonance < cap:
                 print(f"{unit.name}'s scream is weakened by the Holy Song!")
-                if resonance + 4 < cap:
-                    cap = resonance
+                cap = resonance
         force = math.ceil(
             max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
-            * resonanceMult
+            * (resonanceMult + 4)
             / 4
         )
         if force == 0:
