@@ -2255,11 +2255,12 @@ class battle(object):
         force = math.ceil(
             max(self.getStat(unit, "Faith"), self.getStat(unit, "Voice"))
             * (resonanceMult + 4)
-            / 4
         )
         if force == 0:
             return
-        self.doVocalDamage(bf, unit, tile, force)
+        if any(target for target in list(tile.units) if type(target) != type(unit)):
+            self.doVocalDamage(bf, unit, tile, force)
+            print("")
         if type(unit) == playerCharacter:
             position += 1
         else:
