@@ -813,10 +813,10 @@ class playerCharacter(object):
             elif "Catechumen" in title:
                 listOfPowers = [
                     "Unarmed Attack: Vocal Cascade I",
-                    "Luck: Increased Rout I",
+                    "Movement: Holy Ground Increase I",
                     "Holy Ground Increases Focus I",
                     "Unarmed Attack: Vocal Cascade II",
-                    "Luck: Increased Rout II",
+                    "Movement: Holy Ground Increase II",
                     "Gain Regeneration on Holy Ground",
                     "Holy Ground Increases Focus II",
                     "Unarmed Attack: Vocal Cascade III",
