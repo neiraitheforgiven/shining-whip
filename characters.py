@@ -248,7 +248,7 @@ class monster(object):
             self.level = 15
             self.boss = True
             stats = {
-                "Voice": 25,
+                "Voice": 15,
                 "Stamina": 20,
                 "Speed": 0,
                 "Dexterity": 27,

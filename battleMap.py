@@ -1657,8 +1657,8 @@ class battle(object):
             print(f"debug: {monster.name} has {monster.focus} focus")
             if monster.focusTime == 0:
                 print(f" {monster.name} sucks in a tremendous breath!")
-                if monster.focus > 2700:
-                    print(f" {monster.name}'s body is fully inflated!")
+                if monster.focus > 2500:
+                    print(f" {monster.name}'s body is FULLY INFLATED!!")
                 elif monster.focus > 2100:
                     print(f" Sections of {monster.name}'s body are inflating.")
                 elif monster.focus > 1500:
