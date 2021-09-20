@@ -724,7 +724,7 @@ class battle(object):
                             break
             return currentParty
 
-    def attack(self, unit, target):
+    def attack(self, unit, target, skipAttackCount=False):
         bf = self.battleField
         counterattack = False
         poisonEnemy = False
@@ -743,14 +743,17 @@ class battle(object):
         if self.getPower(unit, "Swords: Increased Luck III"):
             if unit.equipment and unit.equipment.type == "Swords":
                 luck = math.ceil(luck * 1.3)
-        doubleChance = math.floor(dex + (dex * (luck / 10)))
-        if self.getPower(unit, "Quick Shot"):
-            doubleChance = math.ceil(doubleChance * 1.3)
-        doubleChanceArray.extend([1] * (100 - luck))
-        doubleChanceArray.extend([2] * doubleChance)
-        if self.getPower(unit, "Luck: Enable Triple Attack"):
-            doubleChanceArray.extend([3] * doubleChance)
-        attackCount = random.choice(doubleChanceArray)
+        if skipAttackCount:
+            attackCount = 1
+        else:
+            doubleChance = math.floor(dex + (dex * (luck / 10)))
+            if self.getPower(unit, "Quick Shot"):
+                doubleChance = math.ceil(doubleChance * 1.3)
+            doubleChanceArray.extend([1] * (100 - luck))
+            doubleChanceArray.extend([2] * doubleChance)
+            if self.getPower(unit, "Luck: Enable Triple Attack"):
+                doubleChanceArray.extend([3] * doubleChance)
+            attackCount = random.choice(doubleChanceArray)
         for i in range(0, attackCount):
             if i == 0:
                 print(f"{unit.name} attacks!")
@@ -979,8 +982,8 @@ class battle(object):
                                     self.battleField.move(
                                         unit, self.battleField.getUnitPos(unit) + adjust
                                     )
-                                    attackCount += 1
                                     print(f"{unit.name} pursued {target.name}!")
+                                    self.attack(unit, target, True)
                         else:
                             print(f"{target.name} was stunned!")
                             targetStunned = True
