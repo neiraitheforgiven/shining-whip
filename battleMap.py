@@ -3866,7 +3866,7 @@ class game(object):
             print("")
             if self.battleStarted < 2:
                 recruit = playerCharacter("Gong", "Half-Giant", "Monk", False, 1)
-                recruit.levelUp(chatter)
+                recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
                 self.reckoning(25, 'lonely priest')
                 self.battleStarted = 2
