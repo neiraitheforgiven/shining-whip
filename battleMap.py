@@ -1786,6 +1786,7 @@ class battle(object):
                         self.castSpell(monster, "Blaze II", 0)
             if not canCast:
                 monster.attackProfile = "Random"
+                self.doMonsterAttack(monster)
         elif monster.attackProfile == "Weakest":
             candidates = [
                 target
