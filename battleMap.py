@@ -1284,6 +1284,7 @@ class battle(object):
         gold=False,
         stats=[],
         counterStats=["Stamina", "Faith"],
+        friendly=False,
     ):
         if self.getPower(unit, "Convert Faith and Magic"):
             unit.fp -= self.mpCost(unit, cost)
@@ -1295,32 +1296,40 @@ class battle(object):
                 unit.mp -= self.mpCost(unit, cost)
         target = unit.allowedSpells[spellName][targetId]
         print(f"{unit.name} casts {spellName} on {target.name}!")
-        # assemble chance array
-        chanceArray = []
-        successChance = sum(self.getStat(unit, stat) for stat in stats)
-        chanceArray.extend(['success'] * successChance)
-        resistChance = 0
-        if "Life" in counterStats:
-            resistChance += target.hp
-            counterStats.remove("Life")
-        resistChance += math.floor(
-            sum(
-                (self.getStat(target, stat) * (self.getStat(target, "Luck") * 0.1))
-                for stat in counterStats
-            )
-        )
-        chanceArray.extend(['fail'] * resistChance)
-        result = random.choice(chanceArray)
-        if result == "success":
+        if friendly:
             print(f"{target.name} is {statusName}!")
             target.status.append(statusName)
-            if gold and type(unit) == playerCharacter:
-                print(f"{unit.name} discovered a statue worth {target.hp} scroulings!")
-                self.game.money += target.hp
-            self.giveExperience(unit, target, math.ceil(target.hp / 3))
+            target.status.append(statusName)
+            target.status.append(statusName)
         else:
-            print(f"By sheer will, {target.name} was not {statusName}!")
-            self.giveExperience(unit, target, math.ceil(target.hp / 10))
+            # assemble chance array
+            chanceArray = []
+            successChance = sum(self.getStat(unit, stat) for stat in stats)
+            chanceArray.extend(['success'] * successChance)
+            resistChance = 0
+            if "Life" in counterStats:
+                resistChance += target.hp
+                counterStats.remove("Life")
+            resistChance += math.floor(
+                sum(
+                    (self.getStat(target, stat) * (self.getStat(target, "Luck") * 0.1))
+                    for stat in counterStats
+                )
+            )
+            chanceArray.extend(['fail'] * resistChance)
+            result = random.choice(chanceArray)
+            if result == "success":
+                print(f"{target.name} is {statusName}!")
+                target.status.append(statusName)
+                if gold and type(unit) == playerCharacter:
+                    print(
+                        f"{unit.name} discovered a statue worth {target.hp} scroulings!"
+                    )
+                    self.game.money += target.hp
+                self.giveExperience(unit, target, math.ceil(target.hp / 3))
+            else:
+                print(f"By sheer will, {target.name} was not {statusName}!")
+                self.giveExperience(unit, target, math.ceil(target.hp / 10))
 
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Afflict I":
@@ -1523,6 +1532,14 @@ class battle(object):
         elif spellName == "Ninja Fire III":
             self.castSingleSpell(
                 unit, targetId, "Ninja Fire III", 12, 32, "Fire", speedUp=True
+            )
+        elif spellName == "Shield I":
+            self.castStatusSpell(
+                unit, targetId, "Shield I", 12, "shielded", faith=True, friendly=True
+            )
+        elif spellName == "Shield II":
+            self.castStatusSpell(
+                unit, targetId, "Shield II", 7, "shielded", faith=True, friendly=True
             )
         elif spellName == "Sleep I":
             self.castStatusSpell(
@@ -3150,6 +3167,10 @@ class battleField(object):
                         targets.extend(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Portal I"] = targets
+        if self.getPower(unit, "Shield I") and (unit.fp >= self.mpCost(unit, 12)):
+            self.checkSpell(unit, position, "Heal I", True, 1, 0)
+        if self.getPower(unit, "Shield II") and (unit.fp >= self.mpCost(unit, 7)):
+            self.checkSpell(unit, position, "Heal I", True, 1, 0)
         if self.getPower(unit, "Sleep I") and (unit.mp >= self.mpCost(unit, 6)):
             self.checkSpell(unit, position, "Sleep I", False, 1, 0, "Lulled to Sleep")
         if self.getPower(unit, "Sleep II") and (unit.mp >= self.mpCost(unit, 10)):
