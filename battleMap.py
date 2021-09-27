@@ -3334,9 +3334,8 @@ class battleField(object):
                 if any(
                     [
                         friend
-                        for friend in self.unitsAtPosition(position)
-                        if type(friend) == type(monster)
-                        and (friend.hp < friend.maxHP())
+                        for friend in self.alliesAtPosition(monster, position)
+                        if (friend.hp < friend.maxHP())
                     ]
                 ):
                     return False
@@ -3345,23 +3344,36 @@ class battleField(object):
                 for tileIndex in monster.allowedMovement:
                     if any(
                         friend
-                        for friend in self.unitsAtPosition(tileIndex)
-                        if type(friend) == type(monster)
-                        and (friend.hp < friend.maxHP())
+                        for friend in self.alliesAtPosition(monster, position)
+                        if (friend.hp < friend.maxHP())
                     ):
                         candidates.append(position)
                 if any(candidates):
                     moveTo = random.choice(candidates)
                 else:
                     for tileIndex in monster.allowedMovement:
-                        if any(
-                            friend
-                            for friend in self.unitsAtPosition(tileIndex)
-                            if type(friend) == type(monster)
-                        ):
+                        if any(friend for friend in self.alliesAtPosition(tileIndex)):
                             candidates.append(position)
                     if any(candidates):
                         moveTo = random.choice(candidates)
+                    elif not any(
+                        enemy
+                        for enemy in self.enemiesAtPosition(tileIndex)
+                        if self.canBeTarget(enemy)
+                    ):
+                        for tile in self.terrainArray:
+                            tilePos = self.terrainArray.index(tile)
+                            if any(
+                                friend
+                                for friend in self.alliesAtPosition(monster, tilePos)
+                                if (friend.hp < friend.maxHP())
+                            ):
+                                candidates.append(tilePos)
+                        if candidates:
+                            if max(candidates) in monster.allowedMovement:
+                                moveTo = max(candidates)
+                            else:
+                                moveTo = min(monster.allowedMovement)
                 if moveTo:
                     self.move(monster, moveTo)
                 else:
