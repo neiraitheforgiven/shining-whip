@@ -1190,26 +1190,35 @@ class battle(object):
                         self.giveExperience(unit, target, healing)
                 elif damage > 0:
                     # spell is a damage spell
-                    targetDamage = damage
-                    if type(target) != type(unit):
-                        if spread:
-                            targetDamage = math.ceil(targetDamage / count)
-                        if self.getPower(target, "Defense: Magic"):
-                            targetDamage = math.floor(targetDamage / 1.3)
-                        if self.getPower(target, f"Defense: {element} Resistance"):
-                            targetDamage = math.floor(targetDamage / 1.3)
-                        if self.getPower(target, f"Defense: {element} Vulnerability"):
-                            targetDamage = math.ceil(targetDamage * 1.3)
-                        targetDamage = min(targetDamage, target.hp)
-                        print(
-                            f"{unit.name} deals {targetDamage} "
-                            f"{elementWithSpace}damage to "
-                            f"{target.name}!"
-                        )
-                        target.hp -= targetDamage
-                        self.giveExperience(unit, target, targetDamage)
-                        if target.hp <= 0:
-                            self.kill(target)
+                    if "shielded" in target.status:
+                        print(f"{target.name} was shielded from damage!")
+                        target.status.remove("shielded")
+                        if "shielded" not in target.status:
+                            print(f"{target.name} is no longer shielded.")
+                        self.giveExperience(unit, target, 1)
+                    else:
+                        targetDamage = damage
+                        if type(target) != type(unit):
+                            if spread:
+                                targetDamage = math.ceil(targetDamage / count)
+                            if self.getPower(target, "Defense: Magic"):
+                                targetDamage = math.floor(targetDamage / 1.3)
+                            if self.getPower(target, f"Defense: {element} Resistance"):
+                                targetDamage = math.floor(targetDamage / 1.3)
+                            if self.getPower(
+                                target, f"Defense: {element} Vulnerability"
+                            ):
+                                targetDamage = math.ceil(targetDamage * 1.3)
+                            targetDamage = min(targetDamage, target.hp)
+                            print(
+                                f"{unit.name} deals {targetDamage} "
+                                f"{elementWithSpace}damage to "
+                                f"{target.name}!"
+                            )
+                            target.hp -= targetDamage
+                            self.giveExperience(unit, target, targetDamage)
+                            if target.hp <= 0:
+                                self.kill(target)
         if speedUp:
             intel = self.getStat(unit, "Intelligence")
             unit.initiativePoints += intel
@@ -1242,20 +1251,27 @@ class battle(object):
             target.hp += healing
             self.giveExperience(unit, target, healing)
         elif damage > 0:
-            if self.getPower(target, "Defense: Magic"):
-                damage = math.floor(damage / 1.3)
-            if self.getPower(target, f"Defense: {element} Resistance"):
-                damage = math.floor(damage / 1.3)
-            if self.getPower(target, f"Defense: {element} Vulnerability"):
-                damage = math.ceil(damage * 1.3)
-            damage = min(damage, target.hp)
-            if element:
-                element += " "
-            print(f"{unit.name} deals {damage} {element}damage to {target.name}!")
-            target.hp -= damage
-            self.giveExperience(unit, target, damage)
-            if target.hp <= 0:
-                self.kill(target)
+            if "shielded" in target.status:
+                print(f"{target.name} was shielded from damage!")
+                target.status.remove("shielded")
+                if "shielded" not in target.status:
+                    print(f"{target.name} is no longer shielded.")
+                self.giveExperience(unit, target, 1)
+            else:
+                if self.getPower(target, "Defense: Magic"):
+                    damage = math.floor(damage / 1.3)
+                if self.getPower(target, f"Defense: {element} Resistance"):
+                    damage = math.floor(damage / 1.3)
+                if self.getPower(target, f"Defense: {element} Vulnerability"):
+                    damage = math.ceil(damage * 1.3)
+                damage = min(damage, target.hp)
+                if element:
+                    element += " "
+                print(f"{unit.name} deals {damage} {element}damage to {target.name}!")
+                target.hp -= damage
+                self.giveExperience(unit, target, damage)
+                if target.hp <= 0:
+                    self.kill(target)
         if self.getPower(unit, "Sonorous Spells"):
             attackTypeArray = []
             luck = self.getStat(unit, "Luck")
