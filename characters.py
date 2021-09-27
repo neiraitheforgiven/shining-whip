@@ -146,6 +146,7 @@ class monster(object):
             self.powers.append("Unarmed Attack: Increased Damage I")
             self.powers.append("Unarmed Attack: Increased Damage II")
             self.powers.append("Defense: Magic")
+            self.powers.append("Defense: Death Resistance")
         elif name == "Goblin":
             self.level = 2
             stats = {"Dexterity": 6, "Stamina": 5, "Speed": 5}
@@ -276,6 +277,7 @@ class monster(object):
             self.equipment = equipment("Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0)
             self.powers.append("Command: Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
+            self.powers.append("Defense: Death Resistance")
         elif name == "Sniper":
             self.level = 6
             stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
@@ -330,6 +332,7 @@ class monster(object):
             self.powers.append("Poisonous Attack")
             self.powers.append("Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
+            self.powers.append("Defense: Death Resistance")
         else:
             print("Battle Setup Error! Attempted to create monster not in list!")
 

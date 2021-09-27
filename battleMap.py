@@ -1444,6 +1444,12 @@ class battle(object):
             print(f"{unit.name} casts {spellName} on {target.name}!")
             damage = min(10, target.hp)
             print(f"{unit.name} drains {damage} health from {target.name}!")
+            if self.getPower(target, "Defense: Magic"):
+                damage = math.floor(damage / 1.3)
+            if self.getPower(target, "Defense: Death Resistance"):
+                damage = math.floor(damage / 1.3)
+            if self.getPower(target, "Defense: Death Vulnerability"):
+                damage = math.ceil(damage * 1.3)
             target.hp -= damage
             unit.hp = min(unit.hp + damage, unit.maxHP())
             self.giveExperience(unit, target, damage)
@@ -1459,7 +1465,19 @@ class battle(object):
             print(f"{unit.name} casts {spellName} on {target.name}!")
             damage = min(18, target.hp)
             print(f"{unit.name} drains {damage} health from {target.name}!")
+            if self.getPower(target, "Defense: Magic"):
+                damage = math.floor(damage / 1.3)
+            if self.getPower(target, "Defense: Death Resistance"):
+                damage = math.floor(damage / 1.3)
+            if self.getPower(target, "Defense: Death Vulnerability"):
+                damage = math.ceil(damage * 1.3)
             mdamage = min(6, target.mp)
+            if self.getPower(target, "Defense: Magic"):
+                mdamage = math.floor(mdamage / 1.3)
+            if self.getPower(target, "Defense: Death Resistance"):
+                mdamage = math.floor(mdamage / 1.3)
+            if self.getPower(target, "Defense: Death Vulnerability"):
+                mdamage = math.ceil(mdamage * 1.3)
             if mdamage > 0:
                 print(f"{unit.name} drains {damage} magic from {target.name}!")
                 target.mp -= mdamage
