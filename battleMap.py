@@ -1849,7 +1849,7 @@ class battle(object):
                     maxHP = pc.maxHP()
                     maxFP = pc.stats["Faith"]
                     maxMP = pc.stats["Intelligence"]
-                    fame = (self.getFameBonus(pc) - 1) * 100
+                    fame = round((self.getFameBonus(pc) - 1) * 100)
                     mvType = ""
                     if self.getPower(pc, "Mounted Movement"):
                         mvType = "M"
