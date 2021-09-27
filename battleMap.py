@@ -860,7 +860,7 @@ class battle(object):
                         len(
                             [
                                 tileUnit
-                                for tileUnit in self.getUnitPos(unit).units
+                                for tileUnit in bf.unitsAtPosition(bf.getUnitPos(unit))
                                 if type(tileUnit) == type(target)
                             ]
                         )
@@ -894,9 +894,9 @@ class battle(object):
                         element = "Wind"
                 if element:
                     if self.getPower(target, f"Defense: {element} Resistance"):
-                        damage = math.floor(targetDamage / 1.3)
+                        damage = math.floor(damage / 1.3)
                     if self.getPower(target, f"Defense: {element} Vulnerability"):
-                        damage = math.ceil(targetDamage * 1.3)
+                        damage = math.ceil(damage * 1.3)
                 # Terrain bonuses section -- consider breaking out
                 # elevation damage
                 unitTile = bf.terrainArray[bf.getUnitPos(unit)]
@@ -910,13 +910,9 @@ class battle(object):
                         damage = math.ceil(damage * heightBonus)
                 if self.getResonance(unitTile) > 0:
                     if self.getPower(unit, "Faith: Add Damage on Holy Ground I"):
-                        damage = math.ceil(
-                            targetDamage + (self.getStat(unit, "Faith") / 3)
-                        )
+                        damage = math.ceil(damage + (self.getStat(unit, "Faith") / 3))
                     if self.getPower(unit, "Faith: Add Damage on Holy Ground II"):
-                        damage = math.ceil(
-                            targetDamage + (self.getStat(unit, "Faith") / 3)
-                        )
+                        damage = math.ceil(damage + (self.getStat(unit, "Faith") / 3))
                 if attackType != 'critical':
                     damage -= max(
                         self.getStat(target, "Strength"),
