@@ -3351,7 +3351,14 @@ class battleField(object):
                     moveTo = random.choice(candidates)
                 else:
                     for tileIndex in monster.allowedMovement:
+<<<<<<< HEAD
                         if any(friend for friend in self.alliesAtPosition(tileIndex)):
+=======
+                        if any(
+                            friend
+                            for friend in self.alliesAtPosition(monster, tileIndex)
+                        ):
+>>>>>>> bugs/chanters-run-in-place
                             candidates.append(position)
                     if any(candidates):
                         moveTo = random.choice(candidates)
