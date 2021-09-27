@@ -1300,7 +1300,6 @@ class battle(object):
             print(f"{target.name} is {statusName}!")
             target.status.append(statusName)
             target.status.append(statusName)
-            target.status.append(statusName)
         else:
             # assemble chance array
             chanceArray = []
@@ -1948,23 +1947,28 @@ class battle(object):
             resistArray.extend(['resist'] * resistChance)
             resistArray.extend(['fail'] * (50 - (luck)))
             result = random.choice(resistArray)
-            if result == 'resist':
-                if state == "Lulled to Sleep":
-                    print(f"{unit.name} woke up!")
+            if state != "shielded":
+                if result == 'resist':
+                    if state == "Lulled to Sleep":
+                        print(f"{unit.name} woke up!")
+                    else:
+                        print(f"{unit.name} recovered from being {state}!")
+                    unit.status.remove(state)
                 else:
-                    print(f"{unit.name} recovered from being {state}!")
-                unit.status.remove(state)
-            else:
-                if state == 'Poisoned':
-                    print(f"{unit.name} is Poisoned!")
-                    damage = math.floor(self.getStat(unit, "Stamina") * 1.5)
-                    unit.hp -= damage
-                    print(f"{unit.name} takes {damage} damage from the poison.")
-                    if unit.hp <= 0:
-                        self.kill(unit)
-                if state == 'Lulled to Sleep':
-                    print(f"{unit.name} is asleep.")
-                    return
+                    if state == 'Poisoned':
+                        print(f"{unit.name} is Poisoned!")
+                        damage = math.floor(self.getStat(unit, "Stamina") * 1.5)
+                        unit.hp -= damage
+                        print(f"{unit.name} takes {damage} damage from the poison.")
+                        if unit.hp <= 0:
+                            self.kill(unit)
+                    if state == 'Lulled to Sleep':
+                        print(f"{unit.name} is asleep.")
+                        return
+            if "shielded" in state:
+                state.remove("shielded")
+                if "shielded" not in state:
+                    print(f"{unit.name} is no longer shielded!")
             statusChecked = True
         otherUnits = ", ".join(
             [tileUnit.name for tileUnit in tile.units if tileUnit != unit]
