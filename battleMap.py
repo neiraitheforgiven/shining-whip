@@ -3316,9 +3316,8 @@ class battleField(object):
                 if any(
                     [
                         friend
-                        for friend in self.unitsAtPosition(position)
-                        if type(friend) == type(monster)
-                        and (friend.hp < friend.maxHP())
+                        for friend in self.alliesAtPosition(monster, position)
+                        if (friend.hp < friend.maxHP())
                     ]
                 ):
                     return False
@@ -3327,19 +3326,15 @@ class battleField(object):
                 for tileIndex in monster.allowedMovement:
                     if any(
                         friend
-                        for friend in self.unitsAtPosition(tileIndex)
-                        if type(friend) == type(monster)
-                        and (friend.hp < friend.maxHP())
+                        for friend in self.alliesAtPosition(monster, position)
+                        if (friend.hp < friend.maxHP())
                     ):
                         candidates.append(position)
                 if any(candidates):
                     moveTo = random.choice(candidates)
                 else:
                     for tileIndex in monster.allowedMovement:
-                        if any(
-                            friend
-                            for friend in self.unitsAtPosition(tileIndex)
-                            if type(friend) == type(monster)
+                        if any(friend for friend in self.alliesAtPosition(tileIndex)):
                         ):
                             candidates.append(position)
                     if any(candidates):
