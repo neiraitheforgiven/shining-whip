@@ -860,7 +860,7 @@ class battle(object):
                         len(
                             [
                                 tileUnit
-                                for tileUnit in self.getUnitPos(unit).units
+                                for tileUnit in self.battleField.getUnitPos(unit).units
                                 if type(tileUnit) == type(target)
                             ]
                         )
