@@ -1865,7 +1865,7 @@ class battle(object):
                     maxHP = pc.maxHP()
                     maxFP = pc.stats["Faith"]
                     maxMP = pc.stats["Intelligence"]
-                    fame = self.getFameBonus(pc)
+                    fame = (self.getFameBonus(pc) - 1) * 100
                     mvType = ""
                     if self.getPower(pc, "Mounted Movement"):
                         mvType = "M"
@@ -3470,7 +3470,7 @@ class battleField(object):
             return 1
         allyFame = [ally.getFame() for ally in self.alliesAtPosition(unit, position)]
         if any(allyFame):
-            return 1 + (max(allyFame) / 100.0)
+            return 1 + round((max(allyFame) / 100.0), 2)
         else:
             return 1
 
