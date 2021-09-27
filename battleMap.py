@@ -1746,7 +1746,6 @@ class battle(object):
             target = random.choice(monster.allowedAttacks)
             self.attack(monster, target)
         elif monster.attackProfile == "ScreamingBeast":
-            print(f"debug: {monster.name} has {monster.focus} focus")
             if monster.focusTime == 0:
                 print(f" {monster.name} sucks in a tremendous breath!")
                 if monster.focus > 2525:
@@ -2762,7 +2761,7 @@ class battleField(object):
         return [
             unit
             for unit in self.terrainArray[position].units
-            if type(unit) != type(me) and self.canBeTarget(unit) and (unit != me)
+            if type(unit) == type(me) and self.canBeTarget(unit) and (unit != me)
         ]
 
     def calculatePossibleMovement(
@@ -3512,9 +3511,7 @@ class battleField(object):
 
     def getFameBonus(self, unit):
         position = self.getUnitPos(unit)
-        print(f"debug: {unit.name}'s position for getFameBonus is {position}")
-        if not position:
-            print(f"debug: {unit.name} has no {position}")
+        if position is None:
             return 1
         allyFame = [ally.getFame() for ally in self.alliesAtPosition(unit, position)]
         if any(allyFame):
