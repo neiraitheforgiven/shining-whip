@@ -1027,9 +1027,7 @@ class battle(object):
                             print(f"{target.name} was stunned!")
                             targetStunned = True
                             time.sleep(4.0 / 10)
-                            setback = min(
-                                15, math.ceil(225 / self.determineInitiative(target))
-                            )
+                            setback = self.determineInitiativeSetback(unit)
                             if target.initiativePoints < (
                                 self.currentInitiative - setback
                             ):
@@ -1047,9 +1045,7 @@ class battle(object):
                         print(f"{target.name} was stunned!")
                         targetStunned = True
                         time.sleep(4.0 / 10)
-                        setback = min(
-                            15, math.ceil(225 / self.determineInitiative(target))
-                        )
+                        setback = self.determineInitiativeSetback(unit)
                         target.initiativePoints -= setback
                         if target in self.turnOrder:
                             self.turnOrder.remove(target)
@@ -1346,6 +1342,84 @@ class battle(object):
                 print(f"By sheer will, {target.name} was not {statusName}!")
                 self.giveExperience(unit, target, math.ceil(target.hp / 10))
 
+    def castStatusSpellOnArea(
+        self,
+        unit,
+        targetId,
+        spellName,
+        cost,
+        statusName,
+        area=0,
+        faith=False,
+        gold=False,
+        stats=[],
+        counterStats=["Stamina", "Faith"],
+        friendly=False,
+    ):
+        bf = self.battleField
+        if self.getPower(unit, "Convert Faith and Magic"):
+            unit.fp -= self.mpCost(unit, cost)
+            unit.mp -= self.mpCost(unit, cost)
+        else:
+            if faith:
+                unit.fp -= self.mpCost(unit, cost)
+            else:
+                unit.mp -= self.mpCost(unit, cost)
+        spellTarget = unit.allowedSpells[spellName][targetId]
+        if type(spellTarget) == int:
+            position = spellTarget
+        else:
+            position = bf.terrainArray.index(spellTarget)
+        print(f"{unit.name} casts {spellName}!")
+        minRange = max(0, position - area)
+        maxRange = min(position + area, len(bf.terrainArray) - 1)
+        for i in range(minRange, maxRange + 1):
+            tile = bf.terrainArray[i]
+            for target in list(tile.units):
+                if not bf.canBeTarget(unit):
+                    continue
+                if friendly:
+                    if type(target) == type(unit):
+                        print(f"{target.name} is {statusName}!")
+                        target.status.append(statusName)
+                        target.status.append(statusName)
+                        target.status.append(statusName)
+                else:
+                    if type(target) == type(unit):
+                        continue
+                    # assemble chance array
+                    chanceArray = []
+                    successChance = sum(self.getStat(unit, stat) for stat in stats)
+                    chanceArray.extend(['success'] * successChance)
+                    resistChance = 0
+                    if "Life" in counterStats:
+                        resistChance += target.hp
+                        counterStats.remove("Life")
+                    resistChance += math.floor(
+                        sum(
+                            (
+                                self.getStat(target, stat)
+                                * (self.getStat(target, "Luck") * 0.1)
+                            )
+                            for stat in counterStats
+                        )
+                    )
+                    chanceArray.extend(['fail'] * resistChance)
+                    result = random.choice(chanceArray)
+                    if result == "success":
+                        print(f"{target.name} is {statusName}!")
+                        target.status.append(statusName)
+                        if gold and type(unit) == playerCharacter:
+                            print(
+                                f"{unit.name} discovered a statue worth {target.hp}"
+                                " scroulings!"
+                            )
+                            self.game.money += target.hp
+                        self.giveExperience(unit, target, math.ceil(target.hp / 3))
+                    else:
+                        print(f"By sheer will, {target.name} was not {statusName}!")
+                        self.giveExperience(unit, target, math.ceil(target.hp / 10))
+
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Afflict I":
             if self.getPower(unit, "Convert Faith and Magic"):
@@ -1378,6 +1452,15 @@ class battle(object):
                 "Petrify",
                 0,
                 "Petrified",
+                stats=["Luck", "Intelligence"],
+                counterStats=["Stamina", "Faith"],
+            )
+            self.castStatusSpell(
+                unit,
+                targetId,
+                "Slow",
+                0,
+                "Slowed",
                 stats=["Luck", "Intelligence"],
                 counterStats=["Stamina", "Faith"],
             )
@@ -1594,6 +1677,12 @@ class battle(object):
                 "Lulled to Sleep",
                 stats=["Intelligence", "Charisma", "Luck"],
             )
+        elif spellName == "Slow I":
+            self.castStatusSpell(unit, targetId, "Slow I", 5, "Slowed", faith=True)
+        elif spellName == "Slow II":
+            self.castStatusSpellOnArea(
+                unit, targetId, "Slow II", 20, "Slowed", area=2, faith=True
+            )
         elif spellName == "Teleport I":
             if self.getPower(unit, "Convert Faith and Magic"):
                 unit.fp -= self.mpCost(unit, 5)
@@ -1668,22 +1757,20 @@ class battle(object):
         unit.resonating = list(set(unit.resonating))
 
     def determineInitiative(self, unit):
-        luck = self.getStat(unit, "Luck")
-        if self.getPower(unit, "Swords: Increased Luck I"):
-            if unit.equipment and unit.equipment.type == "Swords":
-                luck = math.ceil(luck * 1.3)
-        if self.getPower(unit, "Swords: Increased Luck II"):
-            if unit.equipment and unit.equipment.type == "Swords":
-                luck = math.ceil(luck * 1.3)
-        if self.getPower(unit, "Swords: Increased Luck III"):
-            if unit.equipment and unit.equipment.type == "Swords":
-                luck = math.ceil(luck * 1.3)
         initiative = max(
             self.getStat(unit, "Charisma"),
             self.getStat(unit, "Speed"),
             self.getStat(unit, "Dexterity"),
         )
         return initiative
+
+    def determineInitiativeSetback(self, unit):
+        setback = min(15, math.ceil(225 / self.determineInitiative(unit)))
+        if "Slowed" in unit.status:
+            setback *= 1.3
+            setback *= 1.3
+            setback = math.ceil(setback)
+        return setback
 
     def determineStartingInitiative(self):
         random.shuffle(self.battleField.units)
@@ -1887,10 +1974,7 @@ class battle(object):
                     if unit.movementPoints <= 0:
                         unit.actedThisRound = True
                         # push back the unit's initiative
-                        setback = min(
-                            15, math.ceil(225 / self.determineInitiative(unit))
-                        )
-                        unit.initiativePoints -= setback
+                        unit.initiativePoints -= self.determineInitiativeSetback(unit)
                         continue
                 if type(unit) == playerCharacter:
                     pc = unit
@@ -1929,8 +2013,7 @@ class battle(object):
                     )
                 unit.actedThisRound = True
                 # push back the unit's initiative
-                setback = min(15, math.ceil(225 / self.determineInitiative(unit)))
-                unit.initiativePoints -= setback
+                unit.initiativePoints -= self.determineInitiativeSetback(unit)
                 endBattle = self.doTurn(unit)
                 if endBattle:
                     return
@@ -2433,9 +2516,7 @@ class battle(object):
                             self.cleanupResonance(target)
                         else:
                             print(f"{target.name} was stunned!")
-                            setback = min(
-                                15, math.ceil(225 / self.determineInitiative(target))
-                            )
+                            setback = self.determineInitiativeSetback(unit)
                             if target.initiativePoints < (
                                 self.currentInitiative - setback
                             ):
@@ -2449,9 +2530,7 @@ class battle(object):
                             self.cleanupResonance(target)
                     else:
                         print(f"{target.name} was stunned!")
-                        setback = min(
-                            15, math.ceil(225 / self.determineInitiative(target))
-                        )
+                        setback = self.determineInitiativeSetback(unit)
                         if target.initiativePoints < (self.currentInitiative - setback):
                             setback = math.ceil(setback / 2)
                         if target.initiativePoints < (
@@ -3207,13 +3286,17 @@ class battleField(object):
             if any(targets):
                 unit.allowedSpells["Portal I"] = targets
         if self.getPower(unit, "Shield I") and (unit.fp >= self.mpCost(unit, 12)):
-            self.checkSpell(unit, position, "Heal I", True, 1, 0)
+            self.checkSpell(unit, position, "Shield I", True, 1, 0)
         if self.getPower(unit, "Shield II") and (unit.fp >= self.mpCost(unit, 7)):
-            self.checkSpell(unit, position, "Heal I", True, 1, 0)
+            self.checkSpell(unit, position, "Shield II", True, 1, 0)
         if self.getPower(unit, "Sleep I") and (unit.mp >= self.mpCost(unit, 6)):
             self.checkSpell(unit, position, "Sleep I", False, 1, 0, "Lulled to Sleep")
         if self.getPower(unit, "Sleep II") and (unit.mp >= self.mpCost(unit, 10)):
             self.checkSpell(unit, position, "Sleep II", False, 1, 1, "Lulled to Sleep")
+        if self.getPower(unit, "Slow I") and (unit.fp >= self.mpCost(unit, 5)):
+            self.checkSpell(unit, position, "Sleep II", False, 1, 0)
+        if self.getPower(unit, "Slow II") and (unit.fp >= self.mpCost(unit, 20)):
+            self.checkSpell(unit, position, "Sleep II", False, 2, 1)
         if self.getPower(unit, "Teleport I") and (unit.mp >= self.mpCost(unit, 5)):
             targets = []
             minRange = max(0, (position - 1))
@@ -3579,7 +3662,10 @@ class battleField(object):
         else:
             focusBonus = 1
         stat = unit.stats[statName]
-        stat = math.ceil(stat * self.getFameBonus(unit) * focusBonus)
+        fameBonus = self.getFameBonus(unit)
+        stat = math.ceil(stat * fameBonus * focusBonus)
+        if statName == "Dexterity" and "Slowed" in unit.status:
+            stat = min(1 * fameBonus * focusBonus, stat - 15)
         return stat
 
     def getUnitPos(self, unit):
