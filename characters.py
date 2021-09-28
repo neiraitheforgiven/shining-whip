@@ -21,6 +21,7 @@ class monster(object):
         self.initiativePoints = 0
         self.actedThisRound = False
         self.bleedTime = 0
+        self.resonating = []
         self.powers = []
         self.skills = {
             "Arrows": 0,
@@ -95,6 +96,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 9, 0, 0)
             self.shortName = "Dark Elf"
+            self.powers.append("Defense: Wind Vulnerability")
         elif name == "Dark Magi":
             self.level = 12
             stats = {"Stamina": 9, "Intelligence": 15, "Strength": 9, "Speed": 9}
@@ -130,7 +132,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Aggressive-Singer"
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
-            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Vocal Attack: Increased Damage I")
             self.powers.append("Vocal Attack: Ignore Movement")
             self.shortName = "Bat"
         elif name == "Ghoul":
@@ -144,6 +146,7 @@ class monster(object):
             self.powers.append("Unarmed Attack: Increased Damage I")
             self.powers.append("Unarmed Attack: Increased Damage II")
             self.powers.append("Defense: Magic")
+            self.powers.append("Defense: Death Resistance")
         elif name == "Goblin":
             self.level = 2
             stats = {"Dexterity": 6, "Stamina": 5, "Speed": 5}
@@ -167,6 +170,8 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Axes", "Middle Axe", 300, 1, 0, 0, 7, 0, 0)
             self.shortName = "Lizard"
+            self.powers.append("Defense: Ice Vulnerability")
+            self.powers.append("Defense: Fire Defense")
         elif name == "Mannequin":
             self.level = 8
             stats = {"Strength": 14, "Stamina": 8, "Speed": 5}
@@ -213,6 +218,18 @@ class monster(object):
             )
             self.powers = ["Freeze II", "Defense: Magic", "Sonorous Spells"]
             self.shortName = "Master"
+        elif name == "Mercenary Knight":
+            self.level = 14
+            stats = {"Strength": 18, "Stamina": 14, "Speed": 11, "Charisma": 15}
+            self.setStats(13, **stats)
+            self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.focusProfile = focusProfile or "Patient"
+            self.moveProfile = moveProfile or "Defensive"
+            self.equipment = equipment(
+                "Lances", "Steel Lance", 3000, 16, 0, 0, 12, 0, 0
+            )
+            self.powers.append("Mounted Movement")
+            self.shortName = "MercKnt"
         elif name == "Pteropus Knight":
             self.level = 13
             stats = {
@@ -231,6 +248,24 @@ class monster(object):
             self.powers.append("Flying Movement")
             self.powers.append("Mounted Movement")
             self.powers.append("Lances: Movement Increases Strength Damage I")
+        elif name == "The Screaming Beast":
+            self.level = 15
+            self.boss = True
+            stats = {
+                "Voice": 15,
+                "Stamina": 28,
+                "Speed": 1,
+                "Dexterity": 14,
+                "Focus": 45,
+            }
+            self.setStats(12, **stats)
+            self.attackProfile = attackProfile or "ScreamingBeast"
+            self.focusProfile = focusProfile or "Patient"
+            self.moveProfile = moveProfile or "Stationary"
+            self.shortName = "Scream"
+            self.powers.append("Vocal Attack: Increased Area III")
+            self.powers.append("Vocal Attack: Sustain Effect")
+            self.powers.append("Defense: Lightning Vulnerability")
         elif name == "Skeleton Warrior":
             self.level = 8
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
@@ -242,6 +277,7 @@ class monster(object):
             self.equipment = equipment("Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0)
             self.powers.append("Command: Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
+            self.powers.append("Defense: Death Resistance")
         elif name == "Sniper":
             self.level = 6
             stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
@@ -250,6 +286,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0)
+            self.powers.append("Defense: Wind Vulnerability")
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
@@ -273,9 +310,10 @@ class monster(object):
             self.attackProfile = attackProfile or "Healer-Singer"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Companion-Healer"
-            self.powers.append("Vocal Attack: Increased Resonance I")
+            self.powers.append("Vocal Attack: Increased Area I")
             self.powers.append("Heal I")
             self.powers.append("Vocal Attack: Sustain Effect")
+            self.powers.append("Defense: Wind Vulnerability")
             self.shortName = "Chanter"
         elif name == "Zombie":
             self.level = 7
@@ -294,6 +332,7 @@ class monster(object):
             self.powers.append("Poisonous Attack")
             self.powers.append("Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
+            self.powers.append("Defense: Death Resistance")
         else:
             print("Battle Setup Error! Attempted to create monster not in list!")
 
@@ -346,6 +385,7 @@ class playerCharacter(object):
         self.allowedAttacks = []
         self.allowedEquipment = []
         self.allowedSpells = {}
+        self.resonating = []
         self.bleedTime = 0
         self.fame = 0
         self.focus = 0
@@ -703,7 +743,7 @@ class playerCharacter(object):
                 ]
             elif "Banshee" in title:
                 listOfPowers = [
-                    "Attack Damage Added to Resonance",
+                    "Attacking Adds Resonance",
                     "Kills Increase Focus",
                     "Axes: Bonus Damage I",
                     "Attack: Bonus Move",
@@ -760,22 +800,34 @@ class playerCharacter(object):
                 listOfPowers = [
                     "Drain I",
                     "Poison I",
-                    "Cast Magic Using Health",
+                    "Essence I",
                     "Drain II",
                     "Muddle I",
                     "Death I",
-                    "Daggers: Cast Spell Adds Bonus Attack",
+                    "Physical Attack: Essence",
                     "Poison II",
                 ]
             elif "Cantor" in title:
                 listOfPowers = [
-                    "Luck: Increased Rout I",
                     "Vocal Attack: Ignore Movement",
                     "Mounted Movement",
-                    "Vocal Attack: Increased Damage I",
-                    "Luck: Increased Rout II",
+                    "Vocal Attack Causes Feedback Bleed",
+                    "Vocal Attack: Sustain Effect",
+                    "Unholy Ground Adds Focus",
                     "Unholy: Increased Resistance I",
-                    "Vocal Attack: Increased Damage IIRout: Add Effect: Sleep",
+                    "Luck: Vocal Attack Bleed Chance",
+                    "Rout: Add Effect: Silence",
+                ]
+            elif "Catechumen" in title:
+                listOfPowers = [
+                    "Unarmed Attack: Vocal Cascade I",
+                    "Movement: Holy Ground Increase I",
+                    "Holy Ground Increases Focus I",
+                    "Unarmed Attack: Vocal Cascade II",
+                    "Movement: Holy Ground Increase II",
+                    "Gain Regeneration on Holy Ground",
+                    "Holy Ground Increases Focus II",
+                    "Unarmed Attack: Vocal Cascade III",
                 ]
             elif "Channeler" in title:
                 listOfPowers = [
@@ -787,17 +839,6 @@ class playerCharacter(object):
                     "Surge III",
                     "Silence II",
                     "Surge IV",
-                ]
-            elif "Chorister" in title:
-                listOfPowers = [
-                    "Vocal Attack: Sustain Effect",
-                    "Vocal Attack: Increased Resonance I",
-                    "Command: Vocal Attack: Increased Damage I",
-                    "Vocal Attack: Increased Resonance II",
-                    "Holy Ground Increases Defense I",
-                    "Command: Vocal Attack: Increased Damage II",
-                    "Vocal Attack: Increased Resonance III",
-                    "Vocal Attack: Chance of Charm",
                 ]
             elif "Dark Mage" in title:
                 listOfPowers = [
@@ -851,7 +892,7 @@ class playerCharacter(object):
                     "Stealthy Movement",
                     "Increased Luck When Outnumbered II",
                     "Luck: Reverse Death",
-                    "Luck: Dodge Chance Up II",
+                    "Luck: Dodge Chance Up I",
                     "Luck: Dodge Chance Up II",
                 ]
             elif "Heavy Shot" in title:
@@ -908,7 +949,8 @@ class playerCharacter(object):
                     "Mounted Movement",
                     "Unholy: Increased Resistance I",
                     "Freeze I",
-                    "Lance: Attack adds Magic VulnerabilityBolt I",
+                    "Lance: Attack adds Magic Vulnerability",
+                    "Bolt I",
                     "Faith: Add Damage on Unholy Ground",
                     "Defense: Dark Magic II",
                 ]
@@ -934,22 +976,33 @@ class playerCharacter(object):
                     "Ninja Fire II",
                     "Ninja Bolt II",
                 ]
+            elif "Oracle" in title:
+                listOfPowers = [
+                    "Vocal Attack: Chance of Double Attack",
+                    "Deafening Voice",
+                    "Focus: Improve Luck I",
+                    "Essence I",
+                    "Seal Resistance",
+                    "Focus: Improve Luck II",
+                    "Detox I",
+                    "Physical Attack: Essence",
+                ]
             elif "Orator" in title:
                 listOfPowers = [
                     "Shield I",
-                    "Vocal Attack: Increased Resonance I",
+                    "Vocal Attack: Increased Area I",
                     "Command: Holy Ground adds Defense",
                     "Focus: Overcome the Darkness",
                     "Command: Holy Ground Adds Focus",
-                    "Vocal Attack: Increased Resonance II",
+                    "Vocal Attack: Increased Area II",
                     "Shield II",
                     "Vocal Attack: Sustain Effect",
                 ]
             elif "Peregrine" in title:
                 listOfPowers = [
-                    "Unarmed Attack: Wind Element",
+                    "Wind Fists: Unarmed Range and Wind",
                     "Purifying Strike",
-                    "Unarmed Attack: Range +1",
+                    "Pure of Heart: Status Immune",
                     "Dispel I",
                     "Defense: Fire I",
                     "Silence I",
@@ -1089,17 +1142,6 @@ class playerCharacter(object):
                     "Portal I",
                     "Teleport III",
                     "Teleport: Add Turn",
-                ]
-            elif "Troubadour" in title:
-                listOfPowers = [
-                    "Vocal Attack: Ignore Movement",
-                    "Vocal Attack: Increased Damage I",
-                    "Sonorous Voice",
-                    "Holy Ground: Range +1",
-                    "Luck: Counterattack",
-                    "Vocal Attack: Increased Damage II",
-                    "Arrows: Support Counterattack",
-                    "Arrows: Add Effect: Muddle",
                 ]
             elif "Valkyrie" in title:
                 listOfPowers = [
