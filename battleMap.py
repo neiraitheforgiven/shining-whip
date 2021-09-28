@@ -3360,7 +3360,7 @@ class battleField(object):
                         moveTo = random.choice(candidates)
                     elif not any(
                         enemy
-                        for enemy in self.enemiesAtPosition(tileIndex)
+                        for enemy in self.enemiesAtPosition(monster, tileIndex)
                         if self.canBeTarget(enemy)
                     ):
                         for tile in self.terrainArray:
