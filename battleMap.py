@@ -840,7 +840,8 @@ class battle(object):
                         damage *= 1.3
                     if self.getPower(unit, "Increased Heavy Damage IV"):
                         damage *= 1.3
-                    self.rattle(unit, target, damage * 30)
+                    if not self.getPower(target, "No Loss Of Focus From Enemy Attacks"):
+                        self.rattle(unit, target, damage * 30)
                     if self.getPower(unit, "Heavy Attacks Inflict Bleed"):
                         self.bleedStart(target)
                     time.sleep(1.0 / 10)
@@ -933,7 +934,8 @@ class battle(object):
                 damage = min(damage, target.hp)
                 print(f"{unit.name} deals {damage} damage to {target.name}!")
                 if attackType == 'critical':
-                    self.rattle(unit, target, damage * 30)
+                    if not self.getPower(target, "No Loss Of Focus From Enemy Attacks"):
+                        self.rattle(unit, target, damage * 30)
                     if self.getPower(unit, "Luck: Critical Drain I") or (
                         self.getPower(unit, "Luck: Critical Drain II")
                     ):
@@ -981,7 +983,6 @@ class battle(object):
                     print(f"{target.name} is poisoned!.")
                     target.status.append['Poisoned']
                 if routEnemy and ((i + 1) == attackCount):
-                    self.rattle(unit, target, math.ceil(target.focus * 0.75))
                     if type(target) == playerCharacter:
                         moveTo = self.battleField.getUnitPos(target) - 1
                     elif type(target) == monster:
@@ -1000,6 +1001,12 @@ class battle(object):
                             print(f"{target.name} was routed!")
                             moveFrom = self.battleField.getUnitPos(target)
                             self.battleField.move(target, moveTo)
+                            if not self.getPower(
+                                target, "No Loss Of Focus From Enemy Attacks"
+                            ):
+                                self.rattle(
+                                    unit, target, math.ceil(target.focus * 0.75)
+                                )
                             self.cleanupResonance(target)
                             self.cleanupResonance(target)
                             if not pursuitAttack:
@@ -1039,6 +1046,12 @@ class battle(object):
                             target.initiativePoints -= setback
                             if target in self.turnOrder:
                                 self.turnOrder.remove(target)
+                            if not self.getPower(
+                                target, "No Loss Of Focus From Enemy Attacks"
+                            ):
+                                self.rattle(
+                                    unit, target, math.ceil(target.focus * 0.75)
+                                )
                             self.cleanupResonance(target)
                             self.cleanupResonance(target)
                     else:
