@@ -1681,7 +1681,7 @@ class battle(object):
                 "Lulled to Sleep",
                 stats=["Intelligence", "Charisma", "Luck"],
             )
-        elif spellName == "Sleep I":
+        elif spellName == "Sleep II":
             self.castStatusSpell(
                 unit,
                 targetId,
@@ -3307,9 +3307,9 @@ class battleField(object):
         if self.getPower(unit, "Sleep II") and (unit.mp >= self.mpCost(unit, 10)):
             self.checkSpell(unit, position, "Sleep II", False, 1, 1, "Lulled to Sleep")
         if self.getPower(unit, "Slow I") and (unit.fp >= self.mpCost(unit, 5)):
-            self.checkSpell(unit, position, "Sleep II", False, 1, 0)
+            self.checkSpell(unit, position, "Slow I", False, 1, 0)
         if self.getPower(unit, "Slow II") and (unit.fp >= self.mpCost(unit, 20)):
-            self.checkSpell(unit, position, "Sleep II", False, 2, 1)
+            self.checkSpell(unit, position, "Slow II", False, 2, 1)
         if self.getPower(unit, "Teleport I") and (unit.mp >= self.mpCost(unit, 5)):
             targets = []
             minRange = max(0, (position - 1))
