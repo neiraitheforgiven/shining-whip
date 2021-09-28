@@ -1431,7 +1431,9 @@ class battle(object):
             print(f"{unit.name} casts {spellName} on {target.name}!")
             if "Petrified" in target.status:
                 target.initiativePoints = unit.initiativePoints - 15
-            target.status = []
+            for status in set(target.status):
+                if status != "Shielded":
+                    target.status.remove(status)
             print(f"{target.name} recovers!")
             self.giveExperience(unit, target, 10)
         elif spellName == "Drain I":
