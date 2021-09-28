@@ -3326,10 +3326,10 @@ class battleField(object):
                 for tileIndex in monster.allowedMovement:
                     if any(
                         friend
-                        for friend in self.alliesAtPosition(monster, position)
+                        for friend in self.alliesAtPosition(monster, tileIndex)
                         if (friend.hp < friend.maxHP())
                     ):
-                        candidates.append(position)
+                        candidates.append(tileIndex)
                 if any(candidates):
                     moveTo = random.choice(candidates)
                 else:
@@ -3338,7 +3338,7 @@ class battleField(object):
                             friend
                             for friend in self.alliesAtPosition(monster, tileIndex)
                         ):
-                            candidates.append(position)
+                            candidates.append(tileIndex)
                     if any(candidates):
                         moveTo = random.choice(candidates)
                     elif not any(
