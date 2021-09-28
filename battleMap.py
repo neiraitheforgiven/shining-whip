@@ -1190,11 +1190,11 @@ class battle(object):
                         self.giveExperience(unit, target, healing)
                 elif damage > 0:
                     # spell is a damage spell
-                    if "shielded" in target.status:
-                        print(f"{target.name} was shielded from damage!")
-                        target.status.remove("shielded")
-                        if "shielded" not in target.status:
-                            print(f"{target.name} is no longer shielded.")
+                    if "Shielded" in target.status:
+                        print(f"{target.name} was Shielded from damage!")
+                        target.status.remove("Shielded")
+                        if "Shielded" not in target.status:
+                            print(f"{target.name} is no longer Shielded.")
                         self.giveExperience(unit, target, 1)
                     else:
                         targetDamage = damage
@@ -1251,11 +1251,11 @@ class battle(object):
             target.hp += healing
             self.giveExperience(unit, target, healing)
         elif damage > 0:
-            if "shielded" in target.status:
-                print(f"{target.name} was shielded from damage!")
-                target.status.remove("shielded")
-                if "shielded" not in target.status:
-                    print(f"{target.name} is no longer shielded.")
+            if "Shielded" in target.status:
+                print(f"{target.name} was Shielded from damage!")
+                target.status.remove("Shielded")
+                if "Shielded" not in target.status:
+                    print(f"{target.name} is no longer Shielded.")
                 self.giveExperience(unit, target, 1)
             else:
                 if self.getPower(target, "Defense: Magic"):
@@ -1552,11 +1552,11 @@ class battle(object):
             )
         elif spellName == "Shield I":
             self.castStatusSpell(
-                unit, targetId, "Shield I", 12, "shielded", faith=True, friendly=True
+                unit, targetId, "Shield I", 12, "Shielded", faith=True, friendly=True
             )
         elif spellName == "Shield II":
             self.castStatusSpell(
-                unit, targetId, "Shield II", 7, "shielded", faith=True, friendly=True
+                unit, targetId, "Shield II", 7, "Shielded", faith=True, friendly=True
             )
         elif spellName == "Sleep I":
             self.castStatusSpell(
@@ -1965,7 +1965,7 @@ class battle(object):
             resistArray.extend(['resist'] * resistChance)
             resistArray.extend(['fail'] * (50 - (luck)))
             result = random.choice(resistArray)
-            if state != "shielded":
+            if state != "Shielded":
                 if result == 'resist':
                     if state == "Lulled to Sleep":
                         print(f"{unit.name} woke up!")
@@ -1983,10 +1983,10 @@ class battle(object):
                     if state == 'Lulled to Sleep':
                         print(f"{unit.name} is asleep.")
                         return
-            if "shielded" in state:
-                state.remove("shielded")
-                if "shielded" not in state:
-                    print(f"{unit.name} is no longer shielded!")
+            if "Shielded" in state:
+                state.remove("Shielded")
+                if "Shielded" not in state:
+                    print(f"{unit.name} is no longer Shielded!")
             statusChecked = True
         otherUnits = ", ".join(
             [tileUnit.name for tileUnit in tile.units if tileUnit != unit]
