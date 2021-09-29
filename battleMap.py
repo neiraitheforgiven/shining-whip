@@ -3854,24 +3854,46 @@ class battleField(object):
             mapRow += f"{mapAdd:24}"
         print(mapRow)
         for i in range(11, -1, -1):
-            mapRow = ""
+            mapRow1 = ""
+            mapRow2 = ""
             for tile in tilesInRange:
                 try:
                     goodUnits = [
                         unit for unit in tile.units if type(unit) == playerCharacter
                     ]
                     goodUnits.sort(key=lambda x: x.shortName, reverse=True)
-                    mapRow += f"{goodUnits[i].shortName:9}   "
+                    mapRow1 += f"{goodUnits[i].shortName:9}   "
+                    hp = goodUnits[i].hp
+                    if hp > 99:
+                        hp = '??'
+                    maxHP = goodUnits[i].maxHP()
+                    if maxHP > 99:
+                        maxHP = '??'
+                    hpPhrase = f"HP: {hp}/{maxHP}"
+                    mapRow2 += f"{hpPhrase:9}   "
                 except IndexError:
-                    mapRow += " " * 12
+                    mapRow1 += " " * 12
+                    mapRow2 += " " * 12
                 try:
                     badUnits = [unit for unit in tile.units if type(unit) == monster]
                     badUnits.sort(key=lambda x: x.shortName, reverse=True)
-                    mapRow += f"{badUnits[i].shortName:9}   "
+                    mapRow1 += f"{badUnits[i].shortName:9}   "
+                    hp = badUnits[i].hp
+                    if hp > 99:
+                        hp = '??'
+                    maxHP = badUnits[i].maxHP()
+                    if maxHP > 99:
+                        maxHP = '??'
+                    hpPhrase = f"HP: {hp}/{maxHP}"
+                    mapRow2 += f"{hpPhrase:9}   "
                 except IndexError:
-                    mapRow += " " * 12
-            if [letter for letter in mapRow if letter != " "]:
-                print(mapRow)
+                    mapRow1 += " " * 12
+                    mapRow2 += " " * 12
+            if any(letter for letter in mapRow1 if letter != " ") or any(
+                letter for letter in mapRow2 if letter != " "
+            ):
+                print(mapRow1)
+                print(mapRow2)
         print("-" * 24 * len(tilesInRange))
         mapRow = ""
         for tile in tilesInRange:
