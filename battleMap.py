@@ -19,11 +19,9 @@ class battle(object):
         self.game = game
         self.party = self.assembleParty(party, game.maxPartySize)
         self.currentInitiative = 0
-        if input("Type skip to skip this battle: ") == "skip":
-            game.battleStatus = 'victory'
-            for unit in party:
-                unit.levelUp(False)
-            return
+        print()
+        if input("<Press enter to start the battle>"):
+            pass
         if num:
             self.egressing = False
             if num == 1:
