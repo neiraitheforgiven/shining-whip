@@ -481,7 +481,7 @@ class playerCharacter(object):
         self.statIncreaseCount = 0
         if name:
             self.name = name
-            self.shortName = name[:7]
+            self.shortName = name[:10]
         else:
             num = random.randint(1, 9999)
             self.name = f"Test Subject {num}"

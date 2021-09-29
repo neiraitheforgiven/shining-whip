@@ -2275,7 +2275,7 @@ class battle(object):
                         )
                     except ValueError:
                         tileChoice = None
-                self.battleField.viewMap(tileChoice)
+                self.battleField.viewMap(tileChoice, unit)
                 self.doTurn(unit, moved, statusChecked)
             elif command in ("S", "s"):
                 spellChoice = None
@@ -3831,7 +3831,7 @@ class battleField(object):
             unit for unit in self.terrainArray[position].units if self.canBeTarget(unit)
         ]
 
-    def viewMap(self, position):
+    def viewMap(self, position, currentUnit=None):
         minRange = max(0, position - 3)
         maxRange = minRange + 7
         if maxRange > len(self.terrainArray) - 1:
@@ -3861,8 +3861,12 @@ class battleField(object):
                     goodUnits = [
                         unit for unit in tile.units if type(unit) == playerCharacter
                     ]
-                    goodUnits.sort(key=lambda x: x.shortName, reverse=True)
-                    mapRow1 += f"{goodUnits[i].shortName:9}   "
+                    goodUnits.sort(key=lambda x: x.name, reverse=True)
+                    if currentUnit and currentUnit == goodUnits[i]:
+                        unitName = f"*{goodUnits[i].name}*".upper()
+                        mapRow1 += f"{unitName:12}"
+                    else:
+                        mapRow1 += f"{goodUnits[i].name:10}  "
                     hp = goodUnits[i].hp
                     if hp > 99:
                         hp = '??'
@@ -3903,7 +3907,7 @@ class battleField(object):
     def viewMapFromUnit(self, unit):
         # center the map on the unit
         position = self.getUnitPos(unit)
-        self.viewMap(position)
+        self.viewMap(position, unit)
 
 
 class game(object):
