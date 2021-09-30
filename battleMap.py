@@ -3945,10 +3945,20 @@ class game(object):
                 if "Initialized" not in self.shelf:
                     print("A save file with that name was not found. Try again.")
                     self.shelf.close()
-                    #  delete files
-                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dat')
-                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.bak')
-                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dir')
+                    #  on windows, shelve.open will create the files.
+                    # if the files exist, delete them
+                    try:
+                        os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dat')
+                    except FileNotFoundError:
+                        pass
+                    try:
+                        os.remove(f'TSOTHASOTF-{self.saveName.lower()}.bak')
+                    except FileNotFoundError:
+                        pass
+                    try:
+                        os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dir')
+                    except FileNotFoundError:
+                        pass
                     self.saveName = None
                     continue
                 self.playerCharacters = self.shelf["playerCharacters"]
@@ -3964,7 +3974,6 @@ class game(object):
             self.doBattle(self.battleNum)
 
     def doBattle(self, battleNum):
-        chatter = True
         if battleNum == 1:
             print("You are the leader of a small part of misfits.")
             print("You are from Yatahal, the Holy City.")
