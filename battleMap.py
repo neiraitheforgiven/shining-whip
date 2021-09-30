@@ -2313,7 +2313,7 @@ class battle(object):
                 ):
                     try:
                         tileChoice = int(
-                            input("Type the number of a tile to look from: ")
+                            input("Type the number of a tile to center the map on: ")
                         )
                     except ValueError:
                         tileChoice = None
