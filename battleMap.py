@@ -2047,7 +2047,14 @@ class battle(object):
         for unit in self.battleField.units:
             unit.actedThisRound = False
 
-    def doTurn(self, unit, moved=False, statusChecked=False, attacked=False):
+    def doTurn(
+        self,
+        unit,
+        moved=False,
+        statusChecked=False,
+        attacked=False,
+        bufferedCommands=None,
+    ):
         if unit.status and "Petrified" in unit.status:
             return
         position = self.battleField.getUnitPos(unit)
@@ -2161,39 +2168,73 @@ class battle(object):
                     allowedCommands.append("V")
                     allowedCommands.append("v")
             print("Type (W) to wait.")
-            command = None
-            while command not in allowedCommands:
-                command = input()
+            bufferedCommands = bufferedCommands or input()
+            command = bufferedCommands[:1]
+            bufferedCommands = bufferedCommands[1:]
+            print(f"debug: command: {command}, buffered: {bufferedCommands}")
+            while command is None or command not in allowedCommands:
+                if bufferedCommands:
+                    command = bufferedCommands[:1]
+                    bufferedCommands = bufferedCommands[1:]
+                else:
+                    commandString = input()
+                    allowedCommands = commandString[:1]
+                    bufferedCommands = commandString[1:]
             if command in ("M", "m"):
                 moveTo = None
                 while moveTo not in unit.allowedMovement:
-                    try:
-                        moveTo = int(
-                            input(
-                                f"Type a number to move to. Type {position} to cancel"
-                                " movement: "
+                    if bufferedCommands:
+                        try:
+                            print(
+                                f"debug: before: command: {command}, buffered:"
+                                f" {bufferedCommands}"
                             )
-                        )
-                    except ValueError:
-                        moveTo = None
+                            moveTo = int(bufferedCommands[:1])
+                            bufferedCommands = bufferedCommands[1:]
+                            print(
+                                f"debug: after: command: {moveTo}, buffered:"
+                                f" {bufferedCommands}"
+                            )
+                        except ValueError:
+                            print(f"debug: valueError encountered")
+                            moveTo = None
+                            bufferedCommands = None
+                    else:
+                        try:
+                            moveTo = int(
+                                input(
+                                    f"Type a number to move to. Type {position} to"
+                                    " cancel movement: "
+                                )
+                            )
+                        except ValueError:
+                            moveTo = None
                 if moveTo != position:
                     self.battleField.move(unit, moveTo)
                     if unit.bleedTime > 0:
                         self.bleed(unit)
-                    self.doTurn(unit, True, statusChecked, attacked)
+                    self.doTurn(unit, True, statusChecked, attacked, bufferedCommands)
                 else:
                     print(f"{unit.name} chose not to move.")
                     time.sleep(0.6)
-                    self.doTurn(unit, False, statusChecked, attacked)
+                    self.doTurn(unit, False, statusChecked, attacked, bufferedCommands)
             elif command in ("A", "a"):
                 attackTarget = None
                 while attackTarget not in [
                     unit.allowedAttacks.index(target) for target in unit.allowedAttacks
                 ]:
-                    try:
-                        attackTarget = int(input("Type a number to attack: "))
-                    except ValueError:
-                        attackTarget = None
+                    if bufferedCommands:
+                        try:
+                            attackTarget = int(bufferedCommands[:1])
+                            bufferedCommands = bufferedCommands[1:]
+                        except ValueError:
+                            attackTarget = None
+                            bufferedCommands = None
+                    else:
+                        try:
+                            attackTarget = int(input("Type a number to attack: "))
+                        except ValueError:
+                            attackTarget = None
                 self.doAttack(unit, attackTarget)
                 if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
                     darkTile = self.getResonance(tile) <= -1
@@ -2220,7 +2261,7 @@ class battle(object):
                 if unit.bleedTime > 0:
                     self.bleed(unit)
                 if self.getPower(unit, "Attack: Bonus Move"):
-                    self.doTurn(unit, moved, statusChecked, True)
+                    self.doTurn(unit, moved, statusChecked, True, bufferedCommands)
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
@@ -2277,8 +2318,10 @@ class battle(object):
                     print()
                 self.doTurn(unit, True, statusChecked)
             elif command in ("F", "f"):
+                if bufferedCommands:
+                    bufferedCommands = bufferedCommands[1:]
                 self.enterFocus(unit)
-                self.doTurn(unit, moved, statusChecked)
+                self.doTurn(unit, moved, statusChecked, bufferedCommands)
             elif command in ("L", "l"):
                 tileChoice = None
                 while tileChoice not in (
@@ -2302,12 +2345,20 @@ class battle(object):
                 while spellChoice not in [
                     spellKeys.index(spell) for spell in spellKeys
                 ]:
-                    try:
-                        spellChoice = int(
-                            input("Type the number of the spell to cast: ")
-                        )
-                    except ValueError:
-                        spellChoice = None
+                    if bufferedCommands:
+                        try:
+                            spellChoice = int(bufferedCommands[:1])
+                            bufferedCommands = bufferedCommands[1:]
+                        except ValueError:
+                            spellChoice = None
+                            bufferedCommands = None
+                    else:
+                        try:
+                            spellChoice = int(
+                                input("Type the number of the spell to cast: ")
+                            )
+                        except ValueError:
+                            spellChoice = None
                 spellToCast = spellKeys[spellChoice]
                 self.battleField.printSpellTargetString(unit, spellToCast)
                 targetList = unit.allowedSpells[spellToCast]
