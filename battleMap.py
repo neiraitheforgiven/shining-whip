@@ -2332,7 +2332,7 @@ class battle(object):
                 ):
                     try:
                         tileChoice = int(
-                            input("Type the number of a tile to look from: ")
+                            input("Type the number of a tile to center the map on: ")
                         )
                     except ValueError:
                         tileChoice = None
@@ -2762,7 +2762,7 @@ class battle(object):
                 numChunks += 4
                 unit.trophies.append(target.name)
         amount = max(1, min(((targetLevel - unitLevel) * numChunks), 49))
-        unit.pendingXp += amount
+        unit.pendingXP += amount
 
     def grantExperience(self, unit):
         if not type(unit) == playerCharacter:
