@@ -378,6 +378,7 @@ class playerCharacter(object):
         self.fp = 0
         self.mp = 0
         self.xp = 0
+        self.pendingXP = 0
         self.movementPoints = 0
         self.powers = []
         self.equipment = None

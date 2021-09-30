@@ -2742,7 +2742,7 @@ class battle(object):
                 numChunks += 4
                 unit.trophies.append(target.name)
         amount = max(1, min(((targetLevel - unitLevel) * numChunks), 49))
-        unit.pendingXp += amount
+        unit.pendingXP += amount
 
     def grantExperience(self, unit):
         if not type(unit) == playerCharacter:
