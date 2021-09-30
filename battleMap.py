@@ -2133,38 +2133,20 @@ class battle(object):
                 if type(unit) == playerCharacter:
                     moveEnabled = self.battleField.checkMove(unit, position)
                 if moveEnabled:
-                    self.battleField.printMoveString(unit)
-                    self.printIfNotBuffered("Type (M) to move.", bufferedCommands)
                     allowedCommands.append("M")
                     allowedCommands.append("m")
-            self.printIfNotBuffered(
-                f"Type (C) to look at {unit.name}'s character sheet.", bufferedCommands
-            )
-            self.printIfNotBuffered(
-                "Type (L) to look at the battlefield,", bufferedCommands
-            )
             attackEnabled = self.battleField.checkAttack(unit, position)
             if attackEnabled and not attacked:
-                self.battleField.printAttackString(unit)
-                self.printIfNotBuffered("Type (A) to attack.", bufferedCommands)
                 allowedCommands.append("A")
                 allowedCommands.append("a")
             if not unit.hasEquipped and not moved:
-                self.printIfNotBuffered(
-                    "Type (E) to equip or unequip weapons.", bufferedCommands
-                )
                 allowedCommands.append("E")
                 allowedCommands.append("e")
             if self.getFocusRank(unit) >= 1 and unit.focusTime == 0:
-                self.printIfNotBuffered(
-                    "Type (F) to enter a focused state!", bufferedCommands
-                )
                 allowedCommands.append("F")
                 allowedCommands.append("f")
             spellEnabled = self.battleField.checkSpells(unit, position)
             if spellEnabled and not attacked:
-                self.battleField.printSpellString(unit)
-                self.printIfNotBuffered("Type (S) to cast a spell.", bufferedCommands)
                 allowedCommands.append("S")
                 allowedCommands.append("s")
             if (not moved and not attacked) or self.getPower(
@@ -2172,12 +2154,10 @@ class battle(object):
             ):
                 vocalEnabled = self.battleField.checkVocal(unit)
                 if vocalEnabled:
-                    self.printIfNotBuffered(
-                        f"Type (V) to make a vocal attack.", bufferedCommands
-                    )
                     allowedCommands.append("V")
                     allowedCommands.append("v")
-            self.printIfNotBuffered("Type (W) to wait.", bufferedCommands)
+            if not bufferedCommands:
+                self.printCommandList(unit, allowedCommands)
             bufferedCommands = bufferedCommands or input()
             command = bufferedCommands[:1]
             bufferedCommands = bufferedCommands[1:]
@@ -2186,6 +2166,7 @@ class battle(object):
                     command = bufferedCommands[:1]
                     bufferedCommands = bufferedCommands[1:]
                 else:
+                    self.printCommandList(unit, allowedCommands)
                     commandString = input("Type your command: ")
                     command = commandString[:1]
                     bufferedCommands = commandString[1:]
@@ -2806,13 +2787,29 @@ class battle(object):
             cost = math.ceil(cost * 0.75)
         return cost
 
+    def printCommandList(self, unit, allowedCommands):
+        if "M" in allowedCommands:
+            self.battleField.printMoveString(unit)
+            print("Type (M) to move.")
+        print(f"Type (C) to look at {unit.name}'s character sheet.")
+        print(f"Type (L) to look at the battlefield.")
+        if "A" in allowedCommands:
+            self.battleField.printAttackString(unit)
+            print("Type (A) to attack.")
+        if "E" in allowedCommands:
+            print("Type (E) to equip or unequip weapons.")
+        if "F" in allowedCommands:
+            print("Type (F) to enter a focused state!")
+        if "S" in allowedCommands:
+            self.battleField.printSpellString(unit)
+            print("Type (S) to cast a spell.")
+        if "V" in allowedCommands:
+            print("Type (V) to make a vocal attack.")
+        print(f"Type (W) to wait.")
+
     def printEstimatedValue(self, unit, equipment=None):
         bf = self.battleField
         bf.printEstimatedValue(unit, equipment)
-
-    def printIfNotBuffered(self, string, bufferedCommands=None):
-        if not bufferedCommands:
-            print(string)
 
     def rattle(self, unit, target, amount):
         currentFocusRank = self.getFocusRank(target)
