@@ -2168,13 +2168,23 @@ class battle(object):
                 moveTo = None
                 while moveTo not in unit.allowedMovement:
                     try:
-                        moveTo = int(input("Type a number to move to: "))
+                        moveTo = int(
+                            input(
+                                f"Type a number to move to. Type {position} to cancel"
+                                " movement: "
+                            )
+                        )
                     except ValueError:
                         moveTo = None
-                self.battleField.move(unit, moveTo)
-                if unit.bleedTime > 0:
-                    self.bleed(unit)
-                self.doTurn(unit, True, statusChecked, attacked)
+                if moveTo != position:
+                    self.battleField.move(unit, moveTo)
+                    if unit.bleedTime > 0:
+                        self.bleed(unit)
+                    self.doTurn(unit, True, statusChecked, attacked)
+                else:
+                    print(f"{unit.name} chose not to move.")
+                    time.sleep(0.6)
+                    self.doTurn(unit, False, statusChecked, attacked)
             elif command in ("A", "a"):
                 attackTarget = None
                 while attackTarget not in [
@@ -3133,6 +3143,8 @@ class battleField(object):
                     unit, unit.movementPoints, calcPosition, False, unstable
                 )
         if any(unit.allowedMovement):
+            if type(unit) == playerCharacter:
+                unit.allowedMovement.append(position)
             return True
         else:
             return False
@@ -3836,7 +3848,10 @@ class battleField(object):
         moveStringAdds = []
         unit.allowedMovement.sort()
         for position in unit.allowedMovement:
-            moveStringAdds.append(f"({position}) {self.terrainArray[position].name}")
+            if position != self.getUnitPos(unit):
+                moveStringAdds.append(
+                    f"({position}) {self.terrainArray[position].name}"
+                )
         moveString += ", ".join(moveStringAdds)
         print(moveString + ".")
 
