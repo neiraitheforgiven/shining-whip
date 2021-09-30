@@ -972,6 +972,7 @@ class battle(object):
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
                     self.kill(target, unit)
+                    self.grantExperience(unit)
                     return
                 elif attackType == "counter":
                     counterattack = True
@@ -1073,11 +1074,13 @@ class battle(object):
                     target.initiativePoints -= setback
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
+                self.grantExperience(unit)
                 if counterattack and ((i + 1) == attackCount):
                     if bf.canAttack(target) and not targetStunned:
                         bf.checkAttack(target, bf.getUnitPos(target))
                         if unit in target.allowedAttacks:
                             self.attack(target, unit)
+            self.grantExperience(unit)
 
     def battleOn(self):
         if self.game.battleStatus == 'victory':
@@ -1231,6 +1234,7 @@ class battle(object):
         if speedUp:
             intel = self.getStat(unit, "Intelligence")
             unit.initiativePoints += intel
+        self.grantExperience(unit)
 
     def castSingleSpell(
         self,
@@ -1297,6 +1301,7 @@ class battle(object):
         if speedUp:
             intel = self.getStat(unit, "Intelligence")
             unit.initiativePoints += intel
+        self.grantExperience(unit)
 
     def castStatusSpell(
         self,
@@ -1354,6 +1359,7 @@ class battle(object):
             else:
                 print(f"By sheer will, {target.name} was not {statusName}!")
                 self.giveExperience(unit, target, math.ceil(target.hp / 10))
+        self.grantExperience(unit)
 
     def castStatusSpellOnArea(
         self,
@@ -1432,6 +1438,7 @@ class battle(object):
                     else:
                         print(f"By sheer will, {target.name} was not {statusName}!")
                         self.giveExperience(unit, target, math.ceil(target.hp / 10))
+        self.grantExperience(unit)
 
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Afflict I":
@@ -1732,6 +1739,7 @@ class battle(object):
             moveFromTile.units.remove(unit)
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
+        self.grantExperience(unit)
 
     def checkMonsterFocus(self, monster):
         if monster.focusTime > 0:
@@ -2559,6 +2567,7 @@ class battle(object):
                     # calling it twice will wipe all resonance unless the target has sustain
                     self.cleanupResonance(target)
                     self.cleanupResonance(target)
+        self.grantExperience(unit)
 
     def elapseTime(self, startInitiative, nextInitiative):
         timePassed = abs(nextInitiative - startInitiative)
@@ -2684,9 +2693,6 @@ class battle(object):
         if type(unit) == playerCharacter:
             unitLevel = unit.level
             targetLevel = target.level + 4
-            # elif type(unit) == monster:
-            #     unitLevel = unit.level + 6
-            #     targetLevel = target.level
         else:
             return
         # check for trophies
@@ -2696,8 +2702,16 @@ class battle(object):
                 numChunks += 4
                 unit.trophies.append(target.name)
         amount = max(1, min(((targetLevel - unitLevel) * numChunks), 49))
-        unit.xp += amount
-        print(f"{unit.name} receives {amount} experience!")
+        unit.pendingXp += amount
+
+    def grantExperience(self, unit):
+        if not type(unit) == playerCharacter:
+            return
+        if not unit.pendingXP:
+            return
+        print(f"{unit.name} receives {unit.pendingXP} experience!")
+        unit.xp += unit.pendingXP
+        unit.pendingXP = 0
         if unit.xp > 100:
             unit.xp -= 100
             unit.levelUp(True)
