@@ -970,6 +970,7 @@ class battle(object):
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
                     self.kill(target, unit)
+                    self.grantExperience(unit)
                     return
                 elif attackType == "counter":
                     counterattack = True
@@ -1071,11 +1072,13 @@ class battle(object):
                     target.initiativePoints -= setback
                     if target in self.turnOrder:
                         self.turnOrder.remove(target)
+                self.grantExperience(unit)
                 if counterattack and ((i + 1) == attackCount):
                     if bf.canAttack(target) and not targetStunned:
                         bf.checkAttack(target, bf.getUnitPos(target))
                         if unit in target.allowedAttacks:
                             self.attack(target, unit)
+            self.grantExperience(unit)
 
     def battleOn(self):
         if self.game.battleStatus == 'victory':
@@ -1229,6 +1232,7 @@ class battle(object):
         if speedUp:
             intel = self.getStat(unit, "Intelligence")
             unit.initiativePoints += intel
+        self.grantExperience(unit)
 
     def castSingleSpell(
         self,
@@ -1295,6 +1299,7 @@ class battle(object):
         if speedUp:
             intel = self.getStat(unit, "Intelligence")
             unit.initiativePoints += intel
+        self.grantExperience(unit)
 
     def castStatusSpell(
         self,
@@ -1352,6 +1357,7 @@ class battle(object):
             else:
                 print(f"By sheer will, {target.name} was not {statusName}!")
                 self.giveExperience(unit, target, math.ceil(target.hp / 10))
+        self.grantExperience(unit)
 
     def castStatusSpellOnArea(
         self,
@@ -1430,6 +1436,7 @@ class battle(object):
                     else:
                         print(f"By sheer will, {target.name} was not {statusName}!")
                         self.giveExperience(unit, target, math.ceil(target.hp / 10))
+        self.grantExperience(unit)
 
     def castSpell(self, unit, spellName, targetId):
         if spellName == "Afflict I":
@@ -1730,6 +1737,7 @@ class battle(object):
             moveFromTile.units.remove(unit)
             moveToTile.units.append(unit)
             self.giveExperience(unit, unit, 10)
+        self.grantExperience(unit)
 
     def checkMonsterFocus(self, monster):
         if monster.focusTime > 0:
@@ -2160,13 +2168,23 @@ class battle(object):
                 moveTo = None
                 while moveTo not in unit.allowedMovement:
                     try:
-                        moveTo = int(input("Type a number to move to: "))
+                        moveTo = int(
+                            input(
+                                f"Type a number to move to. Type {position} to cancel"
+                                " movement: "
+                            )
+                        )
                     except ValueError:
                         moveTo = None
-                self.battleField.move(unit, moveTo)
-                if unit.bleedTime > 0:
-                    self.bleed(unit)
-                self.doTurn(unit, True, statusChecked, attacked)
+                if moveTo != position:
+                    self.battleField.move(unit, moveTo)
+                    if unit.bleedTime > 0:
+                        self.bleed(unit)
+                    self.doTurn(unit, True, statusChecked, attacked)
+                else:
+                    print(f"{unit.name} chose not to move.")
+                    time.sleep(0.6)
+                    self.doTurn(unit, False, statusChecked, attacked)
             elif command in ("A", "a"):
                 attackTarget = None
                 while attackTarget not in [
@@ -2557,6 +2575,7 @@ class battle(object):
                     # calling it twice will wipe all resonance unless the target has sustain
                     self.cleanupResonance(target)
                     self.cleanupResonance(target)
+        self.grantExperience(unit)
 
     def elapseTime(self, startInitiative, nextInitiative):
         timePassed = abs(nextInitiative - startInitiative)
@@ -2682,9 +2701,6 @@ class battle(object):
         if type(unit) == playerCharacter:
             unitLevel = unit.level
             targetLevel = target.level + 4
-            # elif type(unit) == monster:
-            #     unitLevel = unit.level + 6
-            #     targetLevel = target.level
         else:
             return
         # check for trophies
@@ -2694,8 +2710,16 @@ class battle(object):
                 numChunks += 4
                 unit.trophies.append(target.name)
         amount = max(1, min(((targetLevel - unitLevel) * numChunks), 49))
-        unit.xp += amount
-        print(f"{unit.name} receives {amount} experience!")
+        unit.pendingXp += amount
+
+    def grantExperience(self, unit):
+        if not type(unit) == playerCharacter:
+            return
+        if not unit.pendingXP:
+            return
+        print(f"{unit.name} receives {unit.pendingXP} experience!")
+        unit.xp += unit.pendingXP
+        unit.pendingXP = 0
         if unit.xp > 100:
             unit.xp -= 100
             unit.levelUp(True)
@@ -3119,6 +3143,8 @@ class battleField(object):
                     unit, unit.movementPoints, calcPosition, False, unstable
                 )
         if any(unit.allowedMovement):
+            if type(unit) == playerCharacter:
+                unit.allowedMovement.append(position)
             return True
         else:
             return False
@@ -3822,7 +3848,10 @@ class battleField(object):
         moveStringAdds = []
         unit.allowedMovement.sort()
         for position in unit.allowedMovement:
-            moveStringAdds.append(f"({position}) {self.terrainArray[position].name}")
+            if position != self.getUnitPos(unit):
+                moveStringAdds.append(
+                    f"({position}) {self.terrainArray[position].name}"
+                )
         moveString += ", ".join(moveStringAdds)
         print(moveString + ".")
 
@@ -3945,10 +3974,20 @@ class game(object):
                 if "Initialized" not in self.shelf:
                     print("A save file with that name was not found. Try again.")
                     self.shelf.close()
-                    #  delete files
-                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dat')
-                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.bak')
-                    os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dir')
+                    #  on windows, shelve.open will create the files.
+                    # if the files exist, delete them
+                    try:
+                        os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dat')
+                    except FileNotFoundError:
+                        pass
+                    try:
+                        os.remove(f'TSOTHASOTF-{self.saveName.lower()}.bak')
+                    except FileNotFoundError:
+                        pass
+                    try:
+                        os.remove(f'TSOTHASOTF-{self.saveName.lower()}.dir')
+                    except FileNotFoundError:
+                        pass
                     self.saveName = None
                     continue
                 self.playerCharacters = self.shelf["playerCharacters"]
@@ -3964,7 +4003,6 @@ class game(object):
             self.doBattle(self.battleNum)
 
     def doBattle(self, battleNum):
-        chatter = True
         if battleNum == 1:
             print("You are the leader of a small part of misfits.")
             print("You are from Yatahal, the Holy City.")
