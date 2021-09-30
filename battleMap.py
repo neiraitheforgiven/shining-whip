@@ -1133,6 +1133,22 @@ class battle(object):
         if shoutOut:
             print("The wound begins to bleed.")
 
+    def bufferCommands(self, commandString, number):
+        returnCommand = ''
+        if commandString:
+            if number:
+                for command in commandString:
+                    try:
+                        int(command)
+                        returnCommand += command
+                        commandString = commandString[1:]
+                    except ValueError:
+                        return int(returnCommand), commandString
+                else:
+                    return int(returnCommand), None
+            else:
+                return commandString[:1], commandString[1:]
+
     def castAreaSpell(
         self,
         unit,
@@ -2159,24 +2175,26 @@ class battle(object):
             if not bufferedCommands:
                 self.printCommandList(unit, allowedCommands)
             bufferedCommands = bufferedCommands or input()
-            command = bufferedCommands[:1]
-            bufferedCommands = bufferedCommands[1:]
+            command, bufferedCommands = self.bufferCommands(bufferedCommands, False)
             while command is None or command not in allowedCommands:
                 if bufferedCommands:
-                    command = bufferedCommands[:1]
-                    bufferedCommands = bufferedCommands[1:]
+                    command, bufferedCommands = self.bufferCommands(
+                        bufferedCommands, False
+                    )
                 else:
                     self.printCommandList(unit, allowedCommands)
                     commandString = input("Type your command: ")
-                    command = commandString[:1]
-                    bufferedCommands = commandString[1:]
+                    command, bufferedCommands = self.bufferCommands(
+                        bufferedCommands, False
+                    )
             if command in ("M", "m"):
                 moveTo = None
                 while moveTo not in unit.allowedMovement:
                     if bufferedCommands:
                         try:
-                            moveTo = int(bufferedCommands[:1])
-                            bufferedCommands = bufferedCommands[1:]
+                            moveTo, bufferedCommands = self.bufferCommands(
+                                bufferedCommands, True
+                            )
                         except ValueError:
                             moveTo = None
                             bufferedCommands = None
@@ -2206,8 +2224,9 @@ class battle(object):
                 ]:
                     if bufferedCommands:
                         try:
-                            attackTarget = int(bufferedCommands[:1])
-                            bufferedCommands = bufferedCommands[1:]
+                            attackTarget, bufferedCommands = self.bufferCommands(
+                                bufferedCommands, True
+                            )
                         except ValueError:
                             attackTarget = None
                             bufferedCommands = None
@@ -2328,8 +2347,9 @@ class battle(object):
                 ]:
                     if bufferedCommands:
                         try:
-                            spellChoice = int(bufferedCommands[:1])
-                            bufferedCommands = bufferedCommands[1:]
+                            spellChoice, bufferedCommands = self.bufferCommands(
+                                bufferedCommands, True
+                            )
                         except ValueError:
                             spellChoice = None
                             bufferedCommands = None
