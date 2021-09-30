@@ -2171,7 +2171,6 @@ class battle(object):
             bufferedCommands = bufferedCommands or input()
             command = bufferedCommands[:1]
             bufferedCommands = bufferedCommands[1:]
-            print(f"debug: command: {command}, buffered: {bufferedCommands}")
             while command is None or command not in allowedCommands:
                 if bufferedCommands:
                     command = bufferedCommands[:1]
@@ -2185,18 +2184,9 @@ class battle(object):
                 while moveTo not in unit.allowedMovement:
                     if bufferedCommands:
                         try:
-                            print(
-                                f"debug: before: command: {command}, buffered:"
-                                f" {bufferedCommands}"
-                            )
                             moveTo = int(bufferedCommands[:1])
                             bufferedCommands = bufferedCommands[1:]
-                            print(
-                                f"debug: after: command: {moveTo}, buffered:"
-                                f" {bufferedCommands}"
-                            )
                         except ValueError:
-                            print(f"debug: valueError encountered")
                             moveTo = None
                             bufferedCommands = None
                     else:
