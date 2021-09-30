@@ -2177,8 +2177,8 @@ class battle(object):
                     command = bufferedCommands[:1]
                     bufferedCommands = bufferedCommands[1:]
                 else:
-                    commandString = input()
-                    allowedCommands = commandString[:1]
+                    commandString = input("Type your command: ")
+                    command = commandString[:1]
                     bufferedCommands = commandString[1:]
             if command in ("M", "m"):
                 moveTo = None
