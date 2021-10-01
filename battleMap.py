@@ -2183,7 +2183,7 @@ class battle(object):
                     )
                 else:
                     self.printCommandList(unit, allowedCommands)
-                    commandString = input("Type your command: ")
+                    bufferedCommands = input("Type your command: ")
                     command, bufferedCommands = self.bufferCommands(
                         bufferedCommands, False
                     )
