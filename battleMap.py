@@ -2001,16 +2001,12 @@ class battle(object):
                 # unit may have died since this loop started.
                 if unit.hp <= 0:
                     continue
-                if not unit.actedThisRound:
-                    if type(unit) == playerCharacter:
-                        unit.hasEquipped = False
-                    unit.movementPoints = 3 + math.ceil(self.getStat(unit, "Speed") / 2)
-                else:
-                    if unit.movementPoints <= 0:
-                        unit.actedThisRound = True
-                        # push back the unit's initiative
-                        unit.initiativePoints -= self.determineInitiativeSetback(unit)
-                        continue
+                if type(unit) == playerCharacter:
+                    unit.hasEquipped = False
+                unit.movementPoints = 3 + max(
+                    math.ceil(self.getStat(unit, "Speed") / 2),
+                    math.ceil(self.getStat(unit, "Strength") * 3 / 8),
+                )
                 if type(unit) == playerCharacter:
                     pc = unit
                     print("")
