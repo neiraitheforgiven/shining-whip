@@ -2319,10 +2319,10 @@ class battle(object):
                     print()
                 self.doTurn(unit, True, statusChecked)
             elif command in ("F", "f"):
-                if bufferedCommands:
-                    bufferedCommands = bufferedCommands[1:]
                 self.enterFocus(unit)
-                self.doTurn(unit, moved, statusChecked, bufferedCommands)
+                self.doTurn(
+                    unit, moved, statusChecked, bufferedCommands=bufferedCommands
+                )
             elif command in ("L", "l"):
                 tileChoice = None
                 while tileChoice not in (
