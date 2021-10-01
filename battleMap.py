@@ -875,6 +875,13 @@ class battle(object):
                             (self.getStat(unit, "Speed") - unit.movementPoints) / 5
                         )
                 damage = max(strengthForDamage, damage)
+                if unit.equipment:
+                    if self.getPower(
+                        unit, f"{unit.equipment.type}: Attacking Adds Focus"
+                    ):
+                        unit.focus = min(
+                            3000, unit.focus + (damage * unit.getStat("Focus"))
+                        )
                 if i == 0:
                     if self.getPower(unit, "Jump Attack"):
                         if self.getPower(target, "Mounted Movement") or self.getPower(

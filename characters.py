@@ -1034,7 +1034,7 @@ class playerCharacter(object):
                 ]
             elif "Samurai" in title:
                 listOfPowers = [
-                    "Swords: Focus From Attacks",
+                    "Swords: Attacking Adds Focus",
                     "Increased Damage I",
                     "Swords: Fire Element",
                     "Defense: Melee I",
