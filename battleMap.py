@@ -2825,6 +2825,52 @@ class battle(object):
             print("Type (V) to make a vocal attack.")
         print(f"Type (W) to wait.")
 
+    def printCredits(self):
+        print()
+        print("Thank you for playing my game! It means a lot to me!")
+        time.sleep(0.45)
+        print("**CREDITS**")
+        time.sleep(0.45)
+        print("Code and game design by John 'Neirai the Forgiven' den Otter.")
+        time.sleep(0.75)
+        print(
+            "Original character, story, and encounter design by SEGA. Used without"
+            " permission. Please don't sue."
+        )
+        time.sleep(0.75)
+        print(
+            "Character ability and Talent design by John 'Neirai the Forgiven' den"
+            " Otter."
+        )
+        time.sleep(0.75)
+        print("Story retelling by John 'Neirai the Forgiven' den Otter.")
+        time.sleep(0.75)
+        print("Art and music by")
+        time.sleep(0.75)
+        print()
+        print()
+        time.sleep(0.25)
+        print(
+            "Very special thanks to my testers. Without you this wouldn't have been so"
+            " fun."
+        )
+        time.sleep(0.75)
+        print(
+            "Solver, for providing his insights and perspectives and demanding better"
+            " QOL."
+        )
+        time.sleep(0.75)
+        print("rockbandit")
+        time.sleep(0.75)
+        print()
+        time.sleep(0.15)
+        print(
+            "Until next time, I hope you enjoyed your time in the game. The game is"
+            " currently being updated, so try it again later!"
+        )
+        time.sleep(0.44)
+        print("God bless. -- John")
+
     def printEstimatedValue(self, unit, equipment=None):
         bf = self.battleField
         bf.printEstimatedValue(unit, equipment)
@@ -4807,7 +4853,7 @@ class game(object):
             else:
                 self.battleNum += 1
         else:
-            print("You have won the game... for now.")
+            self.printCredits()
             self.battleNum = 40
 
     def equipItem(self, equipment):
