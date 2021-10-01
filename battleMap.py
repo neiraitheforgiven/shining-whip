@@ -3892,6 +3892,7 @@ class battleField(object):
             fromFaith = self.getStat(unit, "Faith")
             fromMagic = self.getStat(unit, "Intelligence")
             fromType = "Unarmed Attack"
+            fromDamage += math.ceil(unit.skills["Unarmed Attack"] / 2)
         if self.getPower(unit, f"{fromType}: Increased Damage I"):
             fromDamage *= 1.3
         if self.getPower(unit, f"{fromType}: Increased Damage II"):
@@ -3910,6 +3911,7 @@ class battleField(object):
             toFaith = self.getStat(unit, "Faith")
             toMagic = self.getStat(unit, "Intelligence")
             toType = "Unarmed Attack"
+            toDamage += math.ceil(unit.skills["Unarmed Attack"] / 2)
         if self.getPower(unit, f"{toType}: Increased Damage I"):
             toDamage *= 1.3
         if self.getPower(unit, f"{toType}: Increased Damage II"):
