@@ -3984,8 +3984,8 @@ class battleField(object):
                 try:
                     badUnits = [unit for unit in tile.units if type(unit) == monster]
                     badUnits.sort(key=lambda x: x.shortName, reverse=True)
-                    if currentUnit and badUnits[i] in currentUnit.trophies:
-                        mapRow1 = f"{badUnits[i].shortName:9}   "
+                    if currentUnit and badUnits[i].name in currentUnit.trophies:
+                        mapRow1 += f"{badUnits[i].shortName:9}   "
                     else:
                         badUnitName = f"{badUnits[i].shortName} *"
                         mapRow1 += f"{badUnitName:11} "
