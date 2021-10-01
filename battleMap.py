@@ -2356,6 +2356,7 @@ class battle(object):
                             bufferedCommands = None
                     else:
                         try:
+                            self.battleField.printSpellString(unit)
                             spellChoice = int(
                                 input("Type the number of the spell to cast: ")
                             )
