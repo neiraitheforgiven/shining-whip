@@ -2232,6 +2232,7 @@ class battle(object):
                             bufferedCommands = None
                     else:
                         try:
+                            self.battleField.printAttackString(unit)
                             attackTarget = int(input("Type a number to attack: "))
                         except ValueError:
                             attackTarget = None
