@@ -2840,6 +2840,8 @@ class battle(object):
         return cost
 
     def printCommandList(self, unit, allowedCommands):
+        if "F" in allowedCommands:
+            self.game.teach("Focus")
         if "V" in allowedCommands:
             self.game.teach("VocalAttack")
         if "M" in allowedCommands:
@@ -5041,6 +5043,29 @@ class game(object):
         print()
         time.sleep(1.2)
         tutorial = {}
+        tutorial["Focus"] = [
+            "Let me teach you about Focus.",
+            "",
+            "Focus represents a character's ability to muster just a little bit more"
+            " oomph for a short period of time.",
+            "Each of your characters will gain a bit of focus as time passes on the"
+            " battlefield.",
+            "As your character gains focus, they will achieve ranks of focus, from 1"
+            " to 4.",
+            "Because Hans is an Archer, he starts each battle with focus rank 2 already"
+            " achieved.When you choose to enter a focused state, the character will"
+            " consume all of the available ranks of focus,",
+            f"and their stats will each be increased by 25% for each rank of focus"
+            f" consumed.",
+            "This is an excellent window of opportunity to deal more damage to a"
+            " heavily-armored character, like a Traitor Knight, or to resist incoming"
+            " damage!",
+            "",
+            "If a character suffers a heavy or critical attack, or is routed or"
+            " stunned, that character will lose some of their focus.",
+            "Additionally, enemy characters can enter a focused state just like you"
+            " can, so be careful of enemies that have been left alone for too long!",
+        ]
         tutorial["Hero"] = [
             "Let me teach you about Max, your Hero.",
             "",
