@@ -5030,6 +5030,11 @@ class game(object):
                     self.setMinSkill(level)
 
     def initTutorial(self):
+        print()
+        time.sleep(0.4)
+        print("Tutorial elements loaded.")
+        print()
+        time.sleep(1.2)
         tutorial["VocalAttack"] = [
             "Let me teach you about Vocal Attacks.",
             "",
