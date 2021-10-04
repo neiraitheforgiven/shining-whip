@@ -2839,6 +2839,8 @@ class battle(object):
         return cost
 
     def printCommandList(self, unit, allowedCommands):
+        if "V" in allowedCommands:
+            self.game.teach("VocalAttack")
         if "M" in allowedCommands:
             self.battleField.printMoveString(unit)
             print("Type (M) to move.")
@@ -2856,7 +2858,6 @@ class battle(object):
             print("Type (S) to cast a spell.")
         if "V" in allowedCommands:
             print("Type (V) to make a vocal attack.")
-            self.game.teach("VocalAttack")
         print(f"Type (W) to wait.")
 
     def printCredits(self):
@@ -4127,10 +4128,12 @@ class game(object):
                 tutorial = input(
                     'Do you want to learn how to play? If so, type "Teach Me" now: '
                 )
-                if tutorial.lower == "teach me":
+                if tutorial.strip().lower() == "teach me":
                     self.tutorial = self.initTutorial()
                 else:
                     self.tutorial = {}
+                    print()
+                    time.sleep(1.2)
                 self.shelf.close()
             else:
                 self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
@@ -5063,12 +5066,17 @@ class game(object):
         return tutorial
 
     def teach(self, entry):
+        if not self.tutorial:
+            return
         if entry in self.tutorial:
-            "\n".join(self.tutorial[entry])
             print()
-            input("<Press any key to continue>")
+            print(f"Tutorial activated: {self.tutorial[entry][0]}")
+            input("<Press enter to continue>")
+            print("\n".join(self.tutorial[entry][1:]))
             print()
-            self.tutoral[entry].pop()
+            input("<Press enter to continue>")
+            print()
+            self.tutorial[entry].pop()
 
 
 game = game()
