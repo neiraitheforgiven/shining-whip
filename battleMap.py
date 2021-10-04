@@ -4197,6 +4197,7 @@ class game(object):
             )
             print("")
             print("Swallowing your fear, you draw arms and challenge them!")
+            self.teach("Hero")
             if self.battleStarted < 1:
                 recruit = playerCharacter("Max", "Human", "Hero", False, 0)
                 self.equipOnCharacter(
@@ -5038,6 +5039,21 @@ class game(object):
         print("Tutorial elements loaded.")
         print()
         time.sleep(1.2)
+        tutorial = {}
+        tutorial["Hero"] = [
+            "Let me teach you about Max, your Hero.",
+            "",
+            "Max is a Hero.",
+            "As a Hero, Max is capable of casting the spell Egress, which returns you"
+            " to the last save point you passed.",
+            "As a Hero, Max must survive each battle. If Max dies, you will lose the"
+            " battle and have to attempt it again.",
+            "",
+            "Over the course of the game, you other characters may be able to learn to"
+            " be Heroes.",
+            "If this happens, then only one of your Heroes needs to survive each"
+            " battle. If one dies, the others can continue to lead your Force.",
+        ]
         tutorial["VocalAttack"] = [
             "Let me teach you about Vocal Attacks.",
             "",
