@@ -4166,7 +4166,10 @@ class game(object):
                 self.battleNum = self.shelf["battleNum"]
                 self.shop = self.shelf["shop"]
                 self.battleStarted = self.shelf["battleStarted"]
-                self.tutorial = self.shelf["tutorial"]
+                if "tutorial" in self.shelf:
+                    self.tutorial = self.shelf["tutorial"]
+                else:
+                    self.tutorial = {}
                 self.shelf.close()
         self.battleStatus = None
         while self.battleNum < 33:
