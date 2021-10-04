@@ -839,7 +839,12 @@ class battle(object):
                     if self.getPower(unit, "Increased Heavy Damage IV"):
                         damage *= 1.3
                     if not self.getPower(target, "No Loss Of Focus From Enemy Attacks"):
-                        self.rattle(unit, target, damage * 30)
+                        if self.getPower(
+                            unit, "Heavy / Critical Attack Destroys Focus"
+                        ):
+                            self.rattle(unit, target, math.ceil(target.focus * 0.75))
+                        else:
+                            self.rattle(unit, target, damage * 30)
                     if self.getPower(unit, "Heavy Attacks Inflict Bleed"):
                         self.bleedStart(target)
                     time.sleep(1.0 / 10)
@@ -940,7 +945,12 @@ class battle(object):
                 print(f"{unit.name} deals {damage} damage to {target.name}!")
                 if attackType == 'critical':
                     if not self.getPower(target, "No Loss Of Focus From Enemy Attacks"):
-                        self.rattle(unit, target, damage * 30)
+                        if self.getPower(
+                            unit, "Heavy / Critical Attack Destroys Focus"
+                        ):
+                            self.rattle(unit, target, math.ceil(target.focus * 0.75))
+                        else:
+                            self.rattle(unit, target, damage * 30)
                     if self.getPower(unit, "Luck: Critical Drain I") or (
                         self.getPower(unit, "Luck: Critical Drain II")
                     ):
