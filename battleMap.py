@@ -2792,7 +2792,7 @@ class battle(object):
                 print(f"{unit.name} killed their first {target.name}!")
                 numChunks += 4
                 unit.trophies.append(target.name)
-                self.teach("Trophies")
+                self.game.teach("Trophies")
         amount = max(1, min(((targetLevel - unitLevel) * numChunks), 49))
         unit.pendingXP += amount
 
