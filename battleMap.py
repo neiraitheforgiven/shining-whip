@@ -2792,6 +2792,7 @@ class battle(object):
                 print(f"{unit.name} killed their first {target.name}!")
                 numChunks += 4
                 unit.trophies.append(target.name)
+                self.teach("Trophies")
         amount = max(1, min(((targetLevel - unitLevel) * numChunks), 49))
         unit.pendingXP += amount
 
@@ -5053,6 +5054,19 @@ class game(object):
             " be Heroes.",
             "If this happens, then only one of your Heroes needs to survive each"
             " battle. If one dies, the others can continue to lead your Force.",
+        ]
+        tutorial["Trophies"] = [
+            "Let me teach you about Trophies.",
+            "",
+            "Whenever one of your characters kills an enemy unit type for the first"
+            " time, they will get a trophy.",
+            "The trophy is worth quite a bit of extra Experience, and is also worth"
+            " Scroulings -- Yatahal's currency -- at the end of each battle.",
+            "The more trophies you collect, by having each of your characters kill each"
+            " enemy type, the more Scroulings you will receive.",
+            "",
+            "On each of your characters' turns, the enemies that belong to a type that"
+            " the character has not killed yet are marked on the map with a star (*).",
         ]
         tutorial["VocalAttack"] = [
             "Let me teach you about Vocal Attacks.",
