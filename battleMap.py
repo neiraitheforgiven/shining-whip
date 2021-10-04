@@ -5030,7 +5030,7 @@ class game(object):
                     self.setMinSkill(level)
 
     def initTutorial(self):
-        self.tutorial["VocalAttack"] = [
+        tutorial["VocalAttack"] = [
             "Let me teach you about Vocal Attacks.",
             "",
             "Your units can speak out phrases of the Songs of the Creator to repel evil"
@@ -5055,6 +5055,7 @@ class game(object):
             "A unit that is routed, stunned, or killed will immediately stop chanting,"
             " and their contribution to any tiles' alignment rank immediately ends.",
         ]
+        return tutorial
 
     def teach(self, entry):
         if entry in self.tutorial:
