@@ -1125,11 +1125,11 @@ class battle(object):
                 return True
             else:
                 if self.game.battleStatus != 'victory':
-                    time.delay(0.6)
+                    time.sleep(0.6)
                     print()
                     print("You are victorious!")
                     print()
-                    time.delay(0.6)
+                    time.sleep(0.6)
                     if input("<Press any key to continue>"):
                         pass
                     print()
@@ -1137,11 +1137,11 @@ class battle(object):
                 return False
         else:
             if self.game.battleStatus != 'defeat':
-                time.delay(0.6)
+                time.sleep(0.6)
                 print()
                 print("D E F E A T E D")
                 print()
-                time.delay(1.2)
+                time.sleep(1.2)
                 self.game.battleStatus = 'defeat'
                 print("A priest managed to recall your soul from the grave.")
                 print()
