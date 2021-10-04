@@ -5053,7 +5053,8 @@ class game(object):
             "As your character gains focus, they will achieve ranks of focus, from 1"
             " to 4.",
             "Because Hans is an Archer, he starts each battle with focus rank 2 already"
-            " achieved.When you choose to enter a focused state, the character will"
+            " achieved.",
+            "When you choose to enter a focused state, the character will"
             " consume all of the available ranks of focus,",
             f"and their stats will each be increased by 25% for each rank of focus"
             f" consumed.",
@@ -5131,7 +5132,7 @@ class game(object):
             print()
             input("<Press enter to continue>")
             print()
-            self.tutorial[entry].pop()
+            del self.tutorial[entry]
 
 
 game = game()
