@@ -2856,6 +2856,7 @@ class battle(object):
             print("Type (S) to cast a spell.")
         if "V" in allowedCommands:
             print("Type (V) to make a vocal attack.")
+            self.game.teach("VocalAttack")
         print(f"Type (W) to wait.")
 
     def printCredits(self):
@@ -4123,6 +4124,13 @@ class game(object):
                 self.shelf["shop"] = self.shop
                 self.battleStarted = 0
                 self.shelf["battleStarted"] = self.battleStarted
+                tutorial = input(
+                    'Do you want to learn how to play? If so, type "Teach Me" now: '
+                )
+                if tutorial.lower == "teach me":
+                    self.tutorial = self.initTutorial()
+                else:
+                    self.tutorial = {}
                 self.shelf.close()
             else:
                 self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
@@ -4152,6 +4160,7 @@ class game(object):
                 self.battleNum = self.shelf["battleNum"]
                 self.shop = self.shelf["shop"]
                 self.battleStarted = self.shelf["battleStarted"]
+                self.tutorial = self.shelf["tutorial"]
                 self.shelf.close()
         self.battleStatus = None
         while self.battleNum < 33:
@@ -5006,6 +5015,7 @@ class game(object):
         self.shelf["battleNum"] = self.battleNum
         self.shelf["shop"] = self.shop
         self.shelf["battleStarted"] = self.battleStarted
+        self.shelf["tutorial"] = self.tutorial
         self.shelf.close()
 
     def setMinSkill(self, level):
@@ -5018,6 +5028,41 @@ class game(object):
                 if set(maxSkills) - set(["Unarmed Attack", "Holy Songs"]):
                     pc.upSkill()
                     self.setMinSkill(level)
+
+    def initTutorial(self):
+        self.tutorial["VocalAttack"] = [
+            "Let me teach you about Vocal Attacks.",
+            "",
+            "Your units can speak out phrases of the Songs of the Creator to repel evil"
+            " beings.",
+            "Conversely, the powers of evil can create unspeakable sounds that"
+            " demoralize and even defeat your forces.",
+            "Whenever a unit does not move or cast magic on their turn, they will chant"
+            " phrases from the Holy Cantos,",
+            "which will shift the alignment of their current tile, and nearby tiles,"
+            " one rank towards Holy.",
+            "Each rank of alignment on a given tile will boost friendly vocal attack"
+            " damage by 25%,",
+            "and reduce enemy vocal attack damage by 25%.",
+            "At four ranks, friendly vocal attack damage is doubled, and enemy vocal"
+            " attacks can't even be used!",
+            "",
+            "When using a vocal attack, a character deals damage to all enemies"
+            " standing on the same tile.",
+            "The vocal attack will do more damage when used by characters with a higher"
+            " Voice stat.",
+            "",
+            "A unit that is routed, stunned, or killed will immediately stop chanting,"
+            " and their contribution to any tiles' alignment rank immediately ends.",
+        ]
+
+    def teach(self, entry):
+        if entry in self.tutorial:
+            "\n".join(self.tutorial[entry])
+            print()
+            input("<Press any key to continue>")
+            print()
+            self.tutoral[entry].pop()
 
 
 game = game()
