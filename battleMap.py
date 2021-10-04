@@ -20,7 +20,7 @@ class battle(object):
         self.party = self.assembleParty(party, game.maxPartySize)
         self.currentInitiative = 0
         print()
-        if input("<Press enter to start the battle>"):
+        if input("<Press any key to start the battle>"):
             pass
         if num:
             self.egressing = False
@@ -1107,14 +1107,25 @@ class battle(object):
             ):
                 return True
             else:
-                self.game.battleStatus = 'victory'
+                if self.game.battleStatus != 'victory':
+                    print()
+                    print("You are victorious!")
+                    print()
+                    if input("<Press any key to continue>"):
+                        pass
+                    print()
+                    self.game.battleStatus = 'victory'
                 return False
         else:
-            print("D E F E A T E D")
-            print("")
-            self.game.battleStatus = 'defeat'
-            print("A priest managed to recall your soul from the grave.")
-            print("")
+            if self.game.battleStatus != 'defeat':
+                print("D E F E A T E D")
+                print("")
+                self.game.battleStatus = 'defeat'
+                print("A priest managed to recall your soul from the grave.")
+                print("")
+                if input("<Press any key to continue>"):
+                    pass
+                print()
             return False
 
     def bleed(self, unit):
