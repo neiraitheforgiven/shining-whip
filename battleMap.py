@@ -2792,6 +2792,7 @@ class battle(object):
                 print(f"{unit.name} killed their first {target.name}!")
                 numChunks += 4
                 unit.trophies.append(target.name)
+                self.game.teach("Trophies")
         amount = max(1, min(((targetLevel - unitLevel) * numChunks), 49))
         unit.pendingXP += amount
 
@@ -2839,6 +2840,10 @@ class battle(object):
         return cost
 
     def printCommandList(self, unit, allowedCommands):
+        if "F" in allowedCommands:
+            self.game.teach("Focus")
+        if "V" in allowedCommands:
+            self.game.teach("VocalAttack")
         if "M" in allowedCommands:
             self.battleField.printMoveString(unit)
             print("Type (M) to move.")
@@ -2856,7 +2861,6 @@ class battle(object):
             print("Type (S) to cast a spell.")
         if "V" in allowedCommands:
             print("Type (V) to make a vocal attack.")
-            self.game.teach("VocalAttack")
         print(f"Type (W) to wait.")
 
     def printCredits(self):
@@ -4127,10 +4131,12 @@ class game(object):
                 tutorial = input(
                     'Do you want to learn how to play? If so, type "Teach Me" now: '
                 )
-                if tutorial.lower == "teach me":
+                if tutorial.strip().lower() == "teach me":
                     self.tutorial = self.initTutorial()
                 else:
                     self.tutorial = {}
+                    print()
+                    time.sleep(1.2)
                 self.shelf.close()
             else:
                 self.shelf = shelve.open(f"TSOTHASOTF-{self.saveName.lower()}")
@@ -4194,6 +4200,7 @@ class game(object):
             )
             print("")
             print("Swallowing your fear, you draw arms and challenge them!")
+            self.teach("Hero")
             if self.battleStarted < 1:
                 recruit = playerCharacter("Max", "Human", "Hero", False, 0)
                 self.equipOnCharacter(
@@ -5035,6 +5042,58 @@ class game(object):
         print("Tutorial elements loaded.")
         print()
         time.sleep(1.2)
+        tutorial = {}
+        tutorial["Focus"] = [
+            "Let me teach you about Focus.",
+            "",
+            "Focus represents a character's ability to muster just a little bit more"
+            " oomph for a short period of time.",
+            "Each of your characters will gain a bit of focus as time passes on the"
+            " battlefield.",
+            "As your character gains focus, they will achieve ranks of focus, from 1"
+            " to 4.",
+            "Because Hans is an Archer, he starts each battle with focus rank 2 already"
+            " achieved.",
+            "When you choose to enter a focused state, the character will"
+            " consume all of the available ranks of focus,",
+            f"and their stats will each be increased by 25% for each rank of focus"
+            f" consumed.",
+            "This is an excellent window of opportunity to deal more damage to a"
+            " heavily-armored character, like a Traitor Knight, or to resist incoming"
+            " damage!",
+            "",
+            "If a character suffers a heavy or critical attack, or is routed or"
+            " stunned, that character will lose some of their focus.",
+            "Additionally, enemy characters can enter a focused state just like you"
+            " can, so be careful of enemies that have been left alone for too long!",
+        ]
+        tutorial["Hero"] = [
+            "Let me teach you about Max, your Hero.",
+            "",
+            "Max is a Hero.",
+            "As a Hero, Max is capable of casting the spell Egress, which returns you"
+            " to the last save point you passed.",
+            "As a Hero, Max must survive each battle. If Max dies, you will lose the"
+            " battle and have to attempt it again.",
+            "",
+            "Over the course of the game, you other characters may be able to learn to"
+            " be Heroes.",
+            "If this happens, then only one of your Heroes needs to survive each"
+            " battle. If one dies, the others can continue to lead your Force.",
+        ]
+        tutorial["Trophies"] = [
+            "Let me teach you about Trophies.",
+            "",
+            "Whenever one of your characters kills an enemy unit type for the first"
+            " time, they will get a trophy.",
+            "The trophy is worth quite a bit of extra Experience, and is also worth"
+            " Scroulings -- Yatahal's currency -- at the end of each battle.",
+            "The more trophies you collect, by having each of your characters kill each"
+            " enemy type, the more Scroulings you will receive.",
+            "",
+            "On each of your characters' turns, the enemies that belong to a type that"
+            " the character has not killed yet are marked on the map with a star (*).",
+        ]
         tutorial["VocalAttack"] = [
             "Let me teach you about Vocal Attacks.",
             "",
@@ -5063,12 +5122,17 @@ class game(object):
         return tutorial
 
     def teach(self, entry):
+        if not self.tutorial:
+            return
         if entry in self.tutorial:
-            "\n".join(self.tutorial[entry])
             print()
-            input("<Press any key to continue>")
+            print(f"Tutorial activated: {self.tutorial[entry][0]}")
+            input("<Press enter to continue>")
+            print("\n".join(self.tutorial[entry][1:]))
             print()
-            self.tutoral[entry].pop()
+            input("<Press enter to continue>")
+            print()
+            del self.tutorial[entry]
 
 
 game = game()
