@@ -2176,6 +2176,16 @@ class battle(object):
             allowedCommands = ["C", "c", "L", "l", "W", "w"]
             if not moved:
                 if type(unit) == playerCharacter:
+                    self.game.teach("Movement")
+                    if "Flying Movement" in self.game.tutorial:
+                        if self.getPower(unit, "Flying Movement"):
+                            self.game.teach("Flying Movement")
+                    if "Mounted Movement" in self.game.tutorial:
+                        if self.getPower(unit, "Mounted Movement"):
+                            self.game.teach("Mounted Movement")
+                    if "Stealthy Movement" in self.game.tutorial:
+                        if self.getPower(unit, "Stealthy Movement"):
+                            self.game.teach("Stealthy Movement")
                     moveEnabled = self.battleField.checkMove(unit, position)
                 if moveEnabled:
                     allowedCommands.append("M")
@@ -2842,6 +2852,8 @@ class battle(object):
     def printCommandList(self, unit, allowedCommands):
         if "F" in allowedCommands:
             self.game.teach("Focus")
+        if "M" in allowedCommands:
+            self.game.teach("Movement")
         if "V" in allowedCommands:
             self.game.teach("VocalAttack")
         if "M" in allowedCommands:
@@ -5046,6 +5058,21 @@ class game(object):
         print()
         time.sleep(1.2)
         tutorial = {}
+        tutorial["Flying Movement"] = [
+            "Let me teach you about Flying Movement.",
+            "",
+            "Certain characters, such as birdmen like Amon and Balbaroy, are capable of"
+            " flight.",
+            "Flying units enjoy a different set of rules for movement and blocking than"
+            " land units.",
+            "Flying units ignore the movement costs associated with terrain and cannot"
+            " be blocked by land units.",
+            "Instead, flying units are only blocked by other flying units.",
+            "It only takes one flying enemy to prevent a flying character from moving"
+            " through a tile,",
+            "and only two flying enemies are needed to prevent a flying character from"
+            " leaving a tile at all.",
+        ]
         tutorial["Focus"] = [
             "Let me teach you about Focus.",
             "",
@@ -5083,6 +5110,47 @@ class game(object):
             " be Heroes.",
             "If this happens, then only one of your Heroes needs to survive each"
             " battle. If one dies, the others can continue to lead your Force.",
+        ]
+        tutorial["Mounted Movement"] = [
+            "Let me teach you about mounted movement.",
+            "",
+            "Certain characters, such as centaurs like Ken, will have a special Mounted"
+            " Movement type.",
+            "Units with the Mounted Movement trait can move an extra tile every turn,"
+            " except if they start on or move through unstable terrain.",
+            "If a mounted unit starts on or moves through unstable terrain such as Sand"
+            " or Loose Rocks,",
+            "they will not only lose their bonus one-tile move distance, but also lose"
+            " an additional tile of movement.",
+            "For this reason, on some maps, Mounted units will be your fastest units,"
+            " and on others, they will be hampered.",
+        ]
+        tutorial["Movement"] = [
+            "Let me teach you about movement.",
+            "",
+            "Each character can move a number of tiles based on their Speed or Strength"
+            " stats.",
+            "Different tile types have different costs of movement. For example, Paths"
+            " are very easy to move through, but Loose Rocks are hard.",
+            "Up to four friendly characters and up to four enemy characters can occupy"
+            " the same tile on the map.",
+            "",
+            "When a player's movement encounters enemies, they may become blocked.",
+            "These are the rules for land movement when it comes to blocking:",
+            "A character cannot move through the far side of any tile that contains two"
+            " or more enemies.",
+            "Likewise, a character cannot move out of a tile at all if it contains four"
+            " enemies.",
+            "",
+            "Different characters may have different movement rules. I will teach you"
+            " about them in time.",
+        ]
+        tutorial["Stealthy Movement"] = [
+            "Let me teach you about stealthy movement.",
+            "",
+            "A character with the Stealthy Movement trait ignores any enemy blockers in"
+            " the first two tiles that the character can move through.",
+            "After the first two tiles, the character can be blocked as normal.",
         ]
         tutorial["Trophies"] = [
             "Let me teach you about Trophies.",
