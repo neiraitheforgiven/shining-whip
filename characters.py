@@ -46,7 +46,18 @@ class monster(object):
         self.boss = False
         self.extraPowerSlot = []
         self.extraPowerSlot2 = []
-        if name == "Body Puppet":
+        if name == "Artillery":
+            self.level = 13
+            stats = {"Dexterity": 14, "Stamina": 7, "Speed": 6, "Strength": 15}
+            self.setStats(5, **stats)
+            self.attackProfile = attackProfile or "Weakest"
+            self.focusProfile = focusProfile or "Murderous"
+            self.moveProfile = moveProfile or "Sniper"
+            self.equipment = equipment(
+                "Brass Guns", "Assault Shell", 4500, 36, 1, 2, 18, 0, 0
+            )
+            self.shortName = "Artillery"
+        elif name == "Body Puppet":
             self.level = 8
             stats = {
                 "Strength": 10,
@@ -97,6 +108,7 @@ class monster(object):
             self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 9, 0, 0)
             self.shortName = "Dark Elf"
             self.powers.append("Defense: Wind Vulnerability")
+            self.powers.append("Stealthy Movement")
         elif name == "Dark Magi":
             self.level = 12
             stats = {"Stamina": 9, "Intelligence": 15, "Strength": 9, "Speed": 9}
@@ -117,6 +129,29 @@ class monster(object):
             self.equipment = equipment("Daggers", "Knife", 500, 1, 0, 0, 8, 0, 0)
             self.shortName = "Clown"
             self.powers = ["Luck: Enable Triple Attack", "Daggers: Attacks Add Bleed"]
+        elif name == "General Sohorn":
+            self.level = 15
+            self.boss = True
+            stats = {
+                "Strength": 20,
+                "Stamina": 22,
+                "Speed": 20,
+                "Dexterity": 16,
+                "Intelligence": 8,
+                "Luck": 20,
+                "Fame": 21,
+            }
+            self.setStats(12, **stats)
+            self.attackProfile = attackProfile or "ChallengeAccepting"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Defensive"
+            self.equipment = equipment("Swords", "Long Sword", 750, 18, 0, 0, 12, 0, 0)
+            self.shortName = "Lizard"
+            self.powers.append("Defense: Ice Vulnerability")
+            self.powers.append("Defense: Fire Defense")
+            self.powers.append("Defense: Magic")
+            self.powers.append("Kills Restore Health")
+            self.powers.append("Luck: Increased Dodge I")
         elif name == "Giant Bat":
             self.level = 5
             stats = {
@@ -248,6 +283,34 @@ class monster(object):
             self.powers.append("Flying Movement")
             self.powers.append("Mounted Movement")
             self.powers.append("Lances: Movement Increases Strength Damage I")
+        elif name == "Salaman":
+            self.level = 14
+            stats = {
+                "Strength": 17,
+                "Stamina": 12,
+                "Speed": 6,
+                "Dexterity": 12,
+                "Intelligence": 12,
+            }
+            self.setStats(12, **stats)
+            self.attackProfile = attackProfile or "Spellcaster"
+            self.focusProfile = focusProfile or "Vengeful"
+            self.moveProfile = moveProfile or "Defensive"
+            self.equipment = equipment(
+                "Axes",
+                "Heat Axe",
+                4400,
+                25,
+                0,
+                0,
+                15,
+                0,
+                0,
+                ["Axes: Added Effect: Fire", "Blaze II"],
+            )
+            self.shortName = "Salaman"
+            self.powers.append("Defense: Ice Vulnerability")
+            self.powers.append("Defense: Fire Defense")
         elif name == "The Screaming Beast":
             self.level = 15
             self.boss = True

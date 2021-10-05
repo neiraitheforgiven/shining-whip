@@ -1327,7 +1327,7 @@ class battle(object):
                             target.hp -= targetDamage
                             self.giveExperience(unit, target, targetDamage)
                             if target.hp <= 0:
-                                self.kill(target)
+                                self.kill(target, unit)
         if speedUp:
             intel = self.getStat(unit, "Intelligence")
             unit.initiativePoints += intel
@@ -1381,7 +1381,7 @@ class battle(object):
                 target.hp -= damage
                 self.giveExperience(unit, target, damage)
                 if target.hp <= 0:
-                    self.kill(target)
+                    self.kill(target, unit)
         if self.getPower(unit, "Sonorous Spells"):
             attackTypeArray = []
             luck = self.getStat(unit, "Luck")
@@ -2875,6 +2875,14 @@ class battle(object):
         field.terrainArray[targetPosition].units.remove(target)
         if target in self.turnOrder:
             self.turnOrder.remove(target)
+        if self.getPower(killer, "Kills Restore Health"):
+            strength = self.getStat(killer, "Strength")
+            beforeHP = killer.hp
+            killer.hp = min(killer.maxHP(), killer.hp + strength)
+            print(
+                f"{killer.name} restored {killer.hp - beforeHP} health from"
+                f" {target.name}'s life essence!"
+            )
         if type(target) == monster and target.boss:
             if killer:
                 killer.fame += 1
@@ -3805,8 +3813,10 @@ class battleField(object):
             ]
             try:
                 if candidates:
+                    maxRange = monster.equipment.maxRange
                     targetPos = (
-                        max([self.getUnitPos(target) for target in candidates]) + 1
+                        max([self.getUnitPos(target) for target in candidates])
+                        + maxRange
                     )
                 if candidates and (targetPos in monster.allowedMovement):
                     moveTo = targetPos
