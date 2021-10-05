@@ -1071,7 +1071,8 @@ class playerCharacter(object):
                     "Lances: Movement Increases Strength Damage I",
                     "Lances: Increased Damage I",
                     "Luck: Increased Dodge I",
-                    "Lances: Increased Luck ILuck: Increased Dodge II",
+                    "Lances: Increased Luck I",
+                    "Luck: Increased Dodge II",
                     "Dodge: Add Speed I",
                 ]
             elif "Soldier" in title:
