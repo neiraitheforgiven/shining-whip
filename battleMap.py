@@ -5055,17 +5055,39 @@ class game(object):
                 self.reckoning(75, 'the merchants')
             print("Of course, being merchants, they do make you pay for gear.")
             print("")
-
+            if self.battleStarted < 12:
+                self.shop = shop(
+                    self,
+                    [
+                        "Long Sword",
+                        "Bronze Lance",
+                        "Power Spear",
+                        "Middle Axe",
+                        "Power Staff",
+                        "Steel Arrow",
+                        "Iron Shot",
+                        "Thief's Dagger",
+                    ],
+                    [
+                        "Power Axe",
+                        "Heat Axe",
+                        "Assault Shell",
+                        "Bloody Knife",
+                        "Steel Lance",
+                    ],
+                    18,
+                )
+            self.shop.goShopping()
             self.battleStarted = 12
             self.save()
             self.party = self.playerCharacters
             self.battleStatus = None
             while self.battleStatus != 'victory':
                 if self.battleStatus == 'egress':
-                    self.reckoning(25, 'the townsfolk')
+                    self.reckoning(35, 'the merchants')
                     self.shop.goShopping(self)
                 elif self.battleStatus == 'defeat':
-                    self.reckoning(0, 'the townsfolk')
+                    self.reckoning(0, 'the merchants')
                     self.shop.goShopping(self)
                 battle(self, self.party, self.battleNum)
             else:
