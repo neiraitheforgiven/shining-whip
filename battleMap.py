@@ -4978,6 +4978,98 @@ class game(object):
                 battle(self, self.party, self.battleNum)
             else:
                 self.battleNum += 1
+        elif self.battleNum == 12:
+            if self.battleStarted < 12:
+                print("")
+                print(
+                    "After defeating the evil Beast, you travel east until you come to"
+                    " the great plains of Sikahl."
+                )
+                print(
+                    "Here, flatlands spread in all directions, punctuated by wells like"
+                    " oases in a desert."
+                )
+                print(
+                    "Merchant caravans traverse the plains, for company as much as for"
+                    " defense."
+                )
+                input("<Press enter to continue>")
+                print()
+                print(
+                    "One night, as you sit amongst a caravan resting at a well, a man"
+                    " dressed in dark armor approaches."
+                )
+                print('"I am Edrik Sohorn, General of Yaranguld." he says.')
+                print(
+                    '"Yaranguld has always been the ally of Yatahal." he continues. "In'
+                    ' fact, Yaranguld\'s old kings founded Yatahal and set it aside as'
+                    ' a holy city-state."'
+                )
+                print('"This would make us allies."')
+                print("Sohorn sighs.")
+                print(
+                    '"Alas, this is not to be. Darksol has corrupted the mind of King'
+                    ' Raman of Yaranguld so that he is blinded with hatred for all that'
+                    ' is holy."'
+                )
+                print(
+                    '"Years ago, the royal historians of Yaranguld unearthed the body'
+                    ' of a great dragon. A great, vile, evil corpse."'
+                )
+                print(
+                    '"They plan to revive it, using dark magic and--" he pauses,'
+                    ' removing his helmet.'
+                )
+                input("<Press enter to continue>")
+                print()
+                print('Beneath the helmet, his face is that of a dragon.')
+                print(
+                    'He continues, his face contorting. "Dark magic and the blood of'
+                    ' the dragonkin, my people."'
+                )
+                print(
+                    '"I have no choice but to fight. Darksol treats me as his puppet.'
+                    ' If I stay my hand, Darksol will slaughter those who are left of'
+                    ' our people."'
+                )
+                print(
+                    '"Raman once gave us protection, but no longer. My orders are to'
+                    ' burn and destroy every free town from here to Yatahal."'
+                )
+                print(
+                    "Perhaps it is luck or fate that you stand between me and my"
+                    " orders."
+                )
+                print(
+                    '"Tomorrow, I shall assault you on the open plains. If you defeat'
+                    ' me, hurry to confront Raman in Yaranguld, and save my people from'
+                    ' Darksol."'
+                )
+                input("<Press enter to continue>")
+            print()
+            print("The next day, some merchants approach you.")
+            print("They point to the approaching Yaranguld army on the horizon.")
+            print('"Do something!" they yell. "That army intends to slaughter us!')
+            print('"We will finance your army! Do whatever it taks to save us!"')
+            if self.battleStarted < 12:
+                self.reckoning(75, 'the merchants')
+            print("Of course, being merchants, they do make you pay for gear.")
+            print("")
+
+            self.battleStarted = 12
+            self.save()
+            self.party = self.playerCharacters
+            self.battleStatus = None
+            while self.battleStatus != 'victory':
+                if self.battleStatus == 'egress':
+                    self.reckoning(25, 'the townsfolk')
+                    self.shop.goShopping(self)
+                elif self.battleStatus == 'defeat':
+                    self.reckoning(0, 'the townsfolk')
+                    self.shop.goShopping(self)
+                battle(self, self.party, self.battleNum)
+            else:
+                self.battleNum += 1
         else:
             self.printCredits()
             self.battleNum = 40
