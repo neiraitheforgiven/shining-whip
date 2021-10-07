@@ -565,6 +565,15 @@ class playerCharacter(object):
             print("")
 
     def assignPower(self, nameOfPower, chatter=False):
+        # check for power implementation as best as possible
+        bmFile = open("battleMap.py", "r")
+        if not any(nameOfPower in line for line in bmFile):
+            print()
+            print(
+                f"Warning: the power {nameOfPower} has not been implemented yet. Let"
+                " Neirai the Forgiven know to get his lazy ass in gear!"
+            )
+            print()
         self.powers.append(nameOfPower)
         if chatter:
             print(f"{self.name} learned {nameOfPower}!")
