@@ -1201,7 +1201,7 @@ class battle(object):
                     print()
                     print("You are victorious!")
                     print()
-                    time.delay(0.6)
+                    time.sleep(0.6)
                     if input("<Press enter to continue>"):
                         pass
                     print()
