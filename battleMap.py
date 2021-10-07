@@ -649,11 +649,13 @@ class battle(object):
             return party
         else:
             print("It's time to assemble your party!")
+            print()
             currentParty = []
             leaders = [unit for unit in party if "Egress I" in unit.powers]
             if len(leaders) == 1:
                 currentParty.append(leaders[0])
                 print(f"{leaders[0].name} leads the Force into battle!")
+                print()
             else:
                 print("Who will lead the Force?")
                 leaderChoice = None
@@ -663,8 +665,13 @@ class battle(object):
                     leaderString = ''
                     leaderStringAdds = []
                     count = 0
-                    for leader in leaders:
-                        leaderStringAdds.append(f"({count}) {leader.name}")
+                    for leader in sorted(
+                        leaders, key=lambda leader: (leader.level, leader.title)
+                    ):
+                        leaderStringAdds.append(
+                            f"({count}) {leader.name} the Level {leader.level}"
+                            f" {leader.title}"
+                        )
                         count += 1
                     leaderString += ", ".join(leaderStringAdds)
                     print(leaderString)
@@ -701,6 +708,7 @@ class battle(object):
                                 f"{leaders[leaderChoice].name} leads the "
                                 "Force into battle!"
                             )
+                            print()
                             break
                         except ValueError:
                             leaderChoice = None
@@ -709,6 +717,7 @@ class battle(object):
             while len(currentParty) < maxPartySize:
                 unitChoice = None
                 partyOptions = [unit for unit in party if unit not in currentParty]
+                print("Who will join the party?")
                 while unitChoice not in (
                     [partyOptions.index(option) for option in partyOptions],
                     'L',
@@ -718,11 +727,24 @@ class battle(object):
                     optionString = ''
                     optionStringAdds = []
                     count = 0
-                    for unit in partyOptions:
-                        optionStringAdds.append(f"({count}) {unit.name}")
+                    for unit in sorted(
+                        partyOptions, key=lambda unit: (unit.level, unit.title)
+                    ):
+                        optionStringAdds.append(
+                            f"({count}) {unit.name} the Level {unit.level} {unit.title}"
+                        )
                         count += 1
-                    optionString += ", ".join(optionStringAdds)
-                    print(optionString)
+                    fromCount = 0
+                    toCount = 0
+                    for optionStringBit in optionStringAdds:
+                        toCount += 1
+                        if toCount % 6 == 0:
+                            optionString = ", ".join(
+                                optionStringAdds[fromCount:toCount]
+                            )
+                            print(optionString)
+                            fromCount = toCount
+
                     unitChoice = input(
                         "Type a number to choose a character to join "
                         "the party. Press (L) to look more closely at a "
