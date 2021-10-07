@@ -1679,91 +1679,39 @@ class playerCharacter(object):
             for statName, statValue in self.growth.items():
                 afterDict[statName] = self.stats[statName]
             fulfilled = 0
-            # Stamina
-            stamString = f"{'Stamina':<12} {beforeDict['Stamina']}"
-            stamString = f"{stamString:<16}"
-            if afterDict['Stamina'] > beforeDict['Stamina']:
-                if self.growth["Stamina"] == 5:
-                    fulfilled += 1
-                stamString += f" --> {afterDict['Stamina']}"
-            stamString = f"{stamString:<25}"
-            # Speed
-            spdString = f"{'Speed':<12} {beforeDict['Speed']}"
-            spdString = f"{spdString:<16}"
-            if afterDict['Speed'] > beforeDict['Speed']:
-                if self.growth["Speed"] == 5:
-                    fulfilled += 1
-                spdString += f" --> {afterDict['Speed']}"
-            spdString = f"{spdString:<25}"
-            # Strength
-            strString = f"{'Strength':<12} {beforeDict['Strength']}"
-            strString = f"{strString:<16}"
-            if afterDict['Strength'] > beforeDict['Strength']:
-                if self.growth["Strength"] == 5:
-                    fulfilled += 1
-                strString += f" --> {afterDict['Strength']}"
-            strString = f"{strString:<25}"
-            # Intelligence
-            intString = f"{'Intelligence':<12} {beforeDict['Intelligence']}"
-            intString = f"{intString:<16}"
-            if afterDict['Intelligence'] > beforeDict['Intelligence']:
-                if self.growth["Intelligence"] == 5:
-                    fulfilled += 1
-                intString += f" --> {afterDict['Intelligence']}"
-            intString = f"{intString:<25}"
-            # Dexterity
-            dexString = f"{'Dexterity':<12} {beforeDict['Dexterity']}"
-            dexString = f"{dexString:<16}"
-            if afterDict['Dexterity'] > beforeDict['Dexterity']:
-                if self.growth["Dexterity"] == 5:
-                    fulfilled += 1
-                dexString += f" --> {afterDict['Dexterity']}"
-            dexString = f"{dexString:<25}"
-            # Faith
-            faithString = f"{'Faith':<12} {beforeDict['Faith']}"
-            faithString = f"{faithString:<16}"
-            if afterDict['Faith'] > beforeDict['Faith']:
-                if self.growth["Faith"] == 5:
-                    fulfilled += 1
-                faithString += f" --> {afterDict['Faith']}"
-            faithString = f"{faithString:<25}"
-            # Charisma
-            chaString = f"{'Charisma':<12} {beforeDict['Charisma']}"
-            chaString = f"{chaString:<16}"
-            if afterDict['Charisma'] > beforeDict['Charisma']:
-                if self.growth["Charisma"] == 5:
-                    fulfilled += 1
-                chaString += f" --> {afterDict['Charisma']}"
-            chaString = f"{chaString:<25}"
-            # Voice
-            voiceString = f"{'Voice':<12} {beforeDict['Voice']}"
-            voiceString = f"{voiceString:<16}"
-            if afterDict['Voice'] > beforeDict['Voice']:
-                if self.growth["Voice"] == 5:
-                    fulfilled += 1
-                voiceString += f" --> {afterDict['Voice']}"
-            voiceString = f"{voiceString:<25}"
-            # Focus
-            focusString = f"{'Focus':<12} {beforeDict['Focus']}"
-            focusString = f"{focusString:<16}"
-            if afterDict['Focus'] > beforeDict['Focus']:
-                if self.growth["Focus"] == 5:
-                    fulfilled += 1
-                focusString += f" --> {afterDict['Focus']}"
-            focusString = f"{focusString:<25}"
-            # Luck
-            luckString = f"{'Luck':<12} {beforeDict['Luck']}"
-            luckString = f"{luckString:<16}"
-            if afterDict['Luck'] > beforeDict['Luck']:
-                if self.growth["Luck"] == 5:
-                    fulfilled += 1
-                luckString += f" --> {afterDict['Luck']}"
-            luckString = f"{luckString:<25}"
-            print(f"    {stamString}    {spdString}")
-            print(f"    {strString}    {intString}")
-            print(f"    {dexString}    {faithString}")
-            print(f"    {chaString}    {voiceString}")
-            print(f"    {focusString}    {luckString}")
+
+            levelData = [
+                ("Stamina", beforeDict["Stamina"], afterDict["Stamina"]),
+                ("Strength", beforeDict["Strength"], afterDict["Strength"]),
+                ("Dexterity", beforeDict["Dexterity"], afterDict["Dexterity"]),
+                ("Charisma", beforeDict["Charisma"], afterDict["Charisma"]),
+                ("Focus", beforeDict["Focus"], afterDict["Focus"]),
+                ("Speed", beforeDict["Speed"], afterDict["Speed"]),
+                ("Intelligence", beforeDict["Intelligence"], afterDict["Intelligence"]),
+                ("Faith", beforeDict["Faith"], afterDict["Faith"]),
+                ("Voice", beforeDict["Voice"], afterDict["Voice"]),
+                ("Luck", beforeDict["Luck"], afterDict["Luck"]),
+            ]
+            longest_display_length = 1 + max(
+                [
+                    len(f"{beforeCount} -> {afterCount}")
+                    for _, beforeCount, afterCount in levelData
+                ]
+            )
+            longest_label_length = max(len(label) for label, _, _, in levelData)
+
+            for label, beforeCount, afterCount in levelData:
+
+                bar = '▏' * beforeCount
+                barNum = f'{beforeCount}'
+                increase = afterCount - beforeCount
+                if increase:
+                    barNum += f" -> {afterCount}"
+                    bar += '#' * increase
+
+                barNum += ' ' * (longest_display_length - len(barNum))
+
+                print(f'{label.rjust(longest_label_length)} ▏ {barNum} {bar}')
 
         if self.level % 5 == 0:
             beforeTitle = self.title
