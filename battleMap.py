@@ -4982,7 +4982,32 @@ class game(object):
             if self.battleStarted < 12:
                 print("")
                 print(
-                    "After defeating the evil Beast, you travel east until you come to"
+                    "After defeating the evil Beast, the mercenary who fell off of the"
+                    " cliffside climbs back up."
+                )
+                print("He pledges his allegience to your cause.")
+                print("Pelle the Knight joins the Force!")
+                recruit = playerCharacter("Pelle", "Centaur", "Knight", False, 9)
+                self.equipOnCharacter(
+                    equipment("Spears", "Power Spear", 900, 12, 0, 1, 10, 0, 0),
+                    recruit,
+                    False,
+                )
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                self.playerCharacters.append(recruit)
+                print("")
+                print(
+                    "After crossing the mountains, you travel east until you come to"
                     " the great plains of Sikahl."
                 )
                 print(
@@ -5046,6 +5071,52 @@ class game(object):
                     ' Darksol."'
                 )
                 input("<Press enter to continue>")
+                print()
+                print("With that, General Sohorn bids you prepare and makes his leave.")
+                print(
+                    "Two other travellers, who overheard the exchange, come forward and"
+                    " offer their help in the coming battle."
+                )
+                print("Kokichi the Sky Lord joins your force!")
+                recruit = playerCharacter("Kokichi", "Human", "Sky Lord", False, 9)
+                self.equipOnCharacter(
+                    equipment("Lances", "Steel Lance", 3000, 16, 0, 0, 12, 0, 0),
+                    recruit,
+                    False,
+                )
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                self.playerCharacters.append(recruit)
+                print()
+                print("Vankar the Knight joins your force!")
+                recruit = playerCharacter("Vankar", "Centaur", "Knight", False, 9)
+                self.equipOnCharacter(
+                    equipment("Spears", "Power Spear", 900, 12, 0, 1, 10, 0, 0),
+                    recruit,
+                    False,
+                )
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                recruit.levelUp(False)
+                self.playerCharacters.append(recruit)
+                print()
             print()
             print("The next day, some merchants approach you.")
             print("They point to the approaching Yaranguld army on the horizon.")
