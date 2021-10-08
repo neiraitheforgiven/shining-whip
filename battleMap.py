@@ -2858,13 +2858,6 @@ class battle(object):
     def getResonance(self, tile):
         return self.battleField.getResonance(tile)
 
-    def getSpellCostByName(self, unit, spellName):
-        cost = self.mpCost(spellCost[spellName][0])
-        if self.getPower(unit, "Convert Faith and Magic"):
-            return f" (cost: {cost})"
-        else:
-            return f" (cost: {cost} {spellCost[spellName][1]})"
-
     def getStat(self, unit, statName):
         return self.battleField.getStat(unit, statName)
 
@@ -3946,6 +3939,13 @@ class battleField(object):
             return -4
         else:
             return min(4, value)
+
+    def getSpellCostByName(self, unit, spellName):
+        cost = self.mpCost(unit, spellCost[spellName][0])
+        if self.getPower(unit, "Convert Faith and Magic"):
+            return f"(cost: {cost})"
+        else:
+            return f"(cost: {cost} {spellCost[spellName][1]})"
 
     def getStat(self, unit, statName):
         #  is the unit focused?
