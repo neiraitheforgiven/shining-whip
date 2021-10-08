@@ -2858,6 +2858,13 @@ class battle(object):
     def getResonance(self, tile):
         return self.battleField.getResonance(tile)
 
+    def getSpellCostByName(self, unit, spellName):
+        cost = self.mpCost(spellCost[spellName][0])
+        if self.getPower(unit, "Convert Faith and Magic"):
+            return f" (cost: {cost})"
+        else:
+            return f" (cost: {cost} {spellCost[spellName][1]})"
+
     def getStat(self, unit, statName):
         return self.battleField.getStat(unit, statName)
 
@@ -4065,7 +4072,8 @@ class battleField(object):
         spellStringAdds = []
         count = 0
         for i in unit.allowedSpells:
-            spellStringAdds.append(f"({count}) {i}")
+            cost = self.getSpellCostByName(unit, i)
+            spellStringAdds.append(f"({count}) {i} {cost}")
             count += 1
         spellString += ", ".join(spellStringAdds)
         print(spellString + ".")
@@ -5325,6 +5333,10 @@ class game(object):
         print()
         time.sleep(1.2)
         tutorial = {}
+        # heavy attacks
+        # routing
+        # class changes
+        # death
         tutorial["Flying Movement"] = [
             "Let me teach you about Flying Movement.",
             "",
@@ -5471,6 +5483,52 @@ class game(object):
             input("<Press enter to continue>")
             print()
             del self.tutorial[entry]
+
+
+spellCost = {}
+
+
+spellCost["Afflict I"] = [13, 'MP']
+spellCost["Aura I"] = [7, 'FP']
+spellCost["Aura II"] = [11, 'FP']
+spellCost["Aura III"] = [15, 'FP']
+spellCost["Aura IV"] = [20, 'FP']
+spellCost["Blaze I"] = [2, 'MP']
+spellCost["Blaze II"] = [6, 'MP']
+spellCost["Blaze III"] = [8, 'MP']
+spellCost["Blaze IV"] = [8, 'MP']
+spellCost["Bolt I"] = [8, 'MP']
+spellCost["Bolt II"] = [15, 'MP']
+spellCost["Bolt III"] = [20, 'MP']
+spellCost["Bolt IV"] = [20, 'MP']
+spellCost["Dao I"] = [8, 'MP']
+spellCost["Dao II"] = [15, 'MP']
+spellCost["Detox I"] = [3, 'FP']
+spellCost["Drain I"] = [5, 'MP']
+spellCost["Drain II"] = [12, 'MP']
+spellCost["Egress I"] = [8, 'MP']
+spellCost["Freeze I"] = [3, 'MP']
+spellCost["Freeze II"] = [7, 'MP']
+spellCost["Freeze III"] = [10, 'MP']
+spellCost["Freeze IV"] = [12, 'MP']
+spellCost["Heal I"] = [3, 'FP']
+spellCost["Heal II"] = [6, 'FP']
+spellCost["Heal III"] = [10, 'FP']
+spellCost["Heal IV"] = [20, 'FP']
+spellCost["Midas I"] = [8, 'MP']
+spellCost["Portal I"] = [21, 'MP']
+spellCost["Ninja Fire I"] = [6, 'MP']
+spellCost["Ninja Fire II"] = [10, 'MP']
+spellCost["Ninja Fire III"] = [12, 'MP']
+spellCost["Shield I"] = [12, 'FP']
+spellCost["Shield II"] = [12, 'FP']
+spellCost["Sleep I"] = [6, 'MP']
+spellCost["Sleep II"] = [6, 'MP']
+spellCost["Slow I"] = [5, 'MP']
+spellCost["Slow II"] = [20, 'MP']
+spellCost["Teleport I"] = [5, 'MP']
+spellCost["Teleport II"] = [10, 'MP']
+spellCost["Teleport III"] = [6, 'MP']
 
 
 game = game()
