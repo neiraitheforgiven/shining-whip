@@ -5341,6 +5341,7 @@ class game(object):
         # routing
         # class changes
         # death
+        # fame
         tutorial["Flying Movement"] = [
             "Let me teach you about Flying Movement.",
             "",
