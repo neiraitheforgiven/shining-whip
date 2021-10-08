@@ -3548,11 +3548,11 @@ class battleField(object):
         if self.getPower(unit, "Freeze I") and unit.mp >= self.mpCost(unit, 3):
             self.checkSpell(unit, position, "Freeze I", False, 0, 0)
         if self.getPower(unit, "Freeze II") and (unit.mp >= self.mpCost(unit, 7)):
-            self.checkSpell(unit, position, "Freeze II", False, 0, 0)
+            self.checkSpell(unit, position, "Freeze II", False, 1, 1)
         if self.getPower(unit, "Freeze III") and (unit.mp >= self.mpCost(unit, 10)):
-            self.checkSpell(unit, position, "Freeze III", False, 1, 1)
+            self.checkSpell(unit, position, "Freeze III", False, 2, 1)
         if self.getPower(unit, "Freeze IV") and (unit.mp >= self.mpCost(unit, 12)):
-            self.checkSpell(unit, position, "Freeze IV", False, 2, 1)
+            self.checkSpell(unit, position, "Freeze IV", False, 2, 0)
         if self.getPower(unit, "Heal I") and unit.fp >= self.mpCost(unit, 3):
             self.checkSpell(unit, position, "Heal I", True, 0, 0)
         if self.getPower(unit, "Heal II") and unit.fp >= self.mpCost(unit, 6):
