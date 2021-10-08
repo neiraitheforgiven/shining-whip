@@ -881,12 +881,17 @@ class battle(object):
                 print(f"{target.name} dodges the attack!")
                 self.giveExperience(unit, target, 1)
             else:
+                damage = max(strength, dex)
                 if attackType == 'critical':
                     time.sleep(2.0 / 10)
                     print("")
                     print("A Critical Attack!")
                     print("")
                     time.sleep(4.0 / 10)
+                    if self.getPower(target, "Defense: Reduced Critical Damage I"):
+                        damage *= 0.7
+                    if self.getPower(target, "Defense: Reduced Critical Damage II"):
+                        damage *= 0.7
                 elif attackType == 'normal':
                     if self.getPower(
                         unit, "Heavy Attack Instead of Normal For Ranged Tile"
@@ -895,7 +900,6 @@ class battle(object):
                         targetPos = self.battleField.getUnitPos(target)
                         if unitPos != targetPos:
                             attackType = 'heavy'
-                damage = max(strength, dex)
                 if attackType == 'heavy':
                     time.sleep(2.0 / 10)
                     print("")
