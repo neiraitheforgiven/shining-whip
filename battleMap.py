@@ -961,7 +961,7 @@ class battle(object):
                         unit, f"{unit.equipment.type}: Attacking Adds Focus"
                     ):
                         unit.focus = min(
-                            3000, unit.focus + (damage * unit.getStat("Focus"))
+                            3000, unit.focus + (damage * self.getStat(unit, "Focus"))
                         )
                 if i == 0:
                     if self.getPower(unit, "Jump Attack"):
