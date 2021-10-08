@@ -3962,6 +3962,17 @@ class battleField(object):
         stat = math.ceil(stat * fameBonus * focusBonus)
         if statName == "Dexterity" and "Slowed" in unit.status:
             stat = min(1 * fameBonus * focusBonus, stat - 15)
+        if statName == "Luck":
+            if self.getPower(unit, "Increased Luck When Outnumbered I"):
+                if self.alliesAtPosition(
+                    unit, self.getUnitPos(unit)
+                ) + 1 < self.enemiesAtPosition(unit, self.getUnitPos(unit)):
+                    stat = math.ceil(stat * 1.3)
+            if self.getPower(unit, "Increased Luck When Outnumbered II"):
+                if self.alliesAtPosition(
+                    unit, self.getUnitPos(unit)
+                ) + 1 < self.enemiesAtPosition(unit, self.getUnitPos(unit)):
+                    stat = math.ceil(stat * 1.3)
         return stat
 
     def getUnitPos(self, unit):
