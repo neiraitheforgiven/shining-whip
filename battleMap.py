@@ -736,16 +736,19 @@ class battle(object):
                             f"({count}) {unit.name} the Level {unit.level} {unit.title}"
                         )
                         count += 1
-                    fromCount = 0
-                    toCount = 0
+                    count = 0
                     for optionStringBit in optionStringAdds:
-                        toCount += 1
-                        if toCount % 6 == 0:
-                            optionString = ", ".join(
-                                optionStringAdds[fromCount:toCount]
-                            )
-                            print(optionString)
-                            fromCount = toCount
+                        count += 1
+                        if optionString:
+                            if len(optionString + f", {optionStringBit}") > 199:
+                                print(optionString)
+                                optionString = optionStringBit
+                            else:
+                                optionString += f", {optionStringBit}"
+                        else:
+                            optionString = optionStringBit
+                    else:
+                        print(optionString)
 
                     unitChoice = input(
                         "Type a number to choose a character to join "
