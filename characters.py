@@ -565,7 +565,10 @@ class playerCharacter(object):
             print("")
 
     def assignPower(self, nameOfPower, chatter=False):
-        if nameOfPower not in ("Swords: Attacking Adds Focus"):
+        if (
+            nameOfPower not in ("Swords: Attacking Adds Focus")
+            or " Increased Damage I" not in nameOfPower
+        ):
             # check for power implementation as best as possible
             bmFile = open("battleMap.py", "r")
             if not any(nameOfPower in line for line in bmFile):
