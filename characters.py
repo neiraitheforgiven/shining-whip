@@ -151,7 +151,7 @@ class monster(object):
             self.powers.append("Defense: Fire Defense")
             self.powers.append("Defense: Magic")
             self.powers.append("Kills Restore Health")
-            self.powers.append("Luck: Increased Dodge I")
+            self.powers.append("Luck: Dodge Chance Up I")
         elif name == "Giant Bat":
             self.level = 5
             stats = {
@@ -826,7 +826,7 @@ class playerCharacter(object):
                     "Attack: Bonus Move",
                     "Axes: Bonus Damage II",
                     "Charm instead of Rout",
-                    "Luck: Increased Dodge I",
+                    "Luck: Dodge Chance Up I",
                     "Focused Attacks Rout",
                 ]
             elif "Bard" in title:
@@ -1000,9 +1000,9 @@ class playerCharacter(object):
                     "Quick Shot",
                     "Begin Battle With Rank 2 Focus",
                     "Daggers: Add Effect: Poison",
-                    "Luck: Increased Dodge I",
-                    "Luck: Increased Dodge II",
-                    "Luck: Increased Dodge III",
+                    "Luck: Dodge Chance Up I",
+                    "Luck: Dodge Chance Up II",
+                    "Luck: Dodge Chance Up III",
                     "Luck: Dodge Grants Counterattack",
                 ]
             elif (
@@ -1134,9 +1134,9 @@ class playerCharacter(object):
                     "Flying Movement",
                     "Extra Damage to Single Target",
                     "Luck: Counterattack",
-                    "Luck: Increased Dodge I",
+                    "Luck: Dodge Chance Up I",
                     "Swords: Increased Luck II",
-                    "Luck: Increased Dodge II",
+                    "Luck: Dodge Chance Up II",
                     "Movement: Ignore Enemies",
                     "Swords: Increased Luck III",
                 ]
@@ -1146,9 +1146,9 @@ class playerCharacter(object):
                     "Heavy / Critical Attack Destroys Focus",
                     "Lances: Movement Increases Strength Damage I",
                     "Lances: Increased Damage I",
-                    "Luck: Increased Dodge I",
+                    "Luck: Dodge Chance Up I",
                     "Lances: Increased Luck I",
-                    "Luck: Increased Dodge II",
+                    "Luck: Dodge Chance Up II",
                     "Dodge: Add Speed I",
                 ]
             elif "Soldier" in title:
@@ -1192,7 +1192,7 @@ class playerCharacter(object):
                 listOfPowers = [
                     "Defense: Magic",
                     "Focus: Increase Healing",
-                    "Luck: Increased Dodge I",
+                    "Luck: Dodge Chance Up I",
                     "Flying Movement",
                     "Defense: Magic II",
                     "Unarmed Attack: Fire Element",
