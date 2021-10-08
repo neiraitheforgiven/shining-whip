@@ -665,9 +665,10 @@ class battle(object):
                     leaderString = ''
                     leaderStringAdds = []
                     count = 0
-                    for leader in sorted(
+                    leaders = sorted(
                         leaders, key=lambda leader: (leader.level, leader.title)
-                    ):
+                    )
+                    for leader in leaders:
                         leaderStringAdds.append(
                             f"({count}) {leader.name} the Level {leader.level}"
                             f" {leader.title}"
@@ -716,7 +717,10 @@ class battle(object):
                             leaderChoice = None
             while len(currentParty) < maxPartySize:
                 unitChoice = None
-                partyOptions = [unit for unit in party if unit not in currentParty]
+                partyOptions = sorted(
+                    [unit for unit in party if unit not in currentParty],
+                    key=lambda unit: (unit.level, unit.title),
+                )
                 print("Who will join the party?")
                 while unitChoice not in (
                     [partyOptions.index(option) for option in partyOptions],
@@ -727,9 +731,7 @@ class battle(object):
                     optionString = ''
                     optionStringAdds = []
                     count = 0
-                    for unit in sorted(
-                        partyOptions, key=lambda unit: (unit.level, unit.title)
-                    ):
+                    for unit in partyOptions:
                         optionStringAdds.append(
                             f"({count}) {unit.name} the Level {unit.level} {unit.title}"
                         )
