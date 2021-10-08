@@ -5213,7 +5213,7 @@ class game(object):
                     currentFaith = unit.equipment.fp
                     currentMagic = unit.equipment.mp
                 else:
-                    currentDamage = 0
+                    currentDamage = math.ceil(unit.skills["Unarmed Attack"] / 2)
                     currentFaith = 0
                     currentMagic = 0
                 if equipment.damage != currentDamage:
