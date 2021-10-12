@@ -1246,11 +1246,11 @@ class playerCharacter(object):
             elif "Werewolf" in title:
                 listOfPowers = [
                     "Jump Attack",
-                    "Unarmed Attack: Increased Damage I",
                     "Rout: Pursuit Attack",
+                    "Forest Movement",
                     "Unarmed Attack: Increased Damage II",
-                    "Unarmed Attack: Ice Element",
-                    "Unarmed Attack: Added Effect: Curse",
+                    "Fame Increase with Kills",
+                    "Unarmed Attack: Cursed Ice",
                     "Rout: Follow-up Attack",
                     "Stealthy Movement",
                 ]
