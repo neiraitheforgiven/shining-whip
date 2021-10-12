@@ -2292,9 +2292,9 @@ class battle(object):
                 if vocalEnabled:
                     allowedCommands.append("V")
                     allowedCommands.append("v")
-            if not bufferedCommands:
+            while not bufferedCommands:
                 self.printCommandList(unit, allowedCommands)
-            bufferedCommands = bufferedCommands or input()
+                bufferedCommands = bufferedCommands or input()
             command, bufferedCommands = self.bufferCommands(bufferedCommands, False)
             while command is None or command not in allowedCommands:
                 if bufferedCommands:
