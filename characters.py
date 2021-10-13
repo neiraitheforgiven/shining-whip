@@ -46,6 +46,7 @@ class monster(object):
         self.boss = False
         self.extraPowerSlot = []
         self.extraPowerSlot2 = []
+        self.delay = None
         if name == "Artillery":
             self.level = 13
             stats = {"Dexterity": 14, "Stamina": 7, "Speed": 6, "Strength": 15}

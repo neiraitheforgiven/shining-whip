@@ -1985,18 +1985,20 @@ class battle(object):
             target = random.choice(monster.allowedAttacks)
             self.attack(monster, target)
         elif monster.attackProfile == "ScreamingBeast":
-            if monster.focusTime == 0:
+            if monster.delay is None:
+                monster.delay = 5
+            if monster.delay > 0:
                 print(f" {monster.name} sucks in a tremendous breath!")
-                if monster.focus > 2525:
+                if monster.delay == 1:
                     print(f" {monster.name}'s body is FULLY INFLATED!!")
-                elif monster.focus > 2100:
+                elif monster.delay > 3:
                     print(f" Sections of {monster.name}'s body are inflating.")
-                elif monster.focus > 1500:
+                elif monster.focus > 1:
                     print(f" Pouches on {monster.name}'s neck are inflating.")
+                monster.delay -= 1
             else:
                 self.doVocalScreamAttack(monster, 0)
-                monster.focusTime = 0
-                monster.focus = 1500
+                monster.delay = 5
         elif monster.attackProfile == "Singer":
             if monster.allowedAttacks:
                 if field.checkVocal(monster):
