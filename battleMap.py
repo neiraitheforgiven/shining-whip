@@ -805,6 +805,7 @@ class battle(object):
     def attack(self, unit, target, pursuitAttack=False):
         bf = self.battleField
         counterattack = False
+        damageType = None
         poisonEnemy = False
         routEnemy = False
         targetStunned = False
@@ -1024,7 +1025,9 @@ class battle(object):
                         )
                 damage = max(damage, 1)
                 damage = min(damage, target.hp)
-                print(f"{unit.name} deals {damage} damage to {target.name}!")
+                if element:
+                    element += " "
+                print(f"{unit.name} deals {damage} {element}damage to {target.name}!")
                 if attackType == 'critical':
                     if not self.getPower(target, "No Loss Of Focus From Enemy Attacks"):
                         if self.getPower(
