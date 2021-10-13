@@ -1181,6 +1181,12 @@ class battle(object):
 
     def battleOn(self):
         if self.game.battleStatus == 'victory':
+            print()
+            time.sleep(0.6)
+            if input("<Press enter to continue>"):
+                pass
+            print()
+            self.game.battleStatus = 'victory'
             return False
         if self.egressing:
             self.game.battleStatus = 'egress'
@@ -1986,16 +1992,16 @@ class battle(object):
             self.attack(monster, target)
         elif monster.attackProfile == "ScreamingBeast":
             if monster.delay is None:
-                monster.delay = 5
+                monster.delay = 4
             if monster.delay > 0:
                 print(f" {monster.name} sucks in a tremendous breath!")
                 if monster.delay == 1:
                     print(f" {monster.name}'s body is FULLY INFLATED!!")
-                elif monster.focus > 3:
+                elif monster.focus > 2:
                     print(f" Pouches on {monster.name}'s neck are inflating.")
                 elif monster.delay > 1:
                     print(f" Sections of {monster.name}'s body are inflating.")
-                monster.delay -= 1
+                monster.delay -= 4
             else:
                 self.doVocalScreamAttack(monster, 0)
                 monster.delay = 5
@@ -2924,14 +2930,14 @@ class battle(object):
                 print(
                     f"The wicked {target.name} finally falls, slain "
                     f"by {killer.name}. {killer.name}'s name quickly "
-                    "becomes a favorite tale of skalds and minstrels. "
+                    "becomes a favorite in the mouths of skalds and minstrels. "
                 )
                 print("You are victorious!")
-                self.battleStatus = 'victory'
+                self.game.battleStatus = 'victory'
             else:
                 self.party[0].fame += 1
                 print(f"The monstrous {target.name} finally falls. You are victorious!")
-                self.battleStatus = 'victory'
+                self.game.battleStatus = 'victory'
         del target
         time.sleep(7.0 / 10)
         return
