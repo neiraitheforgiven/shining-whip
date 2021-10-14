@@ -1026,7 +1026,7 @@ class battle(object):
                 damage = max(damage, 1)
                 damage = min(damage, target.hp)
                 if element:
-                    element += " "
+                    element = element.lower() + " "
                 else:
                     element = ""
                 print(f"{unit.name} deals {damage} {element}damage to {target.name}!")
