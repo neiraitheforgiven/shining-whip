@@ -3434,7 +3434,7 @@ class battleField(object):
             maxRange = 0
             if self.getPower(unit, "Wind Fists: Unarmed Range and Wind"):
                 maxRange += 1
-        if type(unit) == monster:
+        if type(unit) == monster and unit.attackProfile == "Spellcaster":
             if self.getPower(unit, "Blaze II") or (self.getPower(unit, "Freeze III")):
                 minRange = max(0, minRange)
                 maxRange = max(1, minRange)
