@@ -1185,7 +1185,7 @@ class playerCharacter(object):
             elif "Steam Knight" in title:
                 listOfPowers = [
                     "Defense: Reduced Critical Damage I",
-                    "Increase Defense When Focus Full",
+                    "Increase Stats When Focus Full",
                     "Focus: Double Strength Increase",
                     "Defense: Reduced Critical Damage II",
                     "Lances: Increased Critical Chance I",

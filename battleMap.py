@@ -3983,6 +3983,9 @@ class battleField(object):
         stat = unit.stats[statName]
         fameBonus = self.getFameBonus(unit)
         stat = math.ceil(stat * fameBonus * focusBonus)
+        if self.getPower(unit, "Increase Stats When Focus Full"):
+            if self.getFocusRank(unit) == 4:
+                stat = math.ceil(stat * 1.3)
         if statName == "Dexterity" and "Slowed" in unit.status:
             stat = min(1 * fameBonus * focusBonus, stat - 15)
         if statName == "Luck":
