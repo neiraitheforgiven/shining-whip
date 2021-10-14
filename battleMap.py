@@ -5148,7 +5148,7 @@ class game(object):
                     ],
                     18,
                 )
-            self.shop.goShopping()
+            self.shop.goShopping(self)
             self.battleStarted = 12
             self.save()
             self.party = self.playerCharacters
