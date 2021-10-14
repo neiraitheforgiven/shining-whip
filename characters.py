@@ -769,10 +769,16 @@ class playerCharacter(object):
         return improvedSkills
 
     def getPower(self, title, chatter=False):
-        if "Mounted" in title and "Mounted Movement" not in self.powers:
-            return "Mounted Movement"
-        elif "Sky" in self.title and "Flying Movement" not in self.powers:
-            return "Flying Movement"
+        if "Mounted" in title:
+            if "Mounted Movement" not in self.powers:
+                return "Mounted Movement"
+            else:
+                title = title - "Mounted "
+        elif "Sky" in self.title:
+            if "Flying Movement" not in self.powers:
+                return "Flying Movement"
+            else:
+                title = title - "Sky "
         else:
             listOfPowers = []
             if "Alchemist" in title:
@@ -1156,7 +1162,7 @@ class playerCharacter(object):
                 listOfPowers = [
                     "No Loss Of Focus From Enemy Attacks",
                     "Receive Command Distance +1",
-                    "Focues: Range +1",
+                    "Focus: Range +1",
                     "Defense: Physical I",
                     "Attack: Lightning Element",
                     "Whirlwind Attack",
