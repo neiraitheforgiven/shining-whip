@@ -2002,7 +2002,7 @@ class battle(object):
                 print(f" {monster.name} sucks in a tremendous breath!")
                 if monster.delay == 1:
                     print(f" {monster.name}'s body is FULLY INFLATED!!")
-                elif monster.focus > 2:
+                elif monster.delay > 2:
                     print(f" Pouches on {monster.name}'s neck are inflating.")
                 elif monster.delay > 1:
                     print(f" Sections of {monster.name}'s body are inflating.")
