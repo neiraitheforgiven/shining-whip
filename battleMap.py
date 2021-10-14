@@ -626,6 +626,8 @@ class battle(object):
                 unit.resonating = []
                 unit.extraPowerSlot = None
                 unit.extraPowerSlot2 = None
+                if type(unit) == monster:
+                    unit.delay = None
             self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
