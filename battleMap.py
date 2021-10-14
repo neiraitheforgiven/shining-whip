@@ -626,6 +626,8 @@ class battle(object):
                 unit.resonating = []
                 unit.extraPowerSlot = None
                 unit.extraPowerSlot2 = None
+                if type(unit) == monster:
+                    unit.delay = None
             self.determineStartingInitiative()
             self.game.battleStatus = 'ongoing'
             while self.battleOn():
@@ -2004,7 +2006,7 @@ class battle(object):
                     print(f" Pouches on {monster.name}'s neck are inflating.")
                 elif monster.delay > 1:
                     print(f" Sections of {monster.name}'s body are inflating.")
-                monster.delay -= 4
+                monster.delay -= 1
             else:
                 self.doVocalScreamAttack(monster, 0)
                 monster.delay = 5
