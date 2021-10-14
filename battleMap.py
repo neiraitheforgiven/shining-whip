@@ -2398,7 +2398,8 @@ class battle(object):
                 if unit.bleedTime > 0:
                     self.bleed(unit)
                 if self.getPower(unit, "Attack: Bonus Move"):
-                    self.doTurn(unit, moved, statusChecked, True, bufferedCommands)
+                    if not moved:
+                        self.doTurn(unit, moved, statusChecked, True, bufferedCommands)
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
