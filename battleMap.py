@@ -1027,6 +1027,8 @@ class battle(object):
                 damage = min(damage, target.hp)
                 if element:
                     element += " "
+                else:
+                    element = ""
                 print(f"{unit.name} deals {damage} {element}damage to {target.name}!")
                 if attackType == 'critical':
                     if not self.getPower(target, "No Loss Of Focus From Enemy Attacks"):
