@@ -566,19 +566,18 @@ class playerCharacter(object):
             print("")
 
     def assignPower(self, nameOfPower, chatter=False):
-        if (
-            nameOfPower not in ("Swords: Attacking Adds Focus")
-            or " Increased Damage " not in nameOfPower
-        ):
-            # check for power implementation as best as possible
-            bmFile = open("battleMap.py", "r")
-            if not any(nameOfPower in line for line in bmFile):
-                print()
-                print(
-                    f"Warning: the power {nameOfPower} has not been implemented yet."
-                    " Let Neirai the Forgiven know to get his lazy ass in gear!"
-                )
-                print()
+        if nameOfPower != "Swords: Attacking Adds Focus":
+            if " Increased Damage " not in nameOfPower:
+                # check for power implementation as best as possible
+                bmFile = open("battleMap.py", "r")
+                if not any(nameOfPower in line for line in bmFile):
+                    print()
+                    print(
+                        f"Warning: the power {nameOfPower} has not been implemented"
+                        " yet. Let Neirai the Forgiven know to get his lazy ass in"
+                        " gear!"
+                    )
+                    print()
         self.powers.append(nameOfPower)
         if chatter:
             print(f"{self.name} learned {nameOfPower}!")
@@ -773,12 +772,12 @@ class playerCharacter(object):
             if "Mounted Movement" not in self.powers:
                 return "Mounted Movement"
             else:
-                title = title - "Mounted "
+                title = title.replace("Mounted ", "")
         elif "Sky" in self.title:
             if "Flying Movement" not in self.powers:
                 return "Flying Movement"
-            else:
-                title = title - "Sky "
+            elif "Sky Battler" not in self.title and "Sky Lord" not in self.title:
+                title = title.replace("Sky ", "")
         else:
             listOfPowers = []
             if "Alchemist" in title:
