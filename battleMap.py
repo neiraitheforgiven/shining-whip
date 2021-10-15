@@ -633,6 +633,8 @@ class battle(object):
             while self.battleOn():
                 self.roundCount += 1
                 self.doRound()
+            else:
+                input("<Press enter to continue>")
 
     def addResonance(self, unit, tile, area=1):
         tileIndex = self.battleField.terrainArray.index(tile)
@@ -1190,9 +1192,6 @@ class battle(object):
         if self.game.battleStatus == 'victory':
             print()
             time.sleep(0.6)
-            if input("<Press enter to continue>"):
-                pass
-            print()
             self.game.battleStatus = 'victory'
             return False
         if self.egressing:
@@ -1225,9 +1224,6 @@ class battle(object):
                     print("You are victorious!")
                     print()
                     time.sleep(0.6)
-                    if input("<Press enter to continue>"):
-                        pass
-                    print()
                     self.game.battleStatus = 'victory'
                 return False
         else:
@@ -1239,9 +1235,6 @@ class battle(object):
                 time.sleep(1.2)
                 self.game.battleStatus = 'defeat'
                 print("A priest managed to recall your soul from the grave.")
-                print()
-                if input("<Press enter to continue>"):
-                    pass
                 print()
             return False
 
