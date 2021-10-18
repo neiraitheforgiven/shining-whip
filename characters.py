@@ -692,10 +692,16 @@ class playerCharacter(object):
         return improvedSkills
 
     def getPower(self, title, chatter=False):
-        if "Mounted" in title and "Mounted Movement" not in self.powers:
-            return "Mounted Movement"
-        elif "Sky" in self.title and "Flying Movement" not in self.powers:
-            return "Flying Movement"
+        if "Mounted" in title:
+            if "Mounted Movement" not in self.powers:
+                return "Mounted Movement"
+            else:
+                title = title.replace("Mounted ", "")
+        elif "Sky" in self.title:
+            if "Flying Movement" not in self.powers:
+                return "Flying Movement"
+            elif "Sky Battler" not in self.title and "Sky Lord" not in self.title:
+                title = title.replace("Sky ", "")
         else:
             listOfPowers = []
             if "Alchemist" in title:
@@ -1188,6 +1194,8 @@ class playerCharacter(object):
                     "Freeze IV",
                     "Bolt II",
                 ]
+            else:
+                print(f"Error: Class title {title} not found it list.")
             for power in listOfPowers:
                 if not any(
                     [knownPower for knownPower in self.powers if power in knownPower]
@@ -1915,7 +1923,9 @@ class playerCharacter(object):
 
     def upSkill(self):
         for skill in self.skills:
-            if self.getPower(f"Equip: {skill}"):
+            # Really, this is the only power you should not check for command
+            # so doing it this was should be fine.
+            if f"Equip: {skill}" in self.powers:
                 self.skills[skill] += 1
         skills = self.getSkills(self.title)
         for skill in skills:
