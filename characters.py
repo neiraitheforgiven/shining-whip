@@ -1743,7 +1743,7 @@ class playerCharacter(object):
                 f" afterDecororated: {afterDecorated}"
             )
             oldProposedPower = self.getPower(beforeTitle, chatter)
-            newProposedPower = self.getPower(afterDecorated, chatter)
+            newProposedPower = self.getPower(afterTitle, chatter)
             if afterTitle != beforeTitle:
                 if afterDecorated != beforeTitle:
                     if not chatter:
