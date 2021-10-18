@@ -10,7 +10,7 @@ import shelve
 import time
 
 #  import traceback
-#  wants: preferred weapon, attack type prediction, attack script modulation
+#  wants: preferred weapon, attack type prediction, attack script modulation, copy saves
 
 
 class battle(object):
