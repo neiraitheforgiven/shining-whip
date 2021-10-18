@@ -778,524 +778,523 @@ class playerCharacter(object):
                 return "Flying Movement"
             elif "Sky Battler" not in self.title and "Sky Lord" not in self.title:
                 title = title.replace("Sky ", "")
+        listOfPowers = []
+        if "Alchemist" in title:
+            listOfPowers = [
+                "Random Additional Spell I",
+                "Convert Faith and Magic",
+                "Heal I",
+                "Defense: Being Routed Deals Fire Damage",
+                "Attack: Chance of Confusion",
+                "Defense: Being Routed Adds Silence",
+                "Random Additional Spell II",
+                "Conduit I",
+            ]
+        elif "Archer" in title:
+            listOfPowers = [
+                "Begin Battle With Rank II Focus",
+                "Quick Shot",
+                "Increased Terrain Advantage I",
+                "Arrows: Increased Damage I",
+                "Aimed Shot",
+                "Arrows: Add Effect: Poison",
+                "Luck: Enable Triple Attack",
+                "Arrows: Range + 1",
+            ]
+        elif "Archmage" in title:
+            listOfPowers = [
+                "Bolt I",
+                "Blaze I",
+                "Freeze I",
+                "Teleport I",
+                "Bolt II",
+                "Bolt III",
+                "Death I",
+                "Bolt IV",
+            ]
+        elif "Assassin" in title:
+            listOfPowers = [
+                "Attack: Bonus Move",
+                "Sleep I",
+                "Stealthy Movement",
+                "Death I",
+                "Shield I",
+                "Death II",
+                "Prevent Counterattack",
+                "Luck: Critical Hit Adds Silence",
+            ]
+        elif "Banshee" in title:
+            listOfPowers = [
+                "Attacking Adds Resonance",
+                "Kills Increase Focus",
+                "Axes: Bonus Damage I",
+                "Attack: Bonus Move",
+                "Axes: Bonus Damage II",
+                "Charm instead of Rout",
+                "Luck: Dodge Chance Up I",
+                "Focused Attacks Rout",
+            ]
+        elif "Bard" in title:
+            listOfPowers = [
+                "Blaze I",
+                "Free Spell After Critical",
+                "Surge I",
+                "Luck: Critical Chance Up I",
+                "Dao I",
+                "Apollo I",
+                "Sing While Casting",
+                "Command: MP Regeneration",
+            ]
+        elif "Baron" in title:
+            listOfPowers = [
+                "Swords: Increased Damage I",
+                "Command: Luck: Counterattack",
+                "Luck: Reverse Death",
+                "Command: Allies Increase Defense",
+                "Luck: Critical Drain I",
+                "Aimed Shot",
+                "Death II",
+                "Luck: Critical Drain II",
+            ]
+        elif "Berserker" in title:
+            listOfPowers = [
+                "Increased Heavy Damage I",
+                "Unhindered Movement",
+                "Unarmed Attack: Rout Deals Damage",
+                "Increased Heavy Damage II",
+                "Axes: Lost Health Adds Damage I",
+                "Increased Heavy Damage III",
+                "Axes: Increased Critical Chance I",
+                "Axes: Increased Critical Chance II",
+            ]
+        elif "Bishop" in title:
+            listOfPowers = [
+                "Aura I",
+                "Shield I",
+                "Staffs: Ranged Lightning Damage",
+                "Aura II",
+                "Aura III",
+                "Focus: Magic AOE Doubled",
+                "Aura IV",
+                "Command: Fill Focus If Ally Dies",
+            ]
+        elif "Blood Mage" in title:
+            listOfPowers = [
+                "Drain I",
+                "Poison I",
+                "Essence I",
+                "Drain II",
+                "Muddle I",
+                "Death I",
+                "Physical Attack: Essence",
+                "Poison II",
+            ]
+        elif "Cantor" in title:
+            listOfPowers = [
+                "Vocal Attack: Ignore Movement",
+                "Mounted Movement",
+                "Vocal Attack Causes Feedback Bleed",
+                "Vocal Attack: Sustain Effect",
+                "Unholy Ground Adds Focus",
+                "Unholy: Increased Resistance I",
+                "Luck: Vocal Attack Bleed Chance",
+                "Rout: Add Effect: Silence",
+            ]
+        elif "Catechumen" in title:
+            listOfPowers = [
+                "Unarmed Attack: Vocal Cascade I",
+                "Movement: Holy Ground Increase I",
+                "Holy Ground Increases Focus I",
+                "Unarmed Attack: Vocal Cascade II",
+                "Movement: Holy Ground Increase II",
+                "Gain Regeneration on Holy Ground",
+                "Holy Ground Increases Focus II",
+                "Unarmed Attack: Vocal Cascade III",
+            ]
+        elif "Channeler" in title:
+            listOfPowers = [
+                "Surge I",
+                "Counterspell",
+                "Silence I",
+                "Surge II",
+                "Silence II",
+                "Surge III",
+                "Silence II",
+                "Surge IV",
+            ]
+        elif "Dark Mage" in title:
+            listOfPowers = [
+                "Blaze I",
+                "Freeze I",
+                "Defense: Magic",
+                "Blaze II",
+                "Death I",
+                "Freeze II",
+                "Death II",
+                "Bolt I",
+            ]
+        elif "Druid" in title:
+            listOfPowers = [
+                "Stealthy Movement",
+                "Defense: Increased Resistance I",
+                "Detox I",
+                "Blast I",
+                "Conduit I",
+                "Blast II",
+                "Defense: Increased Resistance II",
+                "Blast III",
+            ]
+        elif "Duelist" in title:
+            listOfPowers = [
+                "Swords: Increased Luck I",
+                "Luck: Counterattack",
+                "Defense: Swords I",
+                "Challenge to Duel",
+                "Swords: Increased Luck II",
+                "Luck: Dodge Grants Counterattack",
+                "Swords: Increased Luck III",
+                "Luck: Counterattack First",
+            ]
+        elif "Flamecaster" in title:
+            listOfPowers = [
+                "Blaze I",
+                "Magic: Cost Reduction I",
+                "Sleep I",
+                "Blaze II",
+                "Counterspell",
+                "Blaze III",
+                "Magic: Increased Damage I",
+                "Blaze IV",
+            ]
+        elif "Gambler" in title:
+            listOfPowers = [
+                "Increased Luck When Outnumbered I",
+                "Luck: Dodge Chance Up I",
+                "Luck: Dodge Grants Counterattack",
+                "Stealthy Movement",
+                "Increased Luck When Outnumbered II",
+                "Luck: Reverse Death",
+                "Luck: Dodge Chance Up I",
+                "Luck: Dodge Chance Up II",
+            ]
+        elif "Heavy Shot" in title:
+            listOfPowers = [
+                "Heavy Attack Instead of Normal For Ranged Tile",
+                "Gain Focus When Stationary",
+                "Unhindered Movement",
+                "Brass Guns: Critical Damage I",
+                "Defense: Physical I",
+                "Brass Guns: Critical Damage II",
+                "Defense: Physical II",
+                "Brass Guns: Minumum Range - 1",
+            ]
+        elif "Hero" in title:
+            listOfPowers = [
+                "Egress I",
+                "Swords: Increased Luck I",
+                "Bolt I",
+                "Luck: Counterattack",
+                "Bolt II",
+                "Magic: Cost Reduction I",
+                "Bolt III",
+                "Swords: Increased Luck II",
+            ]
+        elif "Jongleur" in title:
+            listOfPowers = [
+                "Luck: Enable Triple Attack",
+                "Quick Shot",
+                "Begin Battle With Rank 2 Focus",
+                "Daggers: Add Effect: Poison",
+                "Luck: Dodge Chance Up I",
+                "Luck: Dodge Chance Up II",
+                "Luck: Dodge Chance Up III",
+                "Luck: Dodge Grants Counterattack",
+            ]
+        elif (
+            "Knight" in title
+            and "Mage Knight" not in title
+            and "Steam Knight" not in title
+        ):
+            listOfPowers = [
+                "Mounted Movement",
+                "Unholy: Increased Resistance I",
+                "Lances: Movement Increases Strength Damage I",
+                "Spears: Increased Damage I",
+                "Rout: Pursuit Attack",
+                "Defense: Increased vs Ranged Attacks I",
+                "Add Damage on Unholy Ground",
+                "Challenge to Duel",
+            ]
+        elif "Mage Knight" in title:
+            listOfPowers = [
+                "Blaze I",
+                "Mounted Movement",
+                "Unholy: Increased Resistance I",
+                "Freeze I",
+                "Lance: Attack adds Magic Vulnerability",
+                "Bolt I",
+                "Faith: Add Damage on Unholy Ground",
+                "Defense: Dark Magic II",
+            ]
+        elif "Monk" in title:
+            listOfPowers = [
+                "Heal I",
+                "Faith: Add Damage on Holy Ground I",
+                "Heal II",
+                "Heal III",
+                "Faith: Add Damage on Holy Ground II",
+                "Heal IV",
+                "Silence I",
+                "Aura I",
+            ]
+        elif "Ninja" in title:
+            listOfPowers = [
+                "Daggers: Range +1",
+                "Ninja Fire I",
+                "Luck: Counterattack",
+                "Focus: Free Spells",
+                "Stealthy Movement",
+                "Ninja Bolt I",
+                "Ninja Fire II",
+                "Ninja Bolt II",
+            ]
+        elif "Oracle" in title:
+            listOfPowers = [
+                "Vocal Attack: Chance of Double Attack",
+                "Deafening Voice",
+                "Focus: Improve Luck I",
+                "Essence I",
+                "Seal Resistance",
+                "Focus: Improve Luck II",
+                "Detox I",
+                "Physical Attack: Essence",
+            ]
+        elif "Orator" in title:
+            listOfPowers = [
+                "Shield I",
+                "Vocal Attack: Increased Area I",
+                "Command: Holy Ground adds Defense",
+                "Focus: Overcome the Darkness",
+                "Command: Holy Ground Adds Focus",
+                "Vocal Attack: Increased Area II",
+                "Shield II",
+                "Vocal Attack: Sustain Effect",
+            ]
+        elif "Peregrine" in title:
+            listOfPowers = [
+                "Wind Fists: Unarmed Range and Wind",
+                "Purifying Strike",
+                "Pure of Heart: Status Immune",
+                "Dispel I",
+                "Defense: Fire I",
+                "Silence I",
+                "Luck: Reverse Death",
+                "Diving Strike",
+            ]
+        elif "Priest" in title:
+            listOfPowers = [
+                "Heal I",
+                "Detox I",
+                "Heal II",
+                "Healing Magic: Increased Range I",
+                "Heal III",
+                "Healing Magic: Reduced Cost I",
+                "Heal IV",
+                "Healing Magic: Additional Effect: Bonus Turn",
+            ]
+        elif "Prophet" in title:
+            listOfPowers = [
+                "Heal I",
+                "Heal II",
+                "Slow I",
+                "Heal III",
+                "Aura I",
+                "Vocal Attack: Heal Allies",
+                "Heal IV",
+                "Aura II",
+            ]
+        elif "Samurai" in title:
+            listOfPowers = [
+                "Swords: Attacking Adds Focus",
+                "Increased Damage I",
+                "Swords: Fire Element",
+                "Defense: Melee I",
+                "Swords: Increased Damage II",
+                "Boost I",
+                "Swords: Increased Damage III",
+                "Swords: Increased Damage IV",
+            ]
+        elif "Scholar" in title:
+            listOfPowers = [
+                "Sleep I",
+                "Magic: Cost Reduction I",
+                "Muddle I",
+                "Silence I",
+                "Magic: All Spells +1 Rank",
+                "Focus: Effects Always Hit",
+                "Petrify I",
+            ]
+        elif "Sky Battler" in title:
+            listOfPowers = [
+                "Flying Movement",
+                "Extra Damage to Single Target",
+                "Luck: Counterattack",
+                "Luck: Dodge Chance Up I",
+                "Swords: Increased Luck II",
+                "Luck: Dodge Chance Up II",
+                "Movement: Ignore Enemies",
+                "Swords: Increased Luck III",
+            ]
+        elif "Sky Lord" in title:
+            listOfPowers = [
+                "Flying Movement",
+                "Heavy / Critical Attack Destroys Focus",
+                "Lances: Movement Increases Strength Damage I",
+                "Lances: Increased Damage I",
+                "Luck: Dodge Chance Up I",
+                "Lances: Increased Luck I",
+                "Luck: Dodge Chance Up II",
+                "Dodge: Add Speed I",
+            ]
+        elif "Soldier" in title:
+            listOfPowers = [
+                "No Loss Of Focus From Enemy Attacks",
+                "Receive Command Distance +1",
+                "Focus: Range +1",
+                "Defense: Physical I",
+                "Attack: Lightning Element",
+                "Whirlwind Attack",
+                "Kills Increase Focus",
+                "Defense: Area Spells",
+            ]
+        elif "Sorceror" in title:
+            listOfPowers = [
+                "Dao I",
+                "Apollo I",
+                "Dao II",
+                "Apollo II",
+                "Poseidon I",
+                "Atlas I",
+                "Poseidon II",
+                "Atlas II",
+            ]
+        elif "Squire" in title:
+            listOfPowers = ["Equip: Swords"]
+        elif "Steam Knight" in title:
+            listOfPowers = [
+                "Defense: Reduced Critical Damage I",
+                "Increase Stats When Focus Full",
+                "Focus: Double Strength Increase",
+                "Defense: Reduced Critical Damage II",
+                "Lances: Increased Critical Chance I",
+                "Unhindered Movement",
+                "Lances: Increased Critical Chance II",
+                "Magic Damage Taken Increases Focus",
+            ]
+        elif "Student" in title:
+            listOfPowers = ["Blaze I"]
+        elif "Survivor" in title:
+            listOfPowers = [
+                "Defense: Magic",
+                "Focus: Increase Healing",
+                "Luck: Dodge Chance Up I",
+                "Flying Movement",
+                "Defense: Magic II",
+                "Unarmed Attack: Fire Element",
+                "Kills Increase Focus",
+                "Critical Attack: Bolt III",
+            ]
+        elif "Titan" in title:
+            listOfPowers = [
+                "Increased Heavy Damage I",
+                "Defense: Fire I",
+                "Magic Damage Taken Increases Focus",
+                "Defense: Reduced Critical Damage I",
+                "No Loss Of Focus From Enemy Attacks",
+                "Focus: Attacks Stun",
+                "Defense: Fire II",
+                "Critical: Added Effect: Muddle",
+            ]
+        elif "Trickster" in title:
+            listOfPowers = [
+                "Teleport I",
+                "Ninja Fire I",
+                "Teleport II",
+                "Ninja Bolt I",
+                "Give Vulnerability",
+                "Portal I",
+                "Teleport III",
+                "Teleport: Add Turn",
+            ]
+        elif "Valkyrie" in title:
+            listOfPowers = [
+                "Vocal Attack: Heavy Attack",
+                "Defense: Melee Attacks I",
+                "Vocal Attack: Lost Health Adds Damage I",
+                "Luck: Increased Rout I",
+                "Defense: Melee Attacks II",
+                "Vocal Attack: Heal Self",
+                "Vocal Attack: Lost Health Adds Damage II",
+                "Flying Movement",
+            ]
+        elif "Warrior" in title:
+            listOfPowers = [
+                "Defense: Melee Attacks I",
+                "Heavy Attacks Inflict Bleed",
+                "Axes: Increased Damage I",
+                "No Loss Of Focus From Enemy Attacks",
+                "Whirlwind Attack",
+                "Defense: Melee Attacks II",
+                "Rout: Follow-up Attack",
+                "Axes: Increased Damage II",
+            ]
+        elif "Werewolf" in title:
+            listOfPowers = [
+                "Jump Attack",
+                "Stealthy Movement",
+                "Rout: Pursuit Attack",
+                "Unarmed Attack: Dark Ice Claws",
+                "Fame Increase with Kills",
+                "Defense: Magic I",
+                "Increased Strength When Outnumbered I"
+                "Magic Damage Taken Increases Focus",
+            ]
+        elif "Wizard" in title:
+            listOfPowers = [
+                "Freeze I",
+                "Blaze I",
+                "Freeze II",
+                "Blaze II",
+                "Freeze III",
+                "Bolt I",
+                "Freeze IV",
+                "Bolt II",
+            ]
         else:
-            listOfPowers = []
-            if "Alchemist" in title:
-                listOfPowers = [
-                    "Random Additional Spell I",
-                    "Convert Faith and Magic",
-                    "Heal I",
-                    "Defense: Being Routed Deals Fire Damage",
-                    "Attack: Chance of Confusion",
-                    "Defense: Being Routed Adds Silence",
-                    "Random Additional Spell II",
-                    "Conduit I",
-                ]
-            elif "Archer" in title:
-                listOfPowers = [
-                    "Begin Battle With Rank II Focus",
-                    "Quick Shot",
-                    "Increased Terrain Advantage I",
-                    "Arrows: Increased Damage I",
-                    "Aimed Shot",
-                    "Arrows: Add Effect: Poison",
-                    "Luck: Enable Triple Attack",
-                    "Arrows: Range + 1",
-                ]
-            elif "Archmage" in title:
-                listOfPowers = [
-                    "Bolt I",
-                    "Blaze I",
-                    "Freeze I",
-                    "Teleport I",
-                    "Bolt II",
-                    "Bolt III",
-                    "Death I",
-                    "Bolt IV",
-                ]
-            elif "Assassin" in title:
-                listOfPowers = [
-                    "Attack: Bonus Move",
-                    "Sleep I",
-                    "Stealthy Movement",
-                    "Death I",
-                    "Shield I",
-                    "Death II",
-                    "Prevent Counterattack",
-                    "Luck: Critical Hit Adds Silence",
-                ]
-            elif "Banshee" in title:
-                listOfPowers = [
-                    "Attacking Adds Resonance",
-                    "Kills Increase Focus",
-                    "Axes: Bonus Damage I",
-                    "Attack: Bonus Move",
-                    "Axes: Bonus Damage II",
-                    "Charm instead of Rout",
-                    "Luck: Dodge Chance Up I",
-                    "Focused Attacks Rout",
-                ]
-            elif "Bard" in title:
-                listOfPowers = [
-                    "Blaze I",
-                    "Free Spell After Critical",
-                    "Surge I",
-                    "Luck: Critical Chance Up I",
-                    "Dao I",
-                    "Apollo I",
-                    "Sing While Casting",
-                    "Command: MP Regeneration",
-                ]
-            elif "Baron" in title:
-                listOfPowers = [
-                    "Swords: Increased Damage I",
-                    "Command: Luck: Counterattack",
-                    "Luck: Reverse Death",
-                    "Command: Allies Increase Defense",
-                    "Luck: Critical Drain I",
-                    "Aimed Shot",
-                    "Death II",
-                    "Luck: Critical Drain II",
-                ]
-            elif "Berserker" in title:
-                listOfPowers = [
-                    "Increased Heavy Damage I",
-                    "Unhindered Movement",
-                    "Unarmed Attack: Rout Deals Damage",
-                    "Increased Heavy Damage II",
-                    "Axes: Lost Health Adds Damage I",
-                    "Increased Heavy Damage III",
-                    "Axes: Increased Critical Chance I",
-                    "Axes: Increased Critical Chance II",
-                ]
-            elif "Bishop" in title:
-                listOfPowers = [
-                    "Aura I",
-                    "Shield I",
-                    "Staffs: Ranged Lightning Damage",
-                    "Aura II",
-                    "Aura III",
-                    "Focus: Magic AOE Doubled",
-                    "Aura IV",
-                    "Command: Fill Focus If Ally Dies",
-                ]
-            elif "Blood Mage" in title:
-                listOfPowers = [
-                    "Drain I",
-                    "Poison I",
-                    "Essence I",
-                    "Drain II",
-                    "Muddle I",
-                    "Death I",
-                    "Physical Attack: Essence",
-                    "Poison II",
-                ]
-            elif "Cantor" in title:
-                listOfPowers = [
-                    "Vocal Attack: Ignore Movement",
-                    "Mounted Movement",
-                    "Vocal Attack Causes Feedback Bleed",
-                    "Vocal Attack: Sustain Effect",
-                    "Unholy Ground Adds Focus",
-                    "Unholy: Increased Resistance I",
-                    "Luck: Vocal Attack Bleed Chance",
-                    "Rout: Add Effect: Silence",
-                ]
-            elif "Catechumen" in title:
-                listOfPowers = [
-                    "Unarmed Attack: Vocal Cascade I",
-                    "Movement: Holy Ground Increase I",
-                    "Holy Ground Increases Focus I",
-                    "Unarmed Attack: Vocal Cascade II",
-                    "Movement: Holy Ground Increase II",
-                    "Gain Regeneration on Holy Ground",
-                    "Holy Ground Increases Focus II",
-                    "Unarmed Attack: Vocal Cascade III",
-                ]
-            elif "Channeler" in title:
-                listOfPowers = [
-                    "Surge I",
-                    "Counterspell",
-                    "Silence I",
-                    "Surge II",
-                    "Silence II",
-                    "Surge III",
-                    "Silence II",
-                    "Surge IV",
-                ]
-            elif "Dark Mage" in title:
-                listOfPowers = [
-                    "Blaze I",
-                    "Freeze I",
-                    "Defense: Magic",
-                    "Blaze II",
-                    "Death I",
-                    "Freeze II",
-                    "Death II",
-                    "Bolt I",
-                ]
-            elif "Druid" in title:
-                listOfPowers = [
-                    "Stealthy Movement",
-                    "Defense: Increased Resistance I",
-                    "Detox I",
-                    "Blast I",
-                    "Conduit I",
-                    "Blast II",
-                    "Defense: Increased Resistance II",
-                    "Blast III",
-                ]
-            elif "Duelist" in title:
-                listOfPowers = [
-                    "Swords: Increased Luck I",
-                    "Luck: Counterattack",
-                    "Defense: Swords I",
-                    "Challenge to Duel",
-                    "Swords: Increased Luck II",
-                    "Luck: Dodge Grants Counterattack",
-                    "Swords: Increased Luck III",
-                    "Luck: Counterattack First",
-                ]
-            elif "Flamecaster" in title:
-                listOfPowers = [
-                    "Blaze I",
-                    "Magic: Cost Reduction I",
-                    "Sleep I",
-                    "Blaze II",
-                    "Counterspell",
-                    "Blaze III",
-                    "Magic: Increased Damage I",
-                    "Blaze IV",
-                ]
-            elif "Gambler" in title:
-                listOfPowers = [
-                    "Increased Luck When Outnumbered I",
-                    "Luck: Dodge Chance Up I",
-                    "Luck: Dodge Grants Counterattack",
-                    "Stealthy Movement",
-                    "Increased Luck When Outnumbered II",
-                    "Luck: Reverse Death",
-                    "Luck: Dodge Chance Up I",
-                    "Luck: Dodge Chance Up II",
-                ]
-            elif "Heavy Shot" in title:
-                listOfPowers = [
-                    "Heavy Attack Instead of Normal For Ranged Tile",
-                    "Gain Focus When Stationary",
-                    "Unhindered Movement",
-                    "Brass Guns: Critical Damage I",
-                    "Defense: Physical I",
-                    "Brass Guns: Critical Damage II",
-                    "Defense: Physical II",
-                    "Brass Guns: Minumum Range - 1",
-                ]
-            elif "Hero" in title:
-                listOfPowers = [
-                    "Egress I",
-                    "Swords: Increased Luck I",
-                    "Bolt I",
-                    "Luck: Counterattack",
-                    "Bolt II",
-                    "Magic: Cost Reduction I",
-                    "Bolt III",
-                    "Swords: Increased Luck II",
-                ]
-            elif "Jongleur" in title:
-                listOfPowers = [
-                    "Luck: Enable Triple Attack",
-                    "Quick Shot",
-                    "Begin Battle With Rank 2 Focus",
-                    "Daggers: Add Effect: Poison",
-                    "Luck: Dodge Chance Up I",
-                    "Luck: Dodge Chance Up II",
-                    "Luck: Dodge Chance Up III",
-                    "Luck: Dodge Grants Counterattack",
-                ]
-            elif (
-                "Knight" in title
-                and "Mage Knight" not in title
-                and "Steam Knight" not in title
+            print(f"Error: Class title {title} not found it list.")
+        for power in listOfPowers:
+            if not any(
+                [knownPower for knownPower in self.powers if power in knownPower]
             ):
-                listOfPowers = [
-                    "Mounted Movement",
-                    "Unholy: Increased Resistance I",
-                    "Lances: Movement Increases Strength Damage I",
-                    "Spears: Increased Damage I",
-                    "Rout: Pursuit Attack",
-                    "Defense: Increased vs Ranged Attacks I",
-                    "Add Damage on Unholy Ground",
-                    "Challenge to Duel",
-                ]
-            elif "Mage Knight" in title:
-                listOfPowers = [
-                    "Blaze I",
-                    "Mounted Movement",
-                    "Unholy: Increased Resistance I",
-                    "Freeze I",
-                    "Lance: Attack adds Magic Vulnerability",
-                    "Bolt I",
-                    "Faith: Add Damage on Unholy Ground",
-                    "Defense: Dark Magic II",
-                ]
-            elif "Monk" in title:
-                listOfPowers = [
-                    "Heal I",
-                    "Faith: Add Damage on Holy Ground I",
-                    "Heal II",
-                    "Heal III",
-                    "Faith: Add Damage on Holy Ground II",
-                    "Heal IV",
-                    "Silence I",
-                    "Aura I",
-                ]
-            elif "Ninja" in title:
-                listOfPowers = [
-                    "Daggers: Range +1",
-                    "Ninja Fire I",
-                    "Luck: Counterattack",
-                    "Focus: Free Spells",
-                    "Stealthy Movement",
-                    "Ninja Bolt I",
-                    "Ninja Fire II",
-                    "Ninja Bolt II",
-                ]
-            elif "Oracle" in title:
-                listOfPowers = [
-                    "Vocal Attack: Chance of Double Attack",
-                    "Deafening Voice",
-                    "Focus: Improve Luck I",
-                    "Essence I",
-                    "Seal Resistance",
-                    "Focus: Improve Luck II",
-                    "Detox I",
-                    "Physical Attack: Essence",
-                ]
-            elif "Orator" in title:
-                listOfPowers = [
-                    "Shield I",
-                    "Vocal Attack: Increased Area I",
-                    "Command: Holy Ground adds Defense",
-                    "Focus: Overcome the Darkness",
-                    "Command: Holy Ground Adds Focus",
-                    "Vocal Attack: Increased Area II",
-                    "Shield II",
-                    "Vocal Attack: Sustain Effect",
-                ]
-            elif "Peregrine" in title:
-                listOfPowers = [
-                    "Wind Fists: Unarmed Range and Wind",
-                    "Purifying Strike",
-                    "Pure of Heart: Status Immune",
-                    "Dispel I",
-                    "Defense: Fire I",
-                    "Silence I",
-                    "Luck: Reverse Death",
-                    "Diving Strike",
-                ]
-            elif "Priest" in title:
-                listOfPowers = [
-                    "Heal I",
-                    "Detox I",
-                    "Heal II",
-                    "Healing Magic: Increased Range I",
-                    "Heal III",
-                    "Healing Magic: Reduced Cost I",
-                    "Heal IV",
-                    "Healing Magic: Additional Effect: Bonus Turn",
-                ]
-            elif "Prophet" in title:
-                listOfPowers = [
-                    "Heal I",
-                    "Heal II",
-                    "Slow I",
-                    "Heal III",
-                    "Aura I",
-                    "Vocal Attack: Heal Allies",
-                    "Heal IV",
-                    "Aura II",
-                ]
-            elif "Samurai" in title:
-                listOfPowers = [
-                    "Swords: Attacking Adds Focus",
-                    "Increased Damage I",
-                    "Swords: Fire Element",
-                    "Defense: Melee I",
-                    "Swords: Increased Damage II",
-                    "Boost I",
-                    "Swords: Increased Damage III",
-                    "Swords: Increased Damage IV",
-                ]
-            elif "Scholar" in title:
-                listOfPowers = [
-                    "Sleep I",
-                    "Magic: Cost Reduction I",
-                    "Muddle I",
-                    "Silence I",
-                    "Magic: All Spells +1 Rank",
-                    "Focus: Effects Always Hit",
-                    "Petrify I",
-                ]
-            elif "Sky Battler" in title:
-                listOfPowers = [
-                    "Flying Movement",
-                    "Extra Damage to Single Target",
-                    "Luck: Counterattack",
-                    "Luck: Dodge Chance Up I",
-                    "Swords: Increased Luck II",
-                    "Luck: Dodge Chance Up II",
-                    "Movement: Ignore Enemies",
-                    "Swords: Increased Luck III",
-                ]
-            elif "Sky Lord" in title:
-                listOfPowers = [
-                    "Flying Movement",
-                    "Heavy / Critical Attack Destroys Focus",
-                    "Lances: Movement Increases Strength Damage I",
-                    "Lances: Increased Damage I",
-                    "Luck: Dodge Chance Up I",
-                    "Lances: Increased Luck I",
-                    "Luck: Dodge Chance Up II",
-                    "Dodge: Add Speed I",
-                ]
-            elif "Soldier" in title:
-                listOfPowers = [
-                    "No Loss Of Focus From Enemy Attacks",
-                    "Receive Command Distance +1",
-                    "Focus: Range +1",
-                    "Defense: Physical I",
-                    "Attack: Lightning Element",
-                    "Whirlwind Attack",
-                    "Kills Increase Focus",
-                    "Defense: Area Spells",
-                ]
-            elif "Sorceror" in title:
-                listOfPowers = [
-                    "Dao I",
-                    "Apollo I",
-                    "Dao II",
-                    "Apollo II",
-                    "Poseidon I",
-                    "Atlas I",
-                    "Poseidon II",
-                    "Atlas II",
-                ]
-            elif "Squire" in title:
-                listOfPowers = ["Equip: Swords"]
-            elif "Steam Knight" in title:
-                listOfPowers = [
-                    "Defense: Reduced Critical Damage I",
-                    "Increase Stats When Focus Full",
-                    "Focus: Double Strength Increase",
-                    "Defense: Reduced Critical Damage II",
-                    "Lances: Increased Critical Chance I",
-                    "Unhindered Movement",
-                    "Lances: Increased Critical Chance II",
-                    "Magic Damage Taken Increases Focus",
-                ]
-            elif "Student" in title:
-                listOfPowers = ["Blaze I"]
-            elif "Survivor" in title:
-                listOfPowers = [
-                    "Defense: Magic",
-                    "Focus: Increase Healing",
-                    "Luck: Dodge Chance Up I",
-                    "Flying Movement",
-                    "Defense: Magic II",
-                    "Unarmed Attack: Fire Element",
-                    "Kills Increase Focus",
-                    "Critical Attack: Bolt III",
-                ]
-            elif "Titan" in title:
-                listOfPowers = [
-                    "Increased Heavy Damage I",
-                    "Defense: Fire I",
-                    "Magic Damage Taken Increases Focus",
-                    "Defense: Reduced Critical Damage I",
-                    "No Loss Of Focus From Enemy Attacks",
-                    "Focus: Attacks Stun",
-                    "Defense: Fire II",
-                    "Critical: Added Effect: Muddle",
-                ]
-            elif "Trickster" in title:
-                listOfPowers = [
-                    "Teleport I",
-                    "Ninja Fire I",
-                    "Teleport II",
-                    "Ninja Bolt I",
-                    "Give Vulnerability",
-                    "Portal I",
-                    "Teleport III",
-                    "Teleport: Add Turn",
-                ]
-            elif "Valkyrie" in title:
-                listOfPowers = [
-                    "Vocal Attack: Heavy Attack",
-                    "Defense: Melee Attacks I",
-                    "Vocal Attack: Lost Health Adds Damage I",
-                    "Luck: Increased Rout I",
-                    "Defense: Melee Attacks II",
-                    "Vocal Attack: Heal Self",
-                    "Vocal Attack: Lost Health Adds Damage II",
-                    "Flying Movement",
-                ]
-            elif "Warrior" in title:
-                listOfPowers = [
-                    "Defense: Melee Attacks I",
-                    "Heavy Attacks Inflict Bleed",
-                    "Axes: Increased Damage I",
-                    "No Loss Of Focus From Enemy Attacks",
-                    "Whirlwind Attack",
-                    "Defense: Melee Attacks II",
-                    "Rout: Follow-up Attack",
-                    "Axes: Increased Damage II",
-                ]
-            elif "Werewolf" in title:
-                listOfPowers = [
-                    "Jump Attack",
-                    "Stealthy Movement",
-                    "Rout: Pursuit Attack",
-                    "Unarmed Attack: Dark Ice Claws",
-                    "Fame Increase with Kills",
-                    "Defense: Magic I",
-                    "Increased Strength When Outnumbered I"
-                    "Magic Damage Taken Increases Focus",
-                ]
-            elif "Wizard" in title:
-                listOfPowers = [
-                    "Freeze I",
-                    "Blaze I",
-                    "Freeze II",
-                    "Blaze II",
-                    "Freeze III",
-                    "Bolt I",
-                    "Freeze IV",
-                    "Bolt II",
-                ]
-            else:
-                print(f"Error: Class title {title} not found it list.")
-            for power in listOfPowers:
-                if not any(
-                    [knownPower for knownPower in self.powers if power in knownPower]
+                nameOfPower = power
+                if nameOfPower == "Mounted Movement" and any(
+                    [
+                        knownPower
+                        for knownPower in self.powers
+                        if knownPower == "Flying Movement"
+                    ]
                 ):
-                    nameOfPower = power
-                    if nameOfPower == "Mounted Movement" and any(
-                        [
-                            knownPower
-                            for knownPower in self.powers
-                            if knownPower == "Flying Movement"
-                        ]
-                    ):
-                        continue
-                    if 'Captain' in self.title and not any(
-                        [
-                            knownPower
-                            for knownPower in self.powers
-                            if 'Command:' in knownPower
-                        ]
-                    ):
-                        if 'Command:' not in nameOfPower:
-                            nameOfPower = 'Command: ' + nameOfPower
-                    return nameOfPower
+                    continue
+                if 'Captain' in self.title and not any(
+                    [
+                        knownPower
+                        for knownPower in self.powers
+                        if 'Command:' in knownPower
+                    ]
+                ):
+                    if 'Command:' not in nameOfPower:
+                        nameOfPower = 'Command: ' + nameOfPower
+                return nameOfPower
 
     def getTitle(self, chatter):
         listOfStats = {}
@@ -1739,6 +1738,10 @@ class playerCharacter(object):
             if chatter:
                 print("")
             afterTitle, afterDecorated = self.getTitle(chatter)
+            print(
+                f"debug: beforeTitle: {beforeTitle}, afterTitle: {afterTitle},"
+                f" afterDecororated: {afterDecorated}"
+            )
             oldProposedPower = self.getPower(beforeTitle, chatter)
             newProposedPower = self.getPower(afterDecorated, chatter)
             if afterTitle != beforeTitle:
