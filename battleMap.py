@@ -5312,6 +5312,12 @@ class game(object):
         clergyCost = sum(
             [unit.level * 10 for unit in self.playerCharacters if unit.hp <= 0]
         )
+        if not any(
+            unit
+            for unit in self.playerCharacters
+            if "Egress I" in unit.powers and unit.hp > 0
+        ):
+            clergyCost += math.floor(self.money / 2)
         trophies = sum([len(unit.trophies) for unit in self.playerCharacters])
         reward = trophies * bounty
         amount = reward - clergyCost
