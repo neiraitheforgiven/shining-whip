@@ -1271,6 +1271,8 @@ class playerCharacter(object):
                     "Freeze IV",
                     "Bolt II",
                 ]
+            else:
+                print(f"Error: Class title {title} not found it list.")
             for power in listOfPowers:
                 if not any(
                     [knownPower for knownPower in self.powers if power in knownPower]
@@ -1946,7 +1948,9 @@ class playerCharacter(object):
 
     def upSkill(self):
         for skill in self.skills:
-            if self.getPower(f"Equip: {skill}"):
+            # Really, this is the only power you should not check for command
+            # so doing it this was should be fine.
+            if f"Equip: {skill}" in self.powers:
                 self.skills[skill] += 1
         skills = self.getSkills(self.title)
         for skill in skills:
