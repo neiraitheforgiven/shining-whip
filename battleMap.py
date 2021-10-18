@@ -5052,24 +5052,24 @@ class game(object):
                 )
                 print("He pledges his allegience to your cause.")
                 print("Pelle the Knight joins the Force!")
-                recruit = playerCharacter("Pelle", "Centaur", "Knight", False, 9)
+                pelle = playerCharacter("Pelle", "Centaur", "Knight", False, 9)
                 self.equipOnCharacter(
                     equipment("Spears", "Power Spear", 900, 12, 0, 1, 10, 0, 0),
-                    recruit,
+                    pelle,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                self.playerCharacters.append(recruit)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                pelle.levelUp(False)
+                self.playerCharacters.append(pelle)
                 print("")
                 print(
                     "After crossing the mountains, you travel east until you come to"
@@ -5143,44 +5143,44 @@ class game(object):
                     " offer their help in the coming battle."
                 )
                 print("Kokichi the Sky Lord joins your force!")
-                recruit = playerCharacter("Kokichi", "Human", "Sky Lord", False, 9)
+                kokichi = playerCharacter("Kokichi", "Human", "Sky Lord", False, 9)
                 self.equipOnCharacter(
                     equipment("Lances", "Steel Lance", 3000, 16, 0, 0, 12, 0, 0),
-                    recruit,
+                    kokichi,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                self.playerCharacters.append(recruit)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                kokichi.levelUp(False)
+                self.playerCharacters.append(kokichi)
                 print()
                 print("Vankar the Knight joins your force!")
-                recruit = playerCharacter("Vankar", "Centaur", "Knight", False, 9)
+                vankar = playerCharacter("Vankar", "Centaur", "Knight", False, 9)
                 self.equipOnCharacter(
                     equipment("Spears", "Power Spear", 900, 12, 0, 1, 10, 0, 0),
-                    recruit,
+                    vankar,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                self.playerCharacters.append(recruit)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                vankar.levelUp(False)
+                self.playerCharacters.append(vankar)
                 print()
             print()
             print("The next day, some merchants approach you.")
@@ -5213,9 +5213,9 @@ class game(object):
                     ],
                     18,
                 )
-            self.shop.goShopping(self)
             self.battleStarted = 12
             self.save()
+            self.shop.goShopping(self)
             self.party = self.playerCharacters
             self.battleStatus = None
             while self.battleStatus != 'victory':
