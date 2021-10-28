@@ -3931,10 +3931,14 @@ class battleField(object):
                 return True
         if name not in ('Random Additional Spell I', 'Random Additional Spell II'):
             if self.getPower(unit, 'Random Additional Spell I'):
-                if any([name in power for power in unit.extraPowerSlot]):
+                if unit.extraPowerSlot and any(
+                    [name in power for power in unit.extraPowerSlot]
+                ):
                     return True
             if self.getPower(unit, 'Random Additional Spell II'):
-                if any([name in power for power in unit.extraPowerSlot2]):
+                if unit.extraPowerSlot2 and any(
+                    [name in power for power in unit.extraPowerSlot2]
+                ):
                     return True
         commandName = "Command: " + name
         position = self.getUnitPos(unit)
