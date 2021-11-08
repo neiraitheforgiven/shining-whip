@@ -2853,13 +2853,23 @@ class battle(object):
 
         possibleSpells = [spell for spell in possibleSpells if spell not in unit.powers]
         if slot == 1:
-            possibleSpells = [
-                spell for spell in possibleSpells if spell not in unit.extraPowerSlot2
-            ]
-        elif slot == 2:
-            possibleSpells = [
-                spell for spell in possibleSpells if spell not in unit.extraPowerSlot
-            ]
+            if unit.extraPowerSlot2:
+                possibleSpells = [
+                    spell
+                    for spell in possibleSpells
+                    if spell not in unit.extraPowerSlot2
+                ]
+            else:
+                possibleSpells = [spell for spell in possibleSpells]
+        if slot == 2:
+            if unit.extraPowerSlot:
+                possibleSpells = [
+                    spell
+                    for spell in possibleSpells
+                    if spell not in unit.extraPowerSlot
+                ]
+            else:
+                possibleSpells = [spell for spell in possibleSpells]
         spellChoice = random.choice(possibleSpells)
         if slot == 1:
             unit.extraPowerSlot = spellChoice
