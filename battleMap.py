@@ -870,9 +870,9 @@ class battle(object):
                         )
                         * (1 + ((targetLuck / 10)))
                     )
-                    if self.getPower(target, "Luck: Dodge Chance  Up I"):
+                    if self.getPower(target, "Luck: Dodge Chance Up I"):
                         dodgeSkill = math.ceil(dodgeSkill * 1.3)
-                    if self.getPower(target, "Luck: Dodge Chance  Up II"):
+                    if self.getPower(target, "Luck: Dodge Chance Up II"):
                         dodgeSkill = math.ceil(dodgeSkill * 1.3)
                     attackTypeArray.extend(["dodge"] * dodgeSkill)
             if self.getPower(target, "Luck: Counterattack"):
