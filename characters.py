@@ -147,7 +147,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Swords", "Long Sword", 750, 18, 0, 0, 12, 0, 0)
-            self.shortName = "Lizard"
+            self.shortName = "Sohorn"
             self.powers.append("Defense: Ice Vulnerability")
             self.powers.append("Defense: Fire Defense")
             self.powers.append("Defense: Magic")
