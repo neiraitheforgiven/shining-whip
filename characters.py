@@ -1285,15 +1285,15 @@ class playerCharacter(object):
                     ]
                 ):
                     continue
-                if 'Captain' in self.title and not any(
+                if "Captain" in self.title and not any(
                     [
                         knownPower
                         for knownPower in self.powers
-                        if 'Command:' in knownPower
+                        if "Command:" in knownPower
                     ]
                 ):
-                    if 'Command:' not in nameOfPower:
-                        nameOfPower = 'Command: ' + nameOfPower
+                    if "Command:" not in nameOfPower:
+                        nameOfPower = "Command: " + nameOfPower
                 return nameOfPower
 
     def getTitle(self, chatter):
@@ -1664,7 +1664,7 @@ class playerCharacter(object):
 
     def levelUp(self, chatter=True):
         if chatter:
-            print('{} hit level {}!'.format(self.name, self.level + 1))
+            print("{} hit level {}!".format(self.name, self.level + 1))
         preLevelStatIncreaseCount = self.statIncreaseCount
         self.level += 1
         if self.statIncreaseCount != 0:
@@ -1722,16 +1722,16 @@ class playerCharacter(object):
 
             for label, beforeCount, afterCount in levelData:
 
-                bar = '▏' * beforeCount
-                barNum = f'{beforeCount}'
+                bar = "▏" * beforeCount
+                barNum = f"{beforeCount}"
                 increase = afterCount - beforeCount
                 if increase:
                     barNum += f" -> {afterCount}"
-                    bar += '#' * increase
+                    bar += "#" * increase
 
-                barNum += ' ' * (longest_display_length - len(barNum))
+                barNum += " " * (longest_display_length - len(barNum))
 
-                print(f'{label.rjust(longest_label_length)} ▏ {barNum} {bar}')
+                print(f"{label.rjust(longest_label_length)} ▏ {barNum} {bar}")
 
         if self.level % 5 == 0:
             beforeTitle = self.title
@@ -1759,7 +1759,7 @@ class playerCharacter(object):
                             f"instead of sticking with {beforeTitle} and "
                             f"learning {oldProposedPower}."
                         )
-                        print("What do you think?\"")
+                        print('What do you think?"')
                         print(
                             f"{self.name} can choose (0) {beforeTitle} or "
                             f"(1) {afterDecorated}."
@@ -1778,8 +1778,8 @@ class playerCharacter(object):
                         self.assignTitle(beforeTitle, chatter)
                         if chatter:
                             print(
-                                f"{self.name}: \"If you insist, I will do "
-                                "my best to prove your judgement right!\""
+                                f'{self.name}: "If you insist, I will do '
+                                'my best to prove your judgement right!"'
                             )
                         self.assignPower(oldProposedPower, chatter)
                     if choice == 1:
@@ -1789,14 +1789,14 @@ class playerCharacter(object):
                         if chatter:
                             print(
                                 f"{self.name}: \"That's settled, then! "
-                                f"Today I will become a {self.title}!\""
+                                f'Today I will become a {self.title}!"'
                             )
                         self.assignPower(newProposedPower, chatter)
             else:
                 if chatter:
                     print(
-                        f"{self.name}: \"Another step on my chosen "
-                        f"path as a {self.title}!\""
+                        f'{self.name}: "Another step on my chosen '
+                        f'path as a {self.title}!"'
                     )
                 self.assignPower(self.getPower(self.title, chatter), chatter)
             self.updateGrowth()
@@ -1806,51 +1806,51 @@ class playerCharacter(object):
                     if happy:
                         if breakthrough:
                             print(
-                                f"{self.name}: \"These are the moments "
+                                f'{self.name}: "These are the moments '
                                 "that define the legends of the "
-                                f"{self.title}!\""
+                                f'{self.title}!"'
                             )
                         else:
                             print(
-                                f"{self.name}: \"Yes! I am the epitome "
-                                f"of a {self.title}!\""
+                                f'{self.name}: "Yes! I am the epitome '
+                                f'of a {self.title}!"'
                             )
                     else:
                         if breakthrough:
                             print(
-                                f"{self.name}: \"What is this? This "
+                                f'{self.name}: "What is this? This '
                                 "power! It seems like so much more than a "
-                                f"mere {self.title}!\""
+                                f'mere {self.title}!"'
                             )
                         else:
                             print(
-                                f"{self.name}: \"At least I know this is "
+                                f'{self.name}: "At least I know this is '
                                 f"the path a {self.title} should be "
-                                "taking.\""
+                                'taking."'
                             )
                 elif fulfilled == 1:
                     if happy:
                         if breakthrough:
                             print(
-                                f"{self.name}: \"Wow! That really opened "
-                                "up some new perspectives!\""
+                                f'{self.name}: "Wow! That really opened '
+                                'up some new perspectives!"'
                             )
                         else:
                             print(
                                 f"{self.name}: \"It's not much, but this "
-                                f"will make me a better {self.title}.\""
+                                f'will make me a better {self.title}."'
                             )
                     else:
                         if breakthrough:
                             print(
-                                f"{self.name}: \"Finally, something "
+                                f'{self.name}: "Finally, something '
                                 f"about being a {self.title} is making "
-                                "sense.\""
+                                'sense."'
                             )
                         else:
                             print(
-                                f"{self.name}: \"Being a {self.title} is "
-                                "a lot harder than I expected.\""
+                                f'{self.name}: "Being a {self.title} is '
+                                'a lot harder than I expected."'
                             )
                 else:
                     if happy:
@@ -1858,24 +1858,24 @@ class playerCharacter(object):
                             print(
                                 f"{self.name}: \"I... I've had a vision. "
                                 "I've never seen myself in that light "
-                                "before...\""
+                                'before..."'
                             )
                         else:
                             print(
-                                f"{self.name}: \"Well, that is a "
-                                "disappointment, to say the least.\""
+                                f'{self.name}: "Well, that is a '
+                                'disappointment, to say the least."'
                             )
                     else:
                         if breakthrough:
                             print(
                                 f"{self.name}: \"Maybe I'll never be a great "
                                 f"{self.title}, but perhaps there are other "
-                                "options opening up!\""
+                                'options opening up!"'
                             )
                         else:
                             print(
                                 f"{self.name}: \"Aww, maybe I'm not cut "
-                                f"out to be a {self.title}.\""
+                                f'out to be a {self.title}."'
                             )
         self.upSkill()
 
@@ -1909,7 +1909,7 @@ class playerCharacter(object):
         print(f"  MP:   {self.mp:3}/{self.maxMP():3}    Voice: {voi}")
         print(f"  Moves: {max(self.movementPoints, 0):2}/{speed:3}    Luck: {luck:3}")
         if self.focus == 3000:
-            focusString = 'FULL!'
+            focusString = "FULL!"
         else:
             focusString = f"Rank {math.floor(self.focus / 750)}"
         print(
@@ -1997,13 +1997,13 @@ stop = input("Type debug to enter debug mode.")
 if stop == "debug":
     module = input("Type SF if you want me to run the SF module.")
     chatty = input("Type chatty if you want to be barraged with leveling info.")
-    if chatty == 'chatty':
+    if chatty == "chatty":
         chatter = True
         stopEveryLevel = input("Type slow if you want to stop for every level.")
     else:
         chatter = False
         stopEveryLevel = "fast"
-    if module == 'SF':
+    if module == "SF":
         recruit = playerCharacter("Max", "Human", "Hero", chatter, 0)
         party.append(recruit)
         recruit = playerCharacter("Lowe", "Hobbit", "Priest", chatter, 0)
@@ -2062,7 +2062,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Hanzou", "Human", "Assassin", chatter, 25)
         party.append(recruit)
-    elif module == 'SF2':
+    elif module == "SF2":
         recruit = playerCharacter("Bowie", "Human", "Hero", chatter)
         party.append(recruit)
         recruit = playerCharacter("Sarah", "Elf", "Priest", chatter)
