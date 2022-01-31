@@ -1740,7 +1740,7 @@ class playerCharacter(object):
             afterTitle, afterDecorated = self.getTitle(chatter)
             print(
                 f"debug: beforeTitle: {beforeTitle}, afterTitle: {afterTitle},"
-                f" afterDecororated: {afterDecorated}"
+                f" afterDecorated: {afterDecorated}"
             )
             oldProposedPower = self.getPower(beforeTitle, chatter)
             newProposedPower = self.getPower(afterTitle, chatter)
@@ -1792,6 +1792,14 @@ class playerCharacter(object):
                                 f'Today I will become a {self.title}!"'
                             )
                         self.assignPower(newProposedPower, chatter)
+                else:
+                    if chatter:
+                        print(
+                            f'{self.name}: "Another step on my chosen '
+                            f'path as a {self.title}!"'
+                        )
+                    self.assignPower(self.getPower(self.title, chatter), chatter)
+                self.updateGrowth()
             else:
                 if chatter:
                     print(
