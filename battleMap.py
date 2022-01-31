@@ -5283,8 +5283,8 @@ class game(object):
         print("Code and game design by John 'Neirai the Forgiven' den Otter.")
         time.sleep(0.75)
         print(
-            "Original character, story, and encounter design by SEGA. Used without"
-            " permission. Please don't sue."
+            "Original Shining Force character, story, and encounter design by SEGA. "
+            "Used without permission. Please don't sue."
         )
         time.sleep(0.75)
         print(
