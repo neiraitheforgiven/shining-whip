@@ -1,0 +1,36 @@
+Version Sohorn (22.1)
+
+Features:
+Battle 12, the fight against General Sohorn, has been added!
+When creating a game, you can now ask for a tutorial. If activated, the game will give you teaching moments whenever a new feature comes into play.
+Orders to units can now be chained by typing a list of commands into the command prompt. For example, instead of having to answer four command prompts to tell a unit to move to tile 8 and cast spell 2 on target 0, you could just type "m8s20" into a single prompt.
+Movement can not be cancelled by telling the unit to move to its current location.
+Rather than typing words like "skip" to skip content, this has been replaced with a simple standardized prompt to press enter.
+The unit with the current turn will now appear more *VISIBLE* on the map view.
+Enemies that grant trophies on death will now appear marked with a * on the map view.
+Unit hitpoints will now appear on the map view, allowing better strategic planning, especially for healers.
+Clarify what the "Look" command really does with your inputs.
+When choosing to cast a spell, the cost of that spell is displayed.
+Units will now only gain experience at the end of an action rather than spamming small experience gains throughout actions.
+Units with high strength will now experience a small boost to movement speed.
+When choosing characters to add to a party, their level and class will show.
+When you finish the game, it will print out credits.
+When a unit levels up, their stat growth now appears as a bar graph.
+Werewolf powers have been reworked. Werewolves will no longer be able to one-shot everything while being thematically boring.
+
+A message has been added to warn you to warn me if you encounter a power that hasn't been implemented.
+
+
+New Powers:
+Samurai Class: "Attacking Adds Focus" implemented. Gain focus for swinging that Katana!
+Sky Lord Class: "Heavy / Critical Attack Destroys Focus" implemented. If you have this talent, Heavy and Critical Attacks will deplete focus at the rate normally enjoyed by Routing and Stunning attacks.
+Steam Knight Class: "Increased Stats when Focus Full" -- when you have 4 ranks of focus, all of your stats will be boosted!
+
+
+Bug Fixes:
+Fix some timing issues with the Screaming Beast where it might skip its warm-up turns.
+The game will no longer crash when a save file with a given name is not found on Linux.
+Spellcasting monsters will no longer make ranged attacks when out of MP.
+Unarmed damage skills will now be added to calculations.
+When you are defeated in battle, you will no longer see two or three repetitions of the defeat message.
+Fix a crash when a unit is asked for Luck when they are not in a battle.
