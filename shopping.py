@@ -330,7 +330,8 @@ class shop(object):
                         if item.mp > pc.equipment.mp:
                             mpUp = True
                     else:
-                        if item.damage > 0:
+
+                        if item.damage > math.ceil(pc.skills["Unarmed Attack"] / 2):
                             damageUp = True
                         if item.fp > 0:
                             faithUp = True
