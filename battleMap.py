@@ -809,7 +809,6 @@ class battle(object):
     def attack(self, unit, target, pursuitAttack=False):
         bf = self.battleField
         counterattack = False
-        damageType = None
         poisonEnemy = False
         routEnemy = False
         targetStunned = False
@@ -3819,17 +3818,6 @@ class battleField(object):
                 for target in candidates
                 if target.hp == min(unit.hp for unit in candidates)
             ]
-<<<<<<< HEAD
-            if candidates:
-                targetPos = max([self.getUnitPos(target) for target in candidates]) + 1
-            if candidates and (targetPos in monster.allowedMovement):
-                moveTo = targetPos
-            else:
-                if targetPos < min(monster.allowedMovement):
-                    moveTo = min(monster.allowedMovement)
-                elif targetPos > max(monster.allowedMovement):
-                    moveTo = max(monster.allowedMovement)
-=======
             try:
                 if candidates:
                     maxRange = monster.equipment.maxRange
@@ -3839,9 +3827,20 @@ class battleField(object):
                     )
                 if candidates and (targetPos in monster.allowedMovement):
                     moveTo = targetPos
->>>>>>> master-test
                 else:
-                    return False
+                    if targetPos < min(monster.allowedMovement):
+                        moveTo = min(monster.allowedMovement)
+                    elif targetPos > max(monster.allowedMovement):
+                        moveTo = max(monster.allowedMovement)
+                    else:
+                        return False
+            except TypeError:
+                for cand in candidates:
+                    print(f"debug: {cand.name}")
+                print(
+                    f"debug: Sniper candidate positions: "
+                    + ", ".join([str(self.getUnitPos(target)) for target in candidates])
+                )
             self.move(monster, moveTo)
             return True
         elif monster.moveProfile == "Stationary":
