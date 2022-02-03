@@ -1668,7 +1668,7 @@ class playerCharacter(object):
         preLevelStatIncreaseCount = self.statIncreaseCount
         self.level += 1
         if self.statIncreaseCount != 0:
-            bonus = self.level * 4 / self.statIncreaseCount
+            bonus = self.level * 3 / self.statIncreaseCount
         else:
             bonus = 1
         if bonus <= 0.5:
