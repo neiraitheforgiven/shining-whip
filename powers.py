@@ -138,6 +138,33 @@ class powerBook(object):
             antiStat=["Luck"],
             spellRank=True,
         )
+        self.book["Bishop Root 1 Aura"] = self.power(
+            game,
+            "Aura",
+            ["Bishop Root 1 Aura"],
+            "Bishop",
+            ["Faith", "Focus"],
+            10,
+            spellRank=True,
+        )
+        self.book["Bishop Tier 1 Aura"] = self.power(
+            game,
+            "Aura",
+            ["Bishop Tier 1 Aura"],
+            "Bishop",
+            ["Faith", "Focus"],
+            10,
+            spellRank=True,
+        )
+        self.book["Blood Mage Tier 1 Drain"] = self.power(
+            game,
+            "Drain",
+            ["Blood Mage Tier 1 Drain"],
+            "Blood Mage",
+            ["Intelligence", "Stamina"],
+            8,
+            spellRank=True,
+        )
         self.book["Chance to Return from the Dead Each Turn"] = self.power(
             game,
             "Overcome the Grave",
@@ -146,6 +173,14 @@ class powerBook(object):
             ["Charisma", "Strength"],
             10,
             antiStat=["Intelligence"],
+        )
+        self.book["Command: Fill Focus If An Ally Dies On Your Tile"] = self.power(
+            game,
+            "Aura",
+            ["Command: Fill Focus If An Ally Dies On Your Tile"],
+            "Bishop",
+            ["Faith", "Focus"],
+            10,
         )
         self.book["Command: MP Regeneration"] = self.power(
             game,
@@ -271,6 +306,16 @@ class powerBook(object):
             4,
             [self.book["Tile Resonance Increases Charisma Effects"]],
         )
+        self.book["Bishop Tier 2 Aura"] = self.power(
+            game,
+            "Aura",
+            ["Bishop Tier 2 Aura"],
+            "Bishop",
+            ["Faith", "Focus"],
+            9,
+            [self.book["Bishop Root 1 Aura"]],
+            spellRank=True,
+        )
         self.book["Bleeding Enemies Heal You"] = self.power(
             game,
             "Vampiric Thirst",
@@ -364,6 +409,15 @@ class powerBook(object):
             8,
             [self.book["Arrows: Add Effect: Poison"]],
         )
+        self.book["When Focused, All Area Spells Have Double Power"] = self.power(
+            game,
+            "Fervent Prayer",
+            ["When Focused, All Area Spells Have Double Power"],
+            "Bishop",
+            ["Faith", "Focus"],
+            9,
+            [self.book["Bishop Root 1 Aura"]],
+        )
         self.book["Your Bleeding Heals Allies On Your Tile"] = self.power(
             game,
             "Sanguine Bond",
@@ -417,6 +471,17 @@ class powerBook(object):
             [self.book["Attack Each Enemy In Range On Death"]],
             [self.book["Lost Health Increases Turn Speed"]],
             antiStat=["Luck"],
+            spellRank=True,
+        )
+        self.book["Bishop Tier 3 Aura"] = self.power(
+            game,
+            "Aura",
+            ["Bishop Tier 3 Aura"],
+            "Bishop",
+            ["Faith", "Focus"],
+            8,
+            [self.book["Bishop Tier 2 Aura"]],
+            [self.book["When Focused, All Area Spells Have Double Power"]],
             spellRank=True,
         )
         self.book["Command: Counterattacks"] = self.power(
