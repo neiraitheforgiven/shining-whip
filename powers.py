@@ -71,6 +71,14 @@ class powerBook(object):
             bannedClasses=["Knight"],
             spellRank=True,
         )
+        self.book["Attacking Does Not Interupt Your Singing"] = self.power(
+            game,
+            "Battle Song",
+            "Attacking Does Not Interupt Your Singing",
+            "Banshee",
+            ["Charisma", "Focus", "Strength", "Voice"],
+            5,
+        )
         self.book["Begin Battle with Two Ranks of Focus"] = self.power(
             game,
             "Preparation",
@@ -86,6 +94,14 @@ class powerBook(object):
             "Alchemist",
             ["Faith", "Luck"],
             9,
+        )
+        self.book["Increased Fame Effect On Allies"] = self.power(
+            game,
+            "Charismatic Leadership",
+            "Increased Fame Effect On Allies",
+            "Banshee",
+            ["Charisma", "Focus", "Strength", "Voice"],
+            5,
         )
         self.book["Increased Terrain Advantage I"] = self.power(
             game,
@@ -111,6 +127,14 @@ class powerBook(object):
             "Alchemist",
             ["Faith", "Luck"],
             9,
+        )
+        self.book["Tile Resonance Increases Charisma Effects"] = self.power(
+            game,
+            "Bragging Verse",
+            "Tile Resonance Increases Charisma Effects",
+            "Banshee",
+            ["Charisma", "Focus", "Strength", "Voice"],
+            5,
         )
 
         # Tier two powers
@@ -143,6 +167,24 @@ class powerBook(object):
             [self.book["Move After Attacking"]],
             bannedClasses=["Knight"],
             spellRank=True,
+        )
+        self.book["Banshee Tier 2 Axe Damage"] = self.power(
+            game,
+            "Axe Damage",
+            "Banshee Tier 2 Axe Damage",
+            "Banshee",
+            ["Charisma", "Focus", "Strength", "Voice"],
+            4,
+            [self.book["Tile Resonance Increases Charisma Effects"]],
+        )
+        self.book["Charm Targets Instead of Routing Them"] = self.power(
+            game,
+            "Siren Song",
+            "Charm Targets Instead of Routing Them",
+            "Banshee",
+            ["Charisma", "Focus", "Strength", "Voice"],
+            4,
+            [self.book["Tile Resonance Increases Charisma Effects"]],
         )
         self.book["Convert Faith and Magic"] = self.power(
             game,
@@ -233,6 +275,16 @@ class powerBook(object):
             [self.book["Assassin Tier 2 Death"]],
             [self.book["Prevent Enemy Counterattacks"]],
             bannedClasses=["Knight"],
+        )
+        self.book["When Focused, All Attacks Charm"] = self.power(
+            game,
+            "Irresistable Voice",
+            "When Focused, All Attacks Charm",
+            "Banshee",
+            ["Charisma", "Focus", "Strength", "Voice"],
+            3,
+            [self.book["Banshee Tier 2 Axe Damage"]],
+            [self.book["Charm Targets Instead of Routing Them"]],
         )
 
 
