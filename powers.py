@@ -79,6 +79,15 @@ class powerBook(object):
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
         )
+        self.book["Axes: Extra Unarmed Attack"] = self.power(
+            game,
+            "Axe Punch",
+            ["Axes: Extra Unarmed Attack"],
+            "Berserker",
+            ["Stamina", "Strength"],
+            10,
+            antiStat=["Luck"],
+        )
         self.book["Baron Root 1 Drain On Crit"] = self.power(
             game,
             "Essence Sap",
@@ -106,6 +115,28 @@ class powerBook(object):
             "Archer",
             ["Focus", "Dexterity"],
             9,
+        )
+        self.book["Berserker Tier 1 Heavy Damage"] = self.power(
+            game,
+            "Heavy Damage",
+            ["Berserker Tier 1 Heavy Damage"],
+            "Berserker",
+            ["Stamina", "Strength"],
+            10,
+            antiStat=["Luck"],
+            spellRank=True,
+        )
+        self.book[
+            "Berserker Tier 1 Berserking"
+        ] = self.power(  # Lost Health Adds Damage
+            game,
+            "Berserking",
+            ["Berserker Tier 1 Berserking"],
+            "Berserker",
+            ["Stamina", "Strength"],
+            10,
+            antiStat=["Luck"],
+            spellRank=True,
         )
         self.book["Chance to Return from the Dead Each Turn"] = self.power(
             game,
@@ -221,6 +252,16 @@ class powerBook(object):
             bannedClasses=["Knight"],
             spellRank=True,
         )
+        self.book["Attack Each Enemy In Range On Death"] = self.power(
+            game,
+            "Final Stand",
+            ["Attack Each Enemy In Range On Death"],
+            "Berserker",
+            ["Stamina", "Strength"],
+            9,
+            [self.book["Berserker Tier 1 Berserking"]],
+            antiStat=["Luck"],
+        )
         self.book["Banshee Tier 2 Axe Damage"] = self.power(
             game,
             "Axe Damage",
@@ -284,6 +325,16 @@ class powerBook(object):
             ["Intelligence", "Luck"],
             8,
             [self.book["Archmage Tier 1 Bolt"]],
+        )
+        self.book["Lost Health Increases Turn Speed"] = self.power(
+            game,
+            "Tunnel Vision",
+            ["Lost Health Increases Turn Speed"],
+            "Berserker",
+            ["Stamina", "Strength"],
+            9,
+            [self.book["Berserker Tier 1 Berserking"]],
+            antiStat=["Luck"],
         )
         self.book["Prevent Enemy Counterattacks"] = self.power(
             game,
@@ -355,6 +406,18 @@ class powerBook(object):
             7,
             [self.book["Arrows: Increases Damage I"]],
             [self.book["Ranged Attacks Don't Miss"]],
+        )
+        self.book["Berserker Tier 3 Berserking"] = self.power(
+            game,
+            "Berserking",
+            ["Berserker Tier 3 Berserking"],
+            "Berserker",
+            ["Stamina", "Strength"],
+            8,
+            [self.book["Attack Each Enemy In Range On Death"]],
+            [self.book["Lost Health Increases Turn Speed"]],
+            antiStat=["Luck"],
+            spellRank=True,
         )
         self.book["Command: Counterattacks"] = self.power(
             game,
