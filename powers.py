@@ -51,6 +51,26 @@ class powerBook(object):
             ["Focus", "Dexterity"],
             9,
         )
+        self.book["Assassin Tier 1 Death"] = self.power(
+            game,
+            "Death",
+            "Assassin Tier 1 Death",
+            "Assassin",
+            ["Dexterity", "Strength", "Luck"],
+            6,
+            bannedClasses=["Knight"],
+            spellRank=True,
+        )
+        self.book["Assassin Tier 1 Sleep"] = self.power(
+            game,
+            "Sleep",
+            "Assassin Tier 1 Sleep",
+            "Assassin",
+            ["Dexterity", "Strength", "Luck"],
+            6,
+            bannedClasses=["Knight"],
+            spellRank=True,
+        )
         self.book["Begin Battle with Two Ranks of Focus"] = self.power(
             game,
             "Preparation",
@@ -74,6 +94,15 @@ class powerBook(object):
             "Archer",
             ["Focus", "Dexterity"],
             9,
+        )
+        self.book["Move After Attacking"] = self.power(
+            game,
+            "Maneuverability",
+            "Move After Attacking",
+            "Assassin",
+            ["Dexterity", "Strength", "Luck"],
+            6,
+            bannedClasses=["Knight"],
         )
         self.book["Random Additional Spell I"] = self.power(
             game,
@@ -104,6 +133,17 @@ class powerBook(object):
             8,
             [self.book["Arrows: Add Effect: Poison"]],
         )
+        self.book["Assassin Tier 2 Death"] = self.power(
+            game,
+            "Death",
+            "Assassin Tier 2 Death",
+            "Assassin",
+            ["Dexterity", "Strength", "Luck"],
+            5,
+            [self.book["Move After Attacking"]],
+            bannedClasses=["Knight"],
+            spellRank=True,
+        )
         self.book["Convert Faith and Magic"] = self.power(
             game,
             "Mercurial Exchange",
@@ -121,6 +161,16 @@ class powerBook(object):
             ["Intelligence", "Luck"],
             8,
             [self.book["Archmage Tier 1 Bolt"]],
+        )
+        self.book["Prevent Enemy Counterattacks"] = self.power(
+            game,
+            "Smoke Bomb",
+            "Prevent Enemy Counterattacks",
+            "Assassin",
+            ["Dexterity", "Strength", "Luck"],
+            5,
+            [self.book["Move After Attacking"]],
+            bannedClasses=["Knight"],
         )
         self.book["Random Additional Spell II"] = self.power(
             game,
@@ -153,6 +203,16 @@ class powerBook(object):
             [self.book["Lightning Damage Breaks Focus"]],
             spellRank=True,
         )
+        self.book["Arrows: Increased Range"] = self.power(
+            game,
+            "Far Shot",
+            "Arrows: Increased Range",
+            "Archer",
+            ["Focus", "Dexterity"],
+            7,
+            [self.book["Arrows: Increased Damage I"]],
+            [self.book["Ranged Attacks Don't Miss"]],
+        )
         self.book["Command Your Random Spells"] = self.power(
             game,
             "Mercurial Education",
@@ -163,15 +223,16 @@ class powerBook(object):
             self.book["Convert Faith and Magic"],
             self.book["Random Additional Spell II"],
         )
-        self.book["Arrows: Increased Range"] = self.power(
+        self.book["Critical Hits Inflict Silence"] = self.power(
             game,
-            "Far Shot",
-            "Arrows: Increased Range",
-            "Archer",
-            ["Focus", "Dexterity"],
-            7,
-            [self.book["Arrows: Increased Damage I"]],
-            [self.book["Ranged Attacks Don't Miss"]],
+            "Hush Hit",
+            "Critical Hits Inflict Silence",
+            "Assassin",
+            ["Dexterity", "Strength", "Luck"],
+            4,
+            [self.book["Assassin Tier 2 Death"]],
+            [self.book["Prevent Enemy Counterattacks"]],
+            bannedClasses=["Knight"],
         )
 
 
@@ -187,7 +248,7 @@ class power(object):
         requirement1=[],
         requirement2=[],
         antiStat=[],
-        bannedClass=[],
+        bannedClasses=[],
         spellRank=False,
     ):
         self.name = name
