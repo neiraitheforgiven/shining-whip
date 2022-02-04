@@ -164,6 +164,15 @@ class powerBook(object):
             ["Intelligence", "Stamina"],
             8,
             spellRank=True,
+        )  # Note to self: Drain should leave targets bleeding
+        self.book["Blood Mage Tier 1 Muddle"] = self.power(
+            game,
+            "Muddle",
+            ["Blood Mage Tier 1 Muddle"],
+            "Blood Mage",
+            ["Intelligence", "Stamina"],
+            8,
+            spellRank=True,
         )
         self.book["Chance to Return from the Dead Each Turn"] = self.power(
             game,
@@ -189,6 +198,14 @@ class powerBook(object):
             "Bard",
             ["Charisma", "Dexterity", "Luck"],
             7,
+        )
+        self.book["Daggers Give Extra MP"] = self.power(
+            game,
+            "Ritual Blades",
+            ["Daggers Give Extra MP"],
+            "Blood Mage",
+            ["Intelligence", "Stamina"],
+            8,
         )
         self.book["Gain Extra Gold On Kills"] = self.power(
             game,
@@ -325,6 +342,26 @@ class powerBook(object):
             9,
             [self.book["Baron Root 1 Drain On Crit"]],
             antiStat=["Intelligence"],
+        )
+        self.book["Bleeding Enemies Give MP"] = self.power(
+            game,
+            "Essence",
+            ["Bleeding Enemies Give MP"],
+            "Blood Mage",
+            ["Intelligence", "Stamina"],
+            7,
+            [self.book["Blood Mage Tier 1 Drain"]],
+            spellRank=True,
+        )
+        self.book["Blood Mage Tier 2 Essence"] = self.power(
+            game,
+            "Essence",
+            ["Blood Mage Tier 2 Essence"],
+            "Blood Mage",
+            ["Intelligence", "Stamina"],
+            7,
+            [self.book["Blood Mage Tier 1 Drain"]],
+            spellRank=True,
         )
         self.book["Charm Targets Instead of Routing Them"] = self.power(
             game,
@@ -482,6 +519,17 @@ class powerBook(object):
             8,
             [self.book["Bishop Tier 2 Aura"]],
             [self.book["When Focused, All Area Spells Have Double Power"]],
+            spellRank=True,
+        )
+        self.book["Blood Mage Tier 3 Drain"] = self.power(
+            game,
+            "Drain",
+            ["Blood Mage Tier 3 Drain"],
+            "Blood Mage",
+            ["Intelligence", "Stamina"],
+            6,
+            [self.book["Bleeding Enemies Give MP"]],
+            [self.book["Blood Mage Tier 2 Essence"]],
             spellRank=True,
         )
         self.book["Command: Counterattacks"] = self.power(
