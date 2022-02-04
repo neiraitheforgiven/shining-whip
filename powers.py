@@ -79,6 +79,14 @@ class powerBook(object):
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
         )
+        self.book["Increases Critical Chance"] = self.power(
+            game,
+            "Bardic Luck",
+            ["Increases Critical Chance"],
+            "Bard",
+            ["Charisma", "Dexterity", "Luck"],
+            7,
+        )
         self.book["Begin Battle with Two Ranks of Focus"] = self.power(
             game,
             "Preparation",
@@ -86,6 +94,14 @@ class powerBook(object):
             "Archer",
             ["Focus", "Dexterity"],
             9,
+        )
+        self.book["Command: MP Regeneration"] = self.power(
+            game,
+            "Bardic Command",
+            ["Command: MP Regeneration"],
+            "Bard",
+            ["Charisma", "Dexterity", "Luck"],
+            7,
         )
         self.book["Gain Extra Gold On Kills"] = self.power(
             game,
@@ -127,6 +143,14 @@ class powerBook(object):
             "Alchemist",
             ["Faith", "Luck"],
             9,
+        )
+        self.book["Ranged Attacks Add Resonance to Target's Tile"] = self.power(
+            game,
+            "Whistling Shots",
+            ["Ranged Attacks Add Resonance to Target's Tile"],
+            "Bard",
+            ["Charisma", "Dexterity", "Luck"],
+            7,
         )
         self.book["Tile Resonance Increases Charisma Effects"] = self.power(
             game,
@@ -195,6 +219,24 @@ class powerBook(object):
             8,
             [self.book["Random Additional Spell I"]],
         )
+        self.book["Command: Casting Does Not Interupt Your Singing"] = self.power(
+            game,
+            "Melodious Spellweaving",
+            ["Command: Casting Does Not Interupt Your Singing"],
+            "Bard",
+            ["Charisma", "Dexterity", "Luck"],
+            6,
+            [self.book["Command: MP Regeneration"]],
+        )
+        self.book["Critical Hits Reduce Next Spell Cost to 0"] = self.power(
+            game,
+            "Stroke of Luck",
+            ["Critical Hits Reduce Next Spell Cost to 0"],
+            "Bard",
+            ["Charisma", "Dexterity", "Luck"],
+            6,
+            [self.book["Command: MP Regeneration"]],
+        )
         self.book["Lightning Damage Breaks Focus"] = self.power(
             game,
             "Sudden Shock",
@@ -245,6 +287,16 @@ class powerBook(object):
             [self.book["Lightning Damage Breaks Focus"]],
             spellRank=True,
         )
+        self.book["Add the Command Keyword to All Your Powers"] = self.power(
+            game,
+            "Bardic Leadership",
+            ["Add the Command Keyword to All Your Powers"],
+            "Bard",
+            ["Charisma", "Dexterity", "Luck"],
+            5,
+            [self.book["Command: Casting Does Not Interupt Your Singing"]],
+            [self.book["Critical Hits Reduce Next Spell Cost to 0"]],
+        )
         self.book["Arrows: Increased Range"] = self.power(
             game,
             "Far Shot",
@@ -286,6 +338,8 @@ class powerBook(object):
             [self.book["Banshee Tier 2 Axe Damage"]],
             [self.book["Charm Targets Instead of Routing Them"]],
         )
+
+        # Cross-over powers
 
 
 class power(object):
