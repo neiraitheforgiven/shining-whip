@@ -79,14 +79,6 @@ class powerBook(object):
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
         )
-        self.book["Increases Critical Chance"] = self.power(
-            game,
-            "Bardic Luck",
-            ["Increases Critical Chance"],
-            "Bard",
-            ["Charisma", "Dexterity", "Luck"],
-            7,
-        )
         self.book["Begin Battle with Two Ranks of Focus"] = self.power(
             game,
             "Preparation",
@@ -111,18 +103,26 @@ class powerBook(object):
             ["Faith", "Luck"],
             9,
         )
-        self.book["Increased Fame Effect On Allies"] = self.power(
+        self.book["Increases Fame Effect On Allies"] = self.power(
             game,
             "Charismatic Leadership",
-            "Increased Fame Effect On Allies",
+            "Increases Fame Effect On Allies",
             "Banshee",
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
         )
-        self.book["Increased Terrain Advantage I"] = self.power(
+        self.book["Increases Critical Chance"] = self.power(
+            game,
+            "Bardic Luck",
+            ["Increases Critical Chance"],
+            "Bard",
+            ["Charisma", "Dexterity", "Luck"],
+            7,
+        )
+        self.book["Increases Terrain Advantage I"] = self.power(
             game,
             "Higher Ground",
-            "Increased Terrain Advantage I",
+            "Increases Terrain Advantage I",
             "Archer",
             ["Focus", "Dexterity"],
             9,
@@ -172,10 +172,10 @@ class powerBook(object):
             [self.book["Archmage Tier 1 Bolt"]],
             spellRank=True,
         )
-        self.book["Arrows: Increased Damage I"] = self.power(
+        self.book["Arrows: Increases Damage I"] = self.power(
             game,
             "Composite Grip",
-            "Arrows: Increased Damage I",
+            "Arrows: Increases Damage I",
             "Archer",
             ["Focus", "Dexterity"],
             8,
@@ -297,14 +297,14 @@ class powerBook(object):
             [self.book["Command: Casting Does Not Interupt Your Singing"]],
             [self.book["Critical Hits Reduce Next Spell Cost to 0"]],
         )
-        self.book["Arrows: Increased Range"] = self.power(
+        self.book["Arrows: Increases Range"] = self.power(
             game,
             "Far Shot",
-            "Arrows: Increased Range",
+            "Arrows: Increases Range",
             "Archer",
             ["Focus", "Dexterity"],
             7,
-            [self.book["Arrows: Increased Damage I"]],
+            [self.book["Arrows: Increases Damage I"]],
             [self.book["Ranged Attacks Don't Miss"]],
         )
         self.book["Command Your Random Spells"] = self.power(
