@@ -16,6 +16,33 @@ class powerBook(object):
             9,
             spellRank=True,
         )
+        self.book["Archmage Tier 1 Bolt"] = self.power(
+            game,
+            "Bolt",
+            "Archmage Tier 1 Bolt",
+            "Archmage",
+            ["Intelligence", "Luck"],
+            9,
+            spellRank=True,
+        )
+        self.book["Archmage Teleport"] = self.power(
+            game,
+            "Teleport",
+            "Archmage Teleport",
+            "Archmage",
+            ["Intelligence", "Luck"],
+            9,
+            spellRank=True,
+        )
+        self.book["Archmage Root 1 Bolt"] = self.power(
+            game,
+            "Bolt",
+            "Archmage Root 1 Bolt",
+            "Archmage",
+            ["Intelligence", "Luck"],
+            9,
+            spellRank=True,
+        )
         self.book["Arrows: Add Effect: Poison"] = self.power(
             game,
             "Poisoned Tips",
@@ -58,6 +85,16 @@ class powerBook(object):
         )
 
         # Tier two powers
+        self.book["Archmage Tier 2 Bolt"] = self.power(
+            game,
+            "Bolt",
+            "Archmage Tier 2 Bolt",
+            "Archmage",
+            ["Intelligence", "Luck"],
+            8,
+            [self.book["Archmage Tier 1 Bolt"]],
+            spellRank=True,
+        )
         self.book["Arrows: Increased Damage I"] = self.power(
             game,
             "Composite Grip",
@@ -75,6 +112,15 @@ class powerBook(object):
             ["Faith", "Luck"],
             8,
             [self.book["Random Additional Spell I"]],
+        )
+        self.book["Lightning Damage Breaks Focus"] = self.power(
+            game,
+            "Sudden Shock",
+            "Lightning Damage Breaks Focus",
+            "Archmage",
+            ["Intelligence", "Luck"],
+            8,
+            [self.book["Archmage Tier 1 Bolt"]],
         )
         self.book["Random Additional Spell II"] = self.power(
             game,
@@ -96,6 +142,17 @@ class powerBook(object):
         )
 
         # Tier three powers
+        self.book["Archmage Tier 3 Bolt"] = self.power(
+            game,
+            "Bolt",
+            "Archmage Tier 2 Bolt",
+            "Archmage",
+            ["Intelligence", "Luck"],
+            7,
+            [self.book["Archmage Tier 2 Bolt"]],
+            [self.book["Lightning Damage Breaks Focus"]],
+            spellRank=True,
+        )
         self.book["Command Your Random Spells"] = self.power(
             game,
             "Mercurial Education",
