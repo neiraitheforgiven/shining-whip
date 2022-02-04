@@ -79,6 +79,26 @@ class powerBook(object):
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
         )
+        self.book["Baron Root 1 Drain On Crit"] = self.power(
+            game,
+            "Essence Sap",
+            ["Baron Root 1 Drain On Crit"],
+            "Baron",
+            ["Charisma", "Strength"],
+            10,
+            antiStat=["Intelligence"],
+            spellRank=True,
+        )
+        self.book["Baron Tier 1 Drain On Crit"] = self.power(
+            game,
+            "Essence Sap",
+            ["Baron Tier 1 Drain On Crit"],
+            "Baron",
+            ["Charisma", "Strength"],
+            10,
+            antiStat=["Intelligence"],
+            spellRank=True,
+        )
         self.book["Begin Battle with Two Ranks of Focus"] = self.power(
             game,
             "Preparation",
@@ -86,6 +106,15 @@ class powerBook(object):
             "Archer",
             ["Focus", "Dexterity"],
             9,
+        )
+        self.book["Chance to Return from the Dead Each Turn"] = self.power(
+            game,
+            "Overcome the Grave",
+            ["Chance to Return from the Dead Each Turn"],
+            "Baron",
+            ["Charisma", "Strength"],
+            10,
+            antiStat=["Intelligence"],
         )
         self.book["Command: MP Regeneration"] = self.power(
             game,
@@ -201,6 +230,16 @@ class powerBook(object):
             4,
             [self.book["Tile Resonance Increases Charisma Effects"]],
         )
+        self.book["Bleeding Enemies Heal You"] = self.power(
+            game,
+            "Vampiric Thirst",
+            ["Bleeding Enemies Heal You"],
+            "Baron",
+            ["Charisma", "Strength"],
+            9,
+            [self.book["Baron Root 1 Drain On Crit"]],
+            antiStat=["Intelligence"],
+        )
         self.book["Charm Targets Instead of Routing Them"] = self.power(
             game,
             "Siren Song",
@@ -274,6 +313,16 @@ class powerBook(object):
             8,
             [self.book["Arrows: Add Effect: Poison"]],
         )
+        self.book["Your Bleeding Heals Allies On Your Tile"] = self.power(
+            game,
+            "Sanguine Bond",
+            ["Your Bleeding Heals Allies On Your Tile"],
+            "Baron",
+            ["Charisma", "Strength"],
+            9,
+            [self.book["Baron Root 1 Drain On Crit"]],
+            antiStat=["Intelligence"],
+        )
 
         # Tier three powers
         self.book["Archmage Tier 3 Bolt"] = self.power(
@@ -306,6 +355,17 @@ class powerBook(object):
             7,
             [self.book["Arrows: Increases Damage I"]],
             [self.book["Ranged Attacks Don't Miss"]],
+        )
+        self.book["Command: Counterattacks"] = self.power(
+            game,
+            "Vampiric Command",
+            ["Command: Counterattacks"],
+            "Baron",
+            ["Charisma", "Strength"],
+            8,
+            [self.book["Bleeding Enemies Heal You"]],
+            [self.book["Your Bleeding Heals Allies On Your Tile"]],
+            antiStat=["Intelligence"],
         )
         self.book["Command Your Random Spells"] = self.power(
             game,
