@@ -185,7 +185,7 @@ class powerBook(object):
         )
         self.book["Command: Fill Focus If An Ally Dies On Your Tile"] = self.power(
             game,
-            "Aura",
+            "Solemn Vow",
             ["Command: Fill Focus If An Ally Dies On Your Tile"],
             "Bishop",
             ["Faith", "Focus"],
