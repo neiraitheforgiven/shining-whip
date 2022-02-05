@@ -191,6 +191,16 @@ class powerBook(object):
             ["Faith", "Focus"],
             10,
         )
+        self.book[
+            "Command: Increase Focus Generation on Fully Holy Tiles"
+        ] = self.power(
+            game,
+            "Sacred Dance",
+            "Command: Increase Focus Generation on Fully Holy Tiles",
+            "Cantor",
+            ["Luck", "Speed", "Voice"],
+            7,
+        )
         self.book["Command: MP Regeneration"] = self.power(
             game,
             "Bardic Command",
@@ -248,6 +258,14 @@ class powerBook(object):
             6,
             bannedClasses=["Knight"],
         )
+        self.book["Movement Does Not Interupt Your Singing"] = self.power(
+            game,
+            "Rhythmic Chanting",
+            "Movement Does Not Interupt Your Singing",
+            "Cantor",
+            ["Luck", "Speed", "Voice"],
+            7,
+        )
         self.book["Random Additional Spell I"] = self.power(
             game,
             "Mercurial Knowledge I",
@@ -271,6 +289,14 @@ class powerBook(object):
             "Banshee",
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
+        )
+        self.book["Vocal Attacks Have A Chance To Add Bleed"] = self.power(
+            game,
+            "Piercing Screams",
+            "Vocal Attacks Have A Chance To Add Bleed",
+            "Cantor",
+            ["Luck", "Speed", "Voice"],
+            7,
         )
 
         # Tier two powers
@@ -398,6 +424,24 @@ class powerBook(object):
             ["Charisma", "Dexterity", "Luck"],
             6,
             [self.book["Command: MP Regeneration"]],
+        )
+        self.book["Double Rout Chance Against Bleeding Targets"] = self.power(
+            game,
+            "Blood Cries Out",
+            "Double Rout Chance Against Bleeding Targets",
+            "Cantor",
+            ["Luck", "Speed", "Voice"],
+            6,
+            [self.book["Vocal Attacks Have A Chance To Add Bleed"]],
+        )
+        self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
+            game,
+            "Lacerating Response",
+            "Counter Enemy Vocal Attacks With Bleed",
+            "Cantor",
+            ["Luck", "Speed", "Voice"],
+            6,
+            [self.book["Vocal Attacks Have A Chance To Add Bleed"]],
         )
         self.book["Lightning Damage Breaks Focus"] = self.power(
             game,
@@ -563,6 +607,16 @@ class powerBook(object):
             [self.book["Assassin Tier 2 Death"]],
             [self.book["Prevent Enemy Counterattacks"]],
             bannedClasses=["Knight"],
+        )
+        self.book["Routing Adds Silence"] = self.power(
+            game,
+            "Deafening Fear",
+            "Routing Adds Silence",
+            "Cantor",
+            ["Luck", "Speed", "Voice"],
+            5,
+            [self.book["Double Rout Chance Against Bleeding Targets"]],
+            [self.book["Counter Enemy Vocal Attacks With Bleed"]],
         )
         self.book["When Focused, All Attacks Charm"] = self.power(
             game,
