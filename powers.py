@@ -174,6 +174,15 @@ class powerBook(object):
             8,
             spellRank=True,
         )
+        self.book["Catechumen Tier 1 Vocal Cascade"] = self.power(
+            game,
+            "Cascade",
+            "Catechumen Tier 1 Vocal Cascade",
+            "Catechumen",
+            ["Charisma", "Dexterity", "Strength", "Voice"],
+            6,
+            spellRank=True,
+        )
         self.book["Chance to Return from the Dead Each Turn"] = self.power(
             game,
             "Overcome the Grave",
@@ -258,6 +267,14 @@ class powerBook(object):
             6,
             bannedClasses=["Knight"],
         )
+        self.book["Move Faster On Holy Ground"] = self.power(
+            game,
+            "Beautiful Strides",
+            "Move Faster On Holy Ground",
+            "Catachumen",
+            ["Charisma", "Dexterity", "Strength", "Voice"],
+            6,
+        )
         self.book["Movement Does Not Interupt Your Singing"] = self.power(
             game,
             "Rhythmic Chanting",
@@ -281,6 +298,14 @@ class powerBook(object):
             "Bard",
             ["Charisma", "Dexterity", "Luck"],
             7,
+        )
+        self.book["Regenerate Health On Holy Ground"] = self.power(
+            game,
+            "Sustenance",
+            "Regenerate Health On Holy Ground",
+            "Catechumen",
+            ["Charisma", "Dexterity", "Strength", "Voice"],
+            6,
         )
         self.book["Tile Resonance Increases Charisma Effects"] = self.power(
             game,
@@ -499,6 +524,24 @@ class powerBook(object):
             9,
             [self.book["Bishop Root 1 Aura"]],
         )
+        self.book["Vocal Cascade With Weapons"] = self.power(
+            game,
+            "Santified Movements",
+            "Vocal Cascade With Weapons",
+            "Catechumen",
+            ["Charisma", "Dexterity", "Strength", "Voice"],
+            5,
+            [self.book["Catechumen Tier 1 Vocal Cascade"]],
+        )
+        self.book["Vocal Cascade Without Full Holy Resonance"] = self.power(
+            game,
+            "Indwelling Echoes",
+            "Vocal Cascade Without Full Holy Resonance",
+            "Catechumen",
+            ["Charisma", "Dexterity", "Strength", "Voice"],
+            5,
+            [self.book["Catechumen Tier 1 Vocal Cascade"]],
+        )
         self.book["Your Bleeding Heals Allies On Your Tile"] = self.power(
             game,
             "Sanguine Bond",
@@ -576,6 +619,17 @@ class powerBook(object):
             [self.book["Blood Mage Tier 2 Essence"]],
             spellRank=True,
         )
+        self.book["Catechumen Tier 3 Vocal Cascade"] = self.power(
+            game,
+            "Cascade",
+            "Catechumen Tier 3 Vocal Cascade",
+            "Catechumen",
+            ["Charisma", "Dexterity", "Strength", "Voice"],
+            6,
+            [self.book["Vocal Cascade With Weapons"]],
+            [self.book["Vocal Cascade Without Full Holy Resonance"]],
+            spellRank=True,
+        )
         self.book["Command: Counterattacks"] = self.power(
             game,
             "Vampiric Command",
@@ -599,7 +653,7 @@ class powerBook(object):
         )
         self.book["Critical Hits Inflict Silence"] = self.power(
             game,
-            "Hush Hit",
+            "Hush Up",
             "Critical Hits Inflict Silence",
             "Assassin",
             ["Dexterity", "Strength", "Luck"],
@@ -646,5 +700,8 @@ class power(object):
         antiStat=[],
         bannedClasses=[],
         spellRank=False,
+        descriptionOverride=None,
     ):
         self.name = name
+        if not self.descriptionOverride:
+            descriptionOverride = description
