@@ -288,6 +288,14 @@ class powerBook(object):
             7,
             antiStat=["Faith"],
         )
+        self.book["Dodging Grants and Spends One Charge Of Focus"] = self.power(
+            game,
+            "Flash Step",
+            ["Dodging Grants and Spends One Charge Of Focus"],
+            "Gambler",
+            ["Focus", "Luck", "Speed"],
+            7,
+        )
         self.book["Druid Tier 1 Blast"] = self.power(
             game,
             "Natural Resistance",
@@ -368,6 +376,14 @@ class powerBook(object):
             ["Charisma", "Dexterity", "Luck"],
             7,
         )
+        self.book["Increases Dodge Chance"] = self.power(
+            game,
+            "Dodge Roll",
+            ["Increases Dodge Chance"],
+            "Gambler",
+            ["Focus", "Luck", "Speed"],
+            7,
+        )
         self.book["Increases Fame Effect On Allies"] = self.power(
             game,
             "Charismatic Leadership",
@@ -375,6 +391,14 @@ class powerBook(object):
             "Banshee",
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
+        )
+        self.book["Increases Luck When Outnumbered"] = self.power(
+            game,
+            "Never Tell Me The Odds",
+            ["Increases Luck When Outnumbered"],
+            "Gambler",
+            ["Focus", "Luck", "Speed"],
+            7,
         )
         self.book["Increases Terrain Advantage I"] = self.power(
             game,
@@ -643,6 +667,15 @@ class powerBook(object):
             [self.book["Duelist Counterattack"]],
             antiStat=["Faith"],
         )
+        self.book["Dodging Grants Focus Charge"] = self.power(
+            game,
+            "Adrenaline Rush",
+            ["Dodging Grants Focus Charge"],
+            "Gambler",
+            ["Focus", "Luck", "Speed"],
+            6,
+            [self.book["Increases Luck When Outnumbered"]],
+        )
         self.book["Double Rout Chance Against Bleeding Targets"] = self.power(
             game,
             "Blood Cries Out",
@@ -690,6 +723,15 @@ class powerBook(object):
             8,
             [self.book["Flamecaster Tier 1 Blaze"]],
             spellRank=True,
+        )
+        self.book["Increases Focus When Outnumbered"] = self.power(
+            game,
+            "Against All Odds",
+            ["Increases Focus When Outnumbered"],
+            "Gambler",
+            ["Focus", "Luck", "Speed"],
+            6,
+            [self.book["Increases Luck When Outnumbered"]],
         )
         self.book["Lightning Damage Breaks Focus"] = self.power(
             game,
@@ -974,6 +1016,16 @@ class powerBook(object):
             3,
             [self.book["Banshee Tier 2 Axe Damage"]],
             [self.book["Charm Targets Instead of Routing Them"]],
+        )
+        self.book["When Focused, You Cannot Be Reduced Below 1 HP"] = self.power(
+            game,
+            "Die Hard",
+            ["When Focused, You Cannot Be Reduced Below 1 HP"],
+            "Gambler",
+            ["Focus", "Luck", "Speed"],
+            5,
+            [self.book["Dodging Grants Focus Charge"]],
+            [self.book["Increases Focus When Outnumbered"]],
         )
 
         # Cross-over powers
