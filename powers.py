@@ -279,6 +279,15 @@ class powerBook(object):
             ["Charisma", "Intelligence"],
             9,
         )
+        self.book["Defense Against Sword Damage"] = self.power(
+            game,
+            "Sword Defense",
+            "Defense Against Sword Damage",
+            "Duelist",
+            ["Charisma", "Luck", "Speed", "Stamina"],
+            7,
+            antiStat=["Faith"],
+        )
         self.book["Druid Tier 1 Blast"] = self.power(
             game,
             "Natural Resistance",
@@ -297,6 +306,15 @@ class powerBook(object):
             9,
             spellRank=True,
         )
+        self.book["Duelist Counterattack"] = self.power(
+            game,
+            "Counterattack",
+            "Duelist Counterattack",
+            "Duelist",
+            ["Charisma", "Luck", "Speed", "Stamina"],
+            7,
+            antiStat=["Faith"],
+        )
         self.book["Gain Extra Gold On Kills"] = self.power(
             game,
             "Lucre",
@@ -312,6 +330,17 @@ class powerBook(object):
             "Druid",
             ["Dexterity", "Faith"],
             9,
+        )
+        self.book[
+            "Increases Special Attack Chance When Sword Is Equipped"
+        ] = self.power(
+            game,
+            "Fencing Skill",
+            "Increases Special Attack Chance When Sword Is Equipped",
+            "Duelist",
+            ["Charisma", "Luck", "Speed", "Stamina"],
+            7,
+            antiStat=["Faith"],
         )
         self.book["Increases Critical Chance"] = self.power(
             game,
@@ -540,6 +569,15 @@ class powerBook(object):
             6,
             [self.book["Command: MP Regeneration"]],
         )
+        self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
+            game,
+            "Lacerating Response",
+            "Counter Enemy Vocal Attacks With Bleed",
+            "Cantor",
+            ["Luck", "Speed", "Voice"],
+            6,
+            [self.book["Vocal Attacks Have A Chance To Add Bleed"]],
+        )
         self.book["Critical Hits Reduce Next Spell Cost to 0"] = self.power(
             game,
             "Stroke of Luck",
@@ -569,6 +607,16 @@ class powerBook(object):
             [self.book["Defense Against Magic Damage"]],
             spellRank=True,
         )
+        self.book["Dodge Attacks That You Counter"] = self.power(
+            game,
+            "Parry",
+            "Dodge Attacks That You Counter",
+            "Duelist",
+            ["Charisma", "Luck", "Speed", "Stamina"],
+            6,
+            [self.book["Duelist Counterattack"]],
+            antiStat=["Faith"],
+        )
         self.book["Double Rout Chance Against Bleeding Targets"] = self.power(
             game,
             "Blood Cries Out",
@@ -597,15 +645,6 @@ class powerBook(object):
             8,
             [self.book["Druid Tier 1 Natural Resistance"]],
             spellRank=True,
-        )
-        self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
-            game,
-            "Lacerating Response",
-            "Counter Enemy Vocal Attacks With Bleed",
-            "Cantor",
-            ["Luck", "Speed", "Voice"],
-            6,
-            [self.book["Vocal Attacks Have A Chance To Add Bleed"]],
         )
         self.book["Lightning Damage Breaks Focus"] = self.power(
             game,
@@ -690,6 +729,18 @@ class powerBook(object):
             9,
             [self.book["Baron Root 1 Drain On Crit"]],
             antiStat=["Intelligence"],
+        )
+        self.book[
+            "Your Counterattacks Resolve Before The Attacks That Trigger Them"
+        ] = self.power(
+            game,
+            "Flash Strike",
+            "Your Counterattacks Resolve Before The Attacks That Trigger Them",
+            "Duelist",
+            ["Charisma", "Luck", "Speed", "Stamina"],
+            6,
+            [self.book["Duelist Counterattack"]],
+            antiStat=["Faith"],
         )
 
         # Tier three powers
@@ -822,6 +873,21 @@ class powerBook(object):
             [self.book["Druid Tier 2 Conduit"]],
             [self.book["Druid Tier 2 Detox"]],
             spellRank=True,
+        )
+        self.book["Enemy Sword Users Must Attack You If Possible"] = self.power(
+            game,
+            "Duelist's Challenge",
+            "Enemy Sword Users Must Attack You If Possible",
+            "Duelist",
+            ["Charisma", "Luck", "Speed", "Stamina"],
+            5,
+            [self.book["Dodge Attacks That You Counter"]],
+            [
+                self.book[
+                    "Your Counterattacks Resolve Before The Attacks That Trigger Them"
+                ]
+            ],
+            antiStat=["Faith"],
         )
         self.book["Routing Adds Silence"] = self.power(
             game,
