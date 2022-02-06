@@ -192,6 +192,33 @@ class powerBook(object):
             10,
             antiStat=["Intelligence"],
         )
+        self.book["Channeller Tier 1 Surge"] = self.power(
+            game,
+            "Surge",
+            "Channeller Tier 1 Surge",
+            "Channeller",
+            ["Dexterity", "Intelligence"],
+            9,
+            spellRank=True,
+        )
+        self.book["Channeller Root 1 Surge"] = self.power(
+            game,
+            "Surge",
+            "Channeller Root 1 Surge",
+            "Channeller",
+            ["Dexterity", "Intelligence"],
+            9,
+            spellRank=True,
+        )
+        self.book["Channeller Secondary 1 Surge"] = self.power(
+            game,
+            "Surge",
+            "Channeller Secondary 1 Surge",
+            "Channeller",
+            ["Dexterity", "Intelligence"],
+            9,
+            spellRank=True,
+        )
         self.book["Command: Fill Focus If An Ally Dies On Your Tile"] = self.power(
             game,
             "Solemn Vow",
@@ -412,6 +439,26 @@ class powerBook(object):
             ["Intelligence", "Stamina"],
             7,
             [self.book["Blood Mage Tier 1 Drain"]],
+            spellRank=True,
+        )
+        self.book["Channeller Tier 2 Silence"] = self.power(
+            game,
+            "Silence",
+            "Channeller Tier 2 Silence",
+            "Channeller",
+            ["Dexterity", "Intelligence"],
+            8,
+            [self.book["Channeller Root 1 Surge"]],
+            spellRank=True,
+        )
+        self.book["Channeller Tier 2 Surge"] = self.power(
+            game,
+            "Surge",
+            "Channeller Tier 2 Surge",
+            "Channeller",
+            ["Dexterity", "Intelligence"],
+            8,
+            [self.book["Channeller Root 1 Surge"]],
             spellRank=True,
         )
         self.book["Charm Targets Instead of Routing Them"] = self.power(
@@ -671,6 +718,16 @@ class powerBook(object):
             5,
             [self.book["Double Rout Chance Against Bleeding Targets"]],
             [self.book["Counter Enemy Vocal Attacks With Bleed"]],
+        )
+        self.book["Silence Enemies Who Cast A Spell That You Know On You"] = self.power(
+            game,
+            "Counterspell",
+            "Silence Enemies Who Cast A Spell That You Know On You",
+            "Channeller",
+            ["Dexterity", "Intelligence"],
+            7,
+            [self.book["Channeller Tier 2 Surge"]],
+            [self.book["Channeller Tier 2 Silence"]],
         )
         self.book["When Focused, All Attacks Charm"] = self.power(
             game,
