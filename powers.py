@@ -253,6 +253,32 @@ class powerBook(object):
             ["Intelligence", "Stamina"],
             8,
         )
+        self.book["Dark Mage Tier 1 Blaze"] = self.power(
+            game,
+            "Blaze",
+            "Dark Mage Tier 1 Blaze",
+            "Dark Mage",
+            ["Charisma", "Intelligence"],
+            9,
+            spellRank=True,
+        )
+        self.book["Dark Mage Tier 1 Freeze"] = self.power(
+            game,
+            "Freeze",
+            "Dark Mage Tier 1 Freeze",
+            "Dark Mage",
+            ["Charisma", "Intelligence"],
+            9,
+            spellRank=True,
+        )
+        self.book["Defense Against Magic Damage"] = self.power(
+            game,
+            "Magical Defense",
+            "Defense Against Magic Damage",
+            "Dark Mage",
+            ["Charisma", "Intelligence"],
+            9,
+        )
         self.book["Gain Extra Gold On Kills"] = self.power(
             game,
             "Lucre",
@@ -497,6 +523,26 @@ class powerBook(object):
             6,
             [self.book["Command: MP Regeneration"]],
         )
+        self.book["Dark Mage Tier 2 Death"] = self.power(
+            game,
+            "Death",
+            "Dark Mage Tier 2 Death",
+            "Dark Mage",
+            ["Charisma", "Intelligence"],
+            8,
+            [self.book["Defense Against Magic Damage"]],
+            spellRank=True,
+        )
+        self.book["Dark Mage Tier 2 Silence"] = self.power(
+            game,
+            "Silence",
+            "Dark Mage Tier 2 Silence",
+            "Dark Mage",
+            ["Charisma", "Intelligence"],
+            8,
+            [self.book["Defense Against Magic Damage"]],
+            spellRank=True,
+        )
         self.book["Double Rout Chance Against Bleeding Targets"] = self.power(
             game,
             "Blood Cries Out",
@@ -708,6 +754,17 @@ class powerBook(object):
             [self.book["Assassin Tier 2 Death"]],
             [self.book["Prevent Enemy Counterattacks"]],
             bannedClasses=["Knight"],
+        )
+        self.book["Dark Mage Tier 3 Death"] = self.power(
+            game,
+            "Death",
+            "Dark Mage Tier 3 Death",
+            "Dark Mage",
+            ["Charisma", "Intelligence"],
+            7,
+            [self.book["Dark Mage Tier 2 Death"]],
+            [self.book["Dark Mage Tier 2 Silence"]],
+            spellRank=True,
         )
         self.book["Routing Adds Silence"] = self.power(
             game,
