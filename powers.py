@@ -486,6 +486,33 @@ class powerBook(object):
             ["Focus", "Dexterity"],
             9,
         )
+        self.book["Mage Knight Root 1 Blaze"] = self.power(
+            game,
+            "Blaze",
+            "Mage Knight Root 1 Blaze",
+            "Mage Knight",
+            ["Charisma", "Intelligence", "Speed", "Strength"],
+            5,
+            spellRank=True,
+        )
+        self.book["Mage Knight Root 2 Bolt"] = self.power(
+            game,
+            "Bolt",
+            "Mage Knight Root 2 Bolt",
+            "Mage Knight",
+            ["Charisma", "Intelligence", "Speed", "Strength"],
+            5,
+            spellRank=True,
+        )
+        self.book["Mage Knight Tier 1 Freeze"] = self.power(
+            game,
+            "Freeze",
+            "Mage Knight Tier 1 Freeze",
+            "Mage Knight",
+            ["Charisma", "Intelligence", "Speed", "Strength"],
+            5,
+            spellRank=True,
+        )
         self.book["Magic Cost Reduction"] = self.power(
             game,
             "Arcane Efficiency",
@@ -909,6 +936,17 @@ class powerBook(object):
             6,
             [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
         )
+        self.book[
+            "Lance Attacks Grant Vulnerability Against Known Spell Schools"
+        ] = self.power(
+            game,
+            "Conductive Lance",
+            "Lance Attacks Grant Vulnerability Against Known Spell Schools",
+            "Mage Knight",
+            ["Charisma", "Intelligence", "Speed", "Strength"],
+            4,
+            [self.book["Mage Knight Root 1 Blaze"]],
+        )
         self.book["Lightning Damage Breaks Focus"] = self.power(
             game,
             "Sudden Shock",
@@ -964,6 +1002,15 @@ class powerBook(object):
             ["Focus", "Dexterity"],
             8,
             [self.book["Arrows: Add Effect: Poison"]],
+        )
+        self.book["Reduces Chance To Be Inflicted By Status Spells"] = self.power(
+            game,
+            "Defense Against The Dark Arts",
+            "Reduces Chance To Be Inflicted By Status Spells",
+            "Mage Knight",
+            ["Charisma", "Intelligence", "Speed", "Strength"],
+            4,
+            [self.book["Mage Knight Root 1 Blaze"]],
         )
         self.book["When Focused, All Area Spells Have Double Power"] = self.power(
             game,
@@ -1233,6 +1280,22 @@ class powerBook(object):
             7,
             [self.book["Channeller Tier 2 Surge"]],
             [self.book["Channeller Tier 2 Silence"]],
+        )
+        self.book[
+            "When Attacking A Target That Is Vulnerable To A Spell School You Know, Cast a Rank I Version Of The Spell At Them"
+        ] = self.power(
+            game,
+            "Elemental Judgement",
+            "When Attacking A Target That Is Vulnerable To A Spell School You Know, Cast a Rank I Version Of The Spell At Them",
+            "Mage Knight",
+            ["Charisma", "Intelligence", "Speed", "Strength"],
+            3,
+            [
+                self.book[
+                    "Lance Attacks Grant Vulnerability Against Known Spell Schools"
+                ]
+            ],
+            [self.book["Reduces Chance To Be Inflicted By Status Spells"]],
         )
         self.book["When Focused, All Attacks Charm"] = self.power(
             game,
