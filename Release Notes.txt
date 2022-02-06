@@ -4,7 +4,7 @@ Features:
 Battle 12, the fight against General Sohorn, has been added!
 When creating a game, you can now ask for a tutorial. If activated, the game will give you teaching moments whenever a new feature comes into play.
 Orders to units can now be chained by typing a list of commands into the command prompt. For example, instead of having to answer four command prompts to tell a unit to move to tile 8 and cast spell 2 on target 0, you could just type "m8s20" into a single prompt.
-Movement can not be cancelled by telling the unit to move to its current location.
+Movement can now be cancelled by telling the unit to move to its current location.
 Rather than typing words like "skip" to skip content, this has been replaced with a simple standardized prompt to press enter.
 The unit with the current turn will now appear more *VISIBLE* on the map view.
 Enemies that grant trophies on death will now appear marked with a * on the map view.
