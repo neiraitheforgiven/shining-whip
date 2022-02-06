@@ -450,6 +450,15 @@ class powerBook(object):
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
         )
+        self.book["Increases Lance Damage For Each Tile Moved This Turn"] = self.power(
+            game,
+            "Charge",
+            "Increases Lance Damage For Each Tile Moved This Turn",
+            "Knight",
+            ["Charisma", "Speed", "Stamina", "Strength"],
+            7,
+            antiStat=["Intelligence"],
+        )
         self.book["Increases Luck When Outnumbered"] = self.power(
             game,
             "Never Tell Me The Odds",
@@ -494,6 +503,17 @@ class powerBook(object):
             6,
             bannedClasses=["Knight"],
         )
+        self.book[
+            "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
+        ] = self.power(
+            game,
+            "Mounted Movement",
+            "Move an Additional Tile As Long As You Don't Move On Unstable Ground",
+            "Knight",
+            ["Charisma", "Speed", "Stamina", "Strength"],
+            7,
+            antiStat=["Intelligence"],
+        )
         self.book["Move Faster On Holy Ground"] = self.power(
             game,
             "Beautiful Strides",
@@ -525,6 +545,15 @@ class powerBook(object):
             "Bard",
             ["Charisma", "Dexterity", "Luck"],
             7,
+        )
+        self.book["Reduces the Effect of Unholy Ground By One Rank"] = self.power(
+            game,
+            "Blessed Shield",
+            "Reduces the Effect of Unholy Ground By One Rank",
+            "Knight",
+            ["Charisma", "Speed", "Stamina", "Strength"],
+            7,
+            antiStat=["Intelligence"],
         )
         self.book["Regenerate Health On Holy Ground"] = self.power(
             game,
@@ -802,6 +831,18 @@ class powerBook(object):
             [self.book["Druid Tier 1 Natural Resistance"]],
             spellRank=True,
         )
+        self.book[
+            "Enemy Lance and Spear Users Must Attack You If Possible"
+        ] = self.power(
+            game,
+            "Knight's Challenge",
+            "Enemy Lance and Spear Users Must Attack You If Possible",
+            "Knight",
+            ["Charisma", "Speed", "Stamina", "Strength"],
+            6,
+            [self.book["Reduces the Effect of Unholy Ground By One Rank"]],
+            antiStat=["Intelligence"],
+        )
         self.book["Fire Damage Consumes Bleed To Deal Double Damage"] = self.power(
             game,
             "Cauterize",
@@ -839,6 +880,16 @@ class powerBook(object):
             ["Intelligence", "Luck", "Strength"],
             6,
             [self.book["Hero Tier 1 Bolt"]],
+        )
+        self.book["Increases Damage Dealt On Unholy Ground"] = self.power(
+            game,
+            "Paladin",
+            "Increases Damage Dealt On Unholy Ground",
+            "Knight",
+            ["Charisma", "Speed", "Stamina", "Strength"],
+            6,
+            [self.book["Reduces the Effect of Unholy Ground By One Rank"]],
+            antiStat=["Intelligence"],
         )
         self.book["Increases Focus When Outnumbered"] = self.power(
             game,
@@ -1141,6 +1192,17 @@ class powerBook(object):
             [self.book["Hero Tier 2 Bolt"]],
             [self.book["Killing Enemies Gives MP"]],
             spellRank=True,
+        )
+        self.book["Increases Chance To Rout On Unholy Ground"] = self.power(
+            game,
+            "Paladin",
+            "Increases Chance To Rout On Unholy Ground",
+            "Knight",
+            ["Charisma", "Speed", "Stamina", "Strength"],
+            5,
+            [self.book["Enemy Lance and Spear Users Must Attack You If Possible"]],
+            [self.book["Increases Damage Dealt On Unholy Ground"]],
+            antiStat=["Intelligence"],
         )
         self.book["Reduces Minimum Attack Range By 1"] = self.power(
             game,
