@@ -79,6 +79,14 @@ class powerBook(object):
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
         )
+        self.book["Attacks Change Type To Match Vulnerabilities"] = self.power(
+            game,
+            "Suffering",
+            "Attacks Change Type To Match Vulnerabilities",
+            "Jongleur",
+            ["Charisma", "Dexterity", "Focus"],
+            7,
+        )
         self.book["Axes: Extra Unarmed Attack"] = self.power(
             game,
             "Axe Punch",
@@ -304,6 +312,14 @@ class powerBook(object):
             ["Focus", "Luck", "Speed"],
             7,
         )
+        self.book["Double Chances For Multiple Attacks"] = self.power(
+            game,
+            "Sleight Of Hand",
+            "Double Chances For Multiple Attacks",
+            "Jongleur",
+            ["Charisma", "Dexterity", "Focus"],
+            7,
+        )
         self.book["Druid Tier 1 Blast"] = self.power(
             game,
             "Natural Resistance",
@@ -330,6 +346,14 @@ class powerBook(object):
             ["Charisma", "Luck", "Speed", "Stamina"],
             7,
             antiStat=["Faith"],
+        )
+        self.book["Fame Reduces Enemy Stats"] = self.power(
+            game,
+            "Intimidation",
+            "Fame Reduces Enemy Stats",
+            "Jongleur",
+            ["Charisma", "Dexterity", "Focus"],
+            7,
         )
         self.book["Flamecaster Root 1 Blaze"] = self.power(
             game,
@@ -683,6 +707,15 @@ class powerBook(object):
             6,
             [self.book["Command: MP Regeneration"]],
         )
+        self.book["Counter Enemy Attacks By Inflicting Bleed"] = self.power(
+            game,
+            "Sharpness",
+            "Counter Enemy Attacks By Inflicting Bleed",
+            "Jongleur",
+            ["Charisma", "Dexterity", "Focus"],
+            6,
+            [self.book["Double Chances For Multiple Attacks"]],
+        )
         self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
             game,
             "Lacerating Response",
@@ -844,6 +877,15 @@ class powerBook(object):
             [self.book["Berserker Tier 1 Berserking"]],
             antiStat=["Luck"],
         )
+        self.book["Move To Follow Routed Enemies And Attack Again"] = self.power(
+            game,
+            "Follow-on Attack",
+            "Move To Follow Routed Enemies And Attack Again",
+            "Jongleur",
+            ["Charisma", "Dexterity", "Focus"],
+            6,
+            [self.book["Double Chances For Multiple Attacks"]],
+        )
         self.book["Prevent Enemy Counterattacks"] = self.power(
             game,
             "Smoke Bomb",
@@ -987,6 +1029,16 @@ class powerBook(object):
             [self.book["Bleeding Enemies Give MP"]],
             [self.book["Blood Mage Tier 2 Essence"]],
             spellRank=True,
+        )
+        self.book["Can Make Triple Attacks"] = self.power(
+            game,
+            "Triple Attack",
+            "Can Make Triple Attacks",
+            "Jongleur",
+            ["Charisma", "Dexterity", "Focus"],
+            5,
+            [self.book["Move To Follow Routed Enemies And Attack Again"]],
+            [self.book["Move To Follow Routed Enemies And Attack Again"]],
         )
         self.book["Catechumen Tier 3 Vocal Cascade"] = self.power(
             game,
