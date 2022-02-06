@@ -16,15 +16,6 @@ class powerBook(object):
             9,
             spellRank=True,
         )
-        self.book["Archmage Tier 1 Bolt"] = self.power(
-            game,
-            "Bolt",
-            "Archmage Tier 1 Bolt",
-            "Archmage",
-            ["Intelligence", "Luck"],
-            9,
-            spellRank=True,
-        )
         self.book["Archmage Teleport"] = self.power(
             game,
             "Teleport",
@@ -38,6 +29,15 @@ class powerBook(object):
             game,
             "Bolt",
             "Archmage Root 1 Bolt",
+            "Archmage",
+            ["Intelligence", "Luck"],
+            9,
+            spellRank=True,
+        )
+        self.book["Archmage Tier 1 Bolt"] = self.power(
+            game,
+            "Bolt",
+            "Archmage Tier 1 Bolt",
             "Archmage",
             ["Intelligence", "Luck"],
             9,
@@ -192,15 +192,6 @@ class powerBook(object):
             10,
             antiStat=["Intelligence"],
         )
-        self.book["Channeller Tier 1 Surge"] = self.power(
-            game,
-            "Surge",
-            "Channeller Tier 1 Surge",
-            "Channeller",
-            ["Dexterity", "Intelligence"],
-            9,
-            spellRank=True,
-        )
         self.book["Channeller Root 1 Surge"] = self.power(
             game,
             "Surge",
@@ -210,10 +201,19 @@ class powerBook(object):
             9,
             spellRank=True,
         )
-        self.book["Channeller Secondary 1 Surge"] = self.power(
+        self.book["Channeller Root 2 Surge"] = self.power(
             game,
             "Surge",
-            "Channeller Secondary 1 Surge",
+            "Channeller Root 2 Surge",
+            "Channeller",
+            ["Dexterity", "Intelligence"],
+            9,
+            spellRank=True,
+        )
+        self.book["Channeller Tier 1 Surge"] = self.power(
+            game,
+            "Surge",
+            "Channeller Tier 1 Surge",
             "Channeller",
             ["Dexterity", "Intelligence"],
             9,
@@ -515,7 +515,7 @@ class powerBook(object):
             "Bishop",
             ["Faith", "Focus"],
             9,
-            [self.book["Bishop Root 1 Aura"]],
+            [self.book["Bishop Tier 1 Aura"]],
             spellRank=True,
         )
         self.book["Bleeding Enemies Heal You"] = self.power(
@@ -525,7 +525,7 @@ class powerBook(object):
             "Baron",
             ["Charisma", "Strength"],
             9,
-            [self.book["Baron Root 1 Drain On Crit"]],
+            [self.book["Baron Tier 1 Drain On Crit"]],
             antiStat=["Intelligence"],
         )
         self.book["Bleeding Enemies Give MP"] = self.power(
@@ -555,7 +555,7 @@ class powerBook(object):
             "Channeller",
             ["Dexterity", "Intelligence"],
             8,
-            [self.book["Channeller Root 1 Surge"]],
+            [self.book["Channeller Tier 1 Surge"]],
             spellRank=True,
         )
         self.book["Channeller Tier 2 Surge"] = self.power(
@@ -565,7 +565,7 @@ class powerBook(object):
             "Channeller",
             ["Dexterity", "Intelligence"],
             8,
-            [self.book["Channeller Root 1 Surge"]],
+            [self.book["Channeller Tier 1 Surge"]],
             spellRank=True,
         )
         self.book["Charm Targets Instead of Routing Them"] = self.power(
@@ -679,7 +679,7 @@ class powerBook(object):
             "Flamecaster",
             ["Charisma", "Intelligence"],
             8,
-            [self.book["Flamecaster Root 1 Blaze"]],
+            [self.book["Flamecaster Tier 1 Blaze"]],
         )
         self.book["Flamecaster Tier 2 Blaze"] = self.power(
             game,
@@ -688,7 +688,7 @@ class powerBook(object):
             "Flamecaster",
             ["Charisma", "Intelligence"],
             8,
-            [self.book["Flamecaster Root 1 Blaze"]],
+            [self.book["Flamecaster Tier 1 Blaze"]],
             spellRank=True,
         )
         self.book["Lightning Damage Breaks Focus"] = self.power(
@@ -745,7 +745,7 @@ class powerBook(object):
             "Bishop",
             ["Faith", "Focus"],
             9,
-            [self.book["Bishop Root 1 Aura"]],
+            [self.book["Bishop Tier 1 Aura"]],
         )
         self.book["Vocal Cascade With Weapons"] = self.power(
             game,
@@ -772,7 +772,7 @@ class powerBook(object):
             "Baron",
             ["Charisma", "Strength"],
             9,
-            [self.book["Baron Root 1 Drain On Crit"]],
+            [self.book["Baron Tier 1 Drain On Crit"]],
             antiStat=["Intelligence"],
         )
         self.book[
