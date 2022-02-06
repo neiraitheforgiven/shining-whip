@@ -279,6 +279,14 @@ class powerBook(object):
             ["Charisma", "Intelligence"],
             9,
         )
+        self.book["Defense Against Ranged Physical Damage"] = self.power(
+            game,
+            "Projectile Defense",
+            "Defense Against Ranged Physical Damage",
+            "Heavy Shot",
+            ["Dexterity", "Speed", "Stamina"],
+            7,
+        )
         self.book["Defense Against Sword Damage"] = self.power(
             game,
             "Sword Defense",
@@ -357,23 +365,20 @@ class powerBook(object):
             ["Dexterity", "Faith"],
             9,
         )
-        self.book[
-            "Increases Special Attack Chance When Sword Is Equipped"
-        ] = self.power(
-            game,
-            "Fencing Skill",
-            "Increases Special Attack Chance When Sword Is Equipped",
-            "Duelist",
-            ["Charisma", "Luck", "Speed", "Stamina"],
-            7,
-            antiStat=["Faith"],
-        )
         self.book["Increases Critical Chance"] = self.power(
             game,
             "Bardic Luck",
             ["Increases Critical Chance"],
             "Bard",
             ["Charisma", "Dexterity", "Luck"],
+            7,
+        )
+        self.book["Increases Critical Hit Damage"] = self.power(
+            game,
+            "Explosives",
+            "Increases Critical Hit Damage",
+            "Heavy Shot",
+            ["Dexterity", "Speed", "Stamina"],
             7,
         )
         self.book["Increases Dodge Chance"] = self.power(
@@ -399,6 +404,17 @@ class powerBook(object):
             "Gambler",
             ["Focus", "Luck", "Speed"],
             7,
+        )
+        self.book[
+            "Increases Special Attack Chance When Sword Is Equipped"
+        ] = self.power(
+            game,
+            "Fencing Skill",
+            "Increases Special Attack Chance When Sword Is Equipped",
+            "Duelist",
+            ["Charisma", "Luck", "Speed", "Stamina"],
+            7,
+            antiStat=["Faith"],
         )
         self.book["Increases Terrain Advantage I"] = self.power(
             game,
@@ -464,6 +480,16 @@ class powerBook(object):
             "Catechumen",
             ["Charisma", "Dexterity", "Strength", "Voice"],
             6,
+        )
+        self.book[
+            "Slower Movement That Ignores Terrain Cost And Blockers"
+        ] = self.power(
+            game,
+            "Unhindered Movement",
+            "Slower Movement That Ignores Terrain Cost And Blockers",
+            "Heavy Shot",
+            ["Dexterity", "Speed", "Stamina"],
+            7,
         )
         self.book["Tile Resonance Increases Charisma Effects"] = self.power(
             game,
@@ -724,6 +750,15 @@ class powerBook(object):
             [self.book["Flamecaster Tier 1 Blaze"]],
             spellRank=True,
         )
+        self.book["Attacks Are Always Heavy When Your Health Is Full"] = self.power(
+            game,
+            "Unhindered Movement",
+            "Attacks Are Always Heavy When Your Health Is Full",
+            "Heavy Shot",
+            ["Dexterity", "Speed", "Stamina"],
+            6,
+            [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
+        )
         self.book["Increases Focus When Outnumbered"] = self.power(
             game,
             "Against All Odds",
@@ -732,6 +767,15 @@ class powerBook(object):
             ["Focus", "Luck", "Speed"],
             6,
             [self.book["Increases Luck When Outnumbered"]],
+        )
+        self.book["Increases Focus When Stationary"] = self.power(
+            game,
+            "Unhindered Movement",
+            "Increases Focus When Stationary",
+            "Heavy Shot",
+            ["Dexterity", "Speed", "Stamina"],
+            6,
+            [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
         )
         self.book["Lightning Damage Breaks Focus"] = self.power(
             game,
@@ -986,6 +1030,16 @@ class powerBook(object):
             [self.book["Flamecaster Tier 2 Blaze"]],
             [self.book["Fire Damage Consumes Bleed To Deal Double Damage"]],
             spellRank=True,
+        )
+        self.book["Reduces Minimum Attack Range By 1"] = self.power(
+            game,
+            "Unhindered Movement",
+            "Reduces Minimum Attack Range By 1",
+            "Heavy Shot",
+            ["Dexterity", "Speed", "Stamina"],
+            5,
+            [self.book["Attacks Are Always Heavy When Your Health Is Full"]],
+            [self.book["Increases Focus When Stationary"]],
         )
         self.book["Routing Adds Silence"] = self.power(
             game,
