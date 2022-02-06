@@ -279,6 +279,24 @@ class powerBook(object):
             ["Charisma", "Intelligence"],
             9,
         )
+        self.book["Druid Tier 1 Blast"] = self.power(
+            game,
+            "Natural Resistance",
+            "Druid Tier 1 Blast",
+            "Druid",
+            ["Dexterity", "Faith"],
+            9,
+            spellRank=True,
+        )
+        self.book["Druid Tier 1 Natural Resistance"] = self.power(
+            game,
+            "Natural Resistance",
+            "Druid Tier 1 Natural Resistance",
+            "Druid",
+            ["Dexterity", "Faith"],
+            9,
+            spellRank=True,
+        )
         self.book["Gain Extra Gold On Kills"] = self.power(
             game,
             "Lucre",
@@ -287,13 +305,13 @@ class powerBook(object):
             ["Faith", "Luck"],
             9,
         )
-        self.book["Increases Fame Effect On Allies"] = self.power(
+        self.book["Ignore Opponents on First Two Tiles of Movement"] = self.power(
             game,
-            "Charismatic Leadership",
-            "Increases Fame Effect On Allies",
-            "Banshee",
-            ["Charisma", "Focus", "Strength", "Voice"],
-            5,
+            "Stealthy Movement",
+            "Ignore Opponents on First Two Tiles of Movement",
+            "Druid",
+            ["Dexterity", "Faith"],
+            9,
         )
         self.book["Increases Critical Chance"] = self.power(
             game,
@@ -302,6 +320,14 @@ class powerBook(object):
             "Bard",
             ["Charisma", "Dexterity", "Luck"],
             7,
+        )
+        self.book["Increases Fame Effect On Allies"] = self.power(
+            game,
+            "Charismatic Leadership",
+            "Increases Fame Effect On Allies",
+            "Banshee",
+            ["Charisma", "Focus", "Strength", "Voice"],
+            5,
         )
         self.book["Increases Terrain Advantage I"] = self.power(
             game,
@@ -552,6 +578,26 @@ class powerBook(object):
             6,
             [self.book["Vocal Attacks Have A Chance To Add Bleed"]],
         )
+        self.book["Druid Tier 2 Conduit"] = self.power(
+            game,
+            "Conduit",
+            "Druid Tier 2 Conduit",
+            "Druid",
+            ["Dexterity", "Faith"],
+            8,
+            [self.book["Druid Tier 1 Natural Resistance"]],
+            spellRank=True,
+        )
+        self.book["Druid Tier 2 Detox"] = self.power(
+            game,
+            "Detox",
+            "Druid Tier 2 Detox",
+            "Druid",
+            ["Dexterity", "Faith"],
+            8,
+            [self.book["Druid Tier 1 Natural Resistance"]],
+            spellRank=True,
+        )
         self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
             game,
             "Lacerating Response",
@@ -764,6 +810,17 @@ class powerBook(object):
             7,
             [self.book["Dark Mage Tier 2 Death"]],
             [self.book["Dark Mage Tier 2 Silence"]],
+            spellRank=True,
+        )
+        self.book["Druid Tier 3 Natural Resistance"] = self.power(
+            game,
+            "Natural Resistance",
+            "Druid Tier 2 Natural Resistance",
+            "Druid",
+            ["Dexterity", "Faith"],
+            7,
+            [self.book["Druid Tier 2 Conduit"]],
+            [self.book["Druid Tier 2 Detox"]],
             spellRank=True,
         )
         self.book["Routing Adds Silence"] = self.power(
