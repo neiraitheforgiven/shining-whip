@@ -357,6 +357,35 @@ class powerBook(object):
             ["Faith", "Luck"],
             9,
         )
+        self.book["Hero Counterattack"] = self.power(
+            game,
+            "Counterattack",
+            "Hero Counterattack",
+            "Hero",
+            ["Intelligence", "Luck", "Strength"],
+            7,
+            antiPower=[self.book["Duelist Counterattack"]],
+            spellRank=True,
+        )
+        self.book["Duelist Counterattack"].antiPower = self.book["Hero Counterattack"]
+        self.book["Hero Root 1 Egress"] = self.power(
+            game,
+            "Egress",
+            "Hero Root 1 Egress",
+            "Hero",
+            ["Intelligence", "Luck", "Strength"],
+            7,
+            spellRank=True,
+        )
+        self.book["Hero Tier 1 Bolt"] = self.power(
+            game,
+            "Bolt",
+            "Hero Tier 1 Bolt",
+            "Hero",
+            ["Intelligence", "Luck", "Strength"],
+            7,
+            spellRank=True,
+        )
         self.book["Ignore Opponents on First Two Tiles of Movement"] = self.power(
             game,
             "Stealthy Movement",
@@ -548,6 +577,15 @@ class powerBook(object):
             9,
             [self.book["Berserker Tier 1 Berserking"]],
             antiStat=["Luck"],
+        )
+        self.book["Attacks Are Always Heavy When Your Health Is Full"] = self.power(
+            game,
+            "Unhindered Movement",
+            "Attacks Are Always Heavy When Your Health Is Full",
+            "Heavy Shot",
+            ["Dexterity", "Speed", "Stamina"],
+            6,
+            [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
         )
         self.book["Banshee Tier 2 Axe Damage"] = self.power(
             game,
@@ -750,14 +788,24 @@ class powerBook(object):
             [self.book["Flamecaster Tier 1 Blaze"]],
             spellRank=True,
         )
-        self.book["Attacks Are Always Heavy When Your Health Is Full"] = self.power(
+        self.book["Hero Tier 2 Bolt"] = self.power(
             game,
-            "Unhindered Movement",
-            "Attacks Are Always Heavy When Your Health Is Full",
-            "Heavy Shot",
-            ["Dexterity", "Speed", "Stamina"],
+            "Bolt",
+            "Hero Tier 2 Bolt",
+            "Hero",
+            ["Intelligence", "Luck", "Strength"],
             6,
-            [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
+            [self.book["Hero Tier 1 Bolt"]],
+            spellRank=True,
+        )
+        self.book["Killing Enemies Gives MP"] = self.power(
+            game,
+            "Destiny Unveiled",
+            "Killing Enemies Gives MP",
+            "Hero",
+            ["Intelligence", "Luck", "Strength"],
+            6,
+            [self.book["Hero Tier 1 Bolt"]],
         )
         self.book["Increases Focus When Outnumbered"] = self.power(
             game,
@@ -1031,6 +1079,17 @@ class powerBook(object):
             [self.book["Fire Damage Consumes Bleed To Deal Double Damage"]],
             spellRank=True,
         )
+        self.book["Hero Tier 3 Bolt"] = self.power(
+            game,
+            "Bolt",
+            "Hero Tier 3 Bolt",
+            "Hero",
+            ["Intelligence", "Luck", "Strength"],
+            5,
+            [self.book["Hero Tier 2 Bolt"]],
+            [self.book["Killing Enemies Gives MP"]],
+            spellRank=True,
+        )
         self.book["Reduces Minimum Attack Range By 1"] = self.power(
             game,
             "Unhindered Movement",
@@ -1096,10 +1155,12 @@ class power(object):
         multiplier,
         requirement1=[],
         requirement2=[],
+        antiPower=[],
         antiStat=[],
         bannedClasses=[],
-        spellRank=False,
         descriptionOverride=None,
+        minimumLevel=None,
+        spellRank=False,
     ):
         self.name = name
         if not self.descriptionOverride:
