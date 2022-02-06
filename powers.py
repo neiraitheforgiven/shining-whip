@@ -315,6 +315,24 @@ class powerBook(object):
             7,
             antiStat=["Faith"],
         )
+        self.book["Flamecaster Root 1 Blaze"] = self.power(
+            game,
+            "Blaze",
+            "Flamecaster Root 1 Blaze",
+            "Flamecaster",
+            ["Charisma", "Intelligence"],
+            9,
+            spellRank=True,
+        )
+        self.book["Flamecaster Tier 1 Blaze"] = self.power(
+            game,
+            "Blaze",
+            "Flamecaster Tier 1 Blaze",
+            "Flamecaster",
+            ["Charisma", "Intelligence"],
+            9,
+            spellRank=True,
+        )
         self.book["Gain Extra Gold On Kills"] = self.power(
             game,
             "Lucre",
@@ -364,6 +382,14 @@ class powerBook(object):
             "Increases Terrain Advantage I",
             "Archer",
             ["Focus", "Dexterity"],
+            9,
+        )
+        self.book["Magic Cost Reduction"] = self.power(
+            game,
+            "Arcane Efficiency",
+            "Magic Cost Reduction",
+            "Flamecaster",
+            ["Charisma", "Intelligence"],
             9,
         )
         self.book["Move After Attacking"] = self.power(
@@ -646,6 +672,25 @@ class powerBook(object):
             [self.book["Druid Tier 1 Natural Resistance"]],
             spellRank=True,
         )
+        self.book["Fire Damage Consumes Bleed To Deal Double Damage"] = self.power(
+            game,
+            "Cauterize",
+            "Fire Damage Consumes Bleed To Deal Double Damage",
+            "Flamecaster",
+            ["Charisma", "Intelligence"],
+            8,
+            [self.book["Flamecaster Root 1 Blaze"]],
+        )
+        self.book["Flamecaster Tier 2 Blaze"] = self.power(
+            game,
+            "Blaze",
+            "Flamecaster Tier 2 Blaze",
+            "Flamecaster",
+            ["Charisma", "Intelligence"],
+            8,
+            [self.book["Flamecaster Root 1 Blaze"]],
+            spellRank=True,
+        )
         self.book["Lightning Damage Breaks Focus"] = self.power(
             game,
             "Sudden Shock",
@@ -888,6 +933,17 @@ class powerBook(object):
                 ]
             ],
             antiStat=["Faith"],
+        )
+        self.book["Flamecaster Tier 3 Blaze"] = self.power(
+            game,
+            "Blaze",
+            "Flamecaster Tier 3 Blaze",
+            "Flamecaster",
+            ["Charisma", "Intelligence"],
+            7,
+            [self.book["Flamecaster Tier 2 Blaze"]],
+            [self.book["Fire Damage Consumes Bleed To Deal Double Damage"]],
+            spellRank=True,
         )
         self.book["Routing Adds Silence"] = self.power(
             game,
