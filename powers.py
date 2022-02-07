@@ -482,6 +482,15 @@ class powerBook(object):
             7,
             "Critical Hit Damage",
         )
+        self.book["Increases Damage Dealt On Unholy Ground"] = self.power(
+            game,
+            "Avenging Wrath",
+            "Increases Damage Dealt On Unholy Ground",
+            "Monk",
+            ["Faith", "Stamina", "Strength"],
+            7,
+            "Damage On Unholy Ground",
+        )
         self.book["Increases Dodge Chance"] = self.power(
             game,
             "Dodge Roll",
@@ -578,6 +587,26 @@ class powerBook(object):
             ["Charisma", "Intelligence"],
             9,
             "MP Amount",
+        )
+        self.book["Monk Root 1 Silence"] = self.power(
+            game,
+            "Silence",
+            "Monk Root 1 Silence",
+            "Monk",
+            ["Faith", "Stamina", "Strength"],
+            7,
+            "Status Effectiveness",
+            spellRank=True,
+        )
+        self.book["Monk Tier 1 Heal"] = self.power(
+            game,
+            "Heal",
+            "Monk Tier 1 Heal",
+            "Monk",
+            ["Faith", "Stamina", "Strength"],
+            7,
+            "Healing Amount",
+            spellRank=True,
         )
         self.book["Move After Attacking"] = self.power(
             game,
@@ -1039,6 +1068,16 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
         )
+        self.book["Increases Healing To Allies On Unholy Ground"] = self.power(
+            game,
+            "Heal",
+            "Increases Healing To Allies On Unholy Ground",
+            "Monk",
+            ["Faith", "Stamina", "Strength"],
+            6,
+            "Healing Amount",
+            [self.book["Monk Tier 1 Heal"]],
+        )
         self.book[
             "Lance Attacks Grant Vulnerability Against Known Spell Schools"
         ] = self.power(
@@ -1071,6 +1110,17 @@ class powerBook(object):
             "Axes Skill",
             [self.book["Berserker Tier 1 Berserking"]],
             antiStat=["Luck"],
+        )
+        self.book["Monk Tier 2 Heal"] = self.power(
+            game,
+            "Heal",
+            "Monk Tier 2 Heal",
+            "Monk",
+            ["Faith", "Stamina", "Strength"],
+            6,
+            "Healing Amount",
+            [self.book["Monk Tier 1 Heal"]],
+            spellRank=True,
         )
         self.book["Move To Follow Routed Enemies And Attack Again"] = self.power(
             game,
@@ -1383,6 +1433,17 @@ class powerBook(object):
             [self.book["Enemy Lance and Spear Users Must Attack You If Possible"]],
             [self.book["Increases Damage Dealt On Unholy Ground"]],
             antiStat=["Intelligence"],
+        )
+        self.book["Monk Tier 3 Aura"] = self.power(
+            game,
+            "Aura",
+            "Monk Tier 3 Aura",
+            "Monk",
+            ["Faith", "Stamina", "Strength"],
+            5,
+            "Healing Amount",
+            [self.book["Monk Tier 2 Heal"]],
+            [self.book["Increases Healing To Allies On Unholy Ground"]],
         )
         self.book["Reduces Minimum Attack Range By 1"] = self.power(
             game,
