@@ -289,6 +289,15 @@ class powerBook(object):
             8,
             "MP Amount",
         )
+        self.book["Daggers Range + 1"] = self.power(
+            game,
+            "Ninja Fire",
+            "Daggers Range + 1",
+            "Ninja",
+            ["Dexterity", "Intelligence", "Speed"],
+            8,
+            "Daggers Skill",
+        )
         self.book["Dark Mage Tier 1 Blaze"] = self.power(
             game,
             "Blaze",
@@ -648,6 +657,16 @@ class powerBook(object):
             7,
             "Vocal Strength",
         )
+        self.book["Ninja Tier 1 Ninja Fire"] = self.power(
+            game,
+            "Ninja Fire",
+            "Ninja Tier 1 Ninja Fire",
+            "Ninja",
+            ["Dexterity", "Intelligence", "Speed"],
+            8,
+            "Fire Damage",
+            spellRank=True,
+        )
         self.book["Random Additional Spell I"] = self.power(
             game,
             "Mercurial Knowledge I",
@@ -713,6 +732,15 @@ class powerBook(object):
             ["Luck", "Speed", "Voice"],
             7,
             "Vocal Strength",
+        )
+        self.book["When Focused, Spell Are Free"] = self.power(
+            game,
+            "Transcendant Ninjitsu",
+            "When Focused, Spell Are Free",
+            "Ninja",
+            ["Dexterity", "Intelligence", "Speed"],
+            8,
+            "MP Amount",
         )
 
         # Tier two powers
@@ -1132,6 +1160,28 @@ class powerBook(object):
             "Fame",
             [self.book["Double Chances For Multiple Attacks"]],
         )
+        self.book["Ninja Tier 2 Ninja Bolt"] = self.power(
+            game,
+            "Ninja Bolt",
+            "Ninja Tier 2 Ninja Bolt",
+            "Ninja",
+            ["Dexterity", "Intelligence", "Speed"],
+            7,
+            "Lightning Damage",
+            [self.book["Ninja Tier 1 Ninja Fire"]],
+            spellRank=True,
+        )
+        self.book["Ninja Tier 2 Ninja Fire"] = self.power(
+            game,
+            "Ninja Fire",
+            "Ninja Tier 2 Ninja Fire",
+            "Ninja",
+            ["Dexterity", "Intelligence", "Speed"],
+            7,
+            "Fire Damage",
+            [self.book["Ninja Tier 1 Ninja Fire"]],
+            spellRank=True,
+        )
         self.book["Prevent Enemy Counterattacks"] = self.power(
             game,
             "Smoke Bomb",
@@ -1444,6 +1494,18 @@ class powerBook(object):
             "Healing Amount",
             [self.book["Monk Tier 2 Heal"]],
             [self.book["Increases Healing To Allies On Unholy Ground"]],
+        )
+        self.book["Ninja Tier 3 Ninja Bolt"] = self.power(
+            game,
+            "Ninja Bolt",
+            "Ninja Tier 3 Ninja Bolt",
+            "Ninja",
+            ["Dexterity", "Intelligence", "Speed"],
+            6,
+            "Lightning Damage",
+            [self.book["Ninja Tier 2 Ninja Bolt"]],
+            [self.book["Ninja Tier 2 Ninja Fire"]],
+            spellRank=True,
         )
         self.book["Reduces Minimum Attack Range By 1"] = self.power(
             game,
