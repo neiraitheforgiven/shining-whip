@@ -733,6 +733,24 @@ class powerBook(object):
             7,
             "Vocal Strength",
         )
+        self.book["Vocal Attacks Have A Change To Double Attack"] = self.power(
+            game,
+            "Vocal Agility",
+            "Vocal Attacks Have A Change To Double Attack",
+            "Oracle",
+            ["Charisma", "Focus", "Luck", "Voice"],
+            6,
+            "Vocal Strength",
+        )
+        self.book["When Focused, Double Your Luck"] = self.power(
+            game,
+            "Make Your Own Luck",
+            "When Focused, Double Your Luck",
+            "Oracle",
+            ["Charisma", "Focus", "Luck", "Voice"],
+            6,
+            "Vocal Strength",
+        )
         self.book["When Focused, Spell Are Free"] = self.power(
             game,
             "Transcendant Ninjitsu",
@@ -741,6 +759,15 @@ class powerBook(object):
             ["Dexterity", "Intelligence", "Speed"],
             8,
             "MP Amount",
+        )
+        self.book["Your Vocal Attacks Ignore Penalty From Evil Resonance"] = self.power(
+            game,
+            "Overcome the Darkness",
+            "Your Vocal Attacks Ignore Penalty From Evil Resonance",
+            "Oracle",
+            ["Charisma", "Focus", "Luck", "Voice"],
+            6,
+            "Vocal Strength",
         )
 
         # Tier two powers
@@ -1223,6 +1250,16 @@ class powerBook(object):
             "Swords Skill",
             [self.book["Mage Knight Root 1 Blaze"]],
         )
+        self.book["Staff Skills Increase the Damage of Vocal Attacks"] = self.power(
+            game,
+            "Singing Rod",
+            "Staff Skills Increase the Damage of Vocal Attacks",
+            "Oracle",
+            ["Charisma", "Focus", "Luck", "Voice"],
+            5,
+            "Vocal Strength",
+            [self.book["Vocal Attacks Have A Change To Double Attack"]],
+        )
         self.book["When Focused, All Area Spells Have Double Power"] = self.power(
             game,
             "Fervent Prayer",
@@ -1232,6 +1269,18 @@ class powerBook(object):
             9,
             "Focus Intensity",
             [self.book["Bishop Tier 1 Aura"]],
+        )
+        self.book[
+            "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
+        ] = self.power(
+            game,
+            "Jarring Shout",
+            "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects",
+            "Oracle",
+            ["Charisma", "Focus", "Luck", "Voice"],
+            5,
+            "Vocal Strength",
+            [self.book["Vocal Attacks Have A Change To Double Attack"]],
         )
         self.book["Vocal Cascade With Weapons"] = self.power(
             game,
@@ -1393,8 +1442,8 @@ class powerBook(object):
             ["Faith", "Luck"],
             7,
             "Fame",
-            self.book["Convert Faith and Magic"],
-            self.book["Random Additional Spell II"],
+            [self.book["Convert Faith and Magic"]],
+            [self.book["Random Additional Spell II"]],
         )
         self.book["Critical Hits Inflict Silence"] = self.power(
             game,
@@ -1494,6 +1543,7 @@ class powerBook(object):
             "Healing Amount",
             [self.book["Monk Tier 2 Heal"]],
             [self.book["Increases Healing To Allies On Unholy Ground"]],
+            spellRank=True,
         )
         self.book["Ninja Tier 3 Ninja Bolt"] = self.power(
             game,
@@ -1578,6 +1628,23 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Dodging Grants Focus Charge"]],
             [self.book["Increases Focus When Outnumbered"]],
+        )
+        self.book[
+            "Vocal Attacks Isolate Targets From Their Allies' Effects"
+        ] = self.power(
+            game,
+            "Deafening Voice",
+            "Vocal Attacks Isolate Targets From Their Allies' Effects",
+            "Oracle",
+            ["Charisma", "Focus", "Luck", "Voice"],
+            4,
+            "Vocal Strength",
+            [self.book["Staff Skills Increase the Damage of Vocal Attacks"]],
+            [
+                self.book[
+                    "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
+                ]
+            ],
         )
 
         # Cross-over powers
