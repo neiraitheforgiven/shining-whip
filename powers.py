@@ -558,6 +558,15 @@ class powerBook(object):
             9,
             "Terrain Advantage",
         )
+        self.book["Increases Your Area Of Holy Resonance To Five Tiles"] = self.power(
+            game,
+            "Booming Voice",
+            "Increases Your Area Of Holy Resonance To Five Tiles",
+            "Orator",
+            ["Charisma", "Intelligence", "Voice"],
+            7,
+            "Vocal Strength",
+        )
         self.book["Mage Knight Root 1 Blaze"] = self.power(
             game,
             "Blaze",
@@ -615,6 +624,16 @@ class powerBook(object):
             ["Faith", "Stamina", "Strength"],
             7,
             "Healing Amount",
+            spellRank=True,
+        )
+        self.book["Orator Tier 1 Shield"] = self.power(
+            game,
+            "Shield",
+            "Orator Tier 1 Shield",
+            "Orator",
+            ["Charisma", "Intelligence", "Voice"],
+            7,
+            "Status Effectiveness",
             spellRank=True,
         )
         self.book["Move After Attacking"] = self.power(
@@ -767,6 +786,15 @@ class powerBook(object):
             "Oracle",
             ["Charisma", "Focus", "Luck", "Voice"],
             6,
+            "Vocal Strength",
+        )
+        self.book["Your Resonating Tiles Stay Resonating Longer"] = self.power(
+            game,
+            "Sustaining Notes",
+            "Your Resonating Tiles Stay Resonating Longer",
+            "Orator",
+            ["Charisma", "Intelligence", "Voice"],
+            7,
             "Vocal Strength",
         )
 
@@ -931,6 +959,16 @@ class powerBook(object):
             6,
             "Vocal Strength",
             [self.book["Command: MP Regeneration"]],
+        )
+        self.book["Command: Increases Defense On Resonant Tiles"] = self.power(
+            game,
+            "Radiant Shield",
+            "Command: Increases Defense On Resonant Tiles",
+            "Orator",
+            ["Charisma", "Intelligence", "Voice"],
+            6,
+            "Vocal Strength",
+            [self.book["Increases Your Area Of Holy Resonance To Five Tiles"]],
         )
         self.book["Counter Enemy Attacks By Inflicting Bleed"] = self.power(
             game,
@@ -1260,6 +1298,18 @@ class powerBook(object):
             "Vocal Strength",
             [self.book["Vocal Attacks Have A Change To Double Attack"]],
         )
+        self.book[
+            "Spells You Target On One Of Your Resonating Tiles Target All Your Resonating Tiles"
+        ] = self.power(
+            game,
+            "Brilliant Radiance",
+            "Spells You Target On One Of Your Resonating Tiles Target All Your Resonating Tiles",
+            "Orator",
+            ["Charisma", "Intelligence", "Voice"],
+            6,
+            "Vocal Strength",
+            [self.book["Increases Your Area Of Holy Resonance To Five Tiles"]],
+        )
         self.book["When Focused, All Area Spells Have Double Power"] = self.power(
             game,
             "Fervent Prayer",
@@ -1532,6 +1582,21 @@ class powerBook(object):
             [self.book["Enemy Lance and Spear Users Must Attack You If Possible"]],
             [self.book["Increases Damage Dealt On Unholy Ground"]],
             antiStat=["Intelligence"],
+        )
+        self.book["Increases Your Area Of Holy Resonance To Seven Tiles"] = self.power(
+            game,
+            "Brilliant Radiance",
+            "Increases Your Area Of Holy Resonance To Seven Tiles",
+            "Orator",
+            ["Charisma", "Intelligence", "Voice"],
+            5,
+            "Vocal Strength",
+            [self.book["Command: Increases Defense On Resonant Tiles"]],
+            [
+                self.book[
+                    "Spells You Target On One Of Your Resonating Tiles Target All Your Resonating Tiles"
+                ]
+            ],
         )
         self.book["Monk Tier 3 Aura"] = self.power(
             game,
