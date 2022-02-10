@@ -686,6 +686,35 @@ class powerBook(object):
             "Fire Damage",
             spellRank=True,
         )
+        self.book["One Negative Status Cleanses Itself Each Turn"] = self.power(
+            game,
+            "Pure of Heart",
+            "One Negative Status Cleanses Itself Each Turn",
+            "Peregrine",
+            ["Faith", "Speed"],
+            9,
+            "FP Amount",
+        )
+        self.book["Peregrine Root 1 Dispel"] = self.power(
+            game,
+            "Dispel",
+            "Peregrine Root 1 Dispel",
+            "Peregrine",
+            ["Faith", "Speed"],
+            9,
+            "FP Amount",
+            spellRank=True,
+        )
+        self.book["Peregrine Tier 1 Blast"] = self.power(
+            game,
+            "Blast",
+            "Peregrine Tier 1 Blast",
+            "Peregrine",
+            ["Faith", "Speed"],
+            9,
+            "Wind Damage",
+            spellRank=True,
+        )
         self.book["Random Additional Spell I"] = self.power(
             game,
             "Mercurial Knowledge I",
@@ -1247,6 +1276,17 @@ class powerBook(object):
             [self.book["Ninja Tier 1 Ninja Fire"]],
             spellRank=True,
         )
+        self.book["Peregrine Tier 2 Blast"] = self.power(
+            game,
+            "Blast",
+            "Peregrine Tier 2 Blast",
+            "Peregrine",
+            ["Faith", "Speed"],
+            8,
+            "Wind Damage",
+            [self.book["Peregrine Tier 1 Blast"]],
+            spellRank=True,
+        )
         self.book["Prevent Enemy Counterattacks"] = self.power(
             game,
             "Smoke Bomb",
@@ -1309,6 +1349,16 @@ class powerBook(object):
             6,
             "Vocal Strength",
             [self.book["Increases Your Area Of Holy Resonance To Five Tiles"]],
+        )
+        self.book["Unarmed Range + 1 and deals wind damage"] = self.power(
+            game,
+            "Throw the Wind",
+            "Unarmed Range + 1 and deals wind damage",
+            "Peregrine",
+            ["Faith", "Speed"],
+            8,
+            "Unarmed Skill",
+            [self.book["Peregrine Tier 1 Blast"]],
         )
         self.book["When Focused, All Area Spells Have Double Power"] = self.power(
             game,
@@ -1620,6 +1670,18 @@ class powerBook(object):
             "Lightning Damage",
             [self.book["Ninja Tier 2 Ninja Bolt"]],
             [self.book["Ninja Tier 2 Ninja Fire"]],
+            spellRank=True,
+        )
+        self.book["Peregrine Tier 3 Blast"] = self.power(
+            game,
+            "Blast",
+            "Peregrine Tier 3 Blast",
+            "Peregrine",
+            ["Faith", "Speed"],
+            7,
+            "Wind Damage",
+            [self.book["Peregrine Tier 2 Blast"]],
+            [self.book["Unarmed Range + 1 and deals wind damage"]],
             spellRank=True,
         )
         self.book["Reduces Minimum Attack Range By 1"] = self.power(
