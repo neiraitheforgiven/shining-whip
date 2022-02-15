@@ -626,16 +626,6 @@ class powerBook(object):
             "Healing Amount",
             spellRank=True,
         )
-        self.book["Orator Tier 1 Shield"] = self.power(
-            game,
-            "Shield",
-            "Orator Tier 1 Shield",
-            "Orator",
-            ["Charisma", "Intelligence", "Voice"],
-            7,
-            "Status Effectiveness",
-            spellRank=True,
-        )
         self.book["Move After Attacking"] = self.power(
             game,
             "Maneuverability",
@@ -695,6 +685,16 @@ class powerBook(object):
             9,
             "FP Amount",
         )
+        self.book["Orator Tier 1 Shield"] = self.power(
+            game,
+            "Shield",
+            "Orator Tier 1 Shield",
+            "Orator",
+            ["Charisma", "Intelligence", "Voice"],
+            7,
+            "Status Effectiveness",
+            spellRank=True,
+        )
         self.book["Peregrine Root 1 Dispel"] = self.power(
             game,
             "Dispel",
@@ -713,6 +713,36 @@ class powerBook(object):
             ["Faith", "Speed"],
             9,
             "Wind Damage",
+            spellRank=True,
+        )
+        self.book["Priest Root 1 Detox"] = self.power(
+            game,
+            "Detox",
+            "Priest Root 1 Detox",
+            "Priest",
+            ["Charisma", "Faith", "Intelligence"],
+            7,
+            "FP Amount",
+            spellRank=True,
+        )
+        self.book["Priest Root 1 Heal"] = self.power(
+            game,
+            "Heal",
+            "Priest Root 1 Heal",
+            "Priest",
+            ["Charisma", "Faith", "Intelligence"],
+            7,
+            "Healing Amount",
+            spellRank=True,
+        )
+        self.book["Priest Tier 1 Heal"] = self.power(
+            game,
+            "Heal",
+            "Priest Tier 1 Heal",
+            "Priest",
+            ["Charisma", "Faith", "Intelligence"],
+            7,
+            "Healing Amount",
             spellRank=True,
         )
         self.book["Random Additional Spell I"] = self.power(
@@ -1190,6 +1220,16 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
         )
+        self.book["Increases Healing Magic Range By 1"] = self.power(
+            game,
+            "Heal",
+            "Increases Healing Magic Range By 1",
+            "Priest",
+            ["Charisma", "Faith", "Intelligence"],
+            6,
+            "Healing Amount",
+            [self.book["Priest Tier 1 Heal"]],
+        )
         self.book["Increases Healing To Allies On Unholy Ground"] = self.power(
             game,
             "Heal",
@@ -1297,6 +1337,17 @@ class powerBook(object):
             "Swords Skill",
             [self.book["Move After Attacking"]],
             bannedClasses=["Knight"],
+        )
+        self.book["Priest Tier 2 Heal"] = self.power(
+            game,
+            "Heal",
+            "Priest Tier 2 Heal",
+            "Priest",
+            ["Charisma", "Faith", "Intelligence"],
+            6,
+            "Healing Amount",
+            [self.book["Priest Tier 1 Heal"]],
+            spellRank=True,
         )
         self.book["Random Additional Spell II"] = self.power(
             game,
@@ -1682,6 +1733,18 @@ class powerBook(object):
             "Wind Damage",
             [self.book["Peregrine Tier 2 Blast"]],
             [self.book["Unarmed Range + 1 and deals wind damage"]],
+            spellRank=True,
+        )
+        self.book["Priest Tier 3 Heal"] = self.power(
+            game,
+            "Heal",
+            "Priest Tier 3 Heal",
+            "Priest",
+            ["Charisma", "Faith", "Intelligence"],
+            5,
+            "Healing Amount",
+            [self.book["Increases Healing Magic Range By 1"]],
+            [self.book["Priest Tier 2 Heal"]],
             spellRank=True,
         )
         self.book["Reduces Minimum Attack Range By 1"] = self.power(
