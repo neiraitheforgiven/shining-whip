@@ -745,6 +745,36 @@ class powerBook(object):
             "Healing Amount",
             spellRank=True,
         )
+        self.book["Prophet Root 1 Aura"] = self.power(
+            game,
+            "Aura",
+            "Prophet Root 1 Aura",
+            "Prophet",
+            ["Charisma", "Faith", "Voice"],
+            7,
+            "Healing Amount",
+            spellRank=True,
+        )
+        self.book["Prophet Root 1 Heal"] = self.power(
+            game,
+            "Heal",
+            "Prophet Root 1 Heal",
+            "Prophet",
+            ["Charisma", "Faith", "Voice"],
+            7,
+            "Healing Amount",
+            spellRank=True,
+        )
+        self.book["Prophet Tier 1 Slow"] = self.power(
+            game,
+            "Slow",
+            "Prophet Tier 1 Slow",
+            "Prophet",
+            ["Charisma", "Faith", "Voice"],
+            7,
+            "Status Effectiveness",
+            spellRank=True,
+        )
         self.book["Random Additional Spell I"] = self.power(
             game,
             "Mercurial Knowledge I",
@@ -1349,6 +1379,28 @@ class powerBook(object):
             [self.book["Priest Tier 1 Heal"]],
             spellRank=True,
         )
+        self.book["Prophet Tier 2 Aura"] = self.power(
+            game,
+            "Aura",
+            "Prophet Tier 2 Aura",
+            "Prophet",
+            ["Charisma", "Faith", "Voice"],
+            6,
+            "Healing Amount",
+            [self.book["Prophet Tier 1 Slow"]],
+            spellRank=True,
+        )
+        self.book["Prophet Tier 2 Quick"] = self.power(
+            game,
+            "Quick",
+            "Prophet Tier 2 Quick",
+            "Prophet",
+            ["Charisma", "Faith", "Voice"],
+            6,
+            "FP Amount",
+            [self.book["Prophet Tier 1 Slow"]],
+            spellRank=True,
+        )
         self.book["Random Additional Spell II"] = self.power(
             game,
             "Mercurial Knowledge II",
@@ -1745,6 +1797,18 @@ class powerBook(object):
             "Healing Amount",
             [self.book["Increases Healing Magic Range By 1"]],
             [self.book["Priest Tier 2 Heal"]],
+            spellRank=True,
+        )
+        self.book["Prophet Tier 3 Slow"] = self.power(
+            game,
+            "Slow",
+            "Prophet Tier 3 Slow",
+            "Prophet",
+            ["Charisma", "Faith", "Voice"],
+            5,
+            "Status Effectiveness",
+            [self.book["Prophet Tier 2 Aura"]],
+            [self.book["Prophet Tier 2 Quick"]],
             spellRank=True,
         )
         self.book["Reduces Minimum Attack Range By 1"] = self.power(
