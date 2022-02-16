@@ -549,6 +549,17 @@ class powerBook(object):
             "Swords Skill",
             antiStat=["Faith"],
         )
+        self.book[
+            "Increases Sword Damage If You Haven't Moved Since Last Attack"
+        ] = self.power(
+            game,
+            "Ono-ha Itto-ryu",
+            ["Increases Sword Damage If You Haven't Moved Since Last Attack"],
+            "Samurai",
+            ["Charisma", "Faith", "Stamina"],
+            10,
+            "Swords Skill",
+        )
         self.book["Increases Terrain Advantage I"] = self.power(
             game,
             "Higher Ground",
@@ -811,6 +822,25 @@ class powerBook(object):
             ["Charisma", "Dexterity", "Strength", "Voice"],
             6,
             "Damage On Unholy Ground",
+        )
+        self.book["Samurai Root 1 Boost"] = self.power(
+            game,
+            "Boost",
+            ["Samurai Root 1 Boost"],
+            "Samurai",
+            ["Charisma", "Faith", "Stamina"],
+            10,
+            "Faith Amount",
+            spellRank=True,
+        )
+        self.book["Single Sword Attacks Grant Focus Charge"] = self.power(
+            game,
+            "Iaijutsu",
+            ["Single Sword Attacks Grant Focus Charge"],
+            "Samurai",
+            ["Charisma", "Faith", "Stamina"],
+            10,
+            "Focus Amount",
         )
         self.book[
             "Slower Movement That Ignores Terrain Cost And Blockers"
@@ -1431,6 +1461,21 @@ class powerBook(object):
             "Swords Skill",
             [self.book["Mage Knight Root 1 Blaze"]],
         )
+        self.book["Samurai Tier 2 Boost"] = self.power(
+            game,
+            "Boost",
+            ["Samurai Tier 2 Boost"],
+            "Samurai",
+            ["Charisma", "Faith", "Stamina"],
+            9,
+            "Faith Amount",
+            [
+                self.book[
+                    "Increases Sword Damage If You Haven't Moved Since Last Attack"
+                ]
+            ],
+            spellRank=True,
+        )
         self.book["Staff Skills Increase the Damage of Vocal Attacks"] = self.power(
             game,
             "Singing Rod",
@@ -1463,10 +1508,26 @@ class powerBook(object):
             "Unarmed Skill",
             [self.book["Peregrine Tier 1 Blast"]],
         )
+        self.book[
+            "Use Greatest of Charisma, Faith, or Strength to deal Fire Damage When Attacking"
+        ] = self.power(
+            game,
+            "Boost",
+            "Use Greatest of Charisma, Faith, or Strength to deal Fire Damage When Attacking",
+            "Samurai",
+            ["Charisma", "Faith", "Stamina"],
+            9,
+            "Faith Amount",
+            [
+                self.book[
+                    "Increases Sword Damage If You Haven't Moved Since Last Attack"
+                ]
+            ],
+        )
         self.book["When Focused, All Area Spells Have Double Power"] = self.power(
             game,
             "Fervent Prayer",
-            ["When Focused, All Area Spells Have Double Power"],
+            "When Focused, All Area Spells Have Double Power",
             "Bishop",
             ["Faith", "Focus"],
             9,
@@ -1845,6 +1906,40 @@ class powerBook(object):
             [self.book["Channeller Tier 2 Silence"]],
         )
         self.book[
+            "Use Greatest of Charisma, Faith, Or Strength when Dodging and Defending"
+        ] = self.power(
+            game,
+            "Hyoho Niten Ichi-ryu",
+            "Use Greatest of Charisma, Faith, Or Strength when Dodging and Defending",
+            "Samurai",
+            ["Charisma", "Faith", "Stamina"],
+            8,
+            "Sword Skills",
+            [self.book["Samurai Tier 2 Boost"]],
+            [
+                self.book[
+                    "Use Greatest of Charisma, Faith, or Strength to deal Fire Damage When Attacking"
+                ]
+            ],
+        )
+        self.book[
+            "Vocal Attacks Isolate Targets From Their Allies' Effects"
+        ] = self.power(
+            game,
+            "Deafening Voice",
+            "Vocal Attacks Isolate Targets From Their Allies' Effects",
+            "Oracle",
+            ["Charisma", "Focus", "Luck", "Voice"],
+            4,
+            "Vocal Strength",
+            [self.book["Staff Skills Increase the Damage of Vocal Attacks"]],
+            [
+                self.book[
+                    "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
+                ]
+            ],
+        )
+        self.book[
             "When Attacking A Target That Is Vulnerable To A Spell School You Know, Cast a Rank I Version Of The Spell At Them"
         ] = self.power(
             game,
@@ -1882,23 +1977,6 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Dodging Grants Focus Charge"]],
             [self.book["Increases Focus When Outnumbered"]],
-        )
-        self.book[
-            "Vocal Attacks Isolate Targets From Their Allies' Effects"
-        ] = self.power(
-            game,
-            "Deafening Voice",
-            "Vocal Attacks Isolate Targets From Their Allies' Effects",
-            "Oracle",
-            ["Charisma", "Focus", "Luck", "Voice"],
-            4,
-            "Vocal Strength",
-            [self.book["Staff Skills Increase the Damage of Vocal Attacks"]],
-            [
-                self.book[
-                    "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
-                ]
-            ],
         )
 
         # Cross-over powers
