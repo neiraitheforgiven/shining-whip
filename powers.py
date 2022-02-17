@@ -500,6 +500,15 @@ class powerBook(object):
             7,
             "Damage On Unholy Ground",
         )
+        self.book["Increases Defense On Unholy Ground"] = self.power(
+            game,
+            "Psalmic Meditation",
+            "Increases Defense On Unholy Ground",
+            "Chorister",
+            ["Dexterity", "Faith", "Voice"],
+            7,
+            "Vocal Strength",
+        )
         self.book["Increases Dodge Chance"] = self.power(
             game,
             "Dodge Roll",
@@ -862,6 +871,24 @@ class powerBook(object):
             5,
             "Vocal Strength",
         )
+        self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"] = self.power(
+            game,
+            "Sacred Hymns",
+            "Vocal Attacks Act As If Tiles Are One Rank More Holy",
+            "Chorister",
+            ["Dexterity", "Focus", "Voice"],
+            7,
+            "Vocal Strength",
+        )
+        self.book["Vocal Attacks Do Not Interupt Singing"] = self.power(
+            game,
+            "Harmony",
+            "Vocal Attacks Do Not Interupt Singing",
+            "Chorister",
+            ["Dexterity", "Focus", "Voice"],
+            7,
+            "Vocal Strength",
+        )
         self.book["Vocal Attacks Have A Chance To Add Bleed"] = self.power(
             game,
             "Piercing Screams",
@@ -1098,6 +1125,18 @@ class powerBook(object):
             6,
             "Daggers Skill",
             [self.book["Double Chances For Multiple Attacks"]],
+        )
+        self.book[
+            "Counter Enemy Attacks By Adding A Rank Of Holy Resonance To The Source Tile"
+        ] = self.power(
+            game,
+            "Counterpoint",
+            "Counter Enemy Attacks By Adding A Rank Of Holy Resonance To The Source Tile",
+            "Chorister",
+            ["Dexterity", "Focus", "Voice"],
+            6,
+            "Vocal Strength",
+            [self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"]],
         )
         self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
             game,
@@ -1546,6 +1585,16 @@ class powerBook(object):
             "Vocal Strength",
             [self.book["Vocal Attacks Have A Change To Double Attack"]],
         )
+        self.book["Vocal Attacks Can Target Any Tile You Are Resonating"] = self.power(
+            game,
+            "Voice From The Clouds",
+            "Vocal Attacks Can Target Any Tile You Are Resonating",
+            "Chorister",
+            ["Dexterity", "Focus", "Voice"],
+            6,
+            "Vocal Strength",
+            [self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"]],
+        )
         self.book["Vocal Cascade With Weapons"] = self.power(
             game,
             "Santified Movements",
@@ -1919,6 +1968,21 @@ class powerBook(object):
             [
                 self.book[
                     "Use Greatest of Charisma, Faith, or Strength to deal Fire Damage When Attacking"
+                ]
+            ],
+        )
+        self.book["Vocal Attacks Act As If Tiles Are Two Ranks More Holy"] = self.power(
+            game,
+            "Beatified Songs",
+            "Vocal Attacks Act As If Tiles Are Two Ranks More Holy",
+            "Chorister",
+            ["Dexterity", "Focus", "Voice"],
+            5,
+            "Vocal Strength",
+            [self.book["Vocal Attacks Can Target Any Tile You Are Resonating"]],
+            [
+                self.book[
+                    "Counter Enemy Attacks By Adding A Rank Of Holy Resonance To The Source Tile"
                 ]
             ],
         )
