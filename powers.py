@@ -842,6 +842,36 @@ class powerBook(object):
             "Faith Amount",
             spellRank=True,
         )
+        self.book["Scholar Root 1 Muddle"] = self.power(
+            game,
+            "Muddle",
+            ["Scholar Root 1 Muddle"],
+            "Scholar",
+            ["Intelligence", "Focus"],
+            9,
+            "Status Effectiveness",
+            spellRank=True,
+        )
+        self.book["Scholar Tier 1 Silence"] = self.power(
+            game,
+            "Silence",
+            ["Scholar Tier 1 Silence"],
+            "Scholar",
+            ["Intelligence", "Focus"],
+            9,
+            "Status Effectiveness",
+            spellRank=True,
+        )
+        self.book["Scholar Root 1 Sleep"] = self.power(
+            game,
+            "Sleep",
+            ["Scholar Root 1 Sleep"],
+            "Scholar",
+            ["Intelligence", "Focus"],
+            9,
+            "Status Effectiveness",
+            spellRank=True,
+        )
         self.book["Single Sword Attacks Grant Focus Charge"] = self.power(
             game,
             "Iaijutsu",
@@ -1137,6 +1167,18 @@ class powerBook(object):
             6,
             "Vocal Strength",
             [self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"]],
+        )
+        self.book[
+            "Counter Enemy Attacks By Casting A Random Spell You Know"
+        ] = self.power(
+            game,
+            "Magical Riposte",
+            ["Counter Enemy Attacks By Casting A Random Spell You Know"],
+            "Scholar",
+            ["Intelligence", "Focus"],
+            8,
+            "MP Amount",
+            [self.book["Scholar Tier 1 Silence"]],
         )
         self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
             game,
@@ -1573,6 +1615,16 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Bishop Tier 1 Aura"]],
         )
+        self.book["When Focused, All Status Spells Always Succeed"] = self.power(
+            game,
+            "Complete Knowledge",
+            ["When Focused, All Status Spells Always Succeed"],
+            "Scholar",
+            ["Intelligence", "Focus"],
+            8,
+            "Focus Amount",
+            [self.book["Scholar Tier 1 Silence"]],
+        )
         self.book[
             "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
         ] = self.power(
@@ -1942,6 +1994,17 @@ class powerBook(object):
             "Status Effectiveness",
             [self.book["Double Rout Chance Against Bleeding Targets"]],
             [self.book["Counter Enemy Vocal Attacks With Bleed"]],
+        )
+        self.book["Scholar Tier 3 Petrify"] = self.power(
+            game,
+            "Pertify",
+            ["Scholar Tier 3 Petrify"],
+            "Scholar",
+            ["Intelligence", "Focus"],
+            7,
+            "Status Effectiveness",
+            [self.book["Counter Enemy Attacks By Casting A Random Spell"]],
+            [self.book["When Focused, All Status Spells Always Succeed"]],
         )
         self.book["Silence Enemies Who Cast A Spell That You Know On You"] = self.power(
             game,
