@@ -454,6 +454,15 @@ class powerBook(object):
             "MP Amount",
             spellRank=True,
         )
+        self.book["Flying Movement"] = self.power(
+            game,
+            "Flying Movement",
+            "Flying Movement",
+            "Sky Battler",
+            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
+            5,
+            "Movement Speed",
+        )
         self.book["Hero Tier 1 Bolt"] = self.power(
             game,
             "Bolt",
@@ -498,6 +507,15 @@ class powerBook(object):
             "Monk",
             ["Faith", "Stamina", "Strength"],
             7,
+            "Swords Skill",
+        )
+        self.book["Increases Damage Dealt To Isolated Enemies"] = self.power(
+            game,
+            "Diving Strike",
+            "Increases Damage Dealt To Isolated Enemies",
+            "Sky Battler",
+            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
+            5,
             "Damage On Unholy Ground",
         )
         self.book["Increases Defense On Unholy Ground"] = self.power(
@@ -517,6 +535,15 @@ class powerBook(object):
             ["Focus", "Luck", "Speed"],
             7,
             "Luckiness",
+        )
+        self.book["Increases Dodge Chance vs Slower Attackers"] = self.power(
+            game,
+            "Maneuverability",
+            "Increases Dodge Chance vs Slower Attackers",
+            "Sky Battler",
+            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
+            5,
+            "Movement Speed",
         )
         self.book["Increases Fame Effect On Allies"] = self.power(
             game,
@@ -648,7 +675,7 @@ class powerBook(object):
         )
         self.book["Move After Attacking"] = self.power(
             game,
-            "Maneuverability",
+            "Hit and Run",
             "Move After Attacking",
             "Assassin",
             ["Dexterity", "Strength", "Luck"],
@@ -1180,6 +1207,16 @@ class powerBook(object):
             "MP Amount",
             [self.book["Scholar Tier 1 Silence"]],
         )
+        self.book["Counter Enemy Attacks That You Dodged"] = self.power(
+            game,
+            "Aerialist Counterattack",
+            "Counter Enemy Attacks That You Dodged",
+            "Sky Battler",
+            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
+            4,
+            "Swords Skill",
+            [self.book["Flying Movement"]],
+        )
         self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
             game,
             "Lacerating Response",
@@ -1308,6 +1345,18 @@ class powerBook(object):
             "Fire Damage",
             [self.book["Flamecaster Tier 1 Blaze"]],
             spellRank=True,
+        )
+        self.book[
+            "Increases Dodge Chance Against The First Enemy To Attack You Each Round"
+        ] = self.power(
+            game,
+            "Aerial Agility",
+            "Increases Dodge Chance Against The First Enemy To Attack You Each Round",
+            "Sky Battler",
+            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
+            4,
+            "Dodge Chance",
+            [self.book["Flying Movement"]],
         )
         self.book["Hero Tier 2 Bolt"] = self.power(
             game,
@@ -1910,6 +1959,21 @@ class powerBook(object):
             [
                 self.book[
                     "Spells You Target On One Of Your Resonating Tiles Target All Your Resonating Tiles"
+                ]
+            ],
+        )
+        self.book["Ignore Enemies When You Move"] = self.power(
+            game,
+            "Trails In The Sky",
+            "Ignore Enemies When You Move",
+            "Sky Battler",
+            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
+            3,
+            "Movement Speed",
+            [self.book["Counter Enemy Attacks That You Dodged"]],
+            [
+                self.book[
+                    "Increases Dodge Chance Against The First Enemy To Attack You Each Round"
                 ]
             ],
         )
