@@ -1821,7 +1821,7 @@ class powerBook(object):
             ["Charisma", "Dexterity", "Focus"],
             5,
             "Daggers Skill",
-            [self.book["Move To Follow Routed Enemies And Attack Again"]],
+            [self.book["Counter Enemy Attacks By Inflicting Bleed"]],
             [self.book["Move To Follow Routed Enemies And Attack Again"]],
         )
         self.book["Catechumen Tier 3 Vocal Cascade"] = self.power(
