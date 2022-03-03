@@ -144,7 +144,7 @@ class powerBook(object):
             "Berserker",
             ["Stamina", "Strength"],
             10,
-            "Heavy Damage Chance",
+            "Heavy Attack Chance",
             antiStat=["Luck"],
             spellRank=True,
         )
@@ -157,7 +157,7 @@ class powerBook(object):
             "Berserker",
             ["Stamina", "Strength"],
             10,
-            "Heavy Damage Chance",
+            "Heavy Attack Chance",
             antiStat=["Luck"],
             spellRank=True,
         )
@@ -355,6 +355,15 @@ class powerBook(object):
             "Focus Intensity",
             7,
         )
+        self.book["Dodging Grants Additional Movement Next Turn"] = self.power(
+            game,
+            "Aleron Roll",
+            ["Dodging Grants Additional Movement Next Turn"],
+            "Sky Lord",
+            ["Focus", "Intelligence", "Speed"],
+            "Movement Speed",
+            7,
+        )
         self.book["Double Chances For Multiple Attacks"] = self.power(
             game,
             "Sleight Of Hand",
@@ -491,6 +500,15 @@ class powerBook(object):
             7,
             "Luckiness",
         )
+        self.book["Increases Critical Chance For A Turn After Dodging"] = self.power(
+            game,
+            "On Their Six",
+            ["Increases Critical Chance For A Turn After Dodging"],
+            "Sky Lord",
+            ["Focus", "Intelligence", "Speed"],
+            "Movement Speed",
+            7,
+        )
         self.book["Increases Critical Hit Damage"] = self.power(
             game,
             "Explosives",
@@ -508,6 +526,15 @@ class powerBook(object):
             ["Faith", "Stamina", "Strength"],
             7,
             "Swords Skill",
+        )
+        self.book["Increases Damage Dealt To Flying Enemies"] = self.power(
+            game,
+            "Air Superiority",
+            ["Increases Damage Dealt To Flying Enemies"],
+            "Sky Lord",
+            ["Focus", "Intelligence", "Speed"],
+            "Movement Speed",
+            7,
         )
         self.book["Increases Damage Dealt To Isolated Enemies"] = self.power(
             game,
@@ -1053,7 +1080,7 @@ class powerBook(object):
             "Heavy Shot",
             ["Dexterity", "Speed", "Stamina"],
             6,
-            "Heavy Damage Chance"[
+            "Heavy Attack Chance"[
                 self.book["Slower Movement That Ignores Terrain Cost And Blockers"]
             ],
         )
@@ -1346,17 +1373,15 @@ class powerBook(object):
             [self.book["Flamecaster Tier 1 Blaze"]],
             spellRank=True,
         )
-        self.book[
-            "Increases Dodge Chance Against The First Enemy To Attack You Each Round"
-        ] = self.power(
+        self.book["Heavy and Critical Attacks Ground Flying Enemies"] = self.power(
             game,
-            "Aerial Agility",
-            "Increases Dodge Chance Against The First Enemy To Attack You Each Round",
-            "Sky Battler",
-            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
-            4,
-            "Dodge Chance",
-            [self.book["Flying Movement"]],
+            "Wing Clip",
+            ["Heavy and Critical Attacks Ground Flying Enemies"],
+            "Sky Lord",
+            ["Focus", "Intelligence", "Speed"],
+            "Status Effectiveness",
+            6,
+            [self.book["Increases Damage Dealt To Flying Enemies"]],
         )
         self.book["Hero Tier 2 Bolt"] = self.power(
             game,
@@ -1368,6 +1393,28 @@ class powerBook(object):
             "Lightning Damage",
             [self.book["Hero Tier 1 Bolt"]],
             spellRank=True,
+        )
+        self.book["Increases Dodge Chance Against Flying Enemies"] = self.power(
+            game,
+            "Dogfighting",
+            ["Increases Dodge Chance Against Flying Enemies"],
+            "Sky Lord",
+            ["Focus", "Intelligence", "Speed"],
+            "Dodge Chance",
+            6,
+            [self.book["Increases Damage Dealt To Flying Enemies"]],
+        )
+        self.book[
+            "Increases Dodge Chance Against The First Enemy To Attack You Each Round"
+        ] = self.power(
+            game,
+            "Aerial Agility",
+            "Increases Dodge Chance Against The First Enemy To Attack You Each Round",
+            "Sky Battler",
+            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
+            4,
+            "Dodge Chance",
+            [self.book["Flying Movement"]],
         )
         self.book["Killing Enemies Gives MP"] = self.power(
             game,
@@ -1922,6 +1969,17 @@ class powerBook(object):
             [self.book["Flamecaster Tier 2 Blaze"]],
             [self.book["Fire Damage Consumes Bleed To Deal Double Damage"]],
             spellRank=True,
+        )
+        self.book["Heavy and Critical Attacks Destroy Focus"] = self.power(
+            game,
+            "Shock Tactics",
+            ["Heavy and Critical Attacks Destroy Focus"],
+            "Sky Lord",
+            ["Focus", "Intelligence", "Speed"],
+            "Heavy Attack Chance",
+            5,
+            [self.book["Increases Dodge Chance Against Flying Enemies"]],
+            [self.book["Heavy and Critical Attacks Ground Flying Enemies"]],
         )
         self.book["Hero Tier 3 Bolt"] = self.power(
             game,
