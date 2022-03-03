@@ -789,6 +789,15 @@ class powerBook(object):
             "Wind Damage",
             spellRank=True,
         )
+        self.book["Prevent Focus Lost From Enemy Attacks"] = self.power(
+            game,
+            "True Grit",
+            "Prevent Focus Lost From Enemy Attacks",
+            "Soldier",
+            ["Dexterity", "Focus", "Strength"],
+            7,
+            "Focus Intensity",
+        )
         self.book["Priest Root 1 Detox"] = self.power(
             game,
             "Detox",
@@ -866,6 +875,15 @@ class powerBook(object):
             ["Charisma", "Dexterity", "Luck"],
             7,
             "Vocal Strength",
+        )
+        self.book["Receive Commmands From Further Away"] = self.power(
+            game,
+            "Under Authority",
+            "Receive Commmands From Further Away",
+            "Soldier",
+            ["Dexterity", "Focus", "Strength"],
+            7,
+            "Fame",
         )
         self.book["Reduces the Effect of Unholy Ground By One Rank"] = self.power(
             game,
@@ -1307,6 +1325,15 @@ class powerBook(object):
             "Focus Amount",
             [self.book["Increases Luck When Outnumbered"]],
         )
+        self.book["Double the Chance of Multiple Ranged Attacks"] = self.power(
+            game,
+            "True Grit",
+            "Double the Chance of Multiple Ranged Attacks",
+            "Soldier",
+            ["Dexterity", "Focus", "Strength"],
+            7,
+            "Focus Intensity",
+        )
         self.book["Double Rout Chance Against Bleeding Targets"] = self.power(
             game,
             "Blood Cries Out",
@@ -1394,6 +1421,17 @@ class powerBook(object):
             [self.book["Hero Tier 1 Bolt"]],
             spellRank=True,
         )
+        self.book["Increases Damage Dealt On Unholy Ground"] = self.power(
+            game,
+            "Paladin",
+            "Increases Damage Dealt On Unholy Ground",
+            "Knight",
+            ["Charisma", "Speed", "Stamina", "Strength"],
+            6,
+            "Damage On Unholy Ground",
+            [self.book["Reduces the Effect of Unholy Ground By One Rank"]],
+            antiStat=["Intelligence"],
+        )
         self.book["Increases Dodge Chance Against Flying Enemies"] = self.power(
             game,
             "Dogfighting",
@@ -1415,27 +1453,6 @@ class powerBook(object):
             4,
             "Dodge Chance",
             [self.book["Flying Movement"]],
-        )
-        self.book["Killing Enemies Gives MP"] = self.power(
-            game,
-            "Destiny Unveiled",
-            "Killing Enemies Gives MP",
-            "Hero",
-            ["Intelligence", "Luck", "Strength"],
-            6,
-            "MP Amount",
-            [self.book["Hero Tier 1 Bolt"]],
-        )
-        self.book["Increases Damage Dealt On Unholy Ground"] = self.power(
-            game,
-            "Paladin",
-            "Increases Damage Dealt On Unholy Ground",
-            "Knight",
-            ["Charisma", "Speed", "Stamina", "Strength"],
-            6,
-            "Damage On Unholy Ground",
-            [self.book["Reduces the Effect of Unholy Ground By One Rank"]],
-            antiStat=["Intelligence"],
         )
         self.book["Increases Focus When Outnumbered"] = self.power(
             game,
@@ -1476,6 +1493,26 @@ class powerBook(object):
             6,
             "Healing Amount",
             [self.book["Monk Tier 1 Heal"]],
+        )
+        self.book["Killing Enemies Gives MP"] = self.power(
+            game,
+            "Destiny Unveiled",
+            "Killing Enemies Gives MP",
+            "Hero",
+            ["Intelligence", "Luck", "Strength"],
+            6,
+            "MP Amount",
+            [self.book["Hero Tier 1 Bolt"]],
+        )
+        self.book["Killing Enemies Grants a Rank of Focus"] = self.power(
+            game,
+            "Professionalism",
+            "Killing Enemies Grants a Rank of Focus",
+            "Soldier",
+            ["Dexterity", "Focus", "Strength"],
+            6,
+            "Focus Intensity",
+            [self.book["Prevent Focus Lost From Enemy Attacks"]],
         )
         self.book[
             "Lance Attacks Grant Vulnerability Against Known Spell Schools"
@@ -1637,6 +1674,16 @@ class powerBook(object):
             4,
             "Swords Skill",
             [self.book["Mage Knight Root 1 Blaze"]],
+        )
+        self.book["Reduces Damage From Enemy Area Attacks"] = self.power(
+            game,
+            "Get Down!",
+            "Reduces Damage From Enemy Area Attacks",
+            "Soldier",
+            ["Dexterity", "Focus", "Strength"],
+            6,
+            "Focus Intensity",
+            [self.book["Prevent Focus Lost From Enemy Attacks"]],
         )
         self.book["Samurai Tier 2 Boost"] = self.power(
             game,
@@ -2215,6 +2262,17 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Banshee Tier 2 Axe Damage"]],
             [self.book["Charm Targets Instead of Routing Them"]],
+        )
+        self.book["When Focused, Attacks Gain +1 Range"] = self.power(
+            game,
+            "Sniper's Focus",
+            "When Focused, Attacks Gain +1 Range",
+            "Soldier",
+            ["Dexterity", "Focus", "Strength"],
+            5,
+            "Focus Intensity",
+            [self.book["Killing Enemies Grants a Rank of Focus"]],
+            [self.book["Reduces Damage From Enemy Area Attacks"]],
         )
         self.book["When Focused, You Cannot Be Reduced Below 1 HP"] = self.power(
             game,
