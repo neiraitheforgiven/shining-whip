@@ -964,6 +964,36 @@ class powerBook(object):
             7,
             "Movement Speed",
         )
+        self.book["Sorceror Root 1 Apollo"] = self.power(
+            game,
+            "Apollo",
+            "Sorceror Root 1 Apollo",
+            "Sorceror",
+            ["Intelligence", "Voice"],
+            9,
+            "Fire Damage",
+            spellRank=True,
+        )
+        self.book["Sorceror Root 1 Dao"] = self.power(
+            game,
+            "Dao",
+            "Sorceror Root 1 Dao",
+            "Sorceror",
+            ["Intelligence", "Voice"],
+            9,
+            "Earth Damage",
+            spellRank=True,
+        )
+        self.book["Sorceror Tier 1 Dao"] = self.power(
+            game,
+            "Dao",
+            "Sorceror Tier 1 Dao",
+            "Sorceror",
+            ["Intelligence", "Voice"],
+            9,
+            "Earth Damage",
+            spellRank=True,
+        )
         self.book["Tile Resonance Increases Charisma Effects"] = self.power(
             game,
             "Bragging Verse",
@@ -1700,6 +1730,28 @@ class powerBook(object):
             ],
             spellRank=True,
         )
+        self.book["Sorceror Tier 2 Atlas"] = self.power(
+            game,
+            "Atlas",
+            "Sorceror Tier 2 Atlas",
+            "Sorceror",
+            ["Intelligence", "Voice"],
+            8,
+            "Lightning Damage",
+            [self.book["Sorceror Tier 1 Dao"]],
+            spellRank=True,
+        )
+        self.book["Sorceror Tier 2 Poseidon"] = self.power(
+            game,
+            "Poseidon",
+            "Sorceror Tier 2 Poseidon",
+            "Sorceror",
+            ["Intelligence", "Voice"],
+            8,
+            "Water Damage",
+            [self.book["Sorceror Tier 1 Dao"]],
+            spellRank=True,
+        )
         self.book["Staff Skills Increase the Damage of Vocal Attacks"] = self.power(
             game,
             "Singing Rod",
@@ -2185,6 +2237,18 @@ class powerBook(object):
             "Status Effectiveness",
             [self.book["Channeller Tier 2 Surge"]],
             [self.book["Channeller Tier 2 Silence"]],
+        )
+        self.book["Sorceror Tier 3 Atlas"] = self.power(
+            game,
+            "Poseidon",
+            "Sorceror Tier 3 Atlas",
+            "Sorceror",
+            ["Intelligence", "Voice"],
+            7,
+            "Lightning Damage",
+            [self.book["Sorceror Tier 2 Atlas"]],
+            [self.book["Sorceror Tier 2 Poseidon"]],
+            spellRank=True,
         )
         self.book[
             "Use Greatest of Charisma, Faith, Or Strength when Dodging and Defending"
