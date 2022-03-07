@@ -432,6 +432,17 @@ class powerBook(object):
             "Fire Damage",
             spellRank=True,
         )
+        self.book[
+            "From Stationary, Move Forward One Square and Push Slowest Enemy"
+        ] = self.power(
+            game,
+            "Bulldozer",
+            "From Stationary, Move Forward One Square and Push Slowest Enemy",
+            "Steam Knight",
+            ["Focus", "Stamina"],
+            8,
+            "Fame",
+        )
         self.book["Gain Extra Gold On Kills"] = self.power(
             game,
             "Lucre",
@@ -580,6 +591,15 @@ class powerBook(object):
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
             "Fame",
+        )
+        self.book["Increases Focus When Stationary"] = self.power(
+            game,
+            "Rolling Boil",
+            "Increases Focus When Stationary",
+            "Steam Knight",
+            ["Focus", "Stamina"],
+            8,
+            "Focus Intensity",
         )
         self.book["Increases Lance Damage For Each Tile Moved This Turn"] = self.power(
             game,
@@ -884,6 +904,15 @@ class powerBook(object):
             ["Dexterity", "Focus", "Strength"],
             7,
             "Fame",
+        )
+        self.book["Reduces Critical Hit Damage Taken"] = self.power(
+            game,
+            "Heavy Plate",
+            "Reduces Critical Hit Damage Taken",
+            "Steam Knight",
+            ["Focus", "Stamina"],
+            8,
+            "HP Amount",
         )
         self.book["Reduces the Effect of Unholy Ground By One Rank"] = self.power(
             game,
@@ -1774,6 +1803,16 @@ class powerBook(object):
             "Vocal Strength",
             [self.book["Increases Your Area Of Holy Resonance To Five Tiles"]],
         )
+        self.book["Taking Magic Damage Adds A Focus Rank"] = self.power(
+            game,
+            "Boiling Point",
+            "Taking Magic Damage Adds A Focus Rank",
+            "Steam Knight",
+            ["Focus", "Stamina"],
+            7,
+            "Focus Intensity",
+            [self.book["Increases Focus When Stationary"]],
+        )
         self.book["Unarmed Range + 1 and deals wind damage"] = self.power(
             game,
             "Throw the Wind",
@@ -1819,6 +1858,16 @@ class powerBook(object):
             8,
             "Focus Amount",
             [self.book["Scholar Tier 1 Silence"]],
+        )
+        self.book["When Focused, Strength is Doubled"] = self.power(
+            game,
+            "Pneumatic Musculature",
+            "When Focused, Strength is Doubled",
+            "Steam Knight",
+            ["Focus", "Stamina"],
+            7,
+            "Focus Intensity",
+            [self.book["Increases Focus When Stationary"]],
         )
         self.book[
             "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
@@ -2091,6 +2140,19 @@ class powerBook(object):
             [self.book["Hero Tier 2 Bolt"]],
             [self.book["Killing Enemies Gives MP"]],
             spellRank=True,
+        )
+        self.book[
+            "When You Have Four Ranks Of Focus, Your Stats Are Increased"
+        ] = self.power(
+            game,
+            "Boiling Point",
+            "When You Have Four Ranks Of Focus, Your Stats Are Increased",
+            "Steam Knight",
+            ["Focus", "Stamina"],
+            6,
+            "Focus Intensity",
+            [self.book["Taking Magic Damage Adds A Focus Rank"]],
+            [self.book["When Focused, Strength is Doubled"]],
         )
         self.book["Increases Chance To Rout On Unholy Ground"] = self.power(
             game,
