@@ -327,6 +327,16 @@ class powerBook(object):
             9,
             "HP Amount",
         )
+        self.book["Defense Against Melee Physical Damage"] = self.power(
+            game,
+            "Survival",
+            "Defense Against Melee Physical Damage",
+            "Survivor",
+            ["Luck", "Speed", "Stamina", "Strength"],
+            8,
+            "HP Amount",
+            requiresDragonOr25=True,
+        )
         self.book["Defense Against Ranged Physical Damage"] = self.power(
             game,
             "Projectile Defense",
@@ -492,6 +502,16 @@ class powerBook(object):
             7,
             "Lightning Damage",
             spellRank=True,
+        )
+        self.book["Killing Enemies Grants You HP"] = self.power(
+            game,
+            "Survival of the Fittest",
+            "Killing Enemies Grants You HP",
+            "Survivor",
+            ["Luck", "Speed", "Stamina", "Strength"],
+            8,
+            "HP Amount",
+            requiresDragonOr25=True,
         )
         self.book["Ignore Opponents on First Two Tiles of Movement"] = self.power(
             game,
@@ -1032,6 +1052,16 @@ class powerBook(object):
             5,
             "Vocal Strength",
         )
+        self.book["Unarmed Attacks Deal Fire Damage"] = self.power(
+            game,
+            "Burning Hands",
+            "Unarmed Attacks Deal Fire Damage",
+            "Survivor",
+            ["Luck", "Speed", "Stamina", "Strength"],
+            8,
+            "Fire Damage",
+            requiresDragonOr25=True,
+        )
         self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"] = self.power(
             game,
             "Sacred Hymns",
@@ -1330,6 +1360,17 @@ class powerBook(object):
             6,
             "Daggers Skill",
             [self.book["Vocal Attacks Have A Chance To Add Bleed"]],
+        )
+        self.book["Critical Attacks Grant Temporary Damage Reduction"] = self.power(
+            game,
+            "Monster Armor",
+            "Critical Attacks Grant Temporary Damage Reduction",
+            "Survivor",
+            ["Luck", "Speed", "Stamina", "Strength"],
+            7,
+            "HP Amount",
+            [self.book["Unarmed Attacks Deal Fire Damage"]],
+            requiresDragonOr25=True,
         )
         self.book["Critical Hits Reduce Next Spell Cost to 0"] = self.power(
             game,
@@ -1734,6 +1775,19 @@ class powerBook(object):
             "Swords Skill",
             [self.book["Mage Knight Root 1 Blaze"]],
         )
+        self.book[
+            "Reduces Damage For Each Status Effect You Are Suffering"
+        ] = self.power(
+            game,
+            "Overcomer",
+            "Reduces Damage For Each Status Effect You Are Suffering",
+            "Survivor",
+            ["Luck", "Speed", "Stamina", "Strength"],
+            7,
+            "HP Amount",
+            [self.book["Unarmed Attacks Deal Fire Damage"]],
+            requiresDragonOr25=True,
+        )
         self.book["Reduces Damage From Enemy Area Attacks"] = self.power(
             game,
             "Get Down!",
@@ -2053,6 +2107,18 @@ class powerBook(object):
             "Fame",
             [self.book["Convert Faith and Magic"]],
             [self.book["Random Additional Spell II"]],
+        )
+        self.book["Critical Attacks Cast Bolt III"] = self.power(
+            game,
+            "Dragon Breath",
+            "Critical Attacks Cast Bolt III",
+            "Survivor",
+            ["Luck", "Speed", "Stamina", "Strength"],
+            6,
+            "Lightning Damage",
+            [self.book["Reduces Damage For Each Status Effect You Are Suffering"]],
+            [self.book["Critical Attacks Grant Temporary Damage Reduction"]],
+            requiresDragonOr25=True,
         )
         self.book["Critical Hits Inflict Silence"] = self.power(
             game,
@@ -2433,6 +2499,7 @@ class power(object):
         descriptionOverride=None,
         minimumLevel=None,
         spellRank=False,
+        requiresDragonOr25=False,
     ):
         self.name = name
         if not self.descriptionOverride:
