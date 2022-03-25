@@ -374,6 +374,16 @@ class powerBook(object):
             "Movement Speed",
             7,
         )
+        self.book["Double and Triple Attacks Can Be Heavy Attacks"] = self.power(
+            game,
+            "Heavy Handed",
+            "Double and Triple Attacks Can Be Heavy Attacks",
+            "Titan",
+            ["Focus", "Strength"],
+            "Heavy Attack Chance",
+            11,
+            antiStat=["Speed"],
+        )
         self.book["Double Chances For Multiple Attacks"] = self.power(
             game,
             "Sleight Of Hand",
@@ -620,6 +630,25 @@ class powerBook(object):
             ["Focus", "Stamina"],
             8,
             "Focus Intensity",
+        )
+        self.book["Increases Heavy Attack Chance"] = self.power(
+            game,
+            "Heavy Weapons",
+            "Increases Heavy Attack Chance",
+            ["Focus", "Strength"],
+            "Heavy Attack Chance",
+            11,
+            antiStat=["Speed"],
+        )
+        self.book["Increases Heavy Attack Damage"] = self.power(
+            game,
+            "Heavier Attacks",
+            "Increases Heavy Attack Damage",
+            "Titan",
+            ["Focus", "Strength"],
+            "Heavy Attack Chance",
+            11,
+            antiStat=["Speed"],
         )
         self.book["Increases Lance Damage For Each Tile Moved This Turn"] = self.power(
             game,
@@ -1382,6 +1411,17 @@ class powerBook(object):
             "Luckiness",
             [self.book["Command: MP Regeneration"]],
         )
+        self.book["Critical Attacks Cast Muddle On Target"] = self.power(
+            game,
+            "Disorienting Criticals",
+            "Critical Attacks Cast Muddle On Target",
+            "Titan",
+            ["Focus", "Strength"],
+            "Heavy Attack Chance",
+            10,
+            [self.book["Increases Heavy Attack Chance"]],
+            antiStat=["Speed"],
+        )
         self.book["Dark Mage Tier 2 Death"] = self.power(
             game,
             "Death",
@@ -1903,6 +1943,17 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Bishop Tier 1 Aura"]],
         )
+        self.book["When Focused, All Attacks Stun"] = self.power(
+            game,
+            "Titanic Smash",
+            "When Focused, All Attacks Stun",
+            "Titan",
+            ["Focus", "Strength"],
+            "Heavy Attack Chance",
+            10,
+            [self.book["Increases Heavy Attack Chance"]],
+            antiStat=["Speed"],
+        )
         self.book["When Focused, All Status Spells Always Succeed"] = self.power(
             game,
             "Complete Knowledge",
@@ -2194,6 +2245,20 @@ class powerBook(object):
             5,
             [self.book["Increases Dodge Chance Against Flying Enemies"]],
             [self.book["Heavy and Critical Attacks Ground Flying Enemies"]],
+        )
+        self.book[
+            "Heavy Attacks Deal Extra Damage For Each Status Effect On The Target"
+        ] = self.power(
+            game,
+            "Trauma Hammer",
+            "Heavy Attacks Deal Extra Damage For Each Status Effect On The Target",
+            "Titan",
+            ["Focus", "Strength"],
+            "Heavy Attack Chance",
+            9,
+            [self.book["Critical Attacks Cast Muddle On Target"]],
+            [self.book["When Focused, All Attacks Stun"]],
+            antiStat=["Speed"],
         )
         self.book["Hero Tier 3 Bolt"] = self.power(
             game,
