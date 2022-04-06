@@ -494,6 +494,15 @@ class powerBook(object):
             "MP Amount",
             spellRank=True,
         )
+        self.book["Elemental Spell Damage Gives Targets Vulnerability To Element"] = self.power(
+            game,
+            "Saturation",
+            "Elemental Spell Damage Gives Targets Vulnerability To Element",
+            "Trickster",
+            ["Intelligence", "Speed"],
+            8,
+            "Status Effectiveness"
+        )
         self.book["Flying Movement"] = self.power(
             game,
             "Flying Movement",
@@ -1080,6 +1089,26 @@ class powerBook(object):
             ["Charisma", "Focus", "Strength", "Voice"],
             5,
             "Vocal Strength",
+        )
+        self.book["Trickster Root 1 Teleport"] = self.power(
+            game,
+            "Teleport",
+            "Trickster Root 1 Teleport",
+            "Trickster",
+            ["Intelligence", "Speed"],
+            8,
+            "Lightning Damage",
+            spellRank=True,
+        )
+        self.book["Trickster Tier 1 Teleport"] = self.power(
+            game,
+            "Teleport",
+            "Trickster Tier 1 Teleport",
+            "Trickster",
+            ["Intelligence", "Speed"],
+            8,
+            "Lightning Damage",
+            spellRank=True,
         )
         self.book["Unarmed Attacks Deal Fire Damage"] = self.power(
             game,
@@ -1907,6 +1936,28 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Increases Focus When Stationary"]],
         )
+        self.book["Teleporting Does Not End Turns"] = self.power(
+            game,
+            "Flash Steps",
+            "Teleporting Does Not End Turns",
+            "Trickster",
+            ["Intelligence", "Speed"],
+            7,
+            "Lightning Damage",
+            [self.book["Trickster Tier 1 Teleport"]],
+            spellRank=True,
+        )
+        self.book["Trickster Tier 2 Portal"] = self.power(
+            game,
+            "Portal",
+            "Trickster Tier 2 Portal",
+            "Trickster",
+            ["Intelligence", "Speed"],
+            7,
+            "Lightning Damage",
+            [self.book["Trickster Tier 1 Teleport"]],
+            spellRank=True,
+        )
         self.book["Unarmed Range + 1 and deals wind damage"] = self.power(
             game,
             "Throw the Wind",
@@ -2441,6 +2492,18 @@ class powerBook(object):
             "Lightning Damage",
             [self.book["Sorceror Tier 2 Atlas"]],
             [self.book["Sorceror Tier 2 Poseidon"]],
+            spellRank=True,
+        )
+        self.book["Trickster Tier 3 Teleport"] = self.power(
+            game,
+            "Teleport",
+            "Trickster Tier 3 Teleport",
+            "Trickster",
+            ["Intelligence", "Speed"],
+            6,
+            "Lightning Damage",
+            [self.book["Teleporting Does Not End Turns"]],
+            [self.book["Trickster Tier 2 Portal"]],
             spellRank=True,
         )
         self.book[
