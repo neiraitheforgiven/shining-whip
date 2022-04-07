@@ -972,6 +972,15 @@ class powerBook(object):
             8,
             "HP Amount",
         )
+        self.book["Reduces Damage Taken From Vocal Attacks"] = self.power(
+            game,
+            "Studied Ignorance",
+            "Reduces Damage Taken From Vocal Attacks",
+            "Valkyrie",
+            ["Stamina", "Voice"],
+            9,
+            "Vocal Strength",
+        )
         self.book["Reduces the Effect of Unholy Ground By One Rank"] = self.power(
             game,
             "Blessed Shield",
@@ -1174,6 +1183,15 @@ class powerBook(object):
             8,
             "MP Amount",
         )
+        self.book["Your Vocal Attack Damage is Increased By Missing Health"] = self.power(
+            game,
+            "Higher Notes",
+            "Your Vocal Attack Damage is Increased By Missing Health",
+            "Valkyrie",
+            ["Stamina", "Voice"],
+            9,
+            "Vocal Strength",
+        )
         self.book["Your Vocal Attacks Ignore Penalty From Evil Resonance"] = self.power(
             game,
             "Overcome the Darkness",
@@ -1181,6 +1199,15 @@ class powerBook(object):
             "Oracle",
             ["Charisma", "Focus", "Luck", "Voice"],
             6,
+            "Vocal Strength",
+        )
+        self.book["Your Voice Statistic Contributes to Defense"] = self.power(
+            game,
+            "Basso Voice",
+            "Your Voice Statistic Contributes to Defense",
+            "Valkyrie",
+            ["Stamina", "Voice"],
+            9,
             "Vocal Strength",
         )
         self.book["Your Resonating Tiles Stay Resonating Longer"] = self.power(
@@ -1364,6 +1391,16 @@ class powerBook(object):
             6,
             "Vocal Strength",
             [self.book["Increases Your Area Of Holy Resonance To Five Tiles"]],
+        )
+        self.book["Command: Reduces Damage Taken From Vocal Attacks"] = self.power(
+            game,
+            "Outshout for the Audience",
+            "Command: Reduces Damage Taken From Vocal Attacks",
+            "Valkyrie",
+            ["Stamina", "Voice"],
+            8,
+            "Vocal Strength",
+            [self.book["Your Vocal Attack Damage is Increased By Missing Health"]]
         )
         self.book["Counter Enemy Attacks By Inflicting Bleed"] = self.power(
             game,
@@ -2047,6 +2084,17 @@ class powerBook(object):
             "Vocal Strength",
             [self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"]],
         )
+        self.book["Vocal Attacks Have a Chance to Deafen Targets"] = self.power(
+            game,
+            "Earsplitting Notes",
+            "Vocal Attacks Have a Chance to Deafen Targets",
+            "Valkyrie",
+            ["Stamina", "Voice"],
+            8,
+            "Vocal Strength",
+            [self.book["Your Vocal Attack Damage is Increased By Missing Health"]]
+        )
+
         self.book["Vocal Cascade With Weapons"] = self.power(
             game,
             "Santified Movements",
@@ -2537,6 +2585,17 @@ class powerBook(object):
                     "Counter Enemy Attacks By Adding A Rank Of Holy Resonance To The Source Tile"
                 ]
             ],
+        )
+        self.book["Vocal Attacks Grant You Flying On Your Next Turn"] = self.power(
+            game,
+            "Ride of the Valkyries",
+            "Vocal Attacks Grant You Flying On Your Next Turn",
+            "Valkyrie",
+            ["Stamina", "Voice"],
+            7,
+            "Vocal Strength",
+            [self.book["Command: Reduces Damage Taken From Vocal Attacks"]],
+            [self.book["Vocal Attacks Have a Chance to Deafen Targets"]],
         )
         self.book[
             "Vocal Attacks Isolate Targets From Their Allies' Effects"
