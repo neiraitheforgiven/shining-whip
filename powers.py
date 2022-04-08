@@ -2871,7 +2871,135 @@ class power(object):
         minimumLevel=None,
         spellRank=False,
         requiresDragonOr25=False,
+        not_yet_implemented=True
     ):
         self.name = name
-        if not self.descriptionOverride:
-            descriptionOverride = description
+        self.description = description
+        self.unitClass = unitClass
+        self.stats = stats
+        self.multiplier = multiplier
+        self.unlockCategory = unlockCategory
+        self.requirement1 = requirement1
+        self.requirement2 = requirement2
+        self.antiPower = antiPower
+        self.antiStat = antiStat
+        self.bannedClasses = bannedClasses
+        if not descriptionOverride:
+            self.descriptionOverride = description
+        else:
+            self.descriptionOverride = descriptionOverride
+        self.requiresDragonOr25 = requiresDragonOr25
+        if requiresDragonOr25:
+            self.minimumLevel = 25
+        else:
+            self.minimumLevel = minimumLevel
+        self.spellRank = spellRank
+
+    def requirements_unlocked(self, character):
+        if self.requirement1:
+            if self.requirement1 not in character.powers:
+                return False
+        if self.requirement2:
+            if self.requirement2 not in character.powers:
+                return False
+        return True
+
+
+def get_power_options(game, character, chatter=True):
+    power_options = []
+    current_class_power = None
+    known_class_power = None
+    power_with_unlocked_requirements = None
+    highest_stats_power = None
+    weighted_random_power = None
+
+    # current class power
+    # assemble the options
+    current_class_options = [
+            power for power in game.powerBook
+            if power not in character.powers
+            and power.unitClass in character.title
+            and power.requirements_unlocked(character)]
+
+    current_class_power = random.choice(current_class_options)
+    power_options.append(current_class_power)
+
+    known_class_options = [
+            power for power in game.powerBook
+            if power not in character.powers
+            and power.unitClass in character.knownClasses
+            and power.requirements_unlocked(character)
+            and power != current_class_power]
+
+    if not any(known_class_options):
+        known_class_options = [
+                option for option in current_class_options if option != current_class_power]
+    known_class_power = random.choice(known_class_options)
+    power_options.append(known_class_power)
+
+    power_with_unlocked_requirements_options = [
+            power for power in game.powerBook
+            if power not in character.powers
+            and power.requirement1
+            and power.requirements_unlocked(character)
+            and power not in power_options]
+
+    if not any(power_with_unlocked_requirements_options):
+        power_with_unlocked_requirements_options = [
+                option for option in known_class_options
+                if option not in power_options]
+        if not any(power_with_unlocked_requirements_options):
+            power_with_unlocked_requirements_options = [
+                    option for option in current_class_options if option != current_class_power]
+    power_with_unlocked_requirements = random.choice(power_with_unlocked_requirements_options)
+    power_options.append(power_with_unlocked_requirements)
+
+    weighted_array = []
+    for power in game.powerBook:
+        weighting = 0
+        for stat in power.stats:
+            weighting += character.stats[stat]
+        for stat in power.antiStat:
+            weighting -= character.stats[stat]
+        weighting = max(0, weighting) * power.multiplier
+        weighted_array.extend([power] * weighting)
+
+    highest_character_stat = [
+            stat for stat in character.stats
+            if character.stats[stat] == max([
+                    character.stats[stat] for stat in character.stats])]
+
+    highest_stats_options = [
+            power for power in weighted_array
+            if power not in character.powers
+            and highest_character_stat in power.stats
+            and power.requirements_unlocked(character)
+            and power not in power_options]
+
+    if not any(highest_stats_options):
+        highest_stats_options = [
+                option for option in known_class_options if option not in power_options]
+    highest_stats_power = random.choice(highest_stats_options)
+    power_options.append(highest_stats_power)
+
+    weighted_random_options = [
+            power for power in weighted_array
+            if power not in character.powers
+            and power.requirements_unlocked(character)
+            and power not in power_options]
+
+    if not any(weighted_random_options):
+        weighted_random_options = [
+                option for option in known_class_options if option not in power_options]
+    weighted_random_power = random.choice(weighted_random_options)
+    power_options.append(weighted_random_power)
+
+    return power_options
+
+
+
+
+
+
+
+

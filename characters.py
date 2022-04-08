@@ -1,5 +1,6 @@
 import math
 from operator import itemgetter
+import powers
 import random
 
 
@@ -476,7 +477,9 @@ class playerCharacter(object):
             "Unarmed Attack": 0,
             "Holy Songs": 0,
         }
+        self.knownClasses = []
         if playerClass:
+            self.knownClasses.append(playerClass)
             if playerClass == "Assassin":
                 self.growth = self.initializeRandomStats("Strength", "Dexterity")
             elif playerClass == "Archer":
@@ -1742,8 +1745,7 @@ class playerCharacter(object):
                 f"debug: beforeTitle: {beforeTitle}, afterTitle: {afterTitle},"
                 f" afterDecorated: {afterDecorated}"
             )
-            oldProposedPower = self.getPower(beforeTitle, chatter)
-            newProposedPower = self.getPower(afterTitle, chatter)
+            power_options = powers.get_power_options(self, chatter)
             if afterTitle != beforeTitle:
                 if afterDecorated != beforeTitle:
                     if not chatter:
