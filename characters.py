@@ -1718,11 +1718,8 @@ class playerCharacter(object):
                     self.statIncreaseCount += statIncrease
                     break
         if chatter:
-            happy = self.statIncreaseCount >= (self.level * 4 - 1)
-            breakthrough = self.statIncreaseCount - preLevelStatIncreaseCount > 5
             for statName, statValue in self.growth.items():
                 afterDict[statName] = self.stats[statName]
-            fulfilled = 0
 
             levelData = [
                 ("Stamina", beforeDict["Stamina"], afterDict["Stamina"]),
