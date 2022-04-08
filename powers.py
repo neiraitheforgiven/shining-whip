@@ -432,6 +432,25 @@ class powerBook(object):
             "Swords Skill",
             antiStat=["Faith"],
         )
+        self.book["Elemental Spell Damage Gives Targets Vulnerability To Element"] = self.power(
+            game,
+            "Saturation",
+            "Elemental Spell Damage Gives Targets Vulnerability To Element",
+            "Trickster",
+            ["Intelligence", "Speed"],
+            8,
+            "Status Effectiveness"
+        )
+        self.book["Fame Increases With Kills"] = self.power(
+            game,
+            "Bestial Reputation",
+            "Fame Increases With Kills",
+            "Werewolf",
+            ["Dexterity", "Speed", "Stamina", "Strength"],
+            8,
+            "Fame",
+            antiStat=["Luck"]
+        )
         self.book["Fame Reduces Enemy Stats"] = self.power(
             game,
             "Intimidation",
@@ -460,6 +479,15 @@ class powerBook(object):
             9,
             "Fire Damage",
             spellRank=True,
+        )
+        self.book["Flying Movement"] = self.power(
+            game,
+            "Flying Movement",
+            "Flying Movement",
+            "Sky Battler",
+            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
+            5,
+            "Movement Speed",
         )
         self.book[
             "From Stationary, Move Forward One Square and Push Slowest Enemy"
@@ -503,24 +531,6 @@ class powerBook(object):
             "MP Amount",
             spellRank=True,
         )
-        self.book["Elemental Spell Damage Gives Targets Vulnerability To Element"] = self.power(
-            game,
-            "Saturation",
-            "Elemental Spell Damage Gives Targets Vulnerability To Element",
-            "Trickster",
-            ["Intelligence", "Speed"],
-            8,
-            "Status Effectiveness"
-        )
-        self.book["Flying Movement"] = self.power(
-            game,
-            "Flying Movement",
-            "Flying Movement",
-            "Sky Battler",
-            ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
-            5,
-            "Movement Speed",
-        )
         self.book["Hero Tier 1 Bolt"] = self.power(
             game,
             "Bolt",
@@ -549,6 +559,16 @@ class powerBook(object):
             ["Dexterity", "Faith"],
             9,
             "Movement Speed",
+        )
+        self.book["Ignore Opponents When Moving To Tiles With Damaged Enemies"] = self.power(
+            game,
+            "Scent of Blood",
+            "Ignore Opponents When Moving To Tiles With Damaged Enemies",
+            "Werewolf",
+            ["Dexterity", "Speed", "Stamina", "Strength"],
+            8,
+            "Movement Speed",
+            antiStat=["Luck"]
         )
         self.book["Increases Critical Chance"] = self.power(
             game,
@@ -603,6 +623,16 @@ class powerBook(object):
             ["Charisma", "Dexterity", "Luck", "Speed", "Stamina"],
             5,
             "Damage On Unholy Ground",
+        )
+        self.book["Increases Damage Dealt When Outnumbered"] = self.power(
+            game,
+            "Wicked Rage",
+            "Increases Damage Dealt When Outnumbered",
+            "Werewolf",
+            ["Dexterity", "Speed", "Stamina", "Strength"],
+            8,
+            "Movement Speed",
+            antiStat=["Luck"]
         )
         self.book["Increases Defense On Unholy Ground"] = self.power(
             game,
@@ -1685,6 +1715,17 @@ class powerBook(object):
             [self.book["Reduces the Effect of Unholy Ground By One Rank"]],
             antiStat=["Intelligence"],
         )
+        self.book["Increases Damage Dealt To Flying and Mounted Enemies"] = self.power(
+            game,
+            "Leap Attack",
+            "Increases Damage Dealt To Flying and Mounted Enemies",
+            "Werewolf",
+            ["Dexterity", "Speed", "Stamina", "Strength"],
+            7,
+            "Movement Speed",
+            self.book["Ignore Opponents When Moving To Tiles With Damaged Enemies"],
+            antiStat=["Luck"]
+        )
         self.book["Increases Dodge Chance Against Flying Enemies"] = self.power(
             game,
             "Dogfighting",
@@ -1897,6 +1938,17 @@ class powerBook(object):
             "FP Amount",
             [self.book["Prophet Tier 1 Slow"]],
             spellRank=True,
+        )
+        self.book["Pursue Enemies You Rout And Attack Again"] = self.power(
+            game,
+            "Dogged Hunter",
+            "Pursue Enemies You Rout And Attack Again",
+            "Werewolf",
+            ["Dexterity", "Speed", "Stamina", "Strength"],
+            7,
+            "Movement Speed",
+            self.book["Ignore Opponents When Moving To Tiles With Damaged Enemies"],
+            antiStat=["Luck"]
         )
         self.book["Random Additional Spell II"] = self.power(
             game,
@@ -2611,6 +2663,18 @@ class powerBook(object):
             [self.book["Teleporting Does Not End Turns"]],
             [self.book["Trickster Tier 2 Portal"]],
             spellRank=True,
+        )
+        self.book["Unarmed Attacks Have +1 Range, Deal Ice Damage, And Cause Curses"] = self.power(
+            game,
+            "Dark Ice Claws",
+            "Unarmed Attacks Have +1 Range, Deal Ice Damage, And Cause Curses",
+            "Werewolf",
+            ["Dexterity", "Speed", "Stamina", "Strength"],
+            6,
+            "Ice Damage",
+            self.book["Pursue Enemies You Rout And Attack Again"],
+            self.book["Increases Damage Dealt To Flying And Mounted Enemies"],
+            antiStat=["Luck"]
         )
         self.book[
             "Use Greatest of Charisma, Faith, Or Strength when Dodging and Defending"
