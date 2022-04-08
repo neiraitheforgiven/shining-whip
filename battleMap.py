@@ -5232,9 +5232,9 @@ class game(object):
                 self.equipOnCharacter(equipment, allowedUnits[command])
 
     def equipOnCharacter(self, equipment, character, chatter=True):
-        if type(character) == str:
+        if isinstance(character, str):
             pc = [player for player in self.party if player.name == character][0]
-        elif type(character) == playerCharacter:
+        elif isinstance(character, playerCharacter):
             pc = character
         if pc:
             # does the pc already have equipment?
