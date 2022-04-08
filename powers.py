@@ -1048,6 +1048,15 @@ class powerBook(object):
             6,
             "Damage On Unholy Ground",
         )
+        self.book["Resist Magic, But Gain Fire and Melee Physical Vulnerability"] = self.power(
+            game,
+            "Glass Cannon",
+            "Resist Magic, But Gain Fire and Melee Physical Vulnerability",
+            "Wizard",
+            ["Intelligence", "Stamina"],
+            9,
+            "Ice Damage",
+        )
         self.book["Samurai Root 1 Boost"] = self.power(
             game,
             "Boost",
@@ -1239,6 +1248,26 @@ class powerBook(object):
             ["Dexterity", "Intelligence", "Speed"],
             8,
             "MP Amount",
+        )
+        self.book["Wizard Root 1 Freeze"] = self.power(
+            game,
+            "Freeze",
+            "Wizard Root 1 Freeze",
+            "Wizard",
+            ["Intelligence", "Stamina"],
+            9,
+            "Ice Damage",
+            spellRank=True,
+        )
+        self.book["Wizard Tier 1 Freeze"] = self.power(
+            game,
+            "Freeze",
+            "Wizard Tier 1 Freeze",
+            "Wizard",
+            ["Intelligence", "Stamina"],
+            9,
+            "Ice Damage",
+            spellRank=True,
         )
         self.book["Your Vocal Attack Damage is Increased By Missing Health"] = self.power(
             game,
@@ -1704,6 +1733,16 @@ class powerBook(object):
             [self.book["Hero Tier 1 Bolt"]],
             spellRank=True,
         )
+        self.book["Ice Damage Inflicts Bleed"] = self.power(
+            game,
+            "Freeze",
+            "Ice Damage Inflicts Bleed",
+            "Wizard",
+            ["Intelligence", "Stamina"],
+            8,
+            "Ice Damage",
+            [self.book["Wizard Tier 1 Freeze"]]
+        )
         self.book["Increases Damage Dealt On Unholy Ground"] = self.power(
             game,
             "Paladin",
@@ -2160,6 +2199,17 @@ class powerBook(object):
             7,
             "Focus Intensity",
             [self.book["Increases Focus When Stationary"]],
+        )
+        self.book["Wizard Tier 2 Freeze"] = self.power(
+            game,
+            "Freeze",
+            "Wizard Tier 2 Freeze",
+            "Wizard",
+            ["Intelligence", "Stamina"],
+            8,
+            "Ice Damage",
+            [self.book["Wizard Tier 1 Freeze"]],
+            spellRank=True,
         )
         self.book[
             "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
@@ -2785,6 +2835,18 @@ class powerBook(object):
             "Focus Intensity",
             [self.book["Dodging Grants Focus Charge"]],
             [self.book["Increases Focus When Outnumbered"]],
+        )
+        self.book["Wizard Tier 3 Freeze"] = self.power(
+            game,
+            "Freeze",
+            "Wizard Tier 3 Freeze",
+            "Wizard",
+            ["Intelligence", "Stamina"],
+            8,
+            "Ice Damage",
+            [self.book["Ice Damage Inflicts Bleed"]],
+            [self.book["Wizard Tier 2 Freeze"]],
+            spellRank=True,
         )
 
         # Cross-over powers
