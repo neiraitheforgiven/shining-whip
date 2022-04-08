@@ -337,6 +337,15 @@ class powerBook(object):
             "HP Amount",
             requiresDragonOr25=True,
         )
+        self.book["Defense Against Melee Damage"] = self.power(
+            game,
+            "Dwarven Armor",
+            "Defense Against Melee Damage",
+            "Warrior",
+            ["Luck", "Stamina", "Strength"],
+            6,
+            "HP Amount",
+        )
         self.book["Defense Against Ranged Physical Damage"] = self.power(
             game,
             "Projectile Defense",
@@ -809,6 +818,15 @@ class powerBook(object):
             6,
             "Movement Speed",
         )
+        self.book["Move Right One More Tile If Ally Present"] = self.power(
+            game,
+            "To The Frontlines",
+            "Move Right One More Tile If Ally Present",
+            "Warrior",
+            ["Luck", "Stamina", "Strength"],
+            6,
+            "Movement Speed",
+        )
         self.book["Movement Does Not Interupt Your Singing"] = self.power(
             game,
             "Rhythmic Chanting",
@@ -1090,6 +1108,15 @@ class powerBook(object):
             "Earth Damage",
             spellRank=True,
         )
+        self.book["Swap-move With Most Damaged Ally If No Space Available"] = self.power(
+            game,
+            "Castle Move",
+            "Swap-move With Most Damaged Ally If No Space Available",
+            "Warrior",
+            ["Luck", "Stamina", "Strength"],
+            6,
+            "Movement Speed",
+        )
         self.book["Tile Resonance Increases Charisma Effects"] = self.power(
             game,
             "Bragging Verse",
@@ -1253,6 +1280,16 @@ class powerBook(object):
             [self.book["Move After Attacking"]],
             bannedClasses=["Knight"],
             spellRank=True,
+        )
+        self.book["Attack an Additional Enemy In Melee Range"] = self.power(
+            game,
+            "Cleaving Attacks",
+            "Attack an Additional Enemy In Melee Range",
+            "Warrior",
+            ["Luck", "Stamina", "Strength"],
+            5,
+            "Heavy Attack Chance",
+            [self.book["Defense Against Melee Damage"]],
         )
         self.book["Attack Each Enemy In Range On Death"] = self.power(
             game,
@@ -1615,6 +1652,16 @@ class powerBook(object):
             "Status Effectiveness",
             6,
             [self.book["Increases Damage Dealt To Flying Enemies"]],
+        )
+        self.book["Heavy Attacks Inflict Bleed"] = self.power(
+            game,
+            "Bloodied Blades",
+            "Heavy Attacks Inflict Bleed",
+            "Warrior",
+            ["Luck", "Stamina", "Strength"],
+            5,
+            "Heavy Attack Chance",
+            [self.book["Defense Against Melee Damage"]],
         )
         self.book["Hero Tier 2 Bolt"] = self.power(
             game,
@@ -2174,6 +2221,17 @@ class powerBook(object):
             "Arrows Skill",
             [self.book["Arrows: Increases Damage I"]],
             [self.book["Ranged Attacks Don't Miss"]],
+        )
+        self.book["Attacks Deal Wind Damage, Hit an Additional Melee Target, Cause Bleed"] = self.power(
+            game,
+            "Whirlwind Attacks",
+            "Attacks Deal Wind Damage, Hit an Additional Melee Target, Cause Bleed",
+            "Warrior",
+            ["Luck", "Stamina", "Strength"],
+            4,
+            "Heavy Attack Chance",
+            [self.book["Attack an Additional Enemy In Melee Range"]],
+            [self.book["Heavy Attacks Inflict Bleed"]],
         )
         self.book["Berserker Tier 3 Berserking"] = self.power(
             game,
