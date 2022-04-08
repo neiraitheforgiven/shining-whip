@@ -464,6 +464,8 @@ class playerCharacter(object):
         self.trophies = []
         self.extraPowerSlot = []
         self.extraPowerSlot2 = []
+        self.unlockedBonuses = []
+        self.bonuses = {}
         self.skills = {
             "Arrows": 0,
             "Axes": 0,
@@ -652,6 +654,30 @@ class playerCharacter(object):
 
     def canEquip(self, equipment):
         return equipment.canEquip(self)
+
+    def chooseBonus(self):
+        bonuses = random.sample(self.unlockedBonuses, k=3)
+        display_adds = []
+        for i, bonus in range(len(bonuses)):
+            display_adds.append(f"({i}) {bonus}")
+        adds_string = " or ".join(display_adds)
+        print(f"Choose one of the following to increase by 1%: {adds_string}.")
+        choice = self.choose_one(bonuses)
+        if choice in self.bonuses:
+            self.bonuses[choice] += 0.01
+        else:
+            self.bonuses[choice] = 1.01
+
+    def choose_one(self, options):
+        choice = None
+        while choice not in range(0, len(options)):
+            try:
+                choice = int(
+                    input("Type the number to make your choice: ")
+                )
+            except ValueError:
+                choice = None
+        options[choice]
 
     def getFame(self):
         return self.stats["Charisma"] + math.floor(len(self.trophies) / 3) + self.fame
@@ -1746,147 +1772,27 @@ class playerCharacter(object):
                 f" afterDecorated: {afterDecorated}"
             )
             power_options = powers.get_power_options(self, chatter)
-            if afterTitle != beforeTitle:
-                if afterDecorated != beforeTitle:
-                    if not chatter:
-                        choice = 0
-                    else:
-                        print(
-                            f"{self.name}: \"I'm starting to feel as if "
-                            f"being a {self.title} isn't working out. "
-                        )
-                        print(
-                            f"Perhaps I should become a {afterDecorated} "
-                            f"and study the art of {newProposedPower} "
-                            f"instead of sticking with {beforeTitle} and "
-                            f"learning {oldProposedPower}."
-                        )
-                        print('What do you think?"')
-                        print(
-                            f"{self.name} can choose (0) {beforeTitle} or "
-                            f"(1) {afterDecorated}."
-                        )
-                        choice = None
-                        while choice not in (0, 1):
-                            try:
-                                choice = int(
-                                    input("Type the number to make your choice: ")
-                                )
-                            except ValueError:
-                                choice = None
-                    if choice == 0:
-                        if chatter:
-                            print(f"")
-                        self.assignTitle(beforeTitle, chatter)
-                        if chatter:
-                            print(
-                                f'{self.name}: "If you insist, I will do '
-                                'my best to prove your judgement right!"'
-                            )
-                        self.assignPower(oldProposedPower, chatter)
-                    if choice == 1:
-                        if chatter:
-                            print(f"")
-                        self.assignTitle(afterDecorated, chatter)
-                        if chatter:
-                            print(
-                                f"{self.name}: \"That's settled, then! "
-                                f'Today I will become a {self.title}!"'
-                            )
-                        self.assignPower(newProposedPower, chatter)
-                else:
-                    if chatter:
-                        print(
-                            f'{self.name}: "Another step on my chosen '
-                            f'path as a {self.title}!"'
-                        )
-                    self.assignPower(self.getPower(self.title, chatter), chatter)
-                self.updateGrowth()
+            if not chatter:
+                choice = 0
             else:
-                if chatter:
-                    print(
-                        f'{self.name}: "Another step on my chosen '
-                        f'path as a {self.title}!"'
-                    )
-                self.assignPower(self.getPower(self.title, chatter), chatter)
-            self.updateGrowth()
+                display_adds = []
+                for i, option in power_options:
+                    display_adds.append(f"({i}) {option.name} ({option.description})")
+                add_string = " or ".join(display_adds)
+                display_message = f"{self.name} can choose {add_string}."
+                print(display_message)
+                choice = None
+                while choice not in range(0, len(power_options)):
+                    try:
+                        choice = int(
+                            input("Type the number to make your choice: ")
+                        )
+                    except ValueError:
+                        choice = None
+                    self.assignPower(power_options[choice])
+                self.updateGrowth()
         else:
-            if chatter:
-                if fulfilled == 2:
-                    if happy:
-                        if breakthrough:
-                            print(
-                                f'{self.name}: "These are the moments '
-                                "that define the legends of the "
-                                f'{self.title}!"'
-                            )
-                        else:
-                            print(
-                                f'{self.name}: "Yes! I am the epitome '
-                                f'of a {self.title}!"'
-                            )
-                    else:
-                        if breakthrough:
-                            print(
-                                f'{self.name}: "What is this? This '
-                                "power! It seems like so much more than a "
-                                f'mere {self.title}!"'
-                            )
-                        else:
-                            print(
-                                f'{self.name}: "At least I know this is '
-                                f"the path a {self.title} should be "
-                                'taking."'
-                            )
-                elif fulfilled == 1:
-                    if happy:
-                        if breakthrough:
-                            print(
-                                f'{self.name}: "Wow! That really opened '
-                                'up some new perspectives!"'
-                            )
-                        else:
-                            print(
-                                f"{self.name}: \"It's not much, but this "
-                                f'will make me a better {self.title}."'
-                            )
-                    else:
-                        if breakthrough:
-                            print(
-                                f'{self.name}: "Finally, something '
-                                f"about being a {self.title} is making "
-                                'sense."'
-                            )
-                        else:
-                            print(
-                                f'{self.name}: "Being a {self.title} is '
-                                'a lot harder than I expected."'
-                            )
-                else:
-                    if happy:
-                        if breakthrough:
-                            print(
-                                f"{self.name}: \"I... I've had a vision. "
-                                "I've never seen myself in that light "
-                                'before..."'
-                            )
-                        else:
-                            print(
-                                f'{self.name}: "Well, that is a '
-                                'disappointment, to say the least."'
-                            )
-                    else:
-                        if breakthrough:
-                            print(
-                                f"{self.name}: \"Maybe I'll never be a great "
-                                f"{self.title}, but perhaps there are other "
-                                'options opening up!"'
-                            )
-                        else:
-                            print(
-                                f"{self.name}: \"Aww, maybe I'm not cut "
-                                f'out to be a {self.title}."'
-                            )
+            self.chooseBonus()
         self.upSkill()
 
     def maxFP(self):
