@@ -570,22 +570,17 @@ class playerCharacter(object):
                 print("    {} of {}".format(statName, statValue))
             print("")
 
-    def assignPower(self, nameOfPower, chatter=False):
-        if nameOfPower != "Swords: Attacking Adds Focus":
-            if " Increased Damage " not in nameOfPower:
-                # check for power implementation as best as possible
-                bmFile = open("battleMap.py", "r")
-                if not any(nameOfPower in line for line in bmFile):
-                    print()
-                    print(
-                        f"Warning: the power {nameOfPower} has not been implemented"
-                        " yet. Let Neirai the Forgiven know to get his lazy ass in"
-                        " gear!"
-                    )
-                    print()
-        self.powers.append(nameOfPower)
+    def assignPower(self, power, chatter=False):
+        if power.not_yet_implemented:
+            print()
+            print(
+                f"Warning: the power {power.name} has not been implemented"
+                " yet. Let Neirai the Forgiven know to add it to the list of things to do!"
+            )
+            print()
+        self.powers.append(power)
         if chatter:
-            print(f"{self.name} learned {nameOfPower}!")
+            print(f"{self.name} learned {power.name}!")
 
     def assignRace(self, race=None):
         if not race:
