@@ -3,6 +3,7 @@ from characters import playerCharacter
 from characters import monster
 from operator import itemgetter
 from shopping import shop
+import powers
 import math
 import os
 import random
@@ -4230,6 +4231,8 @@ class game(object):
                 self.shelf["Initialized"] = True
                 self.shop = None
                 self.shelf["shop"] = self.shop
+                self.powerBook = powers.powerBook()
+                self.shelf["book"] = self.powerBook
                 self.battleStarted = 0
                 self.shelf["battleStarted"] = self.battleStarted
                 tutorial = input(
@@ -4269,6 +4272,7 @@ class game(object):
                 self.maxPartySize = self.shelf["maxPartySize"]
                 self.battleNum = self.shelf["battleNum"]
                 self.shop = self.shelf["shop"]
+                self.powerBook = self.shelf["book"]
                 self.battleStarted = self.shelf["battleStarted"]
                 if "tutorial" in self.shelf:
                     self.tutorial = self.shelf["tutorial"]
