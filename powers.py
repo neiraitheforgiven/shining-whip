@@ -4,11 +4,10 @@ import random
 class powerBook(object):
     """The dictionary containing all of the powers in the given game"""
 
-    def __init__(self, game):
+    def __init__(self):
         self.book = {}
         # Tier one powers
         self.book["Alchemist Bolt Rank"] = self.power(
-            game,
             "Bolt",
             "Alchemist Bolt Rank",
             "Alchemist",
@@ -18,7 +17,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Archmage Teleport"] = self.power(
-            game,
             "Teleport",
             "Archmage Teleport",
             "Archmage",
@@ -28,7 +26,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Archmage Root 1 Bolt"] = self.power(
-            game,
             "Bolt",
             "Archmage Root 1 Bolt",
             "Archmage",
@@ -38,7 +35,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Archmage Tier 1 Bolt"] = self.power(
-            game,
             "Bolt",
             "Archmage Tier 1 Bolt",
             "Archmage",
@@ -48,7 +44,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Arrows: Add Effect: Poison"] = self.power(
-            game,
             "Poisoned Tips",
             "Arrows: Add Effect: Poison",
             "Archer",
@@ -57,7 +52,6 @@ class powerBook(object):
             "Arrows Skill",
         )
         self.book["Assassin Tier 1 Death"] = self.power(
-            game,
             "Death",
             "Assassin Tier 1 Death",
             "Assassin",
@@ -68,7 +62,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Assassin Tier 1 Sleep"] = self.power(
-            game,
             "Sleep",
             "Assassin Tier 1 Sleep",
             "Assassin",
@@ -79,7 +72,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Attacking Does Not Interupt Your Singing"] = self.power(
-            game,
             "Battle Song",
             "Attacking Does Not Interupt Your Singing",
             "Banshee",
@@ -88,7 +80,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Attacks Change Type To Match Vulnerabilities"] = self.power(
-            game,
             "Suffering",
             "Attacks Change Type To Match Vulnerabilities",
             "Jongleur",
@@ -97,7 +88,6 @@ class powerBook(object):
             "Damage vs Vulnerability",
         )
         self.book["Axes: Extra Unarmed Attack"] = self.power(
-            game,
             "Axe Punch",
             ["Axes: Extra Unarmed Attack"],
             "Berserker",
@@ -107,7 +97,6 @@ class powerBook(object):
             antiStat=["Luck"],
         )
         self.book["Baron Root 1 Drain On Crit"] = self.power(
-            game,
             "Essence Sap",
             ["Baron Root 1 Drain On Crit"],
             "Baron",
@@ -118,7 +107,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Baron Tier 1 Drain On Crit"] = self.power(
-            game,
             "Essence Sap",
             ["Baron Tier 1 Drain On Crit"],
             "Baron",
@@ -129,7 +117,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Begin Battle with Two Ranks of Focus"] = self.power(
-            game,
             "Preparation",
             ["Begin Battle with Two Ranks of Focus"],
             "Archer",
@@ -138,7 +125,6 @@ class powerBook(object):
             9,
         )
         self.book["Berserker Tier 1 Heavy Damage"] = self.power(
-            game,
             "Heavy Damage",
             ["Berserker Tier 1 Heavy Damage"],
             "Berserker",
@@ -162,7 +148,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Bishop Root 1 Aura"] = self.power(
-            game,
             "Aura",
             ["Bishop Root 1 Aura"],
             "Bishop",
@@ -172,7 +157,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Bishop Tier 1 Aura"] = self.power(
-            game,
             "Aura",
             ["Bishop Tier 1 Aura"],
             "Bishop",
@@ -182,7 +166,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Blood Mage Tier 1 Drain"] = self.power(
-            game,
             "Drain",
             ["Blood Mage Tier 1 Drain"],
             "Blood Mage",
@@ -192,7 +175,6 @@ class powerBook(object):
             spellRank=True,
         )  # Note to self: Drain should leave targets bleeding
         self.book["Blood Mage Tier 1 Muddle"] = self.power(
-            game,
             "Muddle",
             ["Blood Mage Tier 1 Muddle"],
             "Blood Mage",
@@ -202,7 +184,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Catechumen Tier 1 Vocal Cascade"] = self.power(
-            game,
             "Cascade",
             "Catechumen Tier 1 Vocal Cascade",
             "Catechumen",
@@ -212,7 +193,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Chance to Return from the Dead Each Turn"] = self.power(
-            game,
             "Overcome the Grave",
             ["Chance to Return from the Dead Each Turn"],
             "Baron",
@@ -222,7 +202,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Channeller Root 1 Surge"] = self.power(
-            game,
             "Surge",
             "Channeller Root 1 Surge",
             "Channeller",
@@ -232,7 +211,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Channeller Root 2 Surge"] = self.power(
-            game,
             "Surge",
             "Channeller Root 2 Surge",
             "Channeller",
@@ -242,7 +220,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Channeller Tier 1 Surge"] = self.power(
-            game,
             "Surge",
             "Channeller Tier 1 Surge",
             "Channeller",
@@ -252,7 +229,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Command: Fill Focus If An Ally Dies On Your Tile"] = self.power(
-            game,
             "Solemn Vow",
             ["Command: Fill Focus If An Ally Dies On Your Tile"],
             "Bishop",
@@ -263,7 +239,6 @@ class powerBook(object):
         self.book[
             "Command: Increase Focus Generation on Fully Holy Tiles"
         ] = self.power(
-            game,
             "Sacred Dance",
             "Command: Increase Focus Generation on Fully Holy Tiles",
             "Cantor",
@@ -272,7 +247,6 @@ class powerBook(object):
             "Focus Intensity",
         )
         self.book["Command: MP Regeneration"] = self.power(
-            game,
             "Bardic Command",
             ["Command: MP Regeneration"],
             "Bard",
@@ -281,7 +255,6 @@ class powerBook(object):
             "MP Amount",
         )
         self.book["Daggers Give Extra MP"] = self.power(
-            game,
             "Ritual Blades",
             ["Daggers Give Extra MP"],
             "Blood Mage",
@@ -290,7 +263,6 @@ class powerBook(object):
             "MP Amount",
         )
         self.book["Daggers Range + 1"] = self.power(
-            game,
             "Ninja Fire",
             "Daggers Range + 1",
             "Ninja",
@@ -299,7 +271,6 @@ class powerBook(object):
             "Daggers Skill",
         )
         self.book["Dark Mage Tier 1 Blaze"] = self.power(
-            game,
             "Blaze",
             "Dark Mage Tier 1 Blaze",
             "Dark Mage",
@@ -309,7 +280,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Dark Mage Tier 1 Freeze"] = self.power(
-            game,
             "Freeze",
             "Dark Mage Tier 1 Freeze",
             "Dark Mage",
@@ -319,7 +289,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Defense Against Magic Damage"] = self.power(
-            game,
             "Magical Defense",
             "Defense Against Magic Damage",
             "Dark Mage",
@@ -328,7 +297,6 @@ class powerBook(object):
             "HP Amount",
         )
         self.book["Defense Against Melee Physical Damage"] = self.power(
-            game,
             "Survival",
             "Defense Against Melee Physical Damage",
             "Survivor",
@@ -338,7 +306,6 @@ class powerBook(object):
             requiresDragonOr25=True,
         )
         self.book["Defense Against Melee Damage"] = self.power(
-            game,
             "Dwarven Armor",
             "Defense Against Melee Damage",
             "Warrior",
@@ -347,7 +314,6 @@ class powerBook(object):
             "HP Amount",
         )
         self.book["Defense Against Ranged Physical Damage"] = self.power(
-            game,
             "Projectile Defense",
             "Defense Against Ranged Physical Damage",
             "Heavy Shot",
@@ -356,7 +322,6 @@ class powerBook(object):
             "HP Amount",
         )
         self.book["Defense Against Sword Damage"] = self.power(
-            game,
             "Sword Defense",
             "Defense Against Sword Damage",
             "Duelist",
@@ -366,7 +331,6 @@ class powerBook(object):
             antiStat=["Faith"],
         )
         self.book["Dodging Grants and Spends One Charge Of Focus"] = self.power(
-            game,
             "Flash Step",
             ["Dodging Grants and Spends One Charge Of Focus"],
             "Gambler",
@@ -375,7 +339,6 @@ class powerBook(object):
             7,
         )
         self.book["Dodging Grants Additional Movement Next Turn"] = self.power(
-            game,
             "Aleron Roll",
             ["Dodging Grants Additional Movement Next Turn"],
             "Sky Lord",
@@ -384,7 +347,6 @@ class powerBook(object):
             7,
         )
         self.book["Double and Triple Attacks Can Be Heavy Attacks"] = self.power(
-            game,
             "Heavy Handed",
             "Double and Triple Attacks Can Be Heavy Attacks",
             "Titan",
@@ -394,7 +356,6 @@ class powerBook(object):
             antiStat=["Speed"],
         )
         self.book["Double Chances For Multiple Attacks"] = self.power(
-            game,
             "Sleight Of Hand",
             "Double Chances For Multiple Attacks",
             "Jongleur",
@@ -403,7 +364,6 @@ class powerBook(object):
             7,
         )
         self.book["Druid Tier 1 Blast"] = self.power(
-            game,
             "Natural Resistance",
             "Druid Tier 1 Blast",
             "Druid",
@@ -413,7 +373,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Druid Tier 1 Natural Resistance"] = self.power(
-            game,
             "Natural Resistance",
             "Druid Tier 1 Natural Resistance",
             "Druid",
@@ -423,7 +382,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Duelist Counterattack"] = self.power(
-            game,
             "Counterattack",
             "Duelist Counterattack",
             "Duelist",
@@ -433,7 +391,6 @@ class powerBook(object):
             antiStat=["Faith"],
         )
         self.book["Elemental Spell Damage Gives Targets Vulnerability To Element"] = self.power(
-            game,
             "Saturation",
             "Elemental Spell Damage Gives Targets Vulnerability To Element",
             "Trickster",
@@ -442,7 +399,6 @@ class powerBook(object):
             "Status Effectiveness"
         )
         self.book["Fame Increases With Kills"] = self.power(
-            game,
             "Bestial Reputation",
             "Fame Increases With Kills",
             "Werewolf",
@@ -452,7 +408,6 @@ class powerBook(object):
             antiStat=["Luck"]
         )
         self.book["Fame Reduces Enemy Stats"] = self.power(
-            game,
             "Intimidation",
             "Fame Reduces Enemy Stats",
             "Jongleur",
@@ -461,7 +416,6 @@ class powerBook(object):
             "Fame",
         )
         self.book["Flamecaster Root 1 Blaze"] = self.power(
-            game,
             "Blaze",
             "Flamecaster Root 1 Blaze",
             "Flamecaster",
@@ -471,7 +425,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Flamecaster Tier 1 Blaze"] = self.power(
-            game,
             "Blaze",
             "Flamecaster Tier 1 Blaze",
             "Flamecaster",
@@ -481,7 +434,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Flying Movement"] = self.power(
-            game,
             "Flying Movement",
             "Flying Movement",
             "Sky Battler",
@@ -492,7 +444,6 @@ class powerBook(object):
         self.book[
             "From Stationary, Move Forward One Square and Push Slowest Enemy"
         ] = self.power(
-            game,
             "Bulldozer",
             "From Stationary, Move Forward One Square and Push Slowest Enemy",
             "Steam Knight",
@@ -501,7 +452,6 @@ class powerBook(object):
             "Fame",
         )
         self.book["Gain Extra Gold On Kills"] = self.power(
-            game,
             "Lucre",
             "Gain Extra Gold On Kills",
             "Alchemist",
@@ -510,7 +460,6 @@ class powerBook(object):
             "Luckiness",
         )
         self.book["Hero Counterattack"] = self.power(
-            game,
             "Counterattack",
             "Hero Counterattack",
             "Hero",
@@ -522,7 +471,6 @@ class powerBook(object):
         )
         self.book["Duelist Counterattack"].antiPower = self.book["Hero Counterattack"]
         self.book["Hero Root 1 Egress"] = self.power(
-            game,
             "Egress",
             "Hero Root 1 Egress",
             "Hero",
@@ -532,7 +480,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Hero Tier 1 Bolt"] = self.power(
-            game,
             "Bolt",
             "Hero Tier 1 Bolt",
             "Hero",
@@ -542,7 +489,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Killing Enemies Grants You HP"] = self.power(
-            game,
             "Survival of the Fittest",
             "Killing Enemies Grants You HP",
             "Survivor",
@@ -552,7 +498,6 @@ class powerBook(object):
             requiresDragonOr25=True,
         )
         self.book["Ignore Opponents on First Two Tiles of Movement"] = self.power(
-            game,
             "Stealthy Movement",
             "Ignore Opponents on First Two Tiles of Movement",
             "Druid",
@@ -561,7 +506,6 @@ class powerBook(object):
             "Movement Speed",
         )
         self.book["Ignore Opponents When Moving To Tiles With Damaged Enemies"] = self.power(
-            game,
             "Scent of Blood",
             "Ignore Opponents When Moving To Tiles With Damaged Enemies",
             "Werewolf",
@@ -571,7 +515,6 @@ class powerBook(object):
             antiStat=["Luck"]
         )
         self.book["Increases Critical Chance"] = self.power(
-            game,
             "Bardic Luck",
             ["Increases Critical Chance"],
             "Bard",
@@ -580,7 +523,6 @@ class powerBook(object):
             "Luckiness",
         )
         self.book["Increases Critical Chance For A Turn After Dodging"] = self.power(
-            game,
             "On Their Six",
             ["Increases Critical Chance For A Turn After Dodging"],
             "Sky Lord",
@@ -589,7 +531,6 @@ class powerBook(object):
             7,
         )
         self.book["Increases Critical Hit Damage"] = self.power(
-            game,
             "Explosives",
             "Increases Critical Hit Damage",
             "Heavy Shot",
@@ -598,7 +539,6 @@ class powerBook(object):
             "Critical Hit Damage",
         )
         self.book["Increases Damage Dealt On Unholy Ground"] = self.power(
-            game,
             "Avenging Wrath",
             "Increases Damage Dealt On Unholy Ground",
             "Monk",
@@ -607,7 +547,6 @@ class powerBook(object):
             "Swords Skill",
         )
         self.book["Increases Damage Dealt To Flying Enemies"] = self.power(
-            game,
             "Air Superiority",
             ["Increases Damage Dealt To Flying Enemies"],
             "Sky Lord",
@@ -616,7 +555,6 @@ class powerBook(object):
             7,
         )
         self.book["Increases Damage Dealt To Isolated Enemies"] = self.power(
-            game,
             "Diving Strike",
             "Increases Damage Dealt To Isolated Enemies",
             "Sky Battler",
@@ -625,7 +563,6 @@ class powerBook(object):
             "Damage On Unholy Ground",
         )
         self.book["Increases Damage Dealt When Outnumbered"] = self.power(
-            game,
             "Wicked Rage",
             "Increases Damage Dealt When Outnumbered",
             "Werewolf",
@@ -635,7 +572,6 @@ class powerBook(object):
             antiStat=["Luck"]
         )
         self.book["Increases Defense On Unholy Ground"] = self.power(
-            game,
             "Psalmic Meditation",
             "Increases Defense On Unholy Ground",
             "Chorister",
@@ -644,7 +580,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Increases Dodge Chance"] = self.power(
-            game,
             "Dodge Roll",
             ["Increases Dodge Chance"],
             "Gambler",
@@ -653,7 +588,6 @@ class powerBook(object):
             "Luckiness",
         )
         self.book["Increases Dodge Chance vs Slower Attackers"] = self.power(
-            game,
             "Maneuverability",
             "Increases Dodge Chance vs Slower Attackers",
             "Sky Battler",
@@ -662,7 +596,6 @@ class powerBook(object):
             "Movement Speed",
         )
         self.book["Increases Fame Effect On Allies"] = self.power(
-            game,
             "Charismatic Leadership",
             "Increases Fame Effect On Allies",
             "Banshee",
@@ -671,7 +604,6 @@ class powerBook(object):
             "Fame",
         )
         self.book["Increases Focus When Stationary"] = self.power(
-            game,
             "Rolling Boil",
             "Increases Focus When Stationary",
             "Steam Knight",
@@ -680,7 +612,6 @@ class powerBook(object):
             "Focus Intensity",
         )
         self.book["Increases Heavy Attack Chance"] = self.power(
-            game,
             "Heavy Weapons",
             "Increases Heavy Attack Chance",
             ["Focus", "Strength"],
@@ -689,7 +620,6 @@ class powerBook(object):
             antiStat=["Speed"],
         )
         self.book["Increases Heavy Attack Damage"] = self.power(
-            game,
             "Heavier Attacks",
             "Increases Heavy Attack Damage",
             "Titan",
@@ -699,7 +629,6 @@ class powerBook(object):
             antiStat=["Speed"],
         )
         self.book["Increases Lance Damage For Each Tile Moved This Turn"] = self.power(
-            game,
             "Charge",
             "Increases Lance Damage For Each Tile Moved This Turn",
             "Knight",
@@ -709,7 +638,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Increases Luck When Outnumbered"] = self.power(
-            game,
             "Never Tell Me The Odds",
             ["Increases Luck When Outnumbered"],
             "Gambler",
@@ -720,7 +648,6 @@ class powerBook(object):
         self.book[
             "Increases Special Attack Chance When Sword Is Equipped"
         ] = self.power(
-            game,
             "Fencing Skill",
             "Increases Special Attack Chance When Sword Is Equipped",
             "Duelist",
@@ -732,7 +659,6 @@ class powerBook(object):
         self.book[
             "Increases Sword Damage If You Haven't Moved Since Last Attack"
         ] = self.power(
-            game,
             "Ono-ha Itto-ryu",
             ["Increases Sword Damage If You Haven't Moved Since Last Attack"],
             "Samurai",
@@ -741,7 +667,6 @@ class powerBook(object):
             "Swords Skill",
         )
         self.book["Increases Terrain Advantage I"] = self.power(
-            game,
             "Higher Ground",
             "Increases Terrain Advantage I",
             "Archer",
@@ -750,7 +675,6 @@ class powerBook(object):
             "Terrain Advantage",
         )
         self.book["Increases Your Area Of Holy Resonance To Five Tiles"] = self.power(
-            game,
             "Booming Voice",
             "Increases Your Area Of Holy Resonance To Five Tiles",
             "Orator",
@@ -759,7 +683,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Mage Knight Root 1 Blaze"] = self.power(
-            game,
             "Blaze",
             "Mage Knight Root 1 Blaze",
             "Mage Knight",
@@ -769,7 +692,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Mage Knight Root 2 Bolt"] = self.power(
-            game,
             "Bolt",
             "Mage Knight Root 2 Bolt",
             "Mage Knight",
@@ -779,7 +701,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Mage Knight Tier 1 Freeze"] = self.power(
-            game,
             "Freeze",
             "Mage Knight Tier 1 Freeze",
             "Mage Knight",
@@ -789,7 +710,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Magic Cost Reduction"] = self.power(
-            game,
             "Arcane Efficiency",
             "Magic Cost Reduction",
             "Flamecaster",
@@ -798,7 +718,6 @@ class powerBook(object):
             "MP Amount",
         )
         self.book["Monk Root 1 Silence"] = self.power(
-            game,
             "Silence",
             "Monk Root 1 Silence",
             "Monk",
@@ -808,7 +727,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Monk Tier 1 Heal"] = self.power(
-            game,
             "Heal",
             "Monk Tier 1 Heal",
             "Monk",
@@ -818,7 +736,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Move After Attacking"] = self.power(
-            game,
             "Hit and Run",
             "Move After Attacking",
             "Assassin",
@@ -830,7 +747,6 @@ class powerBook(object):
         self.book[
             "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
         ] = self.power(
-            game,
             "Mounted Movement",
             "Move an Additional Tile As Long As You Don't Move On Unstable Ground",
             "Knight",
@@ -840,7 +756,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Move Faster On Holy Ground"] = self.power(
-            game,
             "Beautiful Strides",
             "Move Faster On Holy Ground",
             "Catachumen",
@@ -849,7 +764,6 @@ class powerBook(object):
             "Movement Speed",
         )
         self.book["Move Right One More Tile If Ally Present"] = self.power(
-            game,
             "To The Frontlines",
             "Move Right One More Tile If Ally Present",
             "Warrior",
@@ -858,7 +772,6 @@ class powerBook(object):
             "Movement Speed",
         )
         self.book["Movement Does Not Interupt Your Singing"] = self.power(
-            game,
             "Rhythmic Chanting",
             "Movement Does Not Interupt Your Singing",
             "Cantor",
@@ -867,7 +780,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Ninja Tier 1 Ninja Fire"] = self.power(
-            game,
             "Ninja Fire",
             "Ninja Tier 1 Ninja Fire",
             "Ninja",
@@ -877,7 +789,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["One Negative Status Cleanses Itself Each Turn"] = self.power(
-            game,
             "Pure of Heart",
             "One Negative Status Cleanses Itself Each Turn",
             "Peregrine",
@@ -886,7 +797,6 @@ class powerBook(object):
             "FP Amount",
         )
         self.book["Orator Tier 1 Shield"] = self.power(
-            game,
             "Shield",
             "Orator Tier 1 Shield",
             "Orator",
@@ -896,7 +806,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Peregrine Root 1 Dispel"] = self.power(
-            game,
             "Dispel",
             "Peregrine Root 1 Dispel",
             "Peregrine",
@@ -906,7 +815,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Peregrine Tier 1 Blast"] = self.power(
-            game,
             "Blast",
             "Peregrine Tier 1 Blast",
             "Peregrine",
@@ -916,7 +824,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Prevent Focus Lost From Enemy Attacks"] = self.power(
-            game,
             "True Grit",
             "Prevent Focus Lost From Enemy Attacks",
             "Soldier",
@@ -925,7 +832,6 @@ class powerBook(object):
             "Focus Intensity",
         )
         self.book["Priest Root 1 Detox"] = self.power(
-            game,
             "Detox",
             "Priest Root 1 Detox",
             "Priest",
@@ -935,7 +841,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Priest Root 1 Heal"] = self.power(
-            game,
             "Heal",
             "Priest Root 1 Heal",
             "Priest",
@@ -945,7 +850,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Priest Tier 1 Heal"] = self.power(
-            game,
             "Heal",
             "Priest Tier 1 Heal",
             "Priest",
@@ -955,7 +859,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Prophet Root 1 Aura"] = self.power(
-            game,
             "Aura",
             "Prophet Root 1 Aura",
             "Prophet",
@@ -965,7 +868,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Prophet Root 1 Heal"] = self.power(
-            game,
             "Heal",
             "Prophet Root 1 Heal",
             "Prophet",
@@ -975,7 +877,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Prophet Tier 1 Slow"] = self.power(
-            game,
             "Slow",
             "Prophet Tier 1 Slow",
             "Prophet",
@@ -985,7 +886,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Random Additional Spell I"] = self.power(
-            game,
             "Mercurial Knowledge I",
             "Random Additional Spell I",
             "Alchemist",
@@ -994,7 +894,6 @@ class powerBook(object):
             "Luckiness",
         )
         self.book["Ranged Attacks Add Resonance to Target's Tile"] = self.power(
-            game,
             "Whistling Shots",
             ["Ranged Attacks Add Resonance to Target's Tile"],
             "Bard",
@@ -1003,7 +902,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Receive Commmands From Further Away"] = self.power(
-            game,
             "Under Authority",
             "Receive Commmands From Further Away",
             "Soldier",
@@ -1012,7 +910,6 @@ class powerBook(object):
             "Fame",
         )
         self.book["Reduces Critical Hit Damage Taken"] = self.power(
-            game,
             "Heavy Plate",
             "Reduces Critical Hit Damage Taken",
             "Steam Knight",
@@ -1021,7 +918,6 @@ class powerBook(object):
             "HP Amount",
         )
         self.book["Reduces Damage Taken From Vocal Attacks"] = self.power(
-            game,
             "Studied Ignorance",
             "Reduces Damage Taken From Vocal Attacks",
             "Valkyrie",
@@ -1030,7 +926,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Reduces the Effect of Unholy Ground By One Rank"] = self.power(
-            game,
             "Blessed Shield",
             "Reduces the Effect of Unholy Ground By One Rank",
             "Knight",
@@ -1040,7 +935,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Regenerate Health On Holy Ground"] = self.power(
-            game,
             "Sustenance",
             "Regenerate Health On Holy Ground",
             "Catechumen",
@@ -1049,7 +943,6 @@ class powerBook(object):
             "Damage On Unholy Ground",
         )
         self.book["Resist Magic, But Gain Fire and Melee Physical Vulnerability"] = self.power(
-            game,
             "Glass Cannon",
             "Resist Magic, But Gain Fire and Melee Physical Vulnerability",
             "Wizard",
@@ -1058,7 +951,6 @@ class powerBook(object):
             "Ice Damage",
         )
         self.book["Samurai Root 1 Boost"] = self.power(
-            game,
             "Boost",
             ["Samurai Root 1 Boost"],
             "Samurai",
@@ -1068,7 +960,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Scholar Root 1 Muddle"] = self.power(
-            game,
             "Muddle",
             ["Scholar Root 1 Muddle"],
             "Scholar",
@@ -1078,7 +969,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Scholar Tier 1 Silence"] = self.power(
-            game,
             "Silence",
             ["Scholar Tier 1 Silence"],
             "Scholar",
@@ -1088,7 +978,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Scholar Root 1 Sleep"] = self.power(
-            game,
             "Sleep",
             ["Scholar Root 1 Sleep"],
             "Scholar",
@@ -1098,7 +987,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Single Sword Attacks Grant Focus Charge"] = self.power(
-            game,
             "Iaijutsu",
             ["Single Sword Attacks Grant Focus Charge"],
             "Samurai",
@@ -1109,7 +997,6 @@ class powerBook(object):
         self.book[
             "Slower Movement That Ignores Terrain Cost And Blockers"
         ] = self.power(
-            game,
             "Unhindered Movement",
             "Slower Movement That Ignores Terrain Cost And Blockers",
             "Heavy Shot",
@@ -1118,7 +1005,6 @@ class powerBook(object):
             "Movement Speed",
         )
         self.book["Sorceror Root 1 Apollo"] = self.power(
-            game,
             "Apollo",
             "Sorceror Root 1 Apollo",
             "Sorceror",
@@ -1128,7 +1014,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Sorceror Root 1 Dao"] = self.power(
-            game,
             "Dao",
             "Sorceror Root 1 Dao",
             "Sorceror",
@@ -1138,7 +1023,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Sorceror Tier 1 Dao"] = self.power(
-            game,
             "Dao",
             "Sorceror Tier 1 Dao",
             "Sorceror",
@@ -1148,7 +1032,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Swap-move With Most Damaged Ally If No Space Available"] = self.power(
-            game,
             "Castle Move",
             "Swap-move With Most Damaged Ally If No Space Available",
             "Warrior",
@@ -1157,7 +1040,6 @@ class powerBook(object):
             "Movement Speed",
         )
         self.book["Tile Resonance Increases Charisma Effects"] = self.power(
-            game,
             "Bragging Verse",
             "Tile Resonance Increases Charisma Effects",
             "Banshee",
@@ -1166,7 +1048,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Trickster Root 1 Teleport"] = self.power(
-            game,
             "Teleport",
             "Trickster Root 1 Teleport",
             "Trickster",
@@ -1176,7 +1057,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Trickster Tier 1 Teleport"] = self.power(
-            game,
             "Teleport",
             "Trickster Tier 1 Teleport",
             "Trickster",
@@ -1186,7 +1066,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Unarmed Attacks Deal Fire Damage"] = self.power(
-            game,
             "Burning Hands",
             "Unarmed Attacks Deal Fire Damage",
             "Survivor",
@@ -1196,7 +1075,6 @@ class powerBook(object):
             requiresDragonOr25=True,
         )
         self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"] = self.power(
-            game,
             "Sacred Hymns",
             "Vocal Attacks Act As If Tiles Are One Rank More Holy",
             "Chorister",
@@ -1205,7 +1083,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Vocal Attacks Do Not Interupt Singing"] = self.power(
-            game,
             "Harmony",
             "Vocal Attacks Do Not Interupt Singing",
             "Chorister",
@@ -1214,7 +1091,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Vocal Attacks Have A Chance To Add Bleed"] = self.power(
-            game,
             "Piercing Screams",
             "Vocal Attacks Have A Chance To Add Bleed",
             "Cantor",
@@ -1223,7 +1099,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Vocal Attacks Have A Change To Double Attack"] = self.power(
-            game,
             "Vocal Agility",
             "Vocal Attacks Have A Change To Double Attack",
             "Oracle",
@@ -1232,7 +1107,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["When Focused, Double Your Luck"] = self.power(
-            game,
             "Make Your Own Luck",
             "When Focused, Double Your Luck",
             "Oracle",
@@ -1241,7 +1115,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["When Focused, Spell Are Free"] = self.power(
-            game,
             "Transcendant Ninjitsu",
             "When Focused, Spell Are Free",
             "Ninja",
@@ -1250,7 +1123,6 @@ class powerBook(object):
             "MP Amount",
         )
         self.book["Wizard Root 1 Freeze"] = self.power(
-            game,
             "Freeze",
             "Wizard Root 1 Freeze",
             "Wizard",
@@ -1260,7 +1132,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Wizard Tier 1 Freeze"] = self.power(
-            game,
             "Freeze",
             "Wizard Tier 1 Freeze",
             "Wizard",
@@ -1270,7 +1141,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Your Vocal Attack Damage is Increased By Missing Health"] = self.power(
-            game,
             "Higher Notes",
             "Your Vocal Attack Damage is Increased By Missing Health",
             "Valkyrie",
@@ -1279,7 +1149,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Your Vocal Attacks Ignore Penalty From Evil Resonance"] = self.power(
-            game,
             "Overcome the Darkness",
             "Your Vocal Attacks Ignore Penalty From Evil Resonance",
             "Oracle",
@@ -1288,7 +1157,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Your Voice Statistic Contributes to Defense"] = self.power(
-            game,
             "Basso Voice",
             "Your Voice Statistic Contributes to Defense",
             "Valkyrie",
@@ -1297,7 +1165,6 @@ class powerBook(object):
             "Vocal Strength",
         )
         self.book["Your Resonating Tiles Stay Resonating Longer"] = self.power(
-            game,
             "Sustaining Notes",
             "Your Resonating Tiles Stay Resonating Longer",
             "Orator",
@@ -1308,7 +1175,6 @@ class powerBook(object):
 
         # Tier two powers
         self.book["Archmage Tier 2 Bolt"] = self.power(
-            game,
             "Bolt",
             "Archmage Tier 2 Bolt",
             "Archmage",
@@ -1319,7 +1185,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Arrows: Increases Damage I"] = self.power(
-            game,
             "Composite Grip",
             "Arrows: Increases Damage I",
             "Archer",
@@ -1329,7 +1194,6 @@ class powerBook(object):
             [self.book["Arrows: Add Effect: Poison"]],
         )
         self.book["Assassin Tier 2 Death"] = self.power(
-            game,
             "Death",
             "Assassin Tier 2 Death",
             "Assassin",
@@ -1341,7 +1205,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Attack an Additional Enemy In Melee Range"] = self.power(
-            game,
             "Cleaving Attacks",
             "Attack an Additional Enemy In Melee Range",
             "Warrior",
@@ -1351,7 +1214,6 @@ class powerBook(object):
             [self.book["Defense Against Melee Damage"]],
         )
         self.book["Attack Each Enemy In Range On Death"] = self.power(
-            game,
             "Final Stand",
             ["Attack Each Enemy In Range On Death"],
             "Berserker",
@@ -1362,7 +1224,6 @@ class powerBook(object):
             antiStat=["Luck"],
         )
         self.book["Attacks Are Always Heavy When Your Health Is Full"] = self.power(
-            game,
             "Unhindered Movement",
             "Attacks Are Always Heavy When Your Health Is Full",
             "Heavy Shot",
@@ -1373,7 +1234,6 @@ class powerBook(object):
             ],
         )
         self.book["Banshee Tier 2 Axe Damage"] = self.power(
-            game,
             "Axe Damage",
             "Banshee Tier 2 Axe Damage",
             "Banshee",
@@ -1383,7 +1243,6 @@ class powerBook(object):
             [self.book["Tile Resonance Increases Charisma Effects"]],
         )
         self.book["Bishop Tier 2 Aura"] = self.power(
-            game,
             "Aura",
             ["Bishop Tier 2 Aura"],
             "Bishop",
@@ -1394,7 +1253,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Bleeding Enemies Heal You"] = self.power(
-            game,
             "Vampiric Thirst",
             ["Bleeding Enemies Heal You"],
             "Baron",
@@ -1405,7 +1263,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Bleeding Enemies Give MP"] = self.power(
-            game,
             "Essence",
             ["Bleeding Enemies Give MP"],
             "Blood Mage",
@@ -1416,7 +1273,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Blood Mage Tier 2 Essence"] = self.power(
-            game,
             "Essence",
             ["Blood Mage Tier 2 Essence"],
             "Blood Mage",
@@ -1427,7 +1283,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Channeller Tier 2 Silence"] = self.power(
-            game,
             "Silence",
             "Channeller Tier 2 Silence",
             "Channeller",
@@ -1438,7 +1293,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Channeller Tier 2 Surge"] = self.power(
-            game,
             "Surge",
             "Channeller Tier 2 Surge",
             "Channeller",
@@ -1449,7 +1303,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Charm Targets Instead of Routing Them"] = self.power(
-            game,
             "Siren Song",
             "Charm Targets Instead of Routing Them",
             "Banshee",
@@ -1459,7 +1312,6 @@ class powerBook(object):
             [self.book["Tile Resonance Increases Charisma Effects"]],
         )
         self.book["Convert Faith and Magic"] = self.power(
-            game,
             "Mercurial Exchange",
             "Convert Faith and Magic",
             "Alchemist",
@@ -1469,7 +1321,6 @@ class powerBook(object):
             [self.book["Random Additional Spell I"]],
         )
         self.book["Command: Casting Does Not Interupt Your Singing"] = self.power(
-            game,
             "Melodious Spellweaving",
             ["Command: Casting Does Not Interupt Your Singing"],
             "Bard",
@@ -1479,7 +1330,6 @@ class powerBook(object):
             [self.book["Command: MP Regeneration"]],
         )
         self.book["Command: Increases Defense On Resonant Tiles"] = self.power(
-            game,
             "Radiant Shield",
             "Command: Increases Defense On Resonant Tiles",
             "Orator",
@@ -1489,7 +1339,6 @@ class powerBook(object):
             [self.book["Increases Your Area Of Holy Resonance To Five Tiles"]],
         )
         self.book["Command: Reduces Damage Taken From Vocal Attacks"] = self.power(
-            game,
             "Outshout for the Audience",
             "Command: Reduces Damage Taken From Vocal Attacks",
             "Valkyrie",
@@ -1499,7 +1348,6 @@ class powerBook(object):
             [self.book["Your Vocal Attack Damage is Increased By Missing Health"]]
         )
         self.book["Counter Enemy Attacks By Inflicting Bleed"] = self.power(
-            game,
             "Sharpness",
             "Counter Enemy Attacks By Inflicting Bleed",
             "Jongleur",
@@ -1511,7 +1359,6 @@ class powerBook(object):
         self.book[
             "Counter Enemy Attacks By Adding A Rank Of Holy Resonance To The Source Tile"
         ] = self.power(
-            game,
             "Counterpoint",
             "Counter Enemy Attacks By Adding A Rank Of Holy Resonance To The Source Tile",
             "Chorister",
@@ -1523,7 +1370,6 @@ class powerBook(object):
         self.book[
             "Counter Enemy Attacks By Casting A Random Spell You Know"
         ] = self.power(
-            game,
             "Magical Riposte",
             ["Counter Enemy Attacks By Casting A Random Spell You Know"],
             "Scholar",
@@ -1533,7 +1379,6 @@ class powerBook(object):
             [self.book["Scholar Tier 1 Silence"]],
         )
         self.book["Counter Enemy Attacks That You Dodged"] = self.power(
-            game,
             "Aerialist Counterattack",
             "Counter Enemy Attacks That You Dodged",
             "Sky Battler",
@@ -1543,7 +1388,6 @@ class powerBook(object):
             [self.book["Flying Movement"]],
         )
         self.book["Counter Enemy Vocal Attacks With Bleed"] = self.power(
-            game,
             "Lacerating Response",
             "Counter Enemy Vocal Attacks With Bleed",
             "Cantor",
@@ -1553,7 +1397,6 @@ class powerBook(object):
             [self.book["Vocal Attacks Have A Chance To Add Bleed"]],
         )
         self.book["Critical Attacks Grant Temporary Damage Reduction"] = self.power(
-            game,
             "Monster Armor",
             "Critical Attacks Grant Temporary Damage Reduction",
             "Survivor",
@@ -1564,7 +1407,6 @@ class powerBook(object):
             requiresDragonOr25=True,
         )
         self.book["Critical Hits Reduce Next Spell Cost to 0"] = self.power(
-            game,
             "Stroke of Luck",
             ["Critical Hits Reduce Next Spell Cost to 0"],
             "Bard",
@@ -1574,7 +1416,6 @@ class powerBook(object):
             [self.book["Command: MP Regeneration"]],
         )
         self.book["Critical Attacks Cast Muddle On Target"] = self.power(
-            game,
             "Disorienting Criticals",
             "Critical Attacks Cast Muddle On Target",
             "Titan",
@@ -1585,7 +1426,6 @@ class powerBook(object):
             antiStat=["Speed"],
         )
         self.book["Dark Mage Tier 2 Death"] = self.power(
-            game,
             "Death",
             "Dark Mage Tier 2 Death",
             "Dark Mage",
@@ -1596,7 +1436,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Dark Mage Tier 2 Silence"] = self.power(
-            game,
             "Silence",
             "Dark Mage Tier 2 Silence",
             "Dark Mage",
@@ -1607,7 +1446,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Dodge Attacks That You Counter"] = self.power(
-            game,
             "Parry",
             "Dodge Attacks That You Counter",
             "Duelist",
@@ -1618,7 +1456,6 @@ class powerBook(object):
             antiStat=["Faith"],
         )
         self.book["Dodging Grants Focus Charge"] = self.power(
-            game,
             "Adrenaline Rush",
             ["Dodging Grants Focus Charge"],
             "Gambler",
@@ -1628,7 +1465,6 @@ class powerBook(object):
             [self.book["Increases Luck When Outnumbered"]],
         )
         self.book["Double the Chance of Multiple Ranged Attacks"] = self.power(
-            game,
             "True Grit",
             "Double the Chance of Multiple Ranged Attacks",
             "Soldier",
@@ -1637,7 +1473,6 @@ class powerBook(object):
             "Focus Intensity",
         )
         self.book["Double Rout Chance Against Bleeding Targets"] = self.power(
-            game,
             "Blood Cries Out",
             "Double Rout Chance Against Bleeding Targets",
             "Cantor",
@@ -1647,7 +1482,6 @@ class powerBook(object):
             [self.book["Vocal Attacks Have A Chance To Add Bleed"]],
         )
         self.book["Druid Tier 2 Conduit"] = self.power(
-            game,
             "Conduit",
             "Druid Tier 2 Conduit",
             "Druid",
@@ -1658,7 +1492,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Druid Tier 2 Detox"] = self.power(
-            game,
             "Detox",
             "Druid Tier 2 Detox",
             "Druid",
@@ -1671,7 +1504,6 @@ class powerBook(object):
         self.book[
             "Enemy Lance and Spear Users Must Attack You If Possible"
         ] = self.power(
-            game,
             "Knight's Challenge",
             "Enemy Lance and Spear Users Must Attack You If Possible",
             "Knight",
@@ -1682,7 +1514,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Fire Damage Consumes Bleed To Deal Double Damage"] = self.power(
-            game,
             "Cauterize",
             "Fire Damage Consumes Bleed To Deal Double Damage",
             "Flamecaster",
@@ -1692,7 +1523,6 @@ class powerBook(object):
             [self.book["Flamecaster Tier 1 Blaze"]],
         )
         self.book["Flamecaster Tier 2 Blaze"] = self.power(
-            game,
             "Blaze",
             "Flamecaster Tier 2 Blaze",
             "Flamecaster",
@@ -1703,7 +1533,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Heavy and Critical Attacks Ground Flying Enemies"] = self.power(
-            game,
             "Wing Clip",
             ["Heavy and Critical Attacks Ground Flying Enemies"],
             "Sky Lord",
@@ -1713,7 +1542,6 @@ class powerBook(object):
             [self.book["Increases Damage Dealt To Flying Enemies"]],
         )
         self.book["Heavy Attacks Inflict Bleed"] = self.power(
-            game,
             "Bloodied Blades",
             "Heavy Attacks Inflict Bleed",
             "Warrior",
@@ -1723,7 +1551,6 @@ class powerBook(object):
             [self.book["Defense Against Melee Damage"]],
         )
         self.book["Hero Tier 2 Bolt"] = self.power(
-            game,
             "Bolt",
             "Hero Tier 2 Bolt",
             "Hero",
@@ -1734,7 +1561,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Ice Damage Inflicts Bleed"] = self.power(
-            game,
             "Freeze",
             "Ice Damage Inflicts Bleed",
             "Wizard",
@@ -1744,7 +1570,6 @@ class powerBook(object):
             [self.book["Wizard Tier 1 Freeze"]]
         )
         self.book["Increases Damage Dealt On Unholy Ground"] = self.power(
-            game,
             "Paladin",
             "Increases Damage Dealt On Unholy Ground",
             "Knight",
@@ -1755,7 +1580,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Increases Damage Dealt To Flying and Mounted Enemies"] = self.power(
-            game,
             "Leap Attack",
             "Increases Damage Dealt To Flying and Mounted Enemies",
             "Werewolf",
@@ -1766,7 +1590,6 @@ class powerBook(object):
             antiStat=["Luck"]
         )
         self.book["Increases Dodge Chance Against Flying Enemies"] = self.power(
-            game,
             "Dogfighting",
             ["Increases Dodge Chance Against Flying Enemies"],
             "Sky Lord",
@@ -1778,7 +1601,6 @@ class powerBook(object):
         self.book[
             "Increases Dodge Chance Against The First Enemy To Attack You Each Round"
         ] = self.power(
-            game,
             "Aerial Agility",
             "Increases Dodge Chance Against The First Enemy To Attack You Each Round",
             "Sky Battler",
@@ -1788,7 +1610,6 @@ class powerBook(object):
             [self.book["Flying Movement"]],
         )
         self.book["Increases Focus When Outnumbered"] = self.power(
-            game,
             "Against All Odds",
             ["Increases Focus When Outnumbered"],
             "Gambler",
@@ -1798,7 +1619,6 @@ class powerBook(object):
             [self.book["Increases Luck When Outnumbered"]],
         )
         self.book["Increases Focus When Stationary"] = self.power(
-            game,
             "Unhindered Movement",
             "Increases Focus When Stationary",
             "Heavy Shot",
@@ -1808,7 +1628,6 @@ class powerBook(object):
             [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
         )
         self.book["Increases Healing Magic Range By 1"] = self.power(
-            game,
             "Heal",
             "Increases Healing Magic Range By 1",
             "Priest",
@@ -1818,7 +1637,6 @@ class powerBook(object):
             [self.book["Priest Tier 1 Heal"]],
         )
         self.book["Increases Healing To Allies On Unholy Ground"] = self.power(
-            game,
             "Heal",
             "Increases Healing To Allies On Unholy Ground",
             "Monk",
@@ -1828,7 +1646,6 @@ class powerBook(object):
             [self.book["Monk Tier 1 Heal"]],
         )
         self.book["Killing Enemies Gives MP"] = self.power(
-            game,
             "Destiny Unveiled",
             "Killing Enemies Gives MP",
             "Hero",
@@ -1838,7 +1655,6 @@ class powerBook(object):
             [self.book["Hero Tier 1 Bolt"]],
         )
         self.book["Killing Enemies Grants a Rank of Focus"] = self.power(
-            game,
             "Professionalism",
             "Killing Enemies Grants a Rank of Focus",
             "Soldier",
@@ -1850,7 +1666,6 @@ class powerBook(object):
         self.book[
             "Lance Attacks Grant Vulnerability Against Known Spell Schools"
         ] = self.power(
-            game,
             "Conductive Lance",
             "Lance Attacks Grant Vulnerability Against Known Spell Schools",
             "Mage Knight",
@@ -1860,7 +1675,6 @@ class powerBook(object):
             [self.book["Mage Knight Root 1 Blaze"]],
         )
         self.book["Lightning Damage Breaks Focus"] = self.power(
-            game,
             "Sudden Shock",
             "Lightning Damage Breaks Focus",
             "Archmage",
@@ -1870,7 +1684,6 @@ class powerBook(object):
             [self.book["Archmage Tier 1 Bolt"]],
         )
         self.book["Lost Health Increases Turn Speed"] = self.power(
-            game,
             "Tunnel Vision",
             ["Lost Health Increases Turn Speed"],
             "Berserker",
@@ -1881,7 +1694,6 @@ class powerBook(object):
             antiStat=["Luck"],
         )
         self.book["Monk Tier 2 Heal"] = self.power(
-            game,
             "Heal",
             "Monk Tier 2 Heal",
             "Monk",
@@ -1892,7 +1704,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Move To Follow Routed Enemies And Attack Again"] = self.power(
-            game,
             "Follow-on Attack",
             "Move To Follow Routed Enemies And Attack Again",
             "Jongleur",
@@ -1902,7 +1713,6 @@ class powerBook(object):
             [self.book["Double Chances For Multiple Attacks"]],
         )
         self.book["Ninja Tier 2 Ninja Bolt"] = self.power(
-            game,
             "Ninja Bolt",
             "Ninja Tier 2 Ninja Bolt",
             "Ninja",
@@ -1913,7 +1723,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Ninja Tier 2 Ninja Fire"] = self.power(
-            game,
             "Ninja Fire",
             "Ninja Tier 2 Ninja Fire",
             "Ninja",
@@ -1924,7 +1733,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Peregrine Tier 2 Blast"] = self.power(
-            game,
             "Blast",
             "Peregrine Tier 2 Blast",
             "Peregrine",
@@ -1935,7 +1743,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Prevent Enemy Counterattacks"] = self.power(
-            game,
             "Smoke Bomb",
             "Prevent Enemy Counterattacks",
             "Assassin",
@@ -1946,7 +1753,6 @@ class powerBook(object):
             bannedClasses=["Knight"],
         )
         self.book["Priest Tier 2 Heal"] = self.power(
-            game,
             "Heal",
             "Priest Tier 2 Heal",
             "Priest",
@@ -1957,7 +1763,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Prophet Tier 2 Aura"] = self.power(
-            game,
             "Aura",
             "Prophet Tier 2 Aura",
             "Prophet",
@@ -1968,7 +1773,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Prophet Tier 2 Quick"] = self.power(
-            game,
             "Quick",
             "Prophet Tier 2 Quick",
             "Prophet",
@@ -1979,7 +1783,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Pursue Enemies You Rout And Attack Again"] = self.power(
-            game,
             "Dogged Hunter",
             "Pursue Enemies You Rout And Attack Again",
             "Werewolf",
@@ -1990,7 +1793,6 @@ class powerBook(object):
             antiStat=["Luck"]
         )
         self.book["Random Additional Spell II"] = self.power(
-            game,
             "Mercurial Knowledge II",
             "Random Additional Spell II",
             "Alchemist",
@@ -2000,7 +1802,6 @@ class powerBook(object):
             [self.book["Random Additional Spell I"]],
         )
         self.book["Ranged Attacks Don't Miss"] = self.power(
-            game,
             "Aimed Shot",
             "Ranged Attacks Don't Miss",
             "Archer",
@@ -2010,7 +1811,6 @@ class powerBook(object):
             [self.book["Arrows: Add Effect: Poison"]],
         )
         self.book["Reduces Chance To Be Inflicted By Status Spells"] = self.power(
-            game,
             "Defense Against The Dark Arts",
             "Reduces Chance To Be Inflicted By Status Spells",
             "Mage Knight",
@@ -2022,7 +1822,6 @@ class powerBook(object):
         self.book[
             "Reduces Damage For Each Status Effect You Are Suffering"
         ] = self.power(
-            game,
             "Overcomer",
             "Reduces Damage For Each Status Effect You Are Suffering",
             "Survivor",
@@ -2033,7 +1832,6 @@ class powerBook(object):
             requiresDragonOr25=True,
         )
         self.book["Reduces Damage From Enemy Area Attacks"] = self.power(
-            game,
             "Get Down!",
             "Reduces Damage From Enemy Area Attacks",
             "Soldier",
@@ -2043,7 +1841,6 @@ class powerBook(object):
             [self.book["Prevent Focus Lost From Enemy Attacks"]],
         )
         self.book["Samurai Tier 2 Boost"] = self.power(
-            game,
             "Boost",
             ["Samurai Tier 2 Boost"],
             "Samurai",
@@ -2058,7 +1855,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Sorceror Tier 2 Atlas"] = self.power(
-            game,
             "Atlas",
             "Sorceror Tier 2 Atlas",
             "Sorceror",
@@ -2069,7 +1865,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Sorceror Tier 2 Poseidon"] = self.power(
-            game,
             "Poseidon",
             "Sorceror Tier 2 Poseidon",
             "Sorceror",
@@ -2080,7 +1875,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Staff Skills Increase the Damage of Vocal Attacks"] = self.power(
-            game,
             "Singing Rod",
             "Staff Skills Increase the Damage of Vocal Attacks",
             "Oracle",
@@ -2092,7 +1886,6 @@ class powerBook(object):
         self.book[
             "Spells You Target On One Of Your Resonating Tiles Target All Your Resonating Tiles"
         ] = self.power(
-            game,
             "Brilliant Radiance",
             "Spells You Target On One Of Your Resonating Tiles Target All Your Resonating Tiles",
             "Orator",
@@ -2102,7 +1895,6 @@ class powerBook(object):
             [self.book["Increases Your Area Of Holy Resonance To Five Tiles"]],
         )
         self.book["Taking Magic Damage Adds A Focus Rank"] = self.power(
-            game,
             "Boiling Point",
             "Taking Magic Damage Adds A Focus Rank",
             "Steam Knight",
@@ -2112,7 +1904,6 @@ class powerBook(object):
             [self.book["Increases Focus When Stationary"]],
         )
         self.book["Teleporting Does Not End Turns"] = self.power(
-            game,
             "Flash Steps",
             "Teleporting Does Not End Turns",
             "Trickster",
@@ -2123,7 +1914,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Trickster Tier 2 Portal"] = self.power(
-            game,
             "Portal",
             "Trickster Tier 2 Portal",
             "Trickster",
@@ -2134,7 +1924,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Unarmed Range + 1 and deals wind damage"] = self.power(
-            game,
             "Throw the Wind",
             "Unarmed Range + 1 and deals wind damage",
             "Peregrine",
@@ -2146,7 +1935,6 @@ class powerBook(object):
         self.book[
             "Use Greatest of Charisma, Faith, or Strength to deal Fire Damage When Attacking"
         ] = self.power(
-            game,
             "Boost",
             "Use Greatest of Charisma, Faith, or Strength to deal Fire Damage When Attacking",
             "Samurai",
@@ -2160,7 +1948,6 @@ class powerBook(object):
             ],
         )
         self.book["When Focused, All Area Spells Have Double Power"] = self.power(
-            game,
             "Fervent Prayer",
             "When Focused, All Area Spells Have Double Power",
             "Bishop",
@@ -2170,7 +1957,6 @@ class powerBook(object):
             [self.book["Bishop Tier 1 Aura"]],
         )
         self.book["When Focused, All Attacks Stun"] = self.power(
-            game,
             "Titanic Smash",
             "When Focused, All Attacks Stun",
             "Titan",
@@ -2181,7 +1967,6 @@ class powerBook(object):
             antiStat=["Speed"],
         )
         self.book["When Focused, All Status Spells Always Succeed"] = self.power(
-            game,
             "Complete Knowledge",
             ["When Focused, All Status Spells Always Succeed"],
             "Scholar",
@@ -2191,7 +1976,6 @@ class powerBook(object):
             [self.book["Scholar Tier 1 Silence"]],
         )
         self.book["When Focused, Strength is Doubled"] = self.power(
-            game,
             "Pneumatic Musculature",
             "When Focused, Strength is Doubled",
             "Steam Knight",
@@ -2201,7 +1985,6 @@ class powerBook(object):
             [self.book["Increases Focus When Stationary"]],
         )
         self.book["Wizard Tier 2 Freeze"] = self.power(
-            game,
             "Freeze",
             "Wizard Tier 2 Freeze",
             "Wizard",
@@ -2214,7 +1997,6 @@ class powerBook(object):
         self.book[
             "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
         ] = self.power(
-            game,
             "Jarring Shout",
             "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects",
             "Oracle",
@@ -2224,7 +2006,6 @@ class powerBook(object):
             [self.book["Vocal Attacks Have A Change To Double Attack"]],
         )
         self.book["Vocal Attacks Can Target Any Tile You Are Resonating"] = self.power(
-            game,
             "Voice From The Clouds",
             "Vocal Attacks Can Target Any Tile You Are Resonating",
             "Chorister",
@@ -2234,7 +2015,6 @@ class powerBook(object):
             [self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"]],
         )
         self.book["Vocal Attacks Have a Chance to Deafen Targets"] = self.power(
-            game,
             "Earsplitting Notes",
             "Vocal Attacks Have a Chance to Deafen Targets",
             "Valkyrie",
@@ -2245,7 +2025,6 @@ class powerBook(object):
         )
 
         self.book["Vocal Cascade With Weapons"] = self.power(
-            game,
             "Santified Movements",
             "Vocal Cascade With Weapons",
             "Catechumen",
@@ -2255,7 +2034,6 @@ class powerBook(object):
             [self.book["Catechumen Tier 1 Vocal Cascade"]],
         )
         self.book["Vocal Cascade Without Full Holy Resonance"] = self.power(
-            game,
             "Indwelling Echoes",
             "Vocal Cascade Without Full Holy Resonance",
             "Catechumen",
@@ -2265,7 +2043,6 @@ class powerBook(object):
             [self.book["Catechumen Tier 1 Vocal Cascade"]],
         )
         self.book["Your Bleeding Heals Allies On Your Tile"] = self.power(
-            game,
             "Sanguine Bond",
             ["Your Bleeding Heals Allies On Your Tile"],
             "Baron",
@@ -2278,7 +2055,6 @@ class powerBook(object):
         self.book[
             "Your Counterattacks Resolve Before The Attacks That Trigger Them"
         ] = self.power(
-            game,
             "Flash Strike",
             "Your Counterattacks Resolve Before The Attacks That Trigger Them",
             "Duelist",
@@ -2291,7 +2067,6 @@ class powerBook(object):
 
         # Tier three powers
         self.book["Archmage Tier 3 Bolt"] = self.power(
-            game,
             "Bolt",
             "Archmage Tier 2 Bolt",
             "Archmage",
@@ -2303,7 +2078,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Add the Command Keyword to All Your Powers"] = self.power(
-            game,
             "Bardic Leadership",
             ["Add the Command Keyword to All Your Powers"],
             "Bard",
@@ -2314,7 +2088,6 @@ class powerBook(object):
             [self.book["Critical Hits Reduce Next Spell Cost to 0"]],
         )
         self.book["Arrows: Increases Range"] = self.power(
-            game,
             "Far Shot",
             "Arrows: Increases Range",
             "Archer",
@@ -2325,7 +2098,6 @@ class powerBook(object):
             [self.book["Ranged Attacks Don't Miss"]],
         )
         self.book["Attacks Deal Wind Damage, Hit an Additional Melee Target, Cause Bleed"] = self.power(
-            game,
             "Whirlwind Attacks",
             "Attacks Deal Wind Damage, Hit an Additional Melee Target, Cause Bleed",
             "Warrior",
@@ -2336,7 +2108,6 @@ class powerBook(object):
             [self.book["Heavy Attacks Inflict Bleed"]],
         )
         self.book["Berserker Tier 3 Berserking"] = self.power(
-            game,
             "Berserking",
             ["Berserker Tier 3 Berserking"],
             "Berserker",
@@ -2349,7 +2120,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Bishop Tier 3 Aura"] = self.power(
-            game,
             "Aura",
             ["Bishop Tier 3 Aura"],
             "Bishop",
@@ -2361,7 +2131,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Blood Mage Tier 3 Drain"] = self.power(
-            game,
             "Drain",
             ["Blood Mage Tier 3 Drain"],
             "Blood Mage",
@@ -2373,7 +2142,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Can Make Triple Attacks"] = self.power(
-            game,
             "Triple Attack",
             "Can Make Triple Attacks",
             "Jongleur",
@@ -2384,7 +2152,6 @@ class powerBook(object):
             [self.book["Move To Follow Routed Enemies And Attack Again"]],
         )
         self.book["Catechumen Tier 3 Vocal Cascade"] = self.power(
-            game,
             "Cascade",
             "Catechumen Tier 3 Vocal Cascade",
             "Catechumen",
@@ -2396,7 +2163,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Command: Counterattacks"] = self.power(
-            game,
             "Vampiric Command",
             ["Command: Counterattacks"],
             "Baron",
@@ -2408,7 +2174,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Command Your Random Spells"] = self.power(
-            game,
             "Mercurial Education",
             "Command Your Random Spells",
             "Alchemist",
@@ -2419,7 +2184,6 @@ class powerBook(object):
             [self.book["Random Additional Spell II"]],
         )
         self.book["Critical Attacks Cast Bolt III"] = self.power(
-            game,
             "Dragon Breath",
             "Critical Attacks Cast Bolt III",
             "Survivor",
@@ -2431,7 +2195,6 @@ class powerBook(object):
             requiresDragonOr25=True,
         )
         self.book["Critical Hits Inflict Silence"] = self.power(
-            game,
             "Hush Up",
             "Critical Hits Inflict Silence",
             "Assassin",
@@ -2443,7 +2206,6 @@ class powerBook(object):
             bannedClasses=["Knight"],
         )
         self.book["Dark Mage Tier 3 Death"] = self.power(
-            game,
             "Death",
             "Dark Mage Tier 3 Death",
             "Dark Mage",
@@ -2455,7 +2217,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Druid Tier 3 Natural Resistance"] = self.power(
-            game,
             "Natural Resistance",
             "Druid Tier 2 Natural Resistance",
             "Druid",
@@ -2467,7 +2228,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Enemy Sword Users Must Attack You If Possible"] = self.power(
-            game,
             "Duelist's Challenge",
             "Enemy Sword Users Must Attack You If Possible",
             "Duelist",
@@ -2483,7 +2243,6 @@ class powerBook(object):
             antiStat=["Faith"],
         )
         self.book["Flamecaster Tier 3 Blaze"] = self.power(
-            game,
             "Blaze",
             "Flamecaster Tier 3 Blaze",
             "Flamecaster",
@@ -2495,7 +2254,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Heavy and Critical Attacks Destroy Focus"] = self.power(
-            game,
             "Shock Tactics",
             ["Heavy and Critical Attacks Destroy Focus"],
             "Sky Lord",
@@ -2508,7 +2266,6 @@ class powerBook(object):
         self.book[
             "Heavy Attacks Deal Extra Damage For Each Status Effect On The Target"
         ] = self.power(
-            game,
             "Trauma Hammer",
             "Heavy Attacks Deal Extra Damage For Each Status Effect On The Target",
             "Titan",
@@ -2520,7 +2277,6 @@ class powerBook(object):
             antiStat=["Speed"],
         )
         self.book["Hero Tier 3 Bolt"] = self.power(
-            game,
             "Bolt",
             "Hero Tier 3 Bolt",
             "Hero",
@@ -2534,7 +2290,6 @@ class powerBook(object):
         self.book[
             "When You Have Four Ranks Of Focus, Your Stats Are Increased"
         ] = self.power(
-            game,
             "Boiling Point",
             "When You Have Four Ranks Of Focus, Your Stats Are Increased",
             "Steam Knight",
@@ -2545,7 +2300,6 @@ class powerBook(object):
             [self.book["When Focused, Strength is Doubled"]],
         )
         self.book["Increases Chance To Rout On Unholy Ground"] = self.power(
-            game,
             "Paladin",
             "Increases Chance To Rout On Unholy Ground",
             "Knight",
@@ -2557,7 +2311,6 @@ class powerBook(object):
             antiStat=["Intelligence"],
         )
         self.book["Increases Your Area Of Holy Resonance To Seven Tiles"] = self.power(
-            game,
             "Brilliant Radiance",
             "Increases Your Area Of Holy Resonance To Seven Tiles",
             "Orator",
@@ -2572,7 +2325,6 @@ class powerBook(object):
             ],
         )
         self.book["Ignore Enemies When You Move"] = self.power(
-            game,
             "Trails In The Sky",
             "Ignore Enemies When You Move",
             "Sky Battler",
@@ -2587,7 +2339,6 @@ class powerBook(object):
             ],
         )
         self.book["Monk Tier 3 Aura"] = self.power(
-            game,
             "Aura",
             "Monk Tier 3 Aura",
             "Monk",
@@ -2599,7 +2350,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Ninja Tier 3 Ninja Bolt"] = self.power(
-            game,
             "Ninja Bolt",
             "Ninja Tier 3 Ninja Bolt",
             "Ninja",
@@ -2611,7 +2361,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Peregrine Tier 3 Blast"] = self.power(
-            game,
             "Blast",
             "Peregrine Tier 3 Blast",
             "Peregrine",
@@ -2623,7 +2372,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Priest Tier 3 Heal"] = self.power(
-            game,
             "Heal",
             "Priest Tier 3 Heal",
             "Priest",
@@ -2635,7 +2383,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Prophet Tier 3 Slow"] = self.power(
-            game,
             "Slow",
             "Prophet Tier 3 Slow",
             "Prophet",
@@ -2647,7 +2394,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Reduces Minimum Attack Range By 1"] = self.power(
-            game,
             "Unhindered Movement",
             "Reduces Minimum Attack Range By 1",
             "Heavy Shot",
@@ -2658,7 +2404,6 @@ class powerBook(object):
             [self.book["Increases Focus When Stationary"]],
         )
         self.book["Routing Adds Silence"] = self.power(
-            game,
             "Deafening Fear",
             "Routing Adds Silence",
             "Cantor",
@@ -2669,7 +2414,6 @@ class powerBook(object):
             [self.book["Counter Enemy Vocal Attacks With Bleed"]],
         )
         self.book["Scholar Tier 3 Petrify"] = self.power(
-            game,
             "Pertify",
             ["Scholar Tier 3 Petrify"],
             "Scholar",
@@ -2680,7 +2424,6 @@ class powerBook(object):
             [self.book["When Focused, All Status Spells Always Succeed"]],
         )
         self.book["Silence Enemies Who Cast A Spell That You Know On You"] = self.power(
-            game,
             "Counterspell",
             "Silence Enemies Who Cast A Spell That You Know On You",
             "Channeller",
@@ -2691,7 +2434,6 @@ class powerBook(object):
             [self.book["Channeller Tier 2 Silence"]],
         )
         self.book["Sorceror Tier 3 Atlas"] = self.power(
-            game,
             "Poseidon",
             "Sorceror Tier 3 Atlas",
             "Sorceror",
@@ -2703,7 +2445,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Trickster Tier 3 Teleport"] = self.power(
-            game,
             "Teleport",
             "Trickster Tier 3 Teleport",
             "Trickster",
@@ -2715,7 +2456,6 @@ class powerBook(object):
             spellRank=True,
         )
         self.book["Unarmed Attacks Have +1 Range, Deal Ice Damage, And Cause Curses"] = self.power(
-            game,
             "Dark Ice Claws",
             "Unarmed Attacks Have +1 Range, Deal Ice Damage, And Cause Curses",
             "Werewolf",
@@ -2729,7 +2469,6 @@ class powerBook(object):
         self.book[
             "Use Greatest of Charisma, Faith, Or Strength when Dodging and Defending"
         ] = self.power(
-            game,
             "Hyoho Niten Ichi-ryu",
             "Use Greatest of Charisma, Faith, Or Strength when Dodging and Defending",
             "Samurai",
@@ -2744,7 +2483,6 @@ class powerBook(object):
             ],
         )
         self.book["Vocal Attacks Act As If Tiles Are Two Ranks More Holy"] = self.power(
-            game,
             "Beatified Songs",
             "Vocal Attacks Act As If Tiles Are Two Ranks More Holy",
             "Chorister",
@@ -2759,7 +2497,6 @@ class powerBook(object):
             ],
         )
         self.book["Vocal Attacks Grant You Flying On Your Next Turn"] = self.power(
-            game,
             "Ride of the Valkyries",
             "Vocal Attacks Grant You Flying On Your Next Turn",
             "Valkyrie",
@@ -2772,7 +2509,6 @@ class powerBook(object):
         self.book[
             "Vocal Attacks Isolate Targets From Their Allies' Effects"
         ] = self.power(
-            game,
             "Deafening Voice",
             "Vocal Attacks Isolate Targets From Their Allies' Effects",
             "Oracle",
@@ -2789,7 +2525,6 @@ class powerBook(object):
         self.book[
             "When Attacking A Target That Is Vulnerable To A Spell School You Know, Cast a Rank I Version Of The Spell At Them"
         ] = self.power(
-            game,
             "Elemental Judgement",
             "When Attacking A Target That Is Vulnerable To A Spell School You Know, Cast a Rank I Version Of The Spell At Them",
             "Mage Knight",
@@ -2804,7 +2539,6 @@ class powerBook(object):
             [self.book["Reduces Chance To Be Inflicted By Status Spells"]],
         )
         self.book["When Focused, All Attacks Charm"] = self.power(
-            game,
             "Irresistable Voice",
             "When Focused, All Attacks Charm",
             "Banshee",
@@ -2815,7 +2549,6 @@ class powerBook(object):
             [self.book["Charm Targets Instead of Routing Them"]],
         )
         self.book["When Focused, Attacks Gain +1 Range"] = self.power(
-            game,
             "Sniper's Focus",
             "When Focused, Attacks Gain +1 Range",
             "Soldier",
@@ -2826,7 +2559,6 @@ class powerBook(object):
             [self.book["Reduces Damage From Enemy Area Attacks"]],
         )
         self.book["When Focused, You Cannot Be Reduced Below 1 HP"] = self.power(
-            game,
             "Die Hard",
             ["When Focused, You Cannot Be Reduced Below 1 HP"],
             "Gambler",
@@ -2837,7 +2569,6 @@ class powerBook(object):
             [self.book["Increases Focus When Outnumbered"]],
         )
         self.book["Wizard Tier 3 Freeze"] = self.power(
-            game,
             "Freeze",
             "Wizard Tier 3 Freeze",
             "Wizard",
@@ -2851,11 +2582,101 @@ class powerBook(object):
 
         # Cross-over powers
 
+    def get_power_options(self, character, chatter=True):
+        power_options = []
+        current_class_power = None
+        known_class_power = None
+        power_with_unlocked_requirements = None
+        highest_stats_power = None
+        weighted_random_power = None
+
+        # current class power
+        # assemble the options
+        current_class_options = [
+                power for power in self.book
+                if power not in character.powers
+                and power.unitClass in character.title
+                and power.requirements_unlocked(character)]
+
+        current_class_power = random.choice(current_class_options)
+        power_options.append(current_class_power)
+
+        known_class_options = [
+                power for power in self.book
+                if power not in character.powers
+                and power.unitClass in character.knownClasses
+                and power.requirements_unlocked(character)
+                and power != current_class_power]
+
+        if not any(known_class_options):
+            known_class_options = [
+                    option for option in current_class_options if option != current_class_power]
+        known_class_power = random.choice(known_class_options)
+        power_options.append(known_class_power)
+
+        power_with_unlocked_requirements_options = [
+                power for power in self.book
+                if power not in character.powers
+                and power.requirement1
+                and power.requirements_unlocked(character)
+                and power not in power_options]
+
+        if not any(power_with_unlocked_requirements_options):
+            power_with_unlocked_requirements_options = [
+                    option for option in known_class_options
+                    if option not in power_options]
+            if not any(power_with_unlocked_requirements_options):
+                power_with_unlocked_requirements_options = [
+                        option for option in current_class_options if option != current_class_power]
+        power_with_unlocked_requirements = random.choice(power_with_unlocked_requirements_options)
+        power_options.append(power_with_unlocked_requirements)
+
+        weighted_array = []
+        for power in self.book:
+            weighting = 0
+            for stat in power.stats:
+                weighting += character.stats[stat]
+            for stat in power.antiStat:
+                weighting -= character.stats[stat]
+            weighting = max(0, weighting) * power.multiplier
+            weighted_array.extend([power] * weighting)
+
+        highest_character_stat = [
+                stat for stat in character.stats
+                if character.stats[stat] == max([
+                        character.stats[stat] for stat in character.stats])]
+
+        highest_stats_options = [
+                power for power in weighted_array
+                if power not in character.powers
+                and highest_character_stat in power.stats
+                and power.requirements_unlocked(character)
+                and power not in power_options]
+
+        if not any(highest_stats_options):
+            highest_stats_options = [
+                    option for option in known_class_options if option not in power_options]
+        highest_stats_power = random.choice(highest_stats_options)
+        power_options.append(highest_stats_power)
+
+        weighted_random_options = [
+                power for power in weighted_array
+                if power not in character.powers
+                and power.requirements_unlocked(character)
+                and power not in power_options]
+
+        if not any(weighted_random_options):
+            weighted_random_options = [
+                    option for option in known_class_options if option not in power_options]
+        weighted_random_power = random.choice(weighted_random_options)
+        power_options.append(weighted_random_power)
+
+        return power_options
+
 
 class power(object):
     def __init__(
         self,
-        game,
         name,
         description,
         unitClass,
@@ -2903,103 +2724,3 @@ class power(object):
             if self.requirement2 not in character.powers:
                 return False
         return True
-
-
-def get_power_options(game, character, chatter=True):
-    power_options = []
-    current_class_power = None
-    known_class_power = None
-    power_with_unlocked_requirements = None
-    highest_stats_power = None
-    weighted_random_power = None
-
-    # current class power
-    # assemble the options
-    current_class_options = [
-            power for power in game.powerBook
-            if power not in character.powers
-            and power.unitClass in character.title
-            and power.requirements_unlocked(character)]
-
-    current_class_power = random.choice(current_class_options)
-    power_options.append(current_class_power)
-
-    known_class_options = [
-            power for power in game.powerBook
-            if power not in character.powers
-            and power.unitClass in character.knownClasses
-            and power.requirements_unlocked(character)
-            and power != current_class_power]
-
-    if not any(known_class_options):
-        known_class_options = [
-                option for option in current_class_options if option != current_class_power]
-    known_class_power = random.choice(known_class_options)
-    power_options.append(known_class_power)
-
-    power_with_unlocked_requirements_options = [
-            power for power in game.powerBook
-            if power not in character.powers
-            and power.requirement1
-            and power.requirements_unlocked(character)
-            and power not in power_options]
-
-    if not any(power_with_unlocked_requirements_options):
-        power_with_unlocked_requirements_options = [
-                option for option in known_class_options
-                if option not in power_options]
-        if not any(power_with_unlocked_requirements_options):
-            power_with_unlocked_requirements_options = [
-                    option for option in current_class_options if option != current_class_power]
-    power_with_unlocked_requirements = random.choice(power_with_unlocked_requirements_options)
-    power_options.append(power_with_unlocked_requirements)
-
-    weighted_array = []
-    for power in game.powerBook:
-        weighting = 0
-        for stat in power.stats:
-            weighting += character.stats[stat]
-        for stat in power.antiStat:
-            weighting -= character.stats[stat]
-        weighting = max(0, weighting) * power.multiplier
-        weighted_array.extend([power] * weighting)
-
-    highest_character_stat = [
-            stat for stat in character.stats
-            if character.stats[stat] == max([
-                    character.stats[stat] for stat in character.stats])]
-
-    highest_stats_options = [
-            power for power in weighted_array
-            if power not in character.powers
-            and highest_character_stat in power.stats
-            and power.requirements_unlocked(character)
-            and power not in power_options]
-
-    if not any(highest_stats_options):
-        highest_stats_options = [
-                option for option in known_class_options if option not in power_options]
-    highest_stats_power = random.choice(highest_stats_options)
-    power_options.append(highest_stats_power)
-
-    weighted_random_options = [
-            power for power in weighted_array
-            if power not in character.powers
-            and power.requirements_unlocked(character)
-            and power not in power_options]
-
-    if not any(weighted_random_options):
-        weighted_random_options = [
-                option for option in known_class_options if option not in power_options]
-    weighted_random_power = random.choice(weighted_random_options)
-    power_options.append(weighted_random_power)
-
-    return power_options
-
-
-
-
-
-
-
-
