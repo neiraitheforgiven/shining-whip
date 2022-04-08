@@ -137,7 +137,6 @@ class powerBook(object):
         self.book[
             "Berserker Tier 1 Berserking"
         ] = self.power(  # Lost Health Adds Damage
-            game,
             "Berserking",
             ["Berserker Tier 1 Berserking"],
             "Berserker",
