@@ -3898,30 +3898,7 @@ class battleField(object):
         return target.name
 
     def getPower(self, unit, name):
-        if any([name in power for power in unit.powers]):
-            return True
-        if unit.equipment:
-            if any([name in power for power in unit.equipment.powers]):
-                return True
-        if name not in ("Random Additional Spell I", "Random Additional Spell II"):
-            if self.getPower(unit, "Random Additional Spell I"):
-                if unit.extraPowerSlot and any(
-                    [name in power for power in unit.extraPowerSlot]
-                ):
-                    return True
-            if self.getPower(unit, "Random Additional Spell II"):
-                if unit.extraPowerSlot2 and any(
-                    [name in power for power in unit.extraPowerSlot2]
-                ):
-                    return True
-        commandName = "Command: " + name
-        position = self.getUnitPos(unit)
-        if not position:
-            return False
-        for ally in self.alliesAtPosition(unit, position):
-            if any([commandName in power for power in unit.powers]):
-                return True
-        return False
+        return name in self.getPowers(unit)
 
     def getPowers(self, unit):
         position = self.getUnitPos(unit)
