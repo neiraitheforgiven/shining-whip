@@ -3543,7 +3543,7 @@ class battleField(object):
             self.checkSpell(unit, position, "Heal III", True, 2, 1)
         if healRank >= 4 and unit.fp >= self.mpCost(unit, 20):
             self.checkSpell(unit, position, "Heal IV", True, 0, 0)
-        if self.getPower(unit, "Midas I") and unit.mp >= self.mpCost(unit, 8):
+        if self.unitSpellRank(unit, "Midas") >= 1 and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Midas I", False, 0, 0)
         if self.getPower(unit, "Portal I") and (unit.mp >= self.mpCost(unit, 21)):
             targets = []
