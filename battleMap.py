@@ -3465,17 +3465,16 @@ class battleField(object):
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
-        afflictRank = game.unitKnowsSpellRank(unit, 'Afflict')
-
-        if self.getPower(unit, "Afflict I") and (unit.mp >= self.mpCost(unit, 13)):
+        if self.unitSpellRank(unit, 'Afflict') >= 1 and (unit.mp >= self.mpCost(unit, 13)):
             self.checkSpell(unit, position, "Afflict I", False, 0, 0)
-        if self.getPower(unit, "Aura I") and unit.fp >= self.mpCost(unit, 7):
+        auraRank = self.unitSpellRank(unit, "Aura")
+        if auraRank >= 1 and unit.fp >= self.mpCost(unit, 7):
             self.checkSpell(unit, position, "Aura I", True, 1, 1)
-        if self.getPower(unit, "Aura II") and unit.fp >= self.mpCost(unit, 11):
+        if auraRank >= 2 and unit.fp >= self.mpCost(unit, 11):
             self.checkSpell(unit, position, "Aura II", True, 2, 2)
-        if self.getPower(unit, "Aura III") and (unit.mp >= self.fpCost(unit, 15)):
+        if auraRank >= 3 and (unit.mp >= self.fpCost(unit, 15)):
             self.checkSpell(unit, position, "Aura III", True, 2, 2)
-        if self.getPower(unit, "Aura IV") and unit.fp >= self.mpCost(unit, 20):
+        if auraRank >= 4 and unit.fp >= self.mpCost(unit, 20):
             targets = [
                 target
                 for target in self.party

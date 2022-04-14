@@ -154,6 +154,7 @@ class powerBook(object):
             10,
             "Healing Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Bishop Tier 1 Aura"] = power(
             "Aura",
@@ -163,6 +164,7 @@ class powerBook(object):
             10,
             "Healing Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Blood Mage Tier 1 Drain"] = power(
             "Drain",
@@ -866,6 +868,7 @@ class powerBook(object):
             7,
             "Healing Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Prophet Root 1 Heal"] = power(
             "Heal",
@@ -1250,6 +1253,7 @@ class powerBook(object):
             "Healing Amount",
             [self.book["Bishop Tier 1 Aura"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Bleeding Enemies Heal You"] = power(
             "Vampiric Thirst",
@@ -1770,6 +1774,7 @@ class powerBook(object):
             "Healing Amount",
             [self.book["Prophet Tier 1 Slow"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Prophet Tier 2 Quick"] = power(
             "Quick",
@@ -2128,6 +2133,7 @@ class powerBook(object):
             [self.book["Bishop Tier 2 Aura"]],
             [self.book["When Focused, All Area Spells Have Double Power"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Blood Mage Tier 3 Drain"] = power(
             "Drain",
@@ -2347,6 +2353,7 @@ class powerBook(object):
             [self.book["Monk Tier 2 Heal"]],
             [self.book["Increases Healing To Allies On Unholy Ground"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Ninja Tier 3 Ninja Bolt"] = power(
             "Ninja Bolt",
