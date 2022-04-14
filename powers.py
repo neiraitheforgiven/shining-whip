@@ -1578,9 +1578,9 @@ class powerBook(object):
             [self.book["Reduces the Effect of Unholy Ground By One Rank"]],
             antiStat=["Intelligence"],
         )
-        self.book["Increases Damage Dealt To Flying and Mounted Enemies"] = power(
+        self.book["Increases Damage Dealt To Flying And Mounted Enemies"] = power(
             "Leap Attack",
-            "Increases Damage Dealt To Flying and Mounted Enemies",
+            "Increases Damage Dealt To Flying And Mounted Enemies",
             "Werewolf",
             ["Dexterity", "Speed", "Stamina", "Strength"],
             7,
