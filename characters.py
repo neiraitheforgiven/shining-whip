@@ -265,7 +265,7 @@ class monster(object):
             self.equipment = equipment(
                 "Lances", "Steel Lance", 3000, 16, 0, 0, 12, 0, 0
             )
-            self.powers.append("Mounted Movement")
+            self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
             self.shortName = "MercKnt"
         elif name == "Pteropus Knight":
             self.level = 13
@@ -283,7 +283,7 @@ class monster(object):
             self.equipment = equipment("Lances", "Bronze Lance", 300, 8, 0, 0, 6, 0, 0)
             self.shortName = "Pteropus"
             self.powers.append("Flying Movement")
-            self.powers.append("Mounted Movement")
+            self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
             self.powers.append("Lances: Movement Increases Strength Damage I")
         elif name == "Salaman":
             self.level = 14
@@ -360,7 +360,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Patient"
             self.moveProfile = moveProfile or "Retreat-Defensive"
             self.equipment = equipment("Lances", "Bronze Lance", 300, 1, 0, 0, 6, 0, 0)
-            self.powers.append("Mounted Movement")
+            self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
             self.shortName = "Knight"
         elif name == "Vile Chanter":
             self.level = 12
@@ -599,7 +599,7 @@ class playerCharacter(object):
         elif race in ("Birdman", "Dragon", "Magical Creature", "Phoenix"):
             self.powers.append("Flying Movement")
         elif race == "Centaur":
-            self.powers.append("Mounted Movement")
+            self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
         elif race == "Dwarf":
             self.powers.append("Equip: Axes")
         elif race == "Elf":
@@ -780,8 +780,8 @@ class playerCharacter(object):
 
     def getPower(self, title, chatter=False):
         if "Mounted" in title:
-            if "Mounted Movement" not in self.powers:
-                return "Mounted Movement"
+            if "Move an Additional Tile As Long As You Don't Move On Unstable Ground" not in self.powers:
+                return "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
             else:
                 title = title.replace("Mounted ", "")
         elif "Sky" in self.title:
@@ -903,7 +903,7 @@ class playerCharacter(object):
         elif "Cantor" in title:
             listOfPowers = [
                 "Vocal Attack: Ignore Movement",
-                "Mounted Movement",
+                "Move an Additional Tile As Long As You Don't Move On Unstable Ground",
                 "Vocal Attack Causes Feedback Bleed",
                 "Vocal Attack: Sustain Effect",
                 "Unholy Ground Adds Focus",
@@ -1027,7 +1027,7 @@ class playerCharacter(object):
             and "Steam Knight" not in title
         ):
             listOfPowers = [
-                "Mounted Movement",
+                "Move an Additional Tile As Long As You Don't Move On Unstable Ground",
                 "Unholy: Increased Resistance I",
                 "Lances: Movement Increases Strength Damage I",
                 "Spears: Increased Damage I",
@@ -1039,7 +1039,7 @@ class playerCharacter(object):
         elif "Mage Knight" in title:
             listOfPowers = [
                 "Blaze I",
-                "Mounted Movement",
+                "Move an Additional Tile As Long As You Don't Move On Unstable Ground",
                 "Unholy: Increased Resistance I",
                 "Freeze I",
                 "Lance: Attack adds Magic Vulnerability",
@@ -1288,7 +1288,7 @@ class playerCharacter(object):
                 [knownPower for knownPower in self.powers if power in knownPower]
             ):
                 nameOfPower = power
-                if nameOfPower == "Mounted Movement" and any(
+                if nameOfPower == "Move an Additional Tile As Long As You Don't Move On Unstable Ground" and any(
                     [
                         knownPower
                         for knownPower in self.powers

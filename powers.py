@@ -772,6 +772,7 @@ class powerBook(object):
             7,
             "Movement Speed",
             antiStat=["Intelligence"],
+            not_yet_implemented=False
         )
         self.book["Move Faster On Holy Ground"] = power(
             "Beautiful Strides",
