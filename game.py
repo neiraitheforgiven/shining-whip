@@ -2,6 +2,7 @@ from battleMap import battle
 from characters import equipment
 from characters import playerCharacter
 from shopping import shop
+import math
 import os
 import powers
 import shelve
@@ -86,6 +87,18 @@ class game(object):
         self.battleStatus = None
         while self.battleNum < 33:
             self.doBattle(self.battleNum)
+
+    def assignPower(self, character, powerName, chatter=False):
+        if self.powerBook[powerName].not_yet_implemented:
+            print()
+            print(
+                f"Warning: the power {powerName} has not been implemented"
+                " yet. Let Neirai the Forgiven know to add it to the list of things to do!"
+            )
+            print()
+        character.powers.append(powerName)
+        if chatter:
+            print(f"{self.name} learned {powerName}!")
 
     def doBattle(self, battleNum):
         if battleNum == 1:

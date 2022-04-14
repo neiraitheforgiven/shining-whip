@@ -1,7 +1,5 @@
-from battleMap import game
 from operator import itemgetter
 import math
-import powers
 import random
 
 
@@ -570,18 +568,6 @@ class playerCharacter(object):
             for statName, statValue in self.stats.items():
                 print("    {} of {}".format(statName, statValue))
             print("")
-
-    def assignPower(self, power, chatter=False):
-        if game.powerBook[power].not_yet_implemented:
-            print()
-            print(
-                f"Warning: the power {power.name} has not been implemented"
-                " yet. Let Neirai the Forgiven know to add it to the list of things to do!"
-            )
-            print()
-        self.powers.append(power)
-        if chatter:
-            print(f"{self.name} learned {power.name}!")
 
     def assignRace(self, race=None):
         if not race:
