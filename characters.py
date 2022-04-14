@@ -2,7 +2,7 @@ import math
 from operator import itemgetter
 import powers
 import random
-
+from battleMap import game
 
 class monster(object):
     def __init__(
@@ -571,7 +571,7 @@ class playerCharacter(object):
             print("")
 
     def assignPower(self, power, chatter=False):
-        if power.not_yet_implemented:
+        if game.powerBook[power].not_yet_implemented:
             print()
             print(
                 f"Warning: the power {power.name} has not been implemented"
