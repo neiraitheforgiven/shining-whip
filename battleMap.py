@@ -3502,9 +3502,10 @@ class battleField(object):
             self.checkSpell(unit, position, "Bolt III", False, 2, 2)
         if boltRank >= 4 and unit.mp >= self.mpCost(unit, 20):
             self.checkSpell(unit, position, "Bolt IV", False, 2, 0)
-        if self.getPower(unit, "Dao I") and unit.mp >= self.mpCost(unit, 8):
+        daoRank = self.unitSpellRank(unit, "Dao")
+        if daoRank >= 1 and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Dao I", False, 1, 1)
-        if self.getPower(unit, "Dao II") and unit.mp >= self.mpCost(unit, 15):
+        if daoRank >= 2 and unit.mp >= self.mpCost(unit, 15):
             self.checkSpell(unit, position, "Dao II", False, 1, 1)
         if self.getPower(unit, "Detox I") and unit.fp >= self.mpCost(unit, 3):
             targets = [

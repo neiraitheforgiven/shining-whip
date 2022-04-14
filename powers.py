@@ -1033,6 +1033,7 @@ class powerBook(object):
             9,
             "Earth Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Sorceror Tier 1 Dao"] = power(
             "Dao",
@@ -1042,6 +1043,7 @@ class powerBook(object):
             9,
             "Earth Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Swap-move With Most Damaged Ally If No Space Available"] = power(
             "Castle Move",
