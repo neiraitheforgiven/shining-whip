@@ -820,6 +820,7 @@ class powerBook(object):
             7,
             "Status Effectiveness",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Peregrine Root 1 Dispel"] = power(
             "Dispel",
@@ -1394,15 +1395,17 @@ class powerBook(object):
             [self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"]],
         )
         self.book[
-            "Counter Enemy Attacks By Casting A Random Spell You Know"
+            "Scholar Tier 2 Shield"
         ] = power(
-            "Magical Riposte",
-            ["Counter Enemy Attacks By Casting A Random Spell You Know"],
+            "Shield",
+            ["Scholar Tier 2 Shield"],
             "Scholar",
             ["Intelligence", "Focus"],
             8,
             "MP Amount",
             [self.book["Scholar Tier 1 Silence"]],
+            spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Counter Enemy Attacks That You Dodged"] = power(
             "Aerialist Counterattack",
@@ -2463,7 +2466,7 @@ class powerBook(object):
             ["Intelligence", "Focus"],
             7,
             "Status Effectiveness",
-            [self.book["Counter Enemy Attacks By Casting A Random Spell You Know"]],
+            [self.book["Scholar Tier 2 Shield"]],
             [self.book["When Focused, All Status Spells Always Succeed"]],
         )
         self.book["Silence Enemies Who Cast A Spell That You Know On You"] = power(

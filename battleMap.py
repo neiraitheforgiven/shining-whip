@@ -3560,9 +3560,10 @@ class battleField(object):
                         targets.extend(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Portal I"] = targets
-        if self.getPower(unit, "Shield I") and (unit.fp >= self.mpCost(unit, 12)):
+        shieldRank = self.unitSpellRank(unit, "Shield")
+        if shieldRank >= 1 and (unit.mp >= self.mpCost(unit, 12)):
             self.checkSpell(unit, position, "Shield I", True, 1, 0)
-        if self.getPower(unit, "Shield II") and (unit.fp >= self.mpCost(unit, 7)):
+        if shieldRank >= 2 and (unit.mp >= self.mpCost(unit, 7)):
             self.checkSpell(unit, position, "Shield II", True, 1, 0)
         if self.getPower(unit, "Sleep I") and (unit.mp >= self.mpCost(unit, 6)):
             self.checkSpell(unit, position, "Sleep I", False, 1, 0, "Lulled to Sleep")
