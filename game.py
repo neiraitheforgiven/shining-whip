@@ -89,7 +89,7 @@ class game(object):
             self.doBattle(self.battleNum)
 
     def assignPower(self, character, powerName, chatter=False):
-        if self.powerBook[powerName].not_yet_implemented:
+        if self.powerBook.book[powerName].not_yet_implemented:
             print()
             print(
                 f"Warning: the power {powerName} has not been implemented"
@@ -131,6 +131,7 @@ class game(object):
             self.teach("Hero")
             if self.battleStarted < 1:
                 recruit = playerCharacter("Max", "Human", "Hero", False, 0)
+                self.assignPower(recruit, "Hero Root 1 Egress")
                 self.equipOnCharacter(
                     equipment("Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0),
                     recruit,
@@ -138,6 +139,7 @@ class game(object):
                 )
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter("Lowe", "Hobbit", "Priest", False, 0)
+                self.assignPower(recruit, "Priest Tier 1 Heal")
                 self.equipOnCharacter(
                     equipment("Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3),
                     recruit,
@@ -145,6 +147,7 @@ class game(object):
                 )
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter("Tao", "Elf", "Flamecaster", False, 0)
+                self.assignPower(recruit, "Flamecaster Tier 1 Blaze")
                 self.equipOnCharacter(
                     equipment("Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3),
                     recruit,
@@ -152,6 +155,7 @@ class game(object):
                 )
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter("Luke", "Dwarf", "Warrior", False, 0)
+                self.assignPower(recruit, "Move Right One More Tile If Ally Present")
                 self.equipOnCharacter(
                     equipment("Axes", "Short Axe", 120, 1, 0, 0, 3, 0, 0),
                     recruit,
@@ -159,6 +163,8 @@ class game(object):
                 )
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter("Ken", "Centaur", "Knight", False, 0)
+                self.assignPower(
+                        recruit, "Move an Additional Tile As Long As You Don't Move On Unstable Ground")
                 self.equipOnCharacter(
                     equipment("Spears", "Wooden Spear", 100, 1, 0, 1, 3, 0, 0),
                     recruit,
@@ -166,6 +172,8 @@ class game(object):
                 )
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter("Hans", "Elf", "Archer", False, 0)
+                self.assignPower(
+                        recruit, "Begin Battle with Two Ranks of Focus")
                 self.equipOnCharacter(
                     equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0),
                     recruit,
@@ -1093,6 +1101,15 @@ class game(object):
             fame = 0
         amount = math.floor(item.price * (0.1 + (fame / 100)))
         return amount, blame
+
+    def unitKnowsSpellRank(self, unit, spellName):
+        rank = 0
+        for power in unit.powers:
+            entry = self.powerBook.book[power]
+            if entry.spellRank:
+                if entry.name == spellName:
+                    rank += 1
+        return rank
 
     def printCredits(self):
         print()

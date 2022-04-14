@@ -2709,6 +2709,7 @@ class power(object):
         self.antiPower = antiPower
         self.antiStat = antiStat
         self.bannedClasses = bannedClasses
+        self.not_yet_implemented = not_yet_implemented
         if not descriptionOverride:
             self.descriptionOverride = description
         else:

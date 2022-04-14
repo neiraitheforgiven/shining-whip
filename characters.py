@@ -1,5 +1,6 @@
 from operator import itemgetter
 import math
+import powers
 import random
 
 
@@ -561,7 +562,6 @@ class playerCharacter(object):
         self.assignTitle(self.getTitle(chatter)[1], chatter)
         if chatter:
             print(f"{self.name} the {self.race} {self.title} created.")
-        self.assignPower(self.getPower(self.title, chatter), chatter)
         self.career = f"    Career Path: {self.title}"
         self.upSkill()
         if chatter:
