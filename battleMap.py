@@ -3517,9 +3517,10 @@ class battleField(object):
             if any(targets):
                 unit.allowedSpells["Detox I"] = targets
         # need to add detox 2, which should be an AOE detox
-        if self.getPower(unit, "Drain I") and unit.mp >= self.mpCost(unit, 5):
+        drainRank = self.unitSpellRank(unit, "Drain")
+        if drainRank >= 1 and unit.mp >= self.mpCost(unit, 5):
             self.checkSpell(unit, position, "Drain I", False, 0, 0)
-        if self.getPower(unit, "Drain II") and unit.mp >= self.mpCost(unit, 12):
+        if drainRank >= 2 and unit.mp >= self.mpCost(unit, 12):
             self.checkSpell(unit, position, "Drain II", False, 0, 0)
         if self.getPower(unit, "Egress I") and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = "Self"

@@ -177,6 +177,7 @@ class powerBook(object):
             8,
             "Drained Health",
             spellRank=True,
+            not_yet_implemented=False
         )  # Note to self: Drain should leave targets bleeding
         self.book["Blood Mage Tier 1 Muddle"] = power(
             "Muddle",
@@ -2162,6 +2163,7 @@ class powerBook(object):
             [self.book["Bleeding Enemies Give MP"]],
             [self.book["Blood Mage Tier 2 Essence"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Can Make Triple Attacks"] = power(
             "Triple Attack",
