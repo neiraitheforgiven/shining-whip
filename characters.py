@@ -1,8 +1,9 @@
-import math
+from battleMap import game
 from operator import itemgetter
+import math
 import powers
 import random
-from battleMap import game
+
 
 class monster(object):
     def __init__(
