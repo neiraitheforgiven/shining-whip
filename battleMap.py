@@ -3484,13 +3484,14 @@ class battleField(object):
             ]
             if any(targets):
                 unit.allowedSpells["Aura IV"] = "Self"
-        if self.getPower(unit, "Blaze I") and unit.mp >= self.mpCost(unit, 2):
+        blazeRank = self.unitSpellRank(unit, "Blaze")
+        if blazeRank >= 1 and unit.mp >= self.mpCost(unit, 2):
             self.checkSpell(unit, position, "Blaze I", False, 0, 0)
-        if self.getPower(unit, "Blaze II") and unit.mp >= self.mpCost(unit, 6):
+        if blazeRank >= 2 and unit.mp >= self.mpCost(unit, 6):
             self.checkSpell(unit, position, "Blaze II", False, 1, 1)
-        if self.getPower(unit, "Blaze III") and unit.mp >= self.mpCost(unit, 8):
+        if blazeRank >= 3 and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Blaze III", False, 1, 1)
-        if self.getPower(unit, "Blaze IV") and unit.mp >= self.mpCost(unit, 8):
+        if blazeRank >= 4 and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Blaze IV", False, 1, 0)
         if self.getPower(unit, "Bolt I") and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Bolt I", False, 0, 1)

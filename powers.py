@@ -279,6 +279,7 @@ class powerBook(object):
             9,
             "Fire Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Dark Mage Tier 1 Freeze"] = power(
             "Freeze",
@@ -424,6 +425,7 @@ class powerBook(object):
             9,
             "Fire Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Flamecaster Tier 1 Blaze"] = power(
             "Blaze",
@@ -433,6 +435,7 @@ class powerBook(object):
             9,
             "Fire Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Flying Movement"] = power(
             "Flying Movement",
@@ -692,6 +695,7 @@ class powerBook(object):
             5,
             "Fire Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Mage Knight Root 2 Bolt"] = power(
             "Bolt",
@@ -1534,6 +1538,7 @@ class powerBook(object):
             "Fire Damage",
             [self.book["Flamecaster Tier 1 Blaze"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Heavy and Critical Attacks Ground Flying Enemies"] = power(
             "Wing Clip",
@@ -2257,6 +2262,7 @@ class powerBook(object):
             [self.book["Flamecaster Tier 2 Blaze"]],
             [self.book["Fire Damage Consumes Bleed To Deal Double Damage"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Heavy and Critical Attacks Destroy Focus"] = power(
             "Shock Tactics",
