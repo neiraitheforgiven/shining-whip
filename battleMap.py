@@ -606,7 +606,7 @@ class battle(object):
                 else:
                     unit.fp = unit.stats["Faith"]
                     unit.mp = unit.stats["Intelligence"]
-                if self.getPower(unit, "Begin Battle With Rank II Focus"):
+                if self.getPower(unit, "Begin Battle with Two Ranks of Focus"):
                     unit.focus = 1500
                 else:
                     unit.focus = 0

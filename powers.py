@@ -128,6 +128,7 @@ class powerBook(object):
             "Focus Intensity",
             ["Focus", "Dexterity"],
             9,
+            not_yet_implemented=False
         )
         self.book["Berserker Tier 1 Heavy Damage"] = power(
             "Heavy Damage",
