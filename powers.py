@@ -486,6 +486,7 @@ class powerBook(object):
             7,
             "MP Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Hero Tier 1 Bolt"] = power(
             "Bolt",

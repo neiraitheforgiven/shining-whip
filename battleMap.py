@@ -3522,7 +3522,8 @@ class battleField(object):
             self.checkSpell(unit, position, "Drain I", False, 0, 0)
         if drainRank >= 2 and unit.mp >= self.mpCost(unit, 12):
             self.checkSpell(unit, position, "Drain II", False, 0, 0)
-        if self.getPower(unit, "Egress I") and unit.mp >= self.mpCost(unit, 8):
+        egressRank = self.unitSpellRank(unit, "Egress")
+        if egressRank >= 1 and unit.mp >= self.mpCost(unit, 8):
             unit.allowedSpells["Egress I"] = "Self"
         if self.getPower(unit, "Freeze I") and unit.mp >= self.mpCost(unit, 3):
             self.checkSpell(unit, position, "Freeze I", False, 0, 0)
