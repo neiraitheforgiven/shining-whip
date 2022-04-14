@@ -73,6 +73,7 @@ class powerBook(object):
             "Status Effectiveness",
             bannedClasses=["Knight"],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Attacking Does Not Interupt Your Singing"] = power(
             "Battle Song",
@@ -1007,6 +1008,7 @@ class powerBook(object):
             9,
             "Status Effectiveness",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Single Sword Attacks Grant Focus Charge"] = power(
             "Iaijutsu",
