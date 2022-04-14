@@ -1,4 +1,5 @@
 from characters import monster
+from characters import playerCharacter
 from operator import itemgetter
 import math
 import random
@@ -1196,7 +1197,7 @@ class battle(object):
                 unit
                 for unit in self.battleField.units
                 if type(unit) == playerCharacter
-                and self.getPower(unit, "Egress I")
+                and self.getPower(unit, "Hero Root 1 Egress")
                 and unit.hp > 0
                 and not (unit.status and "Petrified" in unit.status)
             ]
