@@ -3570,9 +3570,10 @@ class battleField(object):
             self.checkSpell(unit, position, "Sleep I", False, 1, 0, "Lulled to Sleep")
         if sleepRank >= 2 and (unit.mp >= self.mpCost(unit, 10)):
             self.checkSpell(unit, position, "Sleep II", False, 1, 1, "Lulled to Sleep")
-        if self.getPower(unit, "Slow I") and (unit.fp >= self.mpCost(unit, 5)):
+        slowRank = self.unitSpellRank(unit, "Slow")
+        if slowRank >= 1 and (unit.fp >= self.mpCost(unit, 5)):
             self.checkSpell(unit, position, "Slow I", False, 1, 0)
-        if self.getPower(unit, "Slow II") and (unit.fp >= self.mpCost(unit, 20)):
+        if slowRank >= 2 and (unit.fp >= self.mpCost(unit, 20)):
             self.checkSpell(unit, position, "Slow II", False, 2, 1)
         if self.getPower(unit, "Teleport I") and (unit.mp >= self.mpCost(unit, 5)):
             targets = []

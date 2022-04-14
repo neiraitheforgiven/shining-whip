@@ -907,6 +907,7 @@ class powerBook(object):
             7,
             "Status Effectiveness",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Random Additional Spell I"] = power(
             "Mercurial Knowledge I",
@@ -2440,6 +2441,7 @@ class powerBook(object):
             [self.book["Prophet Tier 2 Aura"]],
             [self.book["Prophet Tier 2 Quick"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Reduces Minimum Attack Range By 1"] = power(
             "Unhindered Movement",
