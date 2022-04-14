@@ -3898,17 +3898,19 @@ class battleField(object):
         return target.name
 
     def getPower(self, unit, name):
-        return name in self.getPowers(unit)
+        powers = self.getPowers(unit)
+        if powers:
+            return name in powers
+        return False
 
     def getPowers(self, unit):
-        position = self.getUnitPos(unit)
-        if not position:
-            return
         commandPowers = []
-        for ally in self.alliesAtPosition(unit, position):
-            for power in ally.powers:
-                if "Command: " in power:
-                    commandPowers.append(power.replace("Command: ", ""))
+        position = self.getUnitPos(unit)
+        if position:
+            for ally in self.alliesAtPosition(unit, position):
+                for power in ally.powers:
+                    if "Command: " in power:
+                        commandPowers.append(power.replace("Command: ", ""))
         commandPowers = set(commandPowers)
         unitPowers = set([power for power in unit.powers])
         equipmentPowers = set([power for power in unit.equipment.powers])
@@ -4127,6 +4129,8 @@ class battleField(object):
     def unitSpellRank(self, unit, spell_name):
         rank = 0
         for power in self.getPowers(unit):
+            if "Equip: " in power:
+                continue
             entry = self.game.powerBook.book[power]
             if entry.spellRank:
                 if entry.name == spell_name:
