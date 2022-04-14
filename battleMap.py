@@ -3545,7 +3545,8 @@ class battleField(object):
             self.checkSpell(unit, position, "Heal IV", True, 0, 0)
         if self.unitSpellRank(unit, "Midas") >= 1 and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Midas I", False, 0, 0)
-        if self.getPower(unit, "Portal I") and (unit.mp >= self.mpCost(unit, 21)):
+        portalRank = self.unitSpellRank(unit, "Portal")
+        if portalRank >= 1 and (unit.mp >= self.mpCost(unit, 21)):
             targets = []
             minRange = max(0, (position - 2))
             maxRange = min((position + 2), len(self.terrainArray) - 1)

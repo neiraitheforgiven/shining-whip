@@ -1956,6 +1956,7 @@ class powerBook(object):
             "Lightning Damage",
             [self.book["Trickster Tier 1 Teleport"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Unarmed Range + 1 and deals wind damage"] = power(
             "Throw the Wind",
