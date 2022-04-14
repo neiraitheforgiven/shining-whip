@@ -3493,13 +3493,14 @@ class battleField(object):
             self.checkSpell(unit, position, "Blaze III", False, 1, 1)
         if blazeRank >= 4 and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Blaze IV", False, 1, 0)
-        if self.getPower(unit, "Bolt I") and unit.mp >= self.mpCost(unit, 8):
+        boltRank = self.unitSpellRank(unit, "Bolt")
+        if boltRank >= 1 and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Bolt I", False, 0, 1)
-        if self.getPower(unit, "Bolt II") and unit.mp >= self.mpCost(unit, 15):
+        if boltRank >= 2 and unit.mp >= self.mpCost(unit, 15):
             self.checkSpell(unit, position, "Bolt II", False, 2, 2)
-        if self.getPower(unit, "Bolt III") and unit.mp >= self.mpCost(unit, 20):
+        if boltRank >= 3 and unit.mp >= self.mpCost(unit, 20):
             self.checkSpell(unit, position, "Bolt III", False, 2, 2)
-        if self.getPower(unit, "Bolt IV") and unit.mp >= self.mpCost(unit, 20):
+        if boltRank >= 4 and unit.mp >= self.mpCost(unit, 20):
             self.checkSpell(unit, position, "Bolt IV", False, 2, 0)
         if self.getPower(unit, "Dao I") and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Dao I", False, 1, 1)

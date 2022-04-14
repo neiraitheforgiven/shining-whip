@@ -15,6 +15,7 @@ class powerBook(object):
             9,
             "Lightning Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Archmage Teleport"] = power(
             "Teleport",
@@ -33,6 +34,7 @@ class powerBook(object):
             9,
             "Lightning Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Archmage Tier 1 Bolt"] = power(
             "Bolt",
@@ -42,6 +44,7 @@ class powerBook(object):
             9,
             "Lightning Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Arrows: Add Effect: Poison"] = power(
             "Poisoned Tips",
@@ -491,6 +494,7 @@ class powerBook(object):
             7,
             "Lightning Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Killing Enemies Grants You HP"] = power(
             "Survival of the Fittest",
@@ -705,6 +709,7 @@ class powerBook(object):
             5,
             "Lightning Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Mage Knight Tier 1 Freeze"] = power(
             "Freeze",
@@ -1190,6 +1195,7 @@ class powerBook(object):
             "Lightning Damage",
             [self.book["Archmage Tier 1 Bolt"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Arrows: Increases Damage I"] = power(
             "Composite Grip",
@@ -1567,6 +1573,7 @@ class powerBook(object):
             "Lightning Damage",
             [self.book["Hero Tier 1 Bolt"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Ice Damage Inflicts Bleed"] = power(
             "Freeze",
@@ -2085,6 +2092,7 @@ class powerBook(object):
             [self.book["Archmage Tier 2 Bolt"]],
             [self.book["Lightning Damage Breaks Focus"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Add the Command Keyword to All Your Powers"] = power(
             "Bardic Leadership",
@@ -2297,6 +2305,7 @@ class powerBook(object):
             [self.book["Hero Tier 2 Bolt"]],
             [self.book["Killing Enemies Gives MP"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book[
             "When You Have Four Ranks Of Focus, Your Stats Are Increased"
