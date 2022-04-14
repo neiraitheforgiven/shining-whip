@@ -3534,13 +3534,14 @@ class battleField(object):
             self.checkSpell(unit, position, "Freeze III", False, 2, 1)
         if freezeRank >= 4 and (unit.mp >= self.mpCost(unit, 12)):
             self.checkSpell(unit, position, "Freeze IV", False, 2, 0)
-        if self.getPower(unit, "Heal I") and unit.fp >= self.mpCost(unit, 3):
+        healRank = self.unitSpellRank(unit, "Heal")
+        if healRank >= 1 and unit.fp >= self.mpCost(unit, 3):
             self.checkSpell(unit, position, "Heal I", True, 0, 0)
-        if self.getPower(unit, "Heal II") and unit.fp >= self.mpCost(unit, 6):
+        if healRank >= 2 and unit.fp >= self.mpCost(unit, 6):
             self.checkSpell(unit, position, "Heal II", True, 1, 0)
-        if self.getPower(unit, "Heal III") and (unit.fp >= self.mpCost(unit, 10)):
+        if healRank >= 3 and (unit.fp >= self.mpCost(unit, 10)):
             self.checkSpell(unit, position, "Heal III", True, 2, 1)
-        if self.getPower(unit, "Heal IV") and unit.fp >= self.mpCost(unit, 20):
+        if healRank >= 4 and unit.fp >= self.mpCost(unit, 20):
             self.checkSpell(unit, position, "Heal IV", True, 0, 0)
         if self.getPower(unit, "Midas I") and unit.mp >= self.mpCost(unit, 8):
             self.checkSpell(unit, position, "Midas I", False, 0, 0)

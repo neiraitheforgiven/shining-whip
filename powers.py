@@ -749,6 +749,7 @@ class powerBook(object):
             7,
             "Healing Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Move After Attacking"] = power(
             "Hit and Run",
@@ -864,6 +865,7 @@ class powerBook(object):
             7,
             "Healing Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Priest Tier 1 Heal"] = power(
             "Heal",
@@ -873,6 +875,7 @@ class powerBook(object):
             7,
             "Healing Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Prophet Root 1 Aura"] = power(
             "Aura",
@@ -892,6 +895,7 @@ class powerBook(object):
             7,
             "Healing Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Prophet Tier 1 Slow"] = power(
             "Slow",
@@ -1653,22 +1657,24 @@ class powerBook(object):
             [self.book["Slower Movement That Ignores Terrain Cost And Blockers"]],
         )
         self.book["Increases Healing Magic Range By 1"] = power(
-            "Heal",
+            "Reach of Grace",
             "Increases Healing Magic Range By 1",
             "Priest",
             ["Charisma", "Faith", "Intelligence"],
             6,
             "Healing Amount",
             [self.book["Priest Tier 1 Heal"]],
+            not_yet_implemented=False
         )
         self.book["Increases Healing To Allies On Unholy Ground"] = power(
-            "Heal",
+            "Salvation",
             "Increases Healing To Allies On Unholy Ground",
             "Monk",
             ["Faith", "Stamina", "Strength"],
             6,
             "Healing Amount",
             [self.book["Monk Tier 1 Heal"]],
+            not_yet_implemented=False
         )
         self.book["Killing Enemies Gives MP"] = power(
             "Destiny Unveiled",
@@ -1727,6 +1733,7 @@ class powerBook(object):
             "Healing Amount",
             [self.book["Monk Tier 1 Heal"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Move To Follow Routed Enemies And Attack Again"] = power(
             "Follow-on Attack",
@@ -1786,6 +1793,7 @@ class powerBook(object):
             "Healing Amount",
             [self.book["Priest Tier 1 Heal"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Prophet Tier 2 Aura"] = power(
             "Aura",
@@ -2414,6 +2422,7 @@ class powerBook(object):
             [self.book["Increases Healing Magic Range By 1"]],
             [self.book["Priest Tier 2 Heal"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Prophet Tier 3 Slow"] = power(
             "Slow",
