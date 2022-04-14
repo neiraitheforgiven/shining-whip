@@ -3575,7 +3575,8 @@ class battleField(object):
             self.checkSpell(unit, position, "Slow I", False, 1, 0)
         if slowRank >= 2 and (unit.fp >= self.mpCost(unit, 20)):
             self.checkSpell(unit, position, "Slow II", False, 2, 1)
-        if self.getPower(unit, "Teleport I") and (unit.mp >= self.mpCost(unit, 5)):
+        teleportRank = self.unitSpellRank(unit, "Teleport")
+        if teleportRank >= 1 and (unit.mp >= self.mpCost(unit, 5)):
             targets = []
             minRange = max(0, (position - 1))
             maxRange = min((position + 1), len(self.terrainArray) - 1)
@@ -3585,7 +3586,7 @@ class battleField(object):
                         targets.append(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Teleport I"] = targets
-        if self.getPower(unit, "Teleport II") and (unit.mp >= self.mpCost(unit, 10)):
+        if teleportRank >= 2 and (unit.mp >= self.mpCost(unit, 10)):
             targets = []
             minRange = max(0, (position - 2))
             maxRange = min((position + 2), len(self.terrainArray) - 1)
@@ -3595,7 +3596,7 @@ class battleField(object):
                         targets.append(self.terrainArray[tilePos])
             if any(targets):
                 unit.allowedSpells["Teleport II"] = targets
-        if self.getPower(unit, "Teleport III") and (unit.mp >= self.mpCost(unit, 6)):
+        if teleportRank >= 3 and (unit.mp >= self.mpCost(unit, 6)):
             targets = []
             minRange = max(0, (position - 3))
             maxRange = min((position + 3), len(self.terrainArray) - 1)

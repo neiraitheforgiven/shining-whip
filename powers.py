@@ -25,6 +25,7 @@ class powerBook(object):
             9,
             "Lightning Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Archmage Root 1 Bolt"] = power(
             "Bolt",
@@ -1082,6 +1083,7 @@ class powerBook(object):
             8,
             "Lightning Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Trickster Tier 1 Teleport"] = power(
             "Teleport",
@@ -1091,6 +1093,7 @@ class powerBook(object):
             8,
             "Lightning Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Unarmed Attacks Deal Fire Damage"] = power(
             "Burning Hands",
@@ -2504,6 +2507,7 @@ class powerBook(object):
             [self.book["Teleporting Does Not End Turns"]],
             [self.book["Trickster Tier 2 Portal"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Unarmed Attacks Have +1 Range, Deal Ice Damage, And Cause Curses"] = power(
             "Dark Ice Claws",
