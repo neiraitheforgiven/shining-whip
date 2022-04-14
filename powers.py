@@ -293,6 +293,7 @@ class powerBook(object):
             9,
             "Ice Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Defense Against Magic Damage"] = power(
             "Magical Defense",
@@ -721,6 +722,7 @@ class powerBook(object):
             5,
             "Ice Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Magic Cost Reduction"] = power(
             "Arcane Efficiency",
@@ -1147,6 +1149,7 @@ class powerBook(object):
             9,
             "Ice Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Wizard Tier 1 Freeze"] = power(
             "Freeze",
@@ -1156,6 +1159,7 @@ class powerBook(object):
             9,
             "Ice Damage",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Your Vocal Attack Damage is Increased By Missing Health"] = power(
             "Higher Notes",
@@ -1582,7 +1586,7 @@ class powerBook(object):
             not_yet_implemented=False
         )
         self.book["Ice Damage Inflicts Bleed"] = power(
-            "Freeze",
+            "Sharpened Ice",
             "Ice Damage Inflicts Bleed",
             "Wizard",
             ["Intelligence", "Stamina"],
@@ -2015,6 +2019,7 @@ class powerBook(object):
             "Ice Damage",
             [self.book["Wizard Tier 1 Freeze"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book[
             "Vocal Attack Targets Skip Their Next Attempt To Resist Status Effects"
@@ -2606,6 +2611,7 @@ class powerBook(object):
             [self.book["Ice Damage Inflicts Bleed"]],
             [self.book["Wizard Tier 2 Freeze"]],
             spellRank=True,
+            not_yet_implemented=False
         )
 
         # Cross-over powers
