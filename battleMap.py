@@ -3465,6 +3465,8 @@ class battleField(object):
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
+        afflictRank = game.unitKnowsSpellRank(unit, 'Afflict')
+
         if self.getPower(unit, "Afflict I") and (unit.mp >= self.mpCost(unit, 13)):
             self.checkSpell(unit, position, "Afflict I", False, 0, 0)
         if self.getPower(unit, "Aura I") and unit.fp >= self.mpCost(unit, 7):
@@ -3908,6 +3910,22 @@ class battleField(object):
                 return True
         return False
 
+    def getPowers(self, unit):
+        position = self.getUnitPos(unit)
+        if not position:
+            return
+        commandPowers = []
+        for ally in self.alliesAtPosition(unit, position):
+            for power in ally.powers:
+                if "Command: " in power:
+                    commandPowers.append(power.replace("Command: ", ""))
+        commandPowers = set(commandPowers)
+        unitPowers = set([power for power in unit.powers])
+        equipmentPowers = set([power for power in unit.equipment.powers])
+        finalSet = commandPowers | unitPowers | equipmentPowers
+        power_list = list(finalSet)
+        return power_list
+
     def getResonance(self, tile):
         heroes = [
             unit for unit in self.units if unit.hp > 0 and type(unit) == playerCharacter
@@ -3926,11 +3944,11 @@ class battleField(object):
             return min(4, value)
 
     def getSpellCostByName(self, unit, spellName):
-        cost = self.mpCost(unit, spellCost[spellName][0])
+        cost = self.mpCost(unit, self.game.spellCost[spellName][0])
         if self.getPower(unit, "Convert Faith and Magic"):
             return f"(cost: {cost})"
         else:
-            return f"(cost: {cost} {spellCost[spellName][1]})"
+            return f"(cost: {cost} {self.game.spellCost[spellName][1]})"
 
     def getStat(self, unit, statName):
         #  is the unit focused?
@@ -4115,6 +4133,15 @@ class battleField(object):
         return [
             unit for unit in self.terrainArray[position].units if self.canBeTarget(unit)
         ]
+
+    def unitSpellRank(self, unit, spell_name):
+        rank = 0
+        for power in self.getPowers(unit):
+            entry = self.game.powerBook.book[power]
+            if entry.spellRank:
+                if entry.name == spell_name:
+                    rank += 1
+        return rank
 
     def viewMap(self, position, currentUnit=None):
         minRange = max(0, position - 3)

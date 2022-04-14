@@ -40,6 +40,7 @@ class game(object):
                 self.shelf["book"] = self.powerBook
                 self.battleStarted = 0
                 self.shelf["battleStarted"] = self.battleStarted
+                self.spellCost = self.spellCost()
                 tutorial = input(
                     'Do you want to learn how to play? If so, type "Teach Me" now: '
                 )
@@ -1102,15 +1103,6 @@ class game(object):
         amount = math.floor(item.price * (0.1 + (fame / 100)))
         return amount, blame
 
-    def unitKnowsSpellRank(self, unit, spellName):
-        rank = 0
-        for power in unit.powers:
-            entry = self.powerBook.book[power]
-            if entry.spellRank:
-                if entry.name == spellName:
-                    rank += 1
-        return rank
-
     def printCredits(self):
         print()
         print("Thank you for playing my game! It means a lot to me!")
@@ -1215,6 +1207,52 @@ class game(object):
                 if set(maxSkills) - set(["Unarmed Attack", "Holy Songs"]):
                     pc.upSkill()
                     self.setMinSkill(level)
+
+    def spellCost(self):
+        spellCost = {}
+
+        spellCost["Afflict I"] = [13, "MP"]
+        spellCost["Aura I"] = [7, "FP"]
+        spellCost["Aura II"] = [11, "FP"]
+        spellCost["Aura III"] = [15, "FP"]
+        spellCost["Aura IV"] = [20, "FP"]
+        spellCost["Blaze I"] = [2, "MP"]
+        spellCost["Blaze II"] = [6, "MP"]
+        spellCost["Blaze III"] = [8, "MP"]
+        spellCost["Blaze IV"] = [8, "MP"]
+        spellCost["Bolt I"] = [8, "MP"]
+        spellCost["Bolt II"] = [15, "MP"]
+        spellCost["Bolt III"] = [20, "MP"]
+        spellCost["Bolt IV"] = [20, "MP"]
+        spellCost["Dao I"] = [8, "MP"]
+        spellCost["Dao II"] = [15, "MP"]
+        spellCost["Detox I"] = [3, "FP"]
+        spellCost["Drain I"] = [5, "MP"]
+        spellCost["Drain II"] = [12, "MP"]
+        spellCost["Egress I"] = [8, "MP"]
+        spellCost["Freeze I"] = [3, "MP"]
+        spellCost["Freeze II"] = [7, "MP"]
+        spellCost["Freeze III"] = [10, "MP"]
+        spellCost["Freeze IV"] = [12, "MP"]
+        spellCost["Heal I"] = [3, "FP"]
+        spellCost["Heal II"] = [6, "FP"]
+        spellCost["Heal III"] = [10, "FP"]
+        spellCost["Heal IV"] = [20, "FP"]
+        spellCost["Midas I"] = [8, "MP"]
+        spellCost["Portal I"] = [21, "MP"]
+        spellCost["Ninja Fire I"] = [6, "MP"]
+        spellCost["Ninja Fire II"] = [10, "MP"]
+        spellCost["Ninja Fire III"] = [12, "MP"]
+        spellCost["Shield I"] = [12, "FP"]
+        spellCost["Shield II"] = [12, "FP"]
+        spellCost["Sleep I"] = [6, "MP"]
+        spellCost["Sleep II"] = [6, "MP"]
+        spellCost["Slow I"] = [5, "MP"]
+        spellCost["Slow II"] = [20, "MP"]
+        spellCost["Teleport I"] = [5, "MP"]
+        spellCost["Teleport II"] = [10, "MP"]
+        spellCost["Teleport III"] = [6, "MP"]
+        return spellCost
 
     def initTutorial(self):
         print()
@@ -1376,50 +1414,6 @@ class game(object):
             del self.tutorial[entry]
 
 
-spellCost = {}
-
-
-spellCost["Afflict I"] = [13, "MP"]
-spellCost["Aura I"] = [7, "FP"]
-spellCost["Aura II"] = [11, "FP"]
-spellCost["Aura III"] = [15, "FP"]
-spellCost["Aura IV"] = [20, "FP"]
-spellCost["Blaze I"] = [2, "MP"]
-spellCost["Blaze II"] = [6, "MP"]
-spellCost["Blaze III"] = [8, "MP"]
-spellCost["Blaze IV"] = [8, "MP"]
-spellCost["Bolt I"] = [8, "MP"]
-spellCost["Bolt II"] = [15, "MP"]
-spellCost["Bolt III"] = [20, "MP"]
-spellCost["Bolt IV"] = [20, "MP"]
-spellCost["Dao I"] = [8, "MP"]
-spellCost["Dao II"] = [15, "MP"]
-spellCost["Detox I"] = [3, "FP"]
-spellCost["Drain I"] = [5, "MP"]
-spellCost["Drain II"] = [12, "MP"]
-spellCost["Egress I"] = [8, "MP"]
-spellCost["Freeze I"] = [3, "MP"]
-spellCost["Freeze II"] = [7, "MP"]
-spellCost["Freeze III"] = [10, "MP"]
-spellCost["Freeze IV"] = [12, "MP"]
-spellCost["Heal I"] = [3, "FP"]
-spellCost["Heal II"] = [6, "FP"]
-spellCost["Heal III"] = [10, "FP"]
-spellCost["Heal IV"] = [20, "FP"]
-spellCost["Midas I"] = [8, "MP"]
-spellCost["Portal I"] = [21, "MP"]
-spellCost["Ninja Fire I"] = [6, "MP"]
-spellCost["Ninja Fire II"] = [10, "MP"]
-spellCost["Ninja Fire III"] = [12, "MP"]
-spellCost["Shield I"] = [12, "FP"]
-spellCost["Shield II"] = [12, "FP"]
-spellCost["Sleep I"] = [6, "MP"]
-spellCost["Sleep II"] = [6, "MP"]
-spellCost["Slow I"] = [5, "MP"]
-spellCost["Slow II"] = [20, "MP"]
-spellCost["Teleport I"] = [5, "MP"]
-spellCost["Teleport II"] = [10, "MP"]
-spellCost["Teleport III"] = [6, "MP"]
 
 
 game = game()
