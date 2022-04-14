@@ -3507,7 +3507,8 @@ class battleField(object):
             self.checkSpell(unit, position, "Dao I", False, 1, 1)
         if daoRank >= 2 and unit.mp >= self.mpCost(unit, 15):
             self.checkSpell(unit, position, "Dao II", False, 1, 1)
-        if self.getPower(unit, "Detox I") and unit.fp >= self.mpCost(unit, 3):
+        detoxRank = self.unitSpellRank(unit, "Detox")
+        if detoxRank >= 1 and unit.fp >= self.mpCost(unit, 3):
             targets = [
                 target
                 for target in currentTile.units
@@ -3515,6 +3516,7 @@ class battleField(object):
             ]
             if any(targets):
                 unit.allowedSpells["Detox I"] = targets
+        # need to add detox 2, which should be an AOE detox
         if self.getPower(unit, "Drain I") and unit.mp >= self.mpCost(unit, 5):
             self.checkSpell(unit, position, "Drain I", False, 0, 0)
         if self.getPower(unit, "Drain II") and unit.mp >= self.mpCost(unit, 12):

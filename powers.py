@@ -850,6 +850,7 @@ class powerBook(object):
             7,
             "FP Amount",
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book["Priest Root 1 Heal"] = power(
             "Heal",
@@ -1515,6 +1516,7 @@ class powerBook(object):
             "FP Amount",
             [self.book["Druid Tier 1 Natural Resistance"]],
             spellRank=True,
+            not_yet_implemented=False
         )
         self.book[
             "Enemy Lance and Spear Users Must Attack You If Possible"
