@@ -583,10 +583,10 @@ class playerCharacter(object):
                     "Golem",
                     "Half-Giant",
                     "Hobbit",
+                    "Homunculus",
                     "Human",
                     "Insect",
                     "Kyantol",
-                    "Homunculus",
                     "Phoenix",
                     "Robot",
                     "Tortoise",
@@ -594,43 +594,93 @@ class playerCharacter(object):
                     "Wolfling",
                 ]
             )
-        if race in ("Armadillo", "Tortoise"):
-            self.powers.append("Defense: Weapons I")
-        elif race in ("Birdman", "Dragon", "Homunculus", "Phoenix"):
+        if race in ("Armadillo"):
+            self.powers.append("Reduces Critical Hit Damage Taken")
+            self.unlockedBonuses.append("HP Amount")
+            self.unlockedBonuses.append("Movement Speed")
+        elif race in ("Birdman"):
             self.powers.append("Flying Movement")
+            self.unlockedBonuses.append("Dodge Chance")
+            self.unlockedBonuses.append("Movement Speed")
         elif race == "Centaur":
             self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
+            self.unlockedBonuses.append("Damage On Unholy Ground")
+            self.unlockedBonuses.append("Lances Skill")
+        elif race == "Dragon":
+            self.powers.append("Flying Movement")
+            self.unlockedBonuses.append("Fire Damage")
+            self.unlockedBonuses.append("Lightning Damage")
         elif race == "Dwarf":
-            self.powers.append("Equip: Axes")
+            self.powers.append("Move Right One More Tile If Ally Present")
+            self.unlockedBonuses.append("Axes Skill")
+            self.unlockedBonuses.append("HP Amount")
         elif race == "Elf":
-            if self.stats["Intelligence"] >= self.stats["Dexterity"]:
-                self.powers.append("Equip: Staffs")
-            else:
-                self.powers.append("Equip: Arrows")
-        elif race in ("Foxling", "Hobbit", "Kyantol"):
-            self.powers.append("Equip: Staffs")
-        elif race == "Human":
-            if self.stats["Intelligence"] > max(
-                self.stats["Dexterity"], self.stats["Strength"]
-            ):
-                self.powers.append("Equip: Staffs")
-            elif self.stats["Dexterity"] > self.stats["Strength"]:
-                self.powers.append("Equip: Brass Guns")
-            else:
-                self.powers.append("Equip: Swords")
-        elif race == "Insect":
-            self.powers.append("Equip: Swords")
-        elif race in ("Golem", "Half-Giant", "Robot", "Wolfling"):
+            self.powers.append("Begin Battle with Two Ranks of Focus")
+            self.unlockedBonuses.append("Arrows Skill")
+            self.unlockedBonuses.append("Staffs Skill")
+        elif race == "Foxling":
+            self.powers.append("Prevent Focus Lost From Enemy Attacks")
+            self.unlockedBonuses.append("Lightning Damage")
+            self.unlockedBonuses.append("Staffs Skill")
+        elif race == "Golem":
             self.powers.append("Unarmed Attack: Increased Damage I")
+            self.unlockedBonuses.append("Unarmed Skill")
+            self.unlockedBonuses.append("Heavy Attack Chance")
+        elif race == "Half-Giant":
+            self.powers.append("Unarmed Attack: Increased Damage I")
+            self.unlockedBonuses.append("Unarmed Skill")
+            self.unlockedBonuses.append("Vocal Strength")
+        elif race == "Hobbit":
+            self.powers.append("Increases Focus When Stationary")
+            self.unlockedBonuses.append("Dodge Chance")
+            self.unlockedBonuses.append("Staffs Skill")
+        elif race == "Homunculus":
+            self.powers.append("Defense Against Melee Physical Damage")
+            self.unlockedBonuses.append("Ice Damage")
+            self.unlockedBonuses.append("MP Amount")
+        elif race == "Human":
+            self.powers.append("Increases Fame Effect On Allies")
+            self.unlockedBonuses.append("Staffs Skill")
+            self.unlockedBonuses.append("Swords Skill")
+            self.unlockedBonuses.append("Brass Guns Skill")
+        elif race == "Insect":
+            self.powers.append("Movement Does Not Interupt Your Singing")
+            self.unlockedBonuses.append("Movement Speed")
+            self.unlockedBonuses.append("Swords Skill")
+        elif race == "Kyantol":
+            self.powers.append("Command: Fill Focus If An Ally Dies On Your Tile")
+            self.unlockedBonuses.append("Healing Amount")
+            self.unlockedBonuses.append("Staffs Skill")
+        elif race == "Phoenix":
+            self.powers.append("Flying Movement")
+            self.unlockedBonuses.append("FP Amount")
+            self.unlockedBonuses.append("Wind Damage")
+        elif race == "Robot":
+            self.powers.append("Prevent Focus Lost From Enemy Attacks")
+            self.unlockedBonuses.append("Focus Intensity")
+            self.unlockedBonuses.append("Unarmed Skill")
+        elif race == "Tortoise":
+            self.powers.append("Reduces Critical Hit Damage Taken")
+            self.unlockedBonuses.append("Fire Damage")
+            self.unlockedBonuses.append("Movement Speed")
         elif race == "Wererat":
-            self.powers.append("Equip: Daggers")
+            self.powers.append("Daggers Give Extra MP")
+            self.unlockedBonuses.append("Daggers Skill")
+            self.unlockedBonuses.append("Movement Speed")
+        elif race == "Wolfling":
+            self.powers.append("Ignore Opponents When Moving To Tiles With Damaged Enemies")
+            self.unlockedBonuses.append("Critical Hit Damage")
+            self.unlockedBonuses.append("Unarmed Skill")
+        else:
+            race = self.assignRace()
         return race
 
-    def assignPower(self, power):
+    def assignPower(self, power, chatter=True):
         self.powers.append(power.description)
         if power.unlockCategory not in self.unlockedBonuses:
             self.unlockedBonuses.append(power.unlockCategory)
-        print(f"{self.name} learned {power.name}")
+        if chatter:
+            print(f"{self.name} learned {power.name}")
 
     def assignTitle(self, title, chatter):
         oldTitle = self.title
