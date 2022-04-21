@@ -626,6 +626,12 @@ class playerCharacter(object):
             self.powers.append("Equip: Daggers")
         return race
 
+    def assignPower(self, power):
+        self.powers.append(power.description)
+        if power.unlockCategory not in self.unlockedBonuses:
+            self.unlockedBonuses.append(power.unlockCategory)
+        print(f"{self.name} learned {power.name}")
+
     def assignTitle(self, title, chatter):
         oldTitle = self.title
         if title != oldTitle:
@@ -638,7 +644,9 @@ class playerCharacter(object):
         return equipment.canEquip(self)
 
     def chooseBonus(self):
-        bonuses = random.sample(self.unlockedBonuses, k=3)
+        if not any(self.unlockedBonuses):
+            print(f"Error: {self.name} has no unlocked Bonuses!")
+        bonuses = random.sample(self.unlockedBonuses, k=min(3, len(self.unlockedBonuses)))
         display_adds = []
         for i, bonus in range(len(bonuses)):
             display_adds.append(f"({i}) {bonus}")
