@@ -125,9 +125,9 @@ class powerBook(object):
             "Preparation",
             ["Begin Battle with Two Ranks of Focus"],
             "Archer",
-            "Focus Intensity",
             ["Focus", "Dexterity"],
             9,
+            "Focus Intensity",
             not_yet_implemented=False
         )
         self.book["Berserker Tier 1 Heavy Damage"] = power(
@@ -345,24 +345,24 @@ class powerBook(object):
             ["Dodging Grants and Spends One Charge Of Focus"],
             "Gambler",
             ["Focus", "Luck", "Speed"],
-            "Focus Intensity",
             7,
+            "Focus Intensity",
         )
         self.book["Dodging Grants Additional Movement Next Turn"] = power(
             "Aleron Roll",
             ["Dodging Grants Additional Movement Next Turn"],
             "Sky Lord",
             ["Focus", "Intelligence", "Speed"],
-            "Movement Speed",
             7,
+            "Movement Speed",
         )
         self.book["Double and Triple Attacks Can Be Heavy Attacks"] = power(
             "Heavy Handed",
             "Double and Triple Attacks Can Be Heavy Attacks",
             "Titan",
             ["Focus", "Strength"],
-            "Heavy Attack Chance",
             11,
+            "Heavy Attack Chance",
             antiStat=["Speed"],
         )
         self.book["Double Chances For Multiple Attacks"] = power(
@@ -370,8 +370,8 @@ class powerBook(object):
             "Double Chances For Multiple Attacks",
             "Jongleur",
             ["Charisma", "Dexterity", "Focus"],
-            "Luckiness",
             7,
+            "Luckiness",
         )
         self.book["Druid Tier 1 Blast"] = power(
             "Natural Resistance",
@@ -541,8 +541,8 @@ class powerBook(object):
             ["Increases Critical Chance For A Turn After Dodging"],
             "Sky Lord",
             ["Focus", "Intelligence", "Speed"],
-            "Movement Speed",
             7,
+            "Movement Speed",
         )
         self.book["Increases Critical Hit Damage"] = power(
             "Explosives",
@@ -565,8 +565,8 @@ class powerBook(object):
             ["Increases Damage Dealt To Flying Enemies"],
             "Sky Lord",
             ["Focus", "Intelligence", "Speed"],
-            "Movement Speed",
             7,
+            "Movement Speed",
         )
         self.book["Increases Damage Dealt To Isolated Enemies"] = power(
             "Diving Strike",
@@ -630,8 +630,8 @@ class powerBook(object):
             "Increases Heavy Attack Chance",
             "Titan",
             ["Focus", "Strength"],
-            "Heavy Attack Chance",
             11,
+            "Heavy Attack Chance",
             antiStat=["Speed"],
         )
         self.book["Increases Heavy Attack Damage"] = power(
@@ -639,8 +639,8 @@ class powerBook(object):
             "Increases Heavy Attack Damage",
             "Titan",
             ["Focus", "Strength"],
-            "Heavy Attack Chance",
             11,
+            "Heavy Attack Chance",
             antiStat=["Speed"],
         )
         self.book["Increases Lance Damage For Each Tile Moved This Turn"] = power(
@@ -1457,8 +1457,8 @@ class powerBook(object):
             "Critical Attacks Cast Muddle On Target",
             "Titan",
             ["Focus", "Strength"],
-            "Heavy Attack Chance",
             10,
+            "Heavy Attack Chance",
             [self.book["Increases Heavy Attack Chance"]],
             antiStat=["Speed"],
         )
@@ -1576,8 +1576,8 @@ class powerBook(object):
             ["Heavy and Critical Attacks Ground Flying Enemies"],
             "Sky Lord",
             ["Focus", "Intelligence", "Speed"],
-            "Status Effectiveness",
             6,
+            "Status Effectiveness",
             [self.book["Increases Damage Dealt To Flying Enemies"]],
         )
         self.book["Heavy Attacks Inflict Bleed"] = power(
@@ -1634,8 +1634,8 @@ class powerBook(object):
             ["Increases Dodge Chance Against Flying Enemies"],
             "Sky Lord",
             ["Focus", "Intelligence", "Speed"],
-            "Dodge Chance",
             6,
+            "Dodge Chance",
             [self.book["Increases Damage Dealt To Flying Enemies"]],
         )
         self.book[
@@ -2007,8 +2007,8 @@ class powerBook(object):
             "When Focused, All Attacks Stun",
             "Titan",
             ["Focus", "Strength"],
-            "Heavy Attack Chance",
             10,
+            "Heavy Attack Chance",
             [self.book["Increases Heavy Attack Chance"]],
             antiStat=["Speed"],
         )
@@ -2309,8 +2309,8 @@ class powerBook(object):
             ["Heavy and Critical Attacks Destroy Focus"],
             "Sky Lord",
             ["Focus", "Intelligence", "Speed"],
-            "Heavy Attack Chance",
             5,
+            "Heavy Attack Chance",
             [self.book["Increases Dodge Chance Against Flying Enemies"]],
             [self.book["Heavy and Critical Attacks Ground Flying Enemies"]],
         )
@@ -2321,8 +2321,8 @@ class powerBook(object):
             "Heavy Attacks Deal Extra Damage For Each Status Effect On The Target",
             "Titan",
             ["Focus", "Strength"],
-            "Heavy Attack Chance",
             9,
+            "Heavy Attack Chance",
             [self.book["Critical Attacks Cast Muddle On Target"]],
             [self.book["When Focused, All Attacks Stun"]],
             antiStat=["Speed"],
@@ -2661,7 +2661,8 @@ class powerBook(object):
         # if a character lacks a specific choice from the other choice categories,
         # they will be presented with a randomized power from the weighted array instead.
         weighted_array = []
-        for power in self.book:
+        for entry in self.book:
+            power = self.book[entry]
             weighting = 0
             for stat in power.stats:
                 weighting += character.stats[stat]
