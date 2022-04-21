@@ -2674,32 +2674,32 @@ class powerBook(object):
         # current class power
         # assemble the options
         current_class_options = [
-                power for power in self.book
-                if power not in character.powers
-                and power.unitClass in character.title
-                and power.requirements_unlocked(character)]
+                self.book[entry] for entry in self.book
+                if self.book[entry].description not in character.powers
+                and self.book[entry].unitClass in character.title
+                and self.book[entry].requirements_unlocked(character)]
 
         power_options = self.choose_power_or_spillover(
                 character, current_class_options, weighted_array, power_options)
 
         # a power from all of the classes that the character has ever picked a power from
         known_class_options = [
-                power for power in self.book
-                if power not in character.powers
-                and power.unitClass in character.knownClasses
-                and power.requirements_unlocked(character)
-                and power not in power_options]
+                self.book[entry] for entry in self.book
+                if self.book[entry] not in character.powers
+                and self.book[entry].unitClass in character.knownClasses
+                and self.book[entry].requirements_unlocked(character)
+                and self.book[entry] not in power_options]
 
         power_options = self.choose_power_or_spillover(
                 character, known_class_options, weighted_array, power_options)
 
         # a power of tier 2 or 3 that the character has unlocked the requirements for
         power_with_unlocked_requirements_options = [
-                power for power in self.book
-                if power not in character.powers
-                and power.requirement1
-                and power.requirements_unlocked(character)
-                and power not in power_options]
+                self.book[entry] for entry in self.book
+                if self.book[entry] not in character.powers
+                and self.book[entry].requirement1
+                and self.book[entry].requirements_unlocked(character)
+                and self.book[entry] not in power_options]
 
         power_options = self.choose_power_or_spillover(
                 character, power_with_unlocked_requirements_options, weighted_array,
@@ -2714,11 +2714,11 @@ class powerBook(object):
         highest_stats_options = []
         for stat in highest_character_stats:
             stat_powers = [
-                    power for power in weighted_array
-                    if power not in character.powers
-                    and stat in power.stats
-                    and power.requirements_unlocked(character)
-                    and power not in power_options]
+                    self.book[entry] for entry in weighted_array
+                    if self.book[entry] not in character.powers
+                    and stat in self.book[entry].stats
+                    and self.book[entry].requirements_unlocked(character)
+                    and self.book[entry] not in power_options]
             for sp in stat_powers:
                 highest_stats_options.append(sp)
 
@@ -2726,10 +2726,10 @@ class powerBook(object):
                 character, highest_stats_options, weighted_array, power_options)
 
         weighted_random_options = [
-                power for power in weighted_array
-                if power not in character.powers
-                and power.requirements_unlocked(character)
-                and power not in power_options]
+                self.book[entry] for entry in weighted_array
+                if self.book[entry] not in character.powers
+                and self.book[entry].requirements_unlocked(character)
+                and self.book[entry] not in power_options]
 
         power_options = self.choose_power_or_spillover(
                 character, weighted_random_options, weighted_array, power_options)
