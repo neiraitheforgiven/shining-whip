@@ -1439,7 +1439,7 @@ class powerBook(object):
             "Survivor",
             ["Luck", "Speed", "Stamina", "Strength"],
             7,
-            "HP Amount",
+            "Critical Attack Chance",
             [self.book["Unarmed Attacks Deal Fire Damage"]],
             requiresDragonOr25=True,
         )
