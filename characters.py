@@ -586,7 +586,7 @@ class playerCharacter(object):
                     "Human",
                     "Insect",
                     "Kyantol",
-                    "Magical Creature",
+                    "Homunculus",
                     "Phoenix",
                     "Robot",
                     "Tortoise",
@@ -596,7 +596,7 @@ class playerCharacter(object):
             )
         if race in ("Armadillo", "Tortoise"):
             self.powers.append("Defense: Weapons I")
-        elif race in ("Birdman", "Dragon", "Magical Creature", "Phoenix"):
+        elif race in ("Birdman", "Dragon", "Homunculus", "Phoenix"):
             self.powers.append("Flying Movement")
         elif race == "Centaur":
             self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
@@ -1945,7 +1945,7 @@ if stop == "debug":
         party.append(recruit)
         recruit = playerCharacter("Vankar", "Centaur", "Knight", chatter, 11)
         party.append(recruit)
-        recruit = playerCharacter("Domingo", "Magical Creature", "Wizard", chatter, 12)
+        recruit = playerCharacter("Domingo", "Homunculus", "Wizard", chatter, 12)
         party.append(recruit)
         recruit = playerCharacter("Guntz", "Armadillo", "Steam Knight", chatter, 12)
         party.append(recruit)
