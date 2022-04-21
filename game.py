@@ -5,6 +5,7 @@ from shopping import shop
 import math
 import os
 import powers
+import random
 import shelve
 import time
 
@@ -101,6 +102,11 @@ class game(object):
         if chatter:
             print(f"{self.name} learned {powerName}!")
 
+    def assignRandomPower(self, character, chatter=False):
+        power_options = self.powerBook.get_power_options(character, chatter)
+        random_power = random.choice(power_options)
+        self.assignPower(character, random_power, chatter)
+
     def doBattle(self, battleNum):
         if battleNum == 1:
             print("You are the leader of a small part of misfits.")
@@ -156,7 +162,7 @@ class game(object):
                 )
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter("Luke", "Dwarf", "Warrior", False, 0)
-                self.assignPower(recruit, "Move Right One More Tile If Ally Present")
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Axes", "Short Axe", 120, 1, 0, 0, 3, 0, 0),
                     recruit,
@@ -164,8 +170,7 @@ class game(object):
                 )
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter("Ken", "Centaur", "Knight", False, 0)
-                self.assignPower(
-                        recruit, "Move an Additional Tile As Long As You Don't Move On Unstable Ground")
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Spears", "Wooden Spear", 100, 1, 0, 1, 3, 0, 0),
                     recruit,
@@ -173,8 +178,7 @@ class game(object):
                 )
                 self.playerCharacters.append(recruit)
                 recruit = playerCharacter("Hans", "Elf", "Archer", False, 0)
-                self.assignPower(
-                        recruit, "Begin Battle with Two Ranks of Focus")
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0),
                     recruit,
@@ -207,6 +211,7 @@ class game(object):
             print("")
             if self.battleStarted < 2:
                 recruit = playerCharacter("Gong", "Half-Giant", "Monk", False, 1)
+                self.assignRandomPower(recruit)
                 recruit.levelUp(False)
                 self.playerCharacters.append(recruit)
                 self.reckoning(25, "lonely priest")
@@ -241,6 +246,7 @@ class game(object):
             print("")
             if self.battleStarted < 3:
                 recruit = playerCharacter("Mae", "Centaur", "Knight", False, 2)
+                self.assignRandomPower(recruit)
                 self.playerCharacters.append(recruit)
                 self.equipOnCharacter(
                     equipment("Lances", "Bronze Lance", 300, 4, 0, 0, 6, 0, 0),
@@ -250,6 +256,7 @@ class game(object):
                 recruit.levelUp(False)
                 recruit.levelUp(False)
                 recruit = playerCharacter("Gort", "Dwarf", "Warrior", False, 2)
+                self.assignRandomPower(recruit)
                 self.playerCharacters.append(recruit)
                 self.equipOnCharacter(
                     equipment("Axes", "Hand Axe", 200, 4, 0, 0, 4, 0, 0), recruit, False
@@ -334,6 +341,7 @@ class game(object):
             if self.battleStarted < 4:
                 print("Khris joins your force!")
                 recruit = playerCharacter("Khris", "Kyantol", "Priest", False, 4)
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Staffs", "Wooden Staff", 80, 1, 0, 0, 1, 3, 3),
                     recruit,
@@ -441,6 +449,7 @@ class game(object):
             if self.battleStarted < 6:
                 print("Anri joins your force!")
                 recruit = playerCharacter("Anri", "Human", "Wizard", False, 6)
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Staffs", "Power Staff", 500, 8, 0, 0, 4, 6, 6),
                     recruit,
@@ -525,6 +534,7 @@ class game(object):
                     "you!"
                 )
                 recruit = playerCharacter("Arthur", "Centaur", "Knight", False, 4)
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Spears", "Spear", 150, 5, 0, 1, 5, 0, 0), recruit, False
                 )
@@ -647,6 +657,7 @@ class game(object):
                 self.reckoning(40, "the Keepers")
                 print("Amon joins your force!")
                 recruit = playerCharacter("Amon", "Birdman", "Sky Battler", False, 8)
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Swords", "Middle Sword", 250, 8, 0, 0, 5, 0, 0),
                     recruit,
@@ -665,6 +676,7 @@ class game(object):
                 recruit = playerCharacter(
                     "Balbaroy", "Birdman", "Sky Battler", False, 8
                 )
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Swords", "Middle Sword", 250, 8, 0, 0, 5, 0, 0),
                     recruit,
@@ -690,6 +702,7 @@ class game(object):
             if self.battleStarted < 9:
                 print("Diane joins your force!")
                 recruit = playerCharacter("Diane", "Elf", "Archer", False, 8)
+                self.assignRandomPower(recruit)
                 self.equipOnCharacter(
                     equipment("Arrows", "Steel Arrow", 1200, 12, 1, 1, 9, 0, 0),
                     recruit,
@@ -765,6 +778,7 @@ class game(object):
                 self.reckoning(40, "the grateful townsfolk")
                 print("Zylo joins your force!")
                 recruit = playerCharacter("Zylo", "Wolfling", "Werewolf", False, 9)
+                self.assignRandomPower(recruit)
                 recruit.levelUp(False)
                 recruit.levelUp(False)
                 recruit.levelUp(False)
@@ -848,6 +862,7 @@ class game(object):
                 print("He pledges his allegience to your cause.")
                 print("Pelle the Knight joins the Force!")
                 pelle = playerCharacter("Pelle", "Centaur", "Knight", False, 9)
+                self.assignRandomPower(pelle)
                 self.equipOnCharacter(
                     equipment("Spears", "Power Spear", 900, 12, 0, 1, 10, 0, 0),
                     pelle,
@@ -939,6 +954,7 @@ class game(object):
                 )
                 print("Kokichi the Sky Lord joins your force!")
                 kokichi = playerCharacter("Kokichi", "Human", "Sky Lord", False, 9)
+                self.assignRandomPower(kokichi)
                 self.equipOnCharacter(
                     equipment("Lances", "Steel Lance", 3000, 16, 0, 0, 12, 0, 0),
                     kokichi,
@@ -959,6 +975,7 @@ class game(object):
                 print()
                 print("Vankar the Knight joins your force!")
                 vankar = playerCharacter("Vankar", "Centaur", "Knight", False, 9)
+                self.assignRandomPower(vankar)
                 self.equipOnCharacter(
                     equipment("Spears", "Power Spear", 900, 12, 0, 1, 10, 0, 0),
                     vankar,
