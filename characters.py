@@ -265,7 +265,9 @@ class monster(object):
             self.equipment = equipment(
                 "Lances", "Steel Lance", 3000, 16, 0, 0, 12, 0, 0
             )
-            self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
+            self.powers.append(
+                "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
+            )
             self.shortName = "MercKnt"
         elif name == "Pteropus Knight":
             self.level = 13
@@ -283,7 +285,9 @@ class monster(object):
             self.equipment = equipment("Lances", "Bronze Lance", 300, 8, 0, 0, 6, 0, 0)
             self.shortName = "Pteropus"
             self.powers.append("Flying Movement")
-            self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
+            self.powers.append(
+                "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
+            )
             self.powers.append("Lances: Movement Increases Strength Damage I")
         elif name == "Salaman":
             self.level = 14
@@ -360,7 +364,9 @@ class monster(object):
             self.focusProfile = focusProfile or "Patient"
             self.moveProfile = moveProfile or "Retreat-Defensive"
             self.equipment = equipment("Lances", "Bronze Lance", 300, 1, 0, 0, 6, 0, 0)
-            self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
+            self.powers.append(
+                "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
+            )
             self.shortName = "Knight"
         elif name == "Vile Chanter":
             self.level = 12
@@ -603,7 +609,9 @@ class playerCharacter(object):
             self.unlockedBonuses.append("Dodge Chance")
             self.unlockedBonuses.append("Movement Speed")
         elif race == "Centaur":
-            self.powers.append("Move an Additional Tile As Long As You Don't Move On Unstable Ground")
+            self.powers.append(
+                "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
+            )
             self.unlockedBonuses.append("Damage On Unholy Ground")
             self.unlockedBonuses.append("Lances Skill")
         elif race == "Dragon":
@@ -668,7 +676,9 @@ class playerCharacter(object):
             self.unlockedBonuses.append("Daggers Skill")
             self.unlockedBonuses.append("Movement Speed")
         elif race == "Wolfling":
-            self.powers.append("Ignore Opponents When Moving To Tiles With Damaged Enemies")
+            self.powers.append(
+                "Ignore Opponents When Moving To Tiles With Damaged Enemies"
+            )
             self.unlockedBonuses.append("Critical Hit Damage")
             self.unlockedBonuses.append("Unarmed Skill")
         else:
@@ -696,7 +706,9 @@ class playerCharacter(object):
     def chooseBonus(self):
         if not any(self.unlockedBonuses):
             print(f"Error: {self.name} has no unlocked Bonuses!")
-        bonuses = random.sample(self.unlockedBonuses, k=min(3, len(self.unlockedBonuses)))
+        bonuses = random.sample(
+            self.unlockedBonuses, k=min(3, len(self.unlockedBonuses))
+        )
         display_adds = []
         for i, bonus in range(len(bonuses)):
             display_adds.append(f"({i}) {bonus}")
@@ -712,9 +724,7 @@ class playerCharacter(object):
         choice = None
         while choice not in range(0, len(options)):
             try:
-                choice = int(
-                    input("Type the number to make your choice: ")
-                )
+                choice = int(input("Type the number to make your choice: "))
             except ValueError:
                 choice = None
         options[choice]
@@ -838,7 +848,10 @@ class playerCharacter(object):
 
     def getPower(self, title, chatter=False):
         if "Mounted" in title:
-            if "Move an Additional Tile As Long As You Don't Move On Unstable Ground" not in self.powers:
+            if (
+                "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
+                not in self.powers
+            ):
                 return "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
             else:
                 title = title.replace("Mounted ", "")
@@ -1346,12 +1359,16 @@ class playerCharacter(object):
                 [knownPower for knownPower in self.powers if power in knownPower]
             ):
                 nameOfPower = power
-                if nameOfPower == "Move an Additional Tile As Long As You Don't Move On Unstable Ground" and any(
-                    [
-                        knownPower
-                        for knownPower in self.powers
-                        if knownPower == "Flying Movement"
-                    ]
+                if (
+                    nameOfPower
+                    == "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
+                    and any(
+                        [
+                            knownPower
+                            for knownPower in self.powers
+                            if knownPower == "Flying Movement"
+                        ]
+                    )
                 ):
                     continue
                 if "Captain" in self.title and not any(
@@ -1821,9 +1838,7 @@ class playerCharacter(object):
                 choice = None
                 while choice not in range(0, len(power_options)):
                     try:
-                        choice = int(
-                            input("Type the number to make your choice: ")
-                        )
+                        choice = int(input("Type the number to make your choice: "))
                     except ValueError:
                         choice = None
                     self.assignPower(power_options[choice])
