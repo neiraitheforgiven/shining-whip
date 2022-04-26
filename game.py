@@ -91,6 +91,9 @@ class game(object):
             self.doBattle(self.battleNum)
 
     def assignPower(self, character, powerName, chatter=False):
+        if type(powerName) == powers.power:
+            powerName = powerName.description
+        print(f"Debug: powerName: {powerName}")
         if self.powerBook.book[powerName].not_yet_implemented:
             print()
             print(
