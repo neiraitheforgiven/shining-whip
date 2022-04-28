@@ -710,8 +710,9 @@ class playerCharacter(object):
             self.unlockedBonuses, k=min(3, len(self.unlockedBonuses))
         )
         display_adds = []
-        for i, bonus in range(len(bonuses)):
-            display_adds.append(f"({i}) {bonus}")
+        num_bonuses = len(bonuses)
+        for i in range(num_bonuses):
+            display_adds.append(f"({i}) {bonuses[i]}")
         adds_string = " or ".join(display_adds)
         print(f"Choose one of the following to increase by 1%: {adds_string}.")
         choice = self.choose_one(bonuses)
