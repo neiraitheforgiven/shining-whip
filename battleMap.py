@@ -3913,8 +3913,11 @@ class battleField(object):
                         commandPowers.append(power.replace("Command: ", ""))
         commandPowers = set(commandPowers)
         unitPowers = set([power for power in unit.powers])
-        equipmentPowers = set([power for power in unit.equipment.powers])
-        finalSet = commandPowers | unitPowers | equipmentPowers
+        if unit.equipment:
+            equipmentPowers = set([power for power in unit.equipment.powers])
+            finalSet = commandPowers | unitPowers | equipmentPowers
+        else:
+            finalSet = commandPowers | unitPowers
         power_list = list(finalSet)
         return power_list
 
