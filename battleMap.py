@@ -617,7 +617,9 @@ class battle(object):
                 if unit.equipment:
                     unit.fp += unit.equipment.fp
                     unit.mp += unit.equipment.mp
-                if self.battleField.unitSpellRank(unit, "Egress") >= 1 and unit.mp < self.mpCost(unit, 8):
+                if self.battleField.unitSpellRank(
+                    unit, "Egress"
+                ) >= 1 and unit.mp < self.mpCost(unit, 8):
                     print(f"warning: {unit.name} has too few mp to Egress")
                 unit.resonating = []
                 unit.extraPowerSlot = None
@@ -3465,7 +3467,9 @@ class battleField(object):
     def checkSpells(self, unit, position):
         unit.allowedSpells = {}
         currentTile = self.terrainArray[position]
-        if self.unitSpellRank(unit, 'Afflict') >= 1 and (unit.mp >= self.mpCost(unit, 13)):
+        if self.unitSpellRank(unit, "Afflict") >= 1 and (
+            unit.mp >= self.mpCost(unit, 13)
+        ):
             self.checkSpell(unit, position, "Afflict I", False, 0, 0)
         auraRank = self.unitSpellRank(unit, "Aura")
         if auraRank >= 1 and unit.fp >= self.mpCost(unit, 7):
@@ -4221,4 +4225,3 @@ class battleField(object):
         # center the map on the unit
         position = self.getUnitPos(unit)
         self.viewMap(position, unit)
-

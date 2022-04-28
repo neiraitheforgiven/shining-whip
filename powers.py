@@ -252,7 +252,7 @@ class powerBook(object):
         )
         self.book["Command: MP Regeneration"] = power(
             "Bardic Command",
-            ["Command: MP Regeneration"],
+            "Command: MP Regeneration",
             "Bard",
             ["Charisma", "Dexterity", "Luck"],
             7,
