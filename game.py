@@ -100,22 +100,16 @@ class game(object):
             try:
                 with open("unimplemented_powers.txt", "r+") as f:
                     for line in f:
-                        print(f"debug: {warning} vs {line}")
                         if warning in line:
                             break
                     else:
                         f.write(warning)
                         f.write("\n")
-                        print("debug: new log line added")
             except FileNotFoundError:
                 with open("unimplemented_powers.txt", "a+") as f:
                     f.write(warning)
                     f.write("\n")
-                    print("debug: new log line added")
-            print(
-                f"Warning: the power {powerName} has not been implemented"
-                " yet. Let Neirai the Forgiven know to add it to the list of things to do!"
-            )
+            print(f"Warning: the power {powerName} has not been implemented yet.")
             print()
         character.powers.append(powerName)
         if chatter:
