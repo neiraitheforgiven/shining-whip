@@ -91,11 +91,27 @@ class game(object):
             self.doBattle(self.battleNum)
 
     def assignPower(self, character, powerName, chatter=False):
-        if type(powerName) == powers.power:
+        if isinstance(powerName, powers.power):
             powerName = powerName.description
-        print(f"Debug: powerName: {powerName}")
+        print(f"Debug: powerName: {powerName} assigned to {character.name}")
         if self.powerBook.book[powerName].not_yet_implemented:
             print()
+            warning = f"Warning: the power {powerName} has not been implemented yet."
+            try:
+                with open("unimplemented_powers.txt", "r+") as f:
+                    for line in f:
+                        print(f"debug: {warning} vs {line}")
+                        if warning in line:
+                            break
+                    else:
+                        f.write(warning)
+                        f.write("\n")
+                        print("debug: new log line added")
+            except FileNotFoundError:
+                with open("unimplemented_powers.txt", "a+") as f:
+                    f.write(warning)
+                    f.write("\n")
+                    print("debug: new log line added")
             print(
                 f"Warning: the power {powerName} has not been implemented"
                 " yet. Let Neirai the Forgiven know to add it to the list of things to do!"
@@ -1432,8 +1448,6 @@ class game(object):
             input("<Press enter to continue>")
             print()
             del self.tutorial[entry]
-
-
 
 
 game = game()
