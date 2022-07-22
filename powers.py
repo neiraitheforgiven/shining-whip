@@ -182,7 +182,7 @@ class powerBook(object):
         )  # Note to self: Drain should leave targets bleeding
         self.book["Blood Mage Tier 1 Muddle"] = power(
             "Muddle",
-            ["Blood Mage Tier 1 Muddle"],
+            "Blood Mage Tier 1 Muddle",
             "Blood Mage",
             ["Intelligence", "Stamina"],
             8,
