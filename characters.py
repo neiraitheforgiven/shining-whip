@@ -610,8 +610,8 @@ class playerCharacter(object):
             self.powers.append(
                 "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
             )
-            self.unlockedBonuses.append("Damage On Unholy Ground")
             self.unlockedBonuses.append("Lances Skill")
+            self.unlockedBonuses.append("Spears Skill")
         elif race == "Dragon":
             self.powers.append("Flying Movement")
             self.unlockedBonuses.append("Fire Damage")
