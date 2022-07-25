@@ -75,8 +75,7 @@ class monster(object):
             self.moveProfile = moveProfile or "Random"
             self.powers.append("Poisonous Attack")
             self.powers.append("Freeze I")
-            self.powers.append("Unarmed Attack: Increased Damage I")
-            self.powers.append("Unarmed Attack: Increased Damage II")
+            self.powers.append("Unarmed Attack: Increased Damage")
             self.powers.append("Luck: Critical Drain I")
             self.powers.append("Luck: Counterattack")
         elif name == "Crazed Dwarf":
@@ -180,8 +179,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "Retreat-Defensive"
             self.powers.append("Poisonous Attack")
-            self.powers.append("Unarmed Attack: Increased Damage I")
-            self.powers.append("Unarmed Attack: Increased Damage II")
+            self.powers.append("Unarmed Attack: Increased Damage")
             self.powers.append("Defense: Magic")
             self.powers.append("Defense: Death Resistance")
         elif name == "Goblin":
@@ -217,8 +215,8 @@ class monster(object):
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "SlowAdvance"
             self.powers.append("Poisonous Attack")
-            self.powers.append("Unarmed Attack: Increased Damage I")
-            self.powers.append("Unarmed Attack: Increased Damage II")
+            self.powers.append("Unarmed Attack: Increased Damage")
+            self.powers.append("Unarmed Attack: Increased DamageI")
         elif name == "Marionette":
             self.level = 10
             self.boss = True
@@ -399,7 +397,7 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "SlowAdvance"
-            self.powers.append("Unarmed Attack: Increased Damage I")
+            self.powers.append("Unarmed Attack: Increased Damage")
             self.powers.append("Poisonous Attack")
             self.powers.append("Luck: Counterattack")
             self.powers.append("Defense: Fire Vulnerability")
@@ -631,11 +629,11 @@ class playerCharacter(object):
             self.unlockedBonuses.append("Lightning Damage")
             self.unlockedBonuses.append("Staffs Skill")
         elif race == "Golem":
-            self.powers.append("Unarmed Attack: Increased Damage I")
+            self.powers.append("Unarmed Attack: Increased Damage")
             self.unlockedBonuses.append("Unarmed Skill")
             self.unlockedBonuses.append("Heavy Attack Chance")
         elif race == "Half-Giant":
-            self.powers.append("Unarmed Attack: Increased Damage I")
+            self.powers.append("Unarmed Attack: Increased Damage")
             self.unlockedBonuses.append("Unarmed Skill")
             self.unlockedBonuses.append("Vocal Strength")
         elif race == "Hobbit":

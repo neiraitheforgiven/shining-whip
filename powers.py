@@ -1102,6 +1102,14 @@ class powerBook(object):
             "Fire Damage",
             requiresDragonOr25=True,
         )
+        self.book["Unarmed Attack: Increased Damage"] = power(
+            "Racial Strength Bonus",
+            "Unarmed Attack: Increased Damage",
+            "Giant",
+            [],
+            0,
+            "Unarmed Skill",
+        )
         self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"] = power(
             "Sacred Hymns",
             "Vocal Attacks Act As If Tiles Are One Rank More Holy",
