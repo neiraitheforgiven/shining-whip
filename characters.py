@@ -701,7 +701,7 @@ class playerCharacter(object):
     def canEquip(self, equipment):
         return equipment.canEquip(self)
 
-    def chooseBonus(self):
+    def chooseBonus(self, choose=False):
         if not any(self.unlockedBonuses):
             print(f"Error: {self.name} has no unlocked Bonuses!")
         bonuses = random.sample(
@@ -709,12 +709,28 @@ class playerCharacter(object):
         )
         display_adds = []
         num_bonuses = len(bonuses)
-        for i in range(num_bonuses):
-            display_adds.append(f"({i}) {bonuses[i]}")
-        adds_string = " or ".join(display_adds)
-        print(f"Choose one of the following to increase by 1%: {adds_string}.")
-        choice = self.choose_one(bonuses)
-        if choice in self.bonuses:
+        if choose:
+            for i in range(num_bonuses):
+                display_adds.append(f"({i}) {bonuses[i]}")
+            adds_string = " or ".join(display_adds)
+            print(f"Choose one of the following to increase by 1%: {adds_string}.")
+            choice = self.choose_one(bonuses)
+        else:
+            choice = random.choice(
+                [
+                    favorite_bonus
+                    for favorite_bonus in self.bonuses
+                    if self.bonuses[favorite_bonus]
+                    == max(
+                        [
+                            self.bonuses[bonus]
+                            for bonus in self.bonuses
+                            if bonus in bonuses
+                        ]
+                    )
+                ]
+            )
+        if choice and choice in self.bonuses:
             self.bonuses[choice] += 0.01
         else:
             self.bonuses[choice] = 1.01
@@ -1843,7 +1859,7 @@ class playerCharacter(object):
                     self.assignPower(power_options[choice])
                 self.updateGrowth()
         else:
-            self.chooseBonus()
+            self.chooseBonus(chatter)
         self.upSkill()
 
     def maxFP(self):
