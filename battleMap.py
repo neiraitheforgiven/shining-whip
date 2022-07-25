@@ -935,7 +935,7 @@ class battle(object):
                 if unit.equipment:
                     damageString = f"{unit.equipment.type}: Increased Damage "
                 else:
-                    damageString = "Unarmed Attack: Increased Damage "
+                    damageString = "Unarmed Attack: Increased Damage"
                     damage += math.ceil(unit.skills["Unarmed Attack"] / 2)
                 if self.getPower(unit, damageString + "I"):
                     damage *= 1.3
