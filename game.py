@@ -116,8 +116,9 @@ class game(object):
             print(f"{self.name} learned {powerName}!")
 
     def assignRandomPower(self, character, chatter=False):
+        """Not actually fully random, should be the first (class) power in a list"""
         power_options = self.powerBook.get_power_options(character, chatter)
-        random_power = random.choice(power_options)
+        random_power = power_options[0]
         self.assignPower(character, random_power, chatter)
 
     def doBattle(self, battleNum):
