@@ -716,20 +716,22 @@ class playerCharacter(object):
             print(f"Choose one of the following to increase by 1%: {adds_string}.")
             choice = self.choose_one(bonuses)
         else:
-            choice = random.choice(
-                [
+            chosen_bonus_amts = [
+                self.bonuses[bonus] for bonus in self.bonuses if bonus in bonuses
+            ]
+            if not chosen_bonus_amts:
+                choice = random.choice(bonuses)
+            else:
+                most_chosen_bonus_amt = max(chosen_bonus_amts)
+                favorite_bonuses = [
                     favorite_bonus
                     for favorite_bonus in self.bonuses
-                    if self.bonuses[favorite_bonus]
-                    == max(
-                        [
-                            self.bonuses[bonus]
-                            for bonus in self.bonuses
-                            if bonus in bonuses
-                        ]
-                    )
+                    if self.bonuses[favorite_bonus] == most_chosen_bonus_amt
                 ]
-            )
+                if favorite_bonuses:
+                    choice = random.choice(favorite_bonuses)
+                else:
+                    choice = random.choice(bonuses)
         if choice and choice in self.bonuses:
             self.bonuses[choice] += 0.01
         else:
