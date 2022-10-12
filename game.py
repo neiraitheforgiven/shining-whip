@@ -41,7 +41,8 @@ class game(object):
                 self.shelf["book"] = self.powerBook
                 self.battleStarted = 0
                 self.shelf["battleStarted"] = self.battleStarted
-                self.spellCost = self.spellCost()
+                self.spellCost = {}
+                self.loadSpellCosts()
                 tutorial = input(
                     'Do you want to learn how to play? If so, type "Teach Me" now: '
                 )
@@ -81,6 +82,8 @@ class game(object):
                 self.shop = self.shelf["shop"]
                 self.powerBook = self.shelf["book"]
                 self.battleStarted = self.shelf["battleStarted"]
+                self.spellCost = {}
+                self.loadSpellCosts()
                 if "tutorial" in self.shelf:
                     self.tutorial = self.shelf["tutorial"]
                 else:
@@ -1239,51 +1242,48 @@ class game(object):
                     pc.upSkill()
                     self.setMinSkill(level)
 
-    def spellCost(self):
-        spellCost = {}
-
-        spellCost["Afflict I"] = [13, "MP"]
-        spellCost["Aura I"] = [7, "FP"]
-        spellCost["Aura II"] = [11, "FP"]
-        spellCost["Aura III"] = [15, "FP"]
-        spellCost["Aura IV"] = [20, "FP"]
-        spellCost["Blaze I"] = [2, "MP"]
-        spellCost["Blaze II"] = [6, "MP"]
-        spellCost["Blaze III"] = [8, "MP"]
-        spellCost["Blaze IV"] = [8, "MP"]
-        spellCost["Bolt I"] = [8, "MP"]
-        spellCost["Bolt II"] = [15, "MP"]
-        spellCost["Bolt III"] = [20, "MP"]
-        spellCost["Bolt IV"] = [20, "MP"]
-        spellCost["Dao I"] = [8, "MP"]
-        spellCost["Dao II"] = [15, "MP"]
-        spellCost["Detox I"] = [3, "FP"]
-        spellCost["Drain I"] = [5, "MP"]
-        spellCost["Drain II"] = [12, "MP"]
-        spellCost["Egress I"] = [8, "MP"]
-        spellCost["Freeze I"] = [3, "MP"]
-        spellCost["Freeze II"] = [7, "MP"]
-        spellCost["Freeze III"] = [10, "MP"]
-        spellCost["Freeze IV"] = [12, "MP"]
-        spellCost["Heal I"] = [3, "FP"]
-        spellCost["Heal II"] = [6, "FP"]
-        spellCost["Heal III"] = [10, "FP"]
-        spellCost["Heal IV"] = [20, "FP"]
-        spellCost["Midas I"] = [8, "MP"]
-        spellCost["Portal I"] = [21, "MP"]
-        spellCost["Ninja Fire I"] = [6, "MP"]
-        spellCost["Ninja Fire II"] = [10, "MP"]
-        spellCost["Ninja Fire III"] = [12, "MP"]
-        spellCost["Shield I"] = [12, "FP"]
-        spellCost["Shield II"] = [12, "FP"]
-        spellCost["Sleep I"] = [6, "MP"]
-        spellCost["Sleep II"] = [6, "MP"]
-        spellCost["Slow I"] = [5, "MP"]
-        spellCost["Slow II"] = [20, "MP"]
-        spellCost["Teleport I"] = [5, "MP"]
-        spellCost["Teleport II"] = [10, "MP"]
-        spellCost["Teleport III"] = [6, "MP"]
-        return spellCost
+    def loadSpellCosts(self):
+        self.spellCost["Afflict I"] = [13, "MP"]
+        self.spellCost["Aura I"] = [7, "FP"]
+        self.spellCost["Aura II"] = [11, "FP"]
+        self.spellCost["Aura III"] = [15, "FP"]
+        self.spellCost["Aura IV"] = [20, "FP"]
+        self.spellCost["Blaze I"] = [2, "MP"]
+        self.spellCost["Blaze II"] = [6, "MP"]
+        self.spellCost["Blaze III"] = [8, "MP"]
+        self.spellCost["Blaze IV"] = [8, "MP"]
+        self.spellCost["Bolt I"] = [8, "MP"]
+        self.spellCost["Bolt II"] = [15, "MP"]
+        self.spellCost["Bolt III"] = [20, "MP"]
+        self.spellCost["Bolt IV"] = [20, "MP"]
+        self.spellCost["Dao I"] = [8, "MP"]
+        self.spellCost["Dao II"] = [15, "MP"]
+        self.spellCost["Detox I"] = [3, "FP"]
+        self.spellCost["Drain I"] = [5, "MP"]
+        self.spellCost["Drain II"] = [12, "MP"]
+        self.spellCost["Egress I"] = [8, "MP"]
+        self.spellCost["Freeze I"] = [3, "MP"]
+        self.spellCost["Freeze II"] = [7, "MP"]
+        self.spellCost["Freeze III"] = [10, "MP"]
+        self.spellCost["Freeze IV"] = [12, "MP"]
+        self.spellCost["Heal I"] = [3, "FP"]
+        self.spellCost["Heal II"] = [6, "FP"]
+        self.spellCost["Heal III"] = [10, "FP"]
+        self.spellCost["Heal IV"] = [20, "FP"]
+        self.spellCost["Midas I"] = [8, "MP"]
+        self.spellCost["Portal I"] = [21, "MP"]
+        self.spellCost["Ninja Fire I"] = [6, "MP"]
+        self.spellCost["Ninja Fire II"] = [10, "MP"]
+        self.spellCost["Ninja Fire III"] = [12, "MP"]
+        self.spellCost["Shield I"] = [12, "FP"]
+        self.spellCost["Shield II"] = [12, "FP"]
+        self.spellCost["Sleep I"] = [6, "MP"]
+        self.spellCost["Sleep II"] = [6, "MP"]
+        self.spellCost["Slow I"] = [5, "MP"]
+        self.spellCost["Slow II"] = [20, "MP"]
+        self.spellCost["Teleport I"] = [5, "MP"]
+        self.spellCost["Teleport II"] = [10, "MP"]
+        self.spellCost["Teleport III"] = [6, "MP"]
 
     def initTutorial(self):
         print()
