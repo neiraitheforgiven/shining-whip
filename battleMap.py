@@ -2,6 +2,7 @@ from characters import monster
 from characters import playerCharacter
 from operator import itemgetter
 import math
+import powers
 import random
 import time
 
@@ -2293,7 +2294,7 @@ class battle(object):
                 allowedCommands.append("S")
                 allowedCommands.append("s")
             if (not moved and not attacked) or self.getPower(
-                unit, "Vocal Attack: Ignore Movement"
+                unit, "Movement Does Not Prevent Vocal Attacks"
             ):
                 vocalEnabled = self.battleField.checkVocal(unit)
                 if vocalEnabled:
@@ -2364,7 +2365,7 @@ class battle(object):
                         except ValueError:
                             attackTarget = None
                 self.doAttack(unit, attackTarget)
-                if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
+                if not moved or self.getPower(unit, "Movement Does Not Prevent Vocal Attacks"):
                     darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
@@ -2509,7 +2510,7 @@ class battle(object):
                 if unit.bleedTime > 0:
                     self.bleed(unit)
             elif command in ("W", "w"):
-                if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
+                if not moved or self.getPower(unit, "Movement Does Not Prevent Vocal Attacks"):
                     darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
@@ -2570,7 +2571,7 @@ class battle(object):
                     moved = self.battleField.doMonsterMove(unit, position)
                     if moved and unit.bleedTime > 0:
                         self.bleed(unit)
-            if not moved or self.getPower(unit, "Vocal Attack: Ignore Movement"):
+            if not moved or self.getPower(unit, "Movement Does Not Prevent Vocal Attacks"):
                 area = 1
                 if self.getPower(unit, "Vocal Attack: Increased Area I"):
                     area += 1
@@ -2917,7 +2918,7 @@ class battle(object):
         unit.pendingXP = 0
         if unit.xp > 100:
             unit.xp -= 100
-            unit.levelUp(self.game.book, True)
+            unit.levelUp(self.game.powerBook, True)
 
     def kill(self, target, killer=None):
         print(f"{target.name} dies!")
@@ -4138,7 +4139,11 @@ class battleField(object):
         for power in self.getPowers(unit):
             if "Equip: " in power:
                 continue
-            entry = self.game.powerBook.book[power]
+            entry = self.game.powerBook.book.get(power)
+            if not entry:
+                # we may have changed it. Try reloading it.
+                self.game.powerBook = powers.powerBook()
+                entry = self.game.powerBook.book[power]
             if entry.spellRank:
                 if entry.name == spell_name:
                     rank += 1

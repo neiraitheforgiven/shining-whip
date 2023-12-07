@@ -1110,6 +1110,14 @@ class powerBook(object):
             0,
             "Unarmed Skill",
         )
+        self.book["Vocal Attack: Increased Damage I"] = power(
+            "Racial Vocal Attack Bonus",
+            "Vocal Attack: Increased Damage I",
+            "Giant Bat",
+            [],
+            0,
+            "Vocal Strength",
+        )
         self.book["Vocal Attacks Act As If Tiles Are One Rank More Holy"] = power(
             "Sacred Hymns",
             "Vocal Attacks Act As If Tiles Are One Rank More Holy",
