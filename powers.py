@@ -787,9 +787,9 @@ class powerBook(object):
             6,
             "Movement Speed",
         )
-        self.book["Movement Does Not Interupt Your Singing"] = power(
+        self.book["Movement Does Not Prevent Vocal Attacks"] = power(
             "Rhythmic Chanting",
-            "Movement Does Not Interupt Your Singing",
+            "Movement Does Not Prevent Vocal Attacks",
             "Cantor",
             ["Luck", "Speed", "Voice"],
             7,

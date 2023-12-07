@@ -169,7 +169,7 @@ class monster(object):
             self.powers.append("Flying Movement")
             self.powers.append("Sonorous Voice")
             self.powers.append("Vocal Attack: Increased Damage I")
-            self.powers.append("Vocal Attack: Ignore Movement")
+            self.powers.append("Movement Does Not Prevent Vocal Attacks")
             self.shortName = "Bat"
         elif name == "Ghoul":
             self.level = 12
@@ -650,7 +650,7 @@ class playerCharacter(object):
             self.unlockedBonuses.append("Swords Skill")
             self.unlockedBonuses.append("Brass Guns Skill")
         elif race == "Insect":
-            self.powers.append("Movement Does Not Interupt Your Singing")
+            self.powers.append("Movement Does Not Prevent Vocal Attacks")
             self.unlockedBonuses.append("Movement Speed")
             self.unlockedBonuses.append("Swords Skill")
         elif race == "Kyantol":
@@ -990,7 +990,7 @@ class playerCharacter(object):
             ]
         elif "Cantor" in title:
             listOfPowers = [
-                "Vocal Attack: Ignore Movement",
+                "Movement Does Not Prevent Vocal Attacks",
                 "Move an Additional Tile As Long As You Don't Move On Unstable Ground",
                 "Vocal Attack Causes Feedback Bleed",
                 "Vocal Attack: Sustain Effect",
