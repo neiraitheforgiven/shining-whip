@@ -2917,7 +2917,7 @@ class battle(object):
         unit.pendingXP = 0
         if unit.xp > 100:
             unit.xp -= 100
-            unit.levelUp(True)
+            unit.levelUp(self.game.book, True)
 
     def kill(self, target, killer=None):
         print(f"{target.name} dies!")
