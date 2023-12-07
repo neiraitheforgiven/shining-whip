@@ -73,11 +73,11 @@ class monster(object):
             self.attackProfile = attackProfile or "Spellcaster"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Random"
-            self.powers.append("Poisonous Attack")
-            self.powers.append("Freeze I")
-            self.powers.append("Unarmed Attack: Increased Damage")
-            self.powers.append("Luck: Critical Drain I")
-            self.powers.append("Luck: Counterattack")
+            self.assignPower("Poisonous Attack")
+            self.assignPower("Freeze I")
+            self.assignPower("Unarmed Attack: Increased Damage")
+            self.assignPower("Luck: Critical Drain I")
+            self.assignPower("Luck: Counterattack")
         elif name == "Crazed Dwarf":
             self.level = 3
             stats = {"Strength": 7, "Stamina": 6, "Speed": 4, "Faith": 8}
@@ -108,8 +108,8 @@ class monster(object):
             self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 9, 0, 0)
             self.shortName = "Dark Elf"
-            self.powers.append("Defense: Wind Vulnerability")
-            self.powers.append("Stealthy Movement")
+            self.assignPower("Defense: Wind Vulnerability")
+            self.assignPower("Stealthy Movement")
         elif name == "Dark Magi":
             self.level = 12
             stats = {"Stamina": 9, "Intelligence": 15, "Strength": 9, "Speed": 9}
@@ -148,11 +148,11 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Swords", "Long Sword", 750, 18, 0, 0, 12, 0, 0)
             self.shortName = "Sohorn"
-            self.powers.append("Defense: Ice Vulnerability")
-            self.powers.append("Defense: Fire Defense")
-            self.powers.append("Defense: Magic")
-            self.powers.append("Kills Restore Health")
-            self.powers.append("Luck: Dodge Chance Up I")
+            self.assignPower("Defense: Ice Vulnerability")
+            self.assignPower("Defense: Fire Defense")
+            self.assignPower("Defense: Magic")
+            self.assignPower("Kills Restore Health")
+            self.assignPower("Luck: Dodge Chance Up I")
         elif name == "Giant Bat":
             self.level = 5
             stats = {
@@ -166,10 +166,10 @@ class monster(object):
             self.attackProfile = attackProfile or "Singer"
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "Aggressive-Singer"
-            self.powers.append("Flying Movement")
-            self.powers.append("Sonorous Voice")
-            self.powers.append("Vocal Attack: Increased Damage I")
-            self.powers.append("Movement Does Not Prevent Vocal Attacks")
+            self.assignPower("Flying Movement")
+            self.assignPower("Sonorous Voice")
+            self.assignPower("Vocal Attack: Increased Damage I")
+            self.assignPower("Movement Does Not Prevent Vocal Attacks")
             self.shortName = "Bat"
         elif name == "Ghoul":
             self.level = 12
@@ -178,10 +178,10 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "Retreat-Defensive"
-            self.powers.append("Poisonous Attack")
-            self.powers.append("Unarmed Attack: Increased Damage")
-            self.powers.append("Defense: Magic")
-            self.powers.append("Defense: Death Resistance")
+            self.assignPower("Poisonous Attack")
+            self.assignPower("Unarmed Attack: Increased Damage")
+            self.assignPower("Defense: Magic")
+            self.assignPower("Defense: Death Resistance")
         elif name == "Goblin":
             self.level = 2
             stats = {"Dexterity": 6, "Stamina": 5, "Speed": 5}
@@ -205,8 +205,8 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Axes", "Middle Axe", 300, 1, 0, 0, 7, 0, 0)
             self.shortName = "Lizard"
-            self.powers.append("Defense: Ice Vulnerability")
-            self.powers.append("Defense: Fire Defense")
+            self.assignPower("Defense: Ice Vulnerability")
+            self.assignPower("Defense: Fire Defense")
         elif name == "Mannequin":
             self.level = 8
             stats = {"Strength": 14, "Stamina": 8, "Speed": 5}
@@ -214,9 +214,9 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "SlowAdvance"
-            self.powers.append("Poisonous Attack")
-            self.powers.append("Unarmed Attack: Increased Damage")
-            self.powers.append("Unarmed Attack: Increased DamageI")
+            self.assignPower("Poisonous Attack")
+            self.assignPower("Unarmed Attack: Increased Damage")
+            self.assignPower("Unarmed Attack: Increased DamageI")
         elif name == "Marionette":
             self.level = 10
             self.boss = True
@@ -231,8 +231,8 @@ class monster(object):
             self.attackProfile = attackProfile or "Spellcaster"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
-            self.powers.append("Freeze III")
-            self.powers.append("Magic: Cost Reduction I")
+            self.assignPower("Freeze III")
+            self.assignPower("Magic: Cost Reduction I")
             self.shortName = "Marion"
         elif name == "Master Mage":
             self.level = 13
@@ -263,7 +263,7 @@ class monster(object):
             self.equipment = equipment(
                 "Lances", "Steel Lance", 3000, 16, 0, 0, 12, 0, 0
             )
-            self.powers.append(
+            self.assignPower(
                 "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
             )
             self.shortName = "MercKnt"
@@ -282,11 +282,11 @@ class monster(object):
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Lances", "Bronze Lance", 300, 8, 0, 0, 6, 0, 0)
             self.shortName = "Pteropus"
-            self.powers.append("Flying Movement")
-            self.powers.append(
+            self.assignPower("Flying Movement")
+            self.assignPower(
                 "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
             )
-            self.powers.append("Lances: Movement Increases Strength Damage I")
+            self.assignPower("Lances: Movement Increases Strength Damage I")
         elif name == "Salaman":
             self.level = 14
             stats = {
@@ -313,8 +313,8 @@ class monster(object):
                 ["Axes: Added Effect: Fire", "Blaze II"],
             )
             self.shortName = "Salaman"
-            self.powers.append("Defense: Ice Vulnerability")
-            self.powers.append("Defense: Fire Defense")
+            self.assignPower("Defense: Ice Vulnerability")
+            self.assignPower("Defense: Fire Defense")
         elif name == "The Screaming Beast":
             self.level = 15
             self.boss = True
@@ -330,9 +330,9 @@ class monster(object):
             self.focusProfile = focusProfile or "Patient"
             self.moveProfile = moveProfile or "Stationary"
             self.shortName = "Scream"
-            self.powers.append("Vocal Attack: Increased Area III")
-            self.powers.append("Vocal Attack: Sustain Effect")
-            self.powers.append("Defense: Lightning Vulnerability")
+            self.assignPower("Vocal Attack: Increased Area III")
+            self.assignPower("Vocal Attack: Sustain Effect")
+            self.assignPower("Defense: Lightning Vulnerability")
         elif name == "Skeleton Warrior":
             self.level = 8
             stats = {"Strength": 16, "Stamina": 10, "Speed": 7}
@@ -342,9 +342,9 @@ class monster(object):
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Defensive"
             self.equipment = equipment("Swords", "Middle Sword", 250, 1, 0, 0, 5, 0, 0)
-            self.powers.append("Command: Luck: Counterattack")
-            self.powers.append("Defense: Fire Vulnerability")
-            self.powers.append("Defense: Death Resistance")
+            self.assignPower("Command: Luck: Counterattack")
+            self.assignPower("Defense: Fire Vulnerability")
+            self.assignPower("Defense: Death Resistance")
         elif name == "Sniper":
             self.level = 6
             stats = {"Dexterity": 12, "Stamina": 6, "Speed": 7}
@@ -353,7 +353,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Murderous"
             self.moveProfile = moveProfile or "Sniper"
             self.equipment = equipment("Arrows", "Wooden Arrow", 150, 1, 1, 1, 3, 0, 0)
-            self.powers.append("Defense: Wind Vulnerability")
+            self.assignPower("Defense: Wind Vulnerability")
         elif name == "Traitor Knight":
             self.level = 4
             stats = {"Strength": 11, "Stamina": 6, "Speed": 7, "Charisma": 7}
@@ -362,7 +362,7 @@ class monster(object):
             self.focusProfile = focusProfile or "Patient"
             self.moveProfile = moveProfile or "Retreat-Defensive"
             self.equipment = equipment("Lances", "Bronze Lance", 300, 1, 0, 0, 6, 0, 0)
-            self.powers.append(
+            self.assignPower(
                 "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
             )
             self.shortName = "Knight"
@@ -379,10 +379,10 @@ class monster(object):
             self.attackProfile = attackProfile or "Healer-Singer"
             self.focusProfile = focusProfile or "Vengeful"
             self.moveProfile = moveProfile or "Companion-Healer"
-            self.powers.append("Vocal Attack: Increased Area I")
-            self.powers.append("Heal I")
-            self.powers.append("Vocal Attack: Sustain Effect")
-            self.powers.append("Defense: Wind Vulnerability")
+            self.assignPower("Vocal Attack: Increased Area I")
+            self.assignPower("Heal I")
+            self.assignPower("Vocal Attack: Sustain Effect")
+            self.assignPower("Defense: Wind Vulnerability")
             self.shortName = "Chanter"
         elif name == "Zombie":
             self.level = 7
@@ -397,13 +397,45 @@ class monster(object):
             self.attackProfile = attackProfile or "Random"
             self.focusProfile = focusProfile or "Aggressive"
             self.moveProfile = moveProfile or "SlowAdvance"
-            self.powers.append("Unarmed Attack: Increased Damage")
-            self.powers.append("Poisonous Attack")
-            self.powers.append("Luck: Counterattack")
-            self.powers.append("Defense: Fire Vulnerability")
-            self.powers.append("Defense: Death Resistance")
+            self.assignPower("Unarmed Attack: Increased Damage")
+            self.assignPower("Poisonous Attack")
+            self.assignPower("Luck: Counterattack")
+            self.assignPower("Defense: Fire Vulnerability")
+            self.assignPower("Defense: Death Resistance")
         else:
             print("Battle Setup Error! Attempted to create monster not in list!")
+
+    def assignPower(self, powerName):
+        if isinstance(powerName, powers.power):
+            powerName = powerName.description
+        print(f"Debug: powerName: {powerName} assigned to {self.name}")
+        book = powers.powerBook()
+        power = book.book.get(powerName)
+        warning = None
+        if power:
+            if power.not_yet_implemented:
+                warning = f"Warning: the power {powerName} has not been implemented yet."
+        else:
+            warning = f"Warning: the power {powerName} is not in the power book."
+        if warning:
+            print()
+            try:
+                with open("unimplemented_powers.txt", "r+") as f:
+                    for line in f:
+                        if warning in line:
+                            break
+                    else:
+                        f.write(warning)
+                        f.write("\n")
+            except FileNotFoundError:
+                with open("unimplemented_powers.txt", "a+") as f:
+                    f.write(warning)
+                    f.write("\n")
+            print(f"Warning: the power {powerName} has not been implemented yet.")
+            print()
+        self.powers.append(powerName)
+        if chatter:
+            print(f"{self.name} learned {powerName}!")
 
     def getFame(self):
         return self.stats["Charisma"]
@@ -599,82 +631,82 @@ class playerCharacter(object):
                 ]
             )
         if race in ("Armadillo"):
-            self.powers.append("Reduces Critical Hit Damage Taken")
+            self.assignPower("Reduces Critical Hit Damage Taken")
             self.unlockedBonuses.append("HP Amount")
             self.unlockedBonuses.append("Movement Speed")
         elif race in ("Birdman"):
-            self.powers.append("Flying Movement")
+            self.assignPower("Flying Movement")
             self.unlockedBonuses.append("Dodge Chance")
             self.unlockedBonuses.append("Movement Speed")
         elif race == "Centaur":
-            self.powers.append(
+            self.assignPower(
                 "Move an Additional Tile As Long As You Don't Move On Unstable Ground"
             )
             self.unlockedBonuses.append("Lances Skill")
             self.unlockedBonuses.append("Spears Skill")
         elif race == "Dragon":
-            self.powers.append("Flying Movement")
+            self.assignPower("Flying Movement")
             self.unlockedBonuses.append("Fire Damage")
             self.unlockedBonuses.append("Lightning Damage")
         elif race == "Dwarf":
-            self.powers.append("Move Right One More Tile If Ally Present")
+            self.assignPower("Move Right One More Tile If Ally Present")
             self.unlockedBonuses.append("Axes Skill")
             self.unlockedBonuses.append("HP Amount")
         elif race == "Elf":
-            self.powers.append("Begin Battle with Two Ranks of Focus")
+            self.assignPower("Begin Battle with Two Ranks of Focus")
             self.unlockedBonuses.append("Arrows Skill")
             self.unlockedBonuses.append("Staffs Skill")
         elif race == "Foxling":
-            self.powers.append("Prevent Focus Lost From Enemy Attacks")
+            self.assignPower("Prevent Focus Lost From Enemy Attacks")
             self.unlockedBonuses.append("Lightning Damage")
             self.unlockedBonuses.append("Staffs Skill")
         elif race == "Golem":
-            self.powers.append("Unarmed Attack: Increased Damage")
+            self.assignPower("Unarmed Attack: Increased Damage")
             self.unlockedBonuses.append("Unarmed Skill")
             self.unlockedBonuses.append("Heavy Attack Chance")
         elif race == "Half-Giant":
-            self.powers.append("Unarmed Attack: Increased Damage")
+            self.assignPower("Unarmed Attack: Increased Damage")
             self.unlockedBonuses.append("Unarmed Skill")
             self.unlockedBonuses.append("Vocal Strength")
         elif race == "Hobbit":
-            self.powers.append("Increases Focus When Stationary")
+            self.assignPower("Increases Focus When Stationary")
             self.unlockedBonuses.append("Dodge Chance")
             self.unlockedBonuses.append("Staffs Skill")
         elif race == "Homunculus":
-            self.powers.append("Defense Against Melee Physical Damage")
+            self.assignPower("Defense Against Melee Physical Damage")
             self.unlockedBonuses.append("Ice Damage")
             self.unlockedBonuses.append("MP Amount")
         elif race == "Human":
-            self.powers.append("Increases Fame Effect On Allies")
+            self.assignPower("Increases Fame Effect On Allies")
             self.unlockedBonuses.append("Staffs Skill")
             self.unlockedBonuses.append("Swords Skill")
             self.unlockedBonuses.append("Brass Guns Skill")
         elif race == "Insect":
-            self.powers.append("Movement Does Not Prevent Vocal Attacks")
+            self.assignPower("Movement Does Not Prevent Vocal Attacks")
             self.unlockedBonuses.append("Movement Speed")
             self.unlockedBonuses.append("Swords Skill")
         elif race == "Kyantol":
-            self.powers.append("Command: Fill Focus If An Ally Dies On Your Tile")
+            self.assignPower("Command: Fill Focus If An Ally Dies On Your Tile")
             self.unlockedBonuses.append("Healing Amount")
             self.unlockedBonuses.append("Staffs Skill")
         elif race == "Phoenix":
-            self.powers.append("Flying Movement")
+            self.assignPower("Flying Movement")
             self.unlockedBonuses.append("FP Amount")
             self.unlockedBonuses.append("Wind Damage")
         elif race == "Robot":
-            self.powers.append("Prevent Focus Lost From Enemy Attacks")
+            self.assignPower("Prevent Focus Lost From Enemy Attacks")
             self.unlockedBonuses.append("Focus Intensity")
             self.unlockedBonuses.append("Unarmed Skill")
         elif race == "Tortoise":
-            self.powers.append("Reduces Critical Hit Damage Taken")
+            self.assignPower("Reduces Critical Hit Damage Taken")
             self.unlockedBonuses.append("Fire Damage")
             self.unlockedBonuses.append("Movement Speed")
         elif race == "Wererat":
-            self.powers.append("Daggers Give Extra MP")
+            self.assignPower("Daggers Give Extra MP")
             self.unlockedBonuses.append("Daggers Skill")
             self.unlockedBonuses.append("Movement Speed")
         elif race == "Wolfling":
-            self.powers.append(
+            self.assignPower(
                 "Ignore Opponents When Moving To Tiles With Damaged Enemies"
             )
             self.unlockedBonuses.append("Critical Hit Damage")
@@ -684,7 +716,7 @@ class playerCharacter(object):
         return race
 
     def assignPower(self, power, chatter=True):
-        self.powers.append(power.description)
+        self.assignPower(power.description)
         if power.unlockCategory not in self.unlockedBonuses:
             self.unlockedBonuses.append(power.unlockCategory)
         if chatter:
