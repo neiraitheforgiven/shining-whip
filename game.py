@@ -229,7 +229,7 @@ class game(object):
             if self.battleStarted < 2:
                 recruit = playerCharacter("Gong", "Half-Giant", "Monk", False, 1)
                 self.assignRandomPower(recruit)
-                recruit.levelUp(False)
+                recruit.setLevel(1, self.powerBook, False)
                 self.playerCharacters.append(recruit)
                 self.reckoning(25, "lonely priest")
                 self.battleStarted = 2
@@ -270,16 +270,14 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(2, self.powerBook, False)
                 recruit = playerCharacter("Gort", "Dwarf", "Warrior", False, 2)
                 self.assignRandomPower(recruit)
                 self.playerCharacters.append(recruit)
                 self.equipOnCharacter(
                     equipment("Axes", "Hand Axe", 200, 4, 0, 0, 4, 0, 0), recruit, False
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(2, self.powerBook, False)
                 self.reckoning(25, "widow of your mentor")
                 self.battleStarted = 3
                 self.save()
@@ -364,10 +362,7 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(4, self.powerBook, False)
                 self.playerCharacters.append(recruit)
                 self.battleStarted = 4
                 self.save()
@@ -472,12 +467,7 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(6, self.powerBook, False)
                 self.playerCharacters.append(recruit)
                 self.battleStarted = 6
                 self.save()
@@ -555,10 +545,7 @@ class game(object):
                 self.equipOnCharacter(
                     equipment("Spears", "Spear", 150, 5, 0, 1, 5, 0, 0), recruit, False
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(4, self.powerBook, False)
                 self.playerCharacters.append(recruit)
                 self.battleStarted = 7
                 self.save()
@@ -680,14 +667,7 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(8, self.powerBook, False)
                 self.playerCharacters.append(recruit)
                 print("Balbaroy joins your force!")
                 recruit = playerCharacter(
@@ -699,14 +679,7 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(8, self.powerBook, False)
                 self.playerCharacters.append(recruit)
             print(
                 "You head north to Jaspet, where you find that all of the "
@@ -725,14 +698,7 @@ class game(object):
                     recruit,
                     False,
                 )
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(8, self.powerBook, False)
                 self.playerCharacters.append(recruit)
                 self.shop = shop(
                     self,
@@ -796,15 +762,7 @@ class game(object):
                 print("Zylo joins your force!")
                 recruit = playerCharacter("Zylo", "Wolfling", "Werewolf", False, 9)
                 self.assignRandomPower(recruit)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
-                recruit.levelUp(False)
+                recruit.setLevel(9, self.powerBook, False)
                 self.playerCharacters.append(recruit)
             self.battleStarted = 10
             self.save()
@@ -885,17 +843,7 @@ class game(object):
                     pelle,
                     False,
                 )
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
-                pelle.levelUp(False)
+                recruit.setLevel(11, self.powerBook, False)
                 self.playerCharacters.append(pelle)
                 print("")
                 print(
@@ -977,17 +925,7 @@ class game(object):
                     kokichi,
                     False,
                 )
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
-                kokichi.levelUp(False)
+                recruit.setLevel(11, self.powerBook, False)
                 self.playerCharacters.append(kokichi)
                 print()
                 print("Vankar the Knight joins your force!")
@@ -998,17 +936,7 @@ class game(object):
                     vankar,
                     False,
                 )
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
-                vankar.levelUp(False)
+                recruit.setLevel(11, self.powerBook, False)
                 self.playerCharacters.append(vankar)
                 print()
             print()

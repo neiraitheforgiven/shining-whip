@@ -1765,7 +1765,7 @@ class playerCharacter(object):
                 growthLevel += 1
         return growth
 
-    def levelUp(self, chatter=True):
+    def levelUp(self, book, chatter=True):
         if chatter:
             print("{} hit level {}!".format(self.name, self.level + 1))
         preLevelStatIncreaseCount = self.statIncreaseCount
@@ -1842,7 +1842,7 @@ class playerCharacter(object):
                 f"debug: beforeTitle: {beforeTitle}, afterTitle: {afterTitle},"
                 f" afterDecorated: {afterDecorated}"
             )
-            power_options = powers.get_power_options(self, chatter)
+            power_options = book.get_power_options(self, chatter)
             if not chatter:
                 choice = 0
             else:
@@ -1923,6 +1923,10 @@ class playerCharacter(object):
         if self.equipment:
             print(f"Equipped: {self.equipment.name}")
         print(f"Trophies: {len(self.trophies):3}")
+
+    def setLevel(self, target, book, chatter=True):
+        for i in range(target - self.level):
+            self.levelUp(book, chatter)
 
     def updateGrowth(self):
         sortedGrowth = sorted(self.growth.items(), key=itemgetter(1))
