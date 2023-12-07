@@ -408,7 +408,6 @@ class monster(object):
     def assignPower(self, powerName):
         if isinstance(powerName, powers.power):
             powerName = powerName.description
-        print(f"Debug: powerName: {powerName} assigned to {self.name}")
         book = powers.powerBook()
         power = book.book.get(powerName)
         warning = None
@@ -418,7 +417,6 @@ class monster(object):
         else:
             warning = f"Warning: the power {powerName} is not in the power book."
         if warning:
-            print()
             try:
                 with open("unimplemented_powers.txt", "r+") as f:
                     for line in f:
@@ -432,7 +430,6 @@ class monster(object):
                     f.write(warning)
                     f.write("\n")
             print(f"Warning: the power {powerName} has not been implemented yet.")
-            print()
         self.powers.append(powerName)
         if chatter:
             print(f"{self.name} learned {powerName}!")
