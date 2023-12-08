@@ -623,6 +623,7 @@ class powerBook(object):
             ["Focus", "Stamina"],
             8,
             "Focus Intensity",
+            not_yet_implemented=False,
         )
         self.book["Increases Heavy Attack Chance"] = power(
             "Heavy Weapons",

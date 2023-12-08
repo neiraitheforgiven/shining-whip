@@ -13,6 +13,7 @@ class monster(object):
         self.fp = 0
         self.mp = 0
         self.movementPoints = 0
+        self.didNotMove = True
         self.name = name
         self.shortName = name[:9]
         self.allowedMovement = []
@@ -478,6 +479,7 @@ class playerCharacter(object):
         self.xp = 0
         self.pendingXP = 0
         self.movementPoints = 0
+        self.didNotMove = True
         self.powers = []
         self.equipment = None
         self.allowedMovement = []

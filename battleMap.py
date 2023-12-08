@@ -1936,6 +1936,12 @@ class battle(object):
         target = unit.allowedAttacks[targetId]
         self.attack(unit, target)
 
+    def doEndOfTurn(self, unit, moved, attacked):
+        unit.didNotMove = not moved
+        time.sleep(6.0 / 10)
+        endBattle = not self.battleOn()
+        return endBattle
+
     def doMonsterAttack(self, monster):
         self.checkMonsterFocus(monster)
         field = self.battleField
@@ -2167,6 +2173,7 @@ class battle(object):
                 unit.actedThisRound = True
                 # push back the unit's initiative
                 unit.initiativePoints -= self.determineInitiativeSetback(unit)
+                self.doStartOfTurn(unit)
                 endBattle = self.doTurn(unit)
                 if endBattle:
                     return
@@ -2181,31 +2188,14 @@ class battle(object):
         for unit in self.battleField.units:
             unit.actedThisRound = False
 
-    def doTurn(
-        self,
-        unit,
-        moved=False,
-        statusChecked=False,
-        attacked=False,
-        bufferedCommands=None,
-    ):
-        if unit.status and "Petrified" in unit.status:
-            return
+    def doStartOfTurn(self, unit):
+        """Things that happen once per turn at the start of the turn."""
         position = self.battleField.getUnitPos(unit)
         tile = self.battleField.terrainArray[position]
+        if unit.status and "Petrified" in unit.status:
+            return False
         for state in unit.status:
-            if statusChecked:
-                continue
-            luck = self.getStat(unit, "Luck")
-            if self.getPower(unit, "Swords: Increased Luck I"):
-                if unit.equipment and unit.equipment.type == "Swords":
-                    luck = math.ceil(luck * 1.3)
-            if self.getPower(unit, "Swords: Increased Luck II"):
-                if unit.equipment and unit.equipment.type == "Swords":
-                    luck = math.ceil(luck * 1.3)
-            if self.getPower(unit, "Swords: Increased Luck III"):
-                if unit.equipment and unit.equipment.type == "Swords":
-                    luck = math.ceil(luck * 1.3)
+            luck = self.getModifiedLuck(unit)
             resistSkill = sum(
                 [
                     self.getStat(unit, "Faith"),
@@ -2242,12 +2232,22 @@ class battle(object):
                             self.kill(unit)
                     if state == "Lulled to Sleep":
                         print(f"{unit.name} is asleep.")
-                        return
+                        return False
             if "Shielded" in state:
                 state.remove("Shielded")
                 if "Shielded" not in state:
                     print(f"{unit.name} is no longer Shielded!")
-            statusChecked = True
+            return True
+
+    def doTurn(
+        self,
+        unit,
+        moved=False,
+        attacked=False,
+        bufferedCommands=None,
+    ):
+        position = self.battleField.getUnitPos(unit)
+        tile = self.battleField.terrainArray[position]
         otherUnits = ", ".join(
             [tileUnit.name for tileUnit in tile.units if tileUnit != unit]
         )
@@ -2340,11 +2340,11 @@ class battle(object):
                     self.battleField.move(unit, moveTo)
                     if unit.bleedTime > 0:
                         self.bleed(unit)
-                    self.doTurn(unit, True, statusChecked, attacked, bufferedCommands)
+                    self.doTurn(unit, True, attacked, bufferedCommands)
                 else:
                     print(f"{unit.name} chose not to move.")
                     time.sleep(0.6)
-                    self.doTurn(unit, False, statusChecked, attacked, bufferedCommands)
+                    self.doTurn(unit, False, attacked, bufferedCommands)
             elif command in ("A", "a"):
                 attackTarget = None
                 while attackTarget not in [
@@ -2392,13 +2392,13 @@ class battle(object):
                 if self.getPower(unit, "Attack: Bonus Move"):
                     moveEnabled = self.battleField.checkMove(unit, position)
                     if moveEnabled:
-                        self.doTurn(unit, False, statusChecked, True, bufferedCommands)
+                        self.doTurn(unit, False, True, bufferedCommands)
             elif command in ("C", "c"):
                 print()
                 unit.printCharacterSheet()
                 print(f"Scroulings: {self.game.money}")
                 print()
-                self.doTurn(unit, moved, statusChecked)
+                self.doTurn(unit, moved)
             elif command in ("E", "e"):
                 allowedEquipment = [
                     item
@@ -2447,11 +2447,11 @@ class battle(object):
                     ):
                         unit.mp = self.getStat(unit, "Intelligence") + unit.equipment.mp
                     print()
-                self.doTurn(unit, True, statusChecked)
+                self.doTurn(unit, True)
             elif command in ("F", "f"):
                 self.enterFocus(unit)
                 self.doTurn(
-                    unit, moved, statusChecked, bufferedCommands=bufferedCommands
+                    unit, moved, bufferedCommands=bufferedCommands
                 )
             elif command in ("L", "l"):
                 tileChoice = None
@@ -2468,7 +2468,7 @@ class battle(object):
                     except ValueError:
                         tileChoice = None
                 self.battleField.viewMap(tileChoice, unit)
-                self.doTurn(unit, moved, statusChecked)
+                self.doTurn(unit, moved)
             elif command in ("S", "s"):
                 spellChoice = None
                 spellTarget = None
@@ -2535,6 +2535,7 @@ class battle(object):
                 else:
                     print(f"{unit.name} waited.")
                 time.sleep(6.0 / 10)
+                self.doEndOfTurn(unit, moved, attacked)
                 endBattle = not self.battleOn()
                 return endBattle
         elif type(unit) == monster:
@@ -2775,9 +2776,11 @@ class battle(object):
                     unit.focus = 0
                     print(f"{unit.name} is no longer focused.")
             else:
+                focusDelta = (timePassed * self.getStat(unit, "Focus"))
+                if unit.getPower(unit, "Increases Focus When Stationary"):
+                    focusDelta *= 1.3
                 unit.focus = min(
-                    3000, unit.focus + (timePassed * self.getStat(unit, "Focus"))
-                )
+                    3000, unit.focus + focusDelta)
             if unit.bleedTime > 0:
                 unit.bleedTime = max(0, unit.bleedTime - timePassed)
                 if unit.bleedTime == 0:
@@ -2881,6 +2884,19 @@ class battle(object):
 
     def getFocusRank(self, unit):
         return self.battleField.getFocusRank(unit)
+
+    def getModifiedLuck(self, unit):
+        luck = self.getStat(unit, "Luck")
+        if self.getPower(unit, "Swords: Increased Luck I"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
+        if self.getPower(unit, "Swords: Increased Luck II"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
+        if self.getPower(unit, "Swords: Increased Luck III"):
+            if unit.equipment and unit.equipment.type == "Swords":
+                luck = math.ceil(luck * 1.3)
+        return luck
 
     def getPower(self, unit, name):
         return self.battleField.getPower(unit, name)
