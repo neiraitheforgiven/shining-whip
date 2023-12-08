@@ -2653,7 +2653,8 @@ class powerBook(object):
     ):
         if any(current_options):
             picked_power = random.choice(
-                [option for option in current_options if option not in picked_powers])
+                [option for option in current_options if option not in picked_powers]
+            )
             picked_powers.append(picked_power)
         else:
             weighted_array_options = [
@@ -2767,6 +2768,11 @@ class powerBook(object):
         )
 
         return power_options
+
+    def power_by_name(self, name):
+        for power in self.book:
+            if self.book[power].name == name:
+                return self.book[power]
 
 
 class power(object):
