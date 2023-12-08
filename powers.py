@@ -2826,5 +2826,5 @@ class power(object):
             if self.requirement2 not in character.powers:
                 return False
         if not self.requirement1 and not self.requirement2:
-            return self.unlockCategory in character.unlockCategories
+            return self.unlockCategory in character.unlockedBonuses
         return True
