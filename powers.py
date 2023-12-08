@@ -2651,15 +2651,16 @@ class powerBook(object):
         self, character, current_options, weighted_array, picked_powers
     ):
         if any(current_options):
-            picked_power = random.choice(current_options)
+            picked_power = random.choice(
+                [option for option in current_options if option not in picked_powers])
             picked_powers.append(picked_power)
         else:
             weighted_array_options = [
                 option
                 for option in weighted_array
-                if power not in character.powers
+                if option.description not in character.powers
                 and option.requirements_unlocked(character)
-                and power not in picked_powers
+                and option not in picked_powers
             ]
             if any(weighted_array_options):
                 picked_power = random.choice(weighted_array_options)
@@ -2700,7 +2701,7 @@ class powerBook(object):
         known_class_options = [
             self.book[entry]
             for entry in self.book
-            if self.book[entry] not in character.powers
+            if self.book[entry].description not in character.powers
             and self.book[entry].unitClass in character.knownClasses
             and self.book[entry].requirements_unlocked(character)
             and self.book[entry] not in power_options
@@ -2714,7 +2715,7 @@ class powerBook(object):
         power_with_unlocked_requirements_options = [
             self.book[entry]
             for entry in self.book
-            if self.book[entry] not in character.powers
+            if self.book[entry].description not in character.powers
             and self.book[entry].requirement1
             and self.book[entry].requirements_unlocked(character)
             and self.book[entry] not in power_options

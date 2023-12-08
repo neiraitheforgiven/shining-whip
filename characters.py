@@ -712,12 +712,36 @@ class playerCharacter(object):
             race = self.assignRace()
         return race
 
-    def assignPower(self, power, chatter=True):
-        self.assignPower(power.description)
+    def assignPower(self, powerName, chatter=True):
+        if isinstance(powerName, powers.power):
+            powerName = powerName.description
+        book = powers.powerBook()
+        power = book.book.get(powerName)
+        warning = None
+        if power:
+            if power.not_yet_implemented:
+                warning = f"Warning: the power {powerName} has not been implemented yet."
+        else:
+            warning = f"Warning: the power {powerName} is not in the power book."
+        if warning:
+            try:
+                with open("unimplemented_powers.txt", "r+") as f:
+                    for line in f:
+                        if warning in line:
+                            break
+                    else:
+                        f.write(warning)
+                        f.write("\n")
+            except FileNotFoundError:
+                with open("unimplemented_powers.txt", "a+") as f:
+                    f.write(warning)
+                    f.write("\n")
+            print(f"Warning: the power {powerName} has not been implemented yet.")
+        self.powers.append(powerName)
         if power.unlockCategory not in self.unlockedBonuses:
             self.unlockedBonuses.append(power.unlockCategory)
         if chatter:
-            print(f"{self.name} learned {power.name}")
+            print(f"{self.name} learned {powerName}!")
 
     def assignTitle(self, title, chatter):
         oldTitle = self.title
@@ -1874,10 +1898,13 @@ class playerCharacter(object):
             power_options = book.get_power_options(self, chatter)
             if not chatter:
                 choice = 0
+                self.assignPower(power_options[choice])
             else:
                 display_adds = []
-                for i, option in power_options:
-                    display_adds.append(f"({i}) {option.name} ({option.description})")
+                print(f"debug: power_options {power_options}")
+                for option in power_options:
+                    display_adds.append(
+                        f"({power_options.index(option)}) {option.name} ({option.description})")
                 add_string = " or ".join(display_adds)
                 display_message = f"{self.name} can choose {add_string}."
                 print(display_message)
