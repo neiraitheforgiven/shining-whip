@@ -4146,8 +4146,10 @@ class battleField(object):
                 try:
                     entry = self.game.powerBook.book[power]
                 except KeyError:
-                    print(f"Error: {power} not found in power book.")
-                    continue
+                    entry = self.game.powerBook.power_by_name(power)
+                    if not entry:
+                        print(f"Error: {power} not found in power book.")
+                        continue
             if entry.spellRank:
                 if entry.name == spell_name:
                     rank += 1
