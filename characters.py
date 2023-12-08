@@ -800,7 +800,10 @@ class playerCharacter(object):
         options[choice]
 
     def getFame(self):
-        return self.stats["Charisma"] + math.floor(len(self.trophies) / 3) + self.fame
+        fame = self.stats["Charisma"] + math.floor(len(self.trophies) / 3) + self.fame
+        if "Increases Fame Effect On Allies" in self.powers:
+            fame *= 1.3
+        return fame
 
     def getSkills(self, title, chatter=False):
         improvedSkills = []
