@@ -318,6 +318,7 @@ class powerBook(object):
             ["Luck", "Stamina", "Strength"],
             6,
             "HP Amount",
+            not_yet_implemented=False,
         )
         self.book["Defense Against Ranged Physical Damage"] = power(
             "Projectile Defense",

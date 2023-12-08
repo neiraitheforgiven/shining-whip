@@ -979,7 +979,7 @@ class battle(object):
                         ):
                             print(f"{unit.name} leaps onto {target.name}!")
                             damage *= 1.3
-                if self.getPower(target, "Defense: Melee Attacks I") and (
+                if self.getPower(target, "Defense Against Melee Damage") and (
                     bf.getUnitPos(unit) == bf.getUnitPos(target)
                 ):
                     damage *= 0.7

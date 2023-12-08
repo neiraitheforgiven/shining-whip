@@ -1381,22 +1381,22 @@ class playerCharacter(object):
         elif "Valkyrie" in title:
             listOfPowers = [
                 "Vocal Attack: Heavy Attack",
-                "Defense: Melee Attacks I",
+                "Defense Against Melee Damage",
                 "Vocal Attack: Lost Health Adds Damage I",
                 "Luck: Increased Rout I",
-                "Defense: Melee Attacks II",
+                "Defense Against Melee Damage II",
                 "Vocal Attack: Heal Self",
                 "Vocal Attack: Lost Health Adds Damage II",
                 "Flying Movement",
             ]
         elif "Warrior" in title:
             listOfPowers = [
-                "Defense: Melee Attacks I",
+                "Defense Against Melee Damage",
                 "Heavy Attacks Inflict Bleed",
                 "Axes: Increased Damage I",
                 "No Loss Of Focus From Enemy Attacks",
                 "Whirlwind Attack",
-                "Defense: Melee Attacks II",
+                "Defense Against Melee Damage II",
                 "Rout: Follow-up Attack",
                 "Axes: Increased Damage II",
             ]
