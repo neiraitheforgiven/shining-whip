@@ -788,6 +788,7 @@ class powerBook(object):
             ["Luck", "Stamina", "Strength"],
             6,
             "Movement Speed",
+            not_yet_implemented=False,
         )
         self.book["Movement Does Not Prevent Vocal Attacks"] = power(
             "Rhythmic Chanting",

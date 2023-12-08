@@ -731,7 +731,6 @@ class battle(object):
                     "L",
                     "l",
                 ):
-
                     optionString = ""
                     optionStringAdds = []
                     count = 0
@@ -2365,7 +2364,9 @@ class battle(object):
                         except ValueError:
                             attackTarget = None
                 self.doAttack(unit, attackTarget)
-                if not moved or self.getPower(unit, "Movement Does Not Prevent Vocal Attacks"):
+                if not moved or self.getPower(
+                    unit, "Movement Does Not Prevent Vocal Attacks"
+                ):
                     darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
@@ -2450,9 +2451,7 @@ class battle(object):
                 self.doTurn(unit, True)
             elif command in ("F", "f"):
                 self.enterFocus(unit)
-                self.doTurn(
-                    unit, moved, bufferedCommands=bufferedCommands
-                )
+                self.doTurn(unit, moved, bufferedCommands=bufferedCommands)
             elif command in ("L", "l"):
                 tileChoice = None
                 while tileChoice not in (
@@ -2510,7 +2509,9 @@ class battle(object):
                 if unit.bleedTime > 0:
                     self.bleed(unit)
             elif command in ("W", "w"):
-                if not moved or self.getPower(unit, "Movement Does Not Prevent Vocal Attacks"):
+                if not moved or self.getPower(
+                    unit, "Movement Does Not Prevent Vocal Attacks"
+                ):
                     darkTile = self.getResonance(tile) <= -1
                     if darkTile:
                         print(
@@ -2572,7 +2573,9 @@ class battle(object):
                     moved = self.battleField.doMonsterMove(unit, position)
                     if moved and unit.bleedTime > 0:
                         self.bleed(unit)
-            if not moved or self.getPower(unit, "Movement Does Not Prevent Vocal Attacks"):
+            if not moved or self.getPower(
+                unit, "Movement Does Not Prevent Vocal Attacks"
+            ):
                 area = 1
                 if self.getPower(unit, "Vocal Attack: Increased Area I"):
                     area += 1
@@ -2776,11 +2779,10 @@ class battle(object):
                     unit.focus = 0
                     print(f"{unit.name} is no longer focused.")
             else:
-                focusDelta = (timePassed * self.getStat(unit, "Focus"))
+                focusDelta = timePassed * self.getStat(unit, "Focus")
                 if unit.getPower(unit, "Increases Focus When Stationary"):
                     focusDelta *= 1.3
-                unit.focus = min(
-                    3000, unit.focus + focusDelta)
+                unit.focus = min(3000, unit.focus + focusDelta)
             if unit.bleedTime > 0:
                 unit.bleedTime = max(0, unit.bleedTime - timePassed)
                 if unit.bleedTime == 0:
@@ -3156,14 +3158,16 @@ class battleField(object):
         if len(self.friendsAtPosition(unit, position, False)) < 4:
             candidate = True
         # remove movementPoints
+        moveCost = 0
         if self.getPower(unit, "Flying Movement") or (
             self.getPower(unit, "Unhindered Movement")
         ):
-            movementPoints = movementPoints - 5
+            moveCost = 5
         else:
-            movementPoints = movementPoints - tile.cost
+            moveCost = tile.cost
+        movementPoints -= moveCost
         if movementPoints <= 0 or (
-            self.getPower(unit, "Unhindered Movement") and (movementPoints < 5)
+            self.getPower(unit, "Unhindered Movement") and (movementPoints < moveCost)
         ):
             # mounted units may have bonus movement if they move on solids
             if self.getPower(unit, "Mounted Movement") and not (
@@ -3189,7 +3193,16 @@ class battleField(object):
             if movementPoints <= 0 or (
                 self.getPower(unit, "Unhindered Movement") and (movementPoints < 5)
             ):
-                return
+                if (
+
+                    movementPoints >= -tile.cost
+                    and self.getPower(unit, "Move Right One More Tile If Ally Present")
+                    and directionIsHigher
+                    and 0 < len(self.friendsAtPosition(unit, position, False)) < 4
+                ):
+                    unit.allowedMovement.append(position)
+                else:
+                    return
         else:
             if candidate:
                 unit.allowedMovement.append(position)
