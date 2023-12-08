@@ -2780,7 +2780,7 @@ class battle(object):
                     print(f"{unit.name} is no longer focused.")
             else:
                 focusDelta = timePassed * self.getStat(unit, "Focus")
-                if unit.getPower(unit, "Increases Focus When Stationary"):
+                if self.getPower(unit, "Increases Focus When Stationary"):
                     focusDelta *= 1.3
                 unit.focus = min(3000, unit.focus + focusDelta)
             if unit.bleedTime > 0:
