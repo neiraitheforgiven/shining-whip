@@ -878,12 +878,9 @@ class battle(object):
                 )
                 attackTypeArray.extend(["counter"] * counterSkill)
             attackType = random.choice(attackTypeArray)
-            if self.getPower(unit, "Poisonous Attack"):
-                stamina = self.getStat(unit, "Stamina")
-                vsStamina = self.getStat(target, "Stamina")
-                poisonChance = luck + stamina - vsStamina
-                if poisonChance > 0:
-                    attackTypeArray.extend(["poison"] * poisonChance)
+            poisonChance = self.poisonChance(unit, target)
+            if poisonChance:
+                attackTypeArray.extend(["poison"] * poisonChance)
             if attackType == "dodge":
                 time.sleep(1.0 / 10)
                 print(f"{target.name} dodges the attack!")
@@ -2976,6 +2973,24 @@ class battle(object):
         if self.getPower(unit, "Magic: Cost Reduction I"):
             cost = math.ceil(cost * 0.75)
         return cost
+
+    def poisonChance(self, unit, target):
+        """return chance of poison"""
+        poisonous = False
+        if self.getPower(unit, "Poisonous Attack"):
+            poisonous = True
+        elif (
+            self.getPower(unit, "Arrows: Add Effect: Poison") and
+            unit.equipment and unit.equipment.type == "Arrows)"
+        ):
+            poisonous = True
+        if poisonous:
+            stamina = self.getStat(unit, "Stamina")
+            vsStamina = self.getStat(target, "Stamina")
+            luck = self.getModifiedLuck(unit)
+            return luck + stamina - vsStamina
+        else:
+            return 0
 
     def printCommandList(self, unit, allowedCommands):
         if "F" in allowedCommands:

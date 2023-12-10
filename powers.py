@@ -54,6 +54,7 @@ class powerBook(object):
             ["Focus", "Dexterity"],
             9,
             "Arrows Skill",
+            not_yet_implemented=False,
         )
         self.book["Assassin Tier 1 Death"] = power(
             "Death",
