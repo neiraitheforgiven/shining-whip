@@ -3198,9 +3198,12 @@ class battleField(object):
                     movementPoints >= -tile.cost
                     and self.getPower(unit, "Move Right One More Tile If Ally Present")
                     and directionIsHigher
-                    and 0 < len(self.friendsAtPosition(unit, position, False)) < 4
                 ):
-                    unit.allowedMovement.append(position)
+                    if (
+                        position + 1 <= len(self.terrainArray) - 1 and
+                        0 < len(self.friendsAtPosition(unit, position + 1, False)) < 4
+                    ):
+                        unit.allowedMovement.append(position + 1)
                 else:
                     return
         else:
