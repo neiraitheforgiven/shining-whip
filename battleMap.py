@@ -3209,7 +3209,23 @@ class battleField(object):
         else:
             if candidate:
                 unit.allowedMovement.append(position)
-        if not self.getPower(unit, "Movement: Ignore Enemies"):
+        if self.getPower(unit, "Movement: Ignore Enemies"):
+            blocked = False
+        elif self.getPower(unit, "Ignore Opponents When Moving To Tiles With Damaged Enemies"):
+            # if there are any damaged enemies, don't get blocked
+            if (
+                len(
+                    [
+                        tileUnit
+                        for tileUnit in tile.units
+                        if type(tileUnit) != type(unit)
+                        and (self.canBlock(tileUnit))
+                        and (tileUnit.hp < tileUnit.maxHP())
+                    ]
+                )
+            ):
+                blocked = False
+        else:
             # calculate if we are blocked
             # flying units are easier to block but blocked by flying units only
             if self.getPower(unit, "Flying Movement"):
@@ -3248,8 +3264,6 @@ class battleField(object):
                     blocked = True
             else:
                 blocked = False
-        else:
-            blocked = False
         if not blocked:
             if directionIsHigher:
                 position += 1

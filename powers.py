@@ -526,6 +526,7 @@ class powerBook(object):
             8,
             "Movement Speed",
             antiStat=["Luck"],
+            not_yet_implemented=False,
         )
         self.book["Increases Critical Chance"] = power(
             "Bardic Luck",
